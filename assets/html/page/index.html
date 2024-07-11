@@ -1,0 +1,252 @@
+{{ template "head" . }}
+<body>
+
+{{ template "header" . }}
+
+<div class="container-fluid">
+    <div class="row">
+
+    {{ template "api_dir" . }}
+
+    <main class="col-md-9 ms-sm-auto col-lg-9 px-md-4">
+        <h2>main</h2>
+
+        <a id="toHierBtn">toHierBtn</a>
+        <a id="toArrBtn">toArrBtn</a>
+        <a id="sTree2Start">排序</a>
+        <a id="sTree2End">保存排序</a>
+
+
+
+    </main>
+
+    </div>
+</div>
+
+</body>
+<script>
+
+    $(function() {
+
+        var data = [
+            {
+                "id": "item_a",
+                "parentId": 0,
+                "value": "aaaa111",
+                "branchOrder": 1
+            },
+            {
+                "id": "item_b",
+                "parentId": 0,
+                "value": "aaa",
+                "branchOrder": 2
+            },
+            {
+                "id": "item_b1",
+                "parentId": "item_b",
+                "value": "b1",
+                "branchOrder": 1
+            },
+            {
+                "id": "item_b2",
+                "parentId": "item_b",
+                "value": "b1",
+                "branchOrder": 2
+            },
+            {
+                "id": "item_b3",
+                "parentId": "item_b",
+                "value": "b1",
+                "branchOrder": 3
+            },
+            {
+                "id": "item_b4",
+                "parentId": "item_b",
+                "value": "b1",
+                "branchOrder": 4
+            },
+            {
+                "id": "item_b5",
+                "parentId": "item_b",
+                "value": "b1",
+                "branchOrder": 5
+            },
+            {
+                "id": "item_c",
+                "parentId": 0,
+                "value": "b1",
+                "branchOrder": 3
+            },
+            {
+                "id": "item_c1",
+                "parentId": "item_c",
+                "value": "b1",
+                "branchOrder": 1
+            },
+            {
+                "id": "item_c2",
+                "parentId": "item_c",
+                "value": "b1",
+                "branchOrder": 2
+            },
+            {
+                "id": "item_c3",
+                "parentId": "item_c",
+                "value": "b1",
+                "branchOrder": 3
+            },
+            {
+                "id": "item_c4",
+                "parentId": "item_c",
+                "value": "b1",
+                "branchOrder": 4
+            },
+            {
+                "id": "item_c5",
+                "parentId": "item_c",
+                "value": "b1",
+                "branchOrder": 5
+            },
+            {
+                "id": "item_d",
+                "parentId": 0,
+                "value": "b1",
+                "branchOrder": 4
+            },
+            {
+                "id": "item_d1",
+                "parentId": "item_d",
+                "value": "b1",
+                "branchOrder": 1
+            },
+            {
+                "id": "item_d2",
+                "parentId": "item_d",
+                "value": "b1",
+                "branchOrder": 2
+            },
+            {
+                "id": "item_d3",
+                "parentId": "item_d",
+                "value": "b1",
+                "branchOrder": 3
+            },
+            {
+                "id": "item_d4",
+                "parentId": "item_d",
+                "value": "b1",
+                "branchOrder": 4
+            },
+            {
+                "id": "item_d5",
+                "parentId": "item_d",
+                "value": "b1",
+                "branchOrder": 5
+            },
+            {
+                "id": "e",
+                "parentId": 0,
+                "value": "b1",
+                "branchOrder": 5
+            },
+            {
+                "id": "f",
+                "parentId": 0,
+                "value": "b1",
+                "branchOrder": 6
+            }
+        ]
+
+        $("#sTree2").empty();
+
+        data.forEach(child => {
+            var htmlstr = `<li class="list-group-item" id="`+child.id+`" data-module="a" value="`+child.value+`" data-type="dir">
+                    <div>`+child.id+`</div>
+                </li>`
+            if (child.parentId === 0 ) {
+                $("#sTree2").append(htmlstr)
+            }else {
+                $("#"+child.parentId).append(`<ul class="list-group list-group-flush"></ul>`)
+                $("#"+child.parentId).children('ul').first().append(htmlstr)
+            }
+        });
+
+        var options = {
+                isop: false,
+                placeholderCss: {'background-color': '#ff8'},
+                hintCss: {'background-color':'#bbf'},
+                isAllowed: function(cEl, hint, target) {
+                    return true;
+                    // if(hint.parents('li').first().data('type') === 'dir' && cEl.data('type') !== 'dir')
+                    // {
+                    //     hint.css('background-color', '#ff9999');
+                    //     return false;
+                    // }
+                    // else
+                    // {
+                    //     hint.css('background-color', '#99ff99');
+                    //     return true;
+                    // }
+                },
+                opener: {
+                    active: true,
+                    close: '/images/Remove2.png',
+                    open: '/images/Add2.png',
+                    openerCss: {
+                        'display': 'inline-block',
+                        'width': '18px',
+                        'height': '18px',
+                        'float': 'left',
+                        'margin-left': '-35px',
+                        'margin-right': '5px',
+                        'background-position': 'center center',
+                        'background-repeat': 'no-repeat'
+                    },
+                    openerClass: '',
+                },
+                baseClass:'baseClass',
+                placeholderClass: 'placeholderClass',
+                listsClass: 'listsClass list-group list-group-flush',
+                hintWrapperClass: "hintWrapperClass",
+            },
+
+        sWrapper = $('#settingsWrapper')
+
+        $('#sTree2').sortableLists(options)
+
+        $('#sTree2Start').on('click',function(){
+            $('#sTree2').IsOpStart()
+        })
+
+        $('#sTree2End').on('click',function(){
+            $('#sTree2').IsOpEnd()
+        })
+
+
+        $('#toArrBtn').on('click', function(){
+            console.log($('#sTree2').sortableListsToArray());
+            var obj =  $('#sTree2').sortableListsToArray();
+            console.log(JSON.stringify(obj));
+        });
+
+        $('#toHierBtn').on('click', function() {
+            var obj =  $('#sTree2').sortableListsToHierarchy();
+
+            console.log(obj);
+
+            console.log(JSON.stringify(obj));
+
+        });
+
+        $('#toStrBtn').on('click', function() {
+            console.log($('#sTree2').sortableListsToString());
+        });
+
+        $('.descPicture').on('click', function(e) {
+            $(this).toggleClass('descPictureClose');
+        });
+    });
+
+</script>
+
+{{ template "end" . }}

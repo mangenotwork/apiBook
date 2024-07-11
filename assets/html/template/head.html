@@ -1,0 +1,47 @@
+{{ define "head" }}
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="icon" href="">
+    <title>{{ .Title }}</title>
+    <link href="/css/bootstrap.min.css?v={{ .TimeStamp }}" rel="stylesheet">
+    <script type="text/javascript" src="/js/jquery.min.js?v={{ .TimeStamp }}"></script>
+    <script type="text/javascript" src="/js/bootstrap.bundle.min.js?v={{ .TimeStamp }}"></script>
+    <script type="text/javascript" src="/js/jquery-sortable-lists.min.js?v={{ .TimeStamp }}"></script>
+    <style>
+        .tree {
+            padding: 22px;
+            cursor: pointer;
+        }
+        .tree ul {
+        }
+        .tree li {
+            font-size: 16px;
+            padding-top: 8px;
+            padding-bottom: 8px;
+        }
+        .baseClass {
+            /*width: 100px;*/
+            /*height: 100px;*/
+            /*background-color: #0a53be;*/
+        }
+        .placeholderClass {
+            width: 100px;
+            height: 100px;
+            background-color: #0f5132;
+        }
+        .hintWrapperClass {
+            width: 100px;
+            height: 100px;
+            background-color: #0b5ed7;
+        }
+        .listsClass {
+            /*width: 100px;*/
+            /*height: 100px;*/
+            /*background-color: #0f5132;*/
+        }
+    </style>
+</head>
+{{ end }}

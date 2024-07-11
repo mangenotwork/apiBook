@@ -1,0 +1,20 @@
+app:
+  name: "apiBook"
+  runType: "dev"
+
+# http服务
+httpServer:
+  open: true
+  prod: 17777
+
+# 管理员账号密码
+admin:
+  -
+    name: "admin"
+    password: "123"
+
+# jwt设置
+jwt:
+  secret: "website-monitor"
+  expire: 86400
+

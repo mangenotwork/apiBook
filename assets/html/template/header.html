@@ -1,0 +1,69 @@
+{{ define "header" }}
+<header class="navbar navbar-dark sticky-top bg-dark flex-md-nowrap p-0 shadow" style="height: 56px;">
+    <div class="col-lg-10">
+        <span class="" style="color: #FFFFFF;float: left;margin-left: 16px;margin-right: 16px;font-size: 22px;margin-top: 12px">apiBook</span>
+        <nav class="navbar navbar-expand-lg" style="margin-left: 4px;">
+            <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false" style="color: #ffffff">
+                            开始
+                        </a>
+                        <ul class="dropdown-menu">
+                            <li><a class="dropdown-item" href="#">创建项目</a></li>
+                            <li><a class="dropdown-item" href="#">创建接口文档</a></li>
+                            <li><hr class="dropdown-divider"></li>
+                            <li><a class="dropdown-item" href="#"  data-bs-toggle="offcanvas" data-bs-target="#offcanvasNavbarDark" aria-controls="offcanvasNavbarDark">设置</a></li>
+                        </ul>
+                    </li>
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false" style="color: #ffffff">
+                            项目
+                        </a>
+                        <ul class="dropdown-menu">
+                            <li><a class="dropdown-item" href="#">Action</a></li>
+                            <li><a class="dropdown-item" href="#">Another action</a></li>
+                            <li><a class="dropdown-item" href="#">Something else here</a></li>
+                        </ul>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link active" aria-current="page" href="#" style="color: #ffffff">快速请求</a>
+                    </li>
+                </ul>
+                <form class="d-flex" role="search">
+                    <input class="form-control me-2" type="search" placeholder="api名称" aria-label="Search" style="width: 260px;">
+                    <button class="btn btn-outline-light" type="submit">搜索</button>
+                </form>
+            </div>
+        </nav>
+    </div>
+    <div class="col-lg-2">
+        <button class="navbar-toggler" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasNavbarDark" aria-controls="offcanvasNavbarDark" style="margin-right: 24px;float: right;">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+    </div>
+
+    <div class="offcanvas offcanvas-end text-bg-dark" tabindex="-1" id="offcanvasNavbarDark" aria-labelledby="offcanvasNavbarDarkLabel">
+        <div class="offcanvas-header">
+            <h5 class="offcanvas-title" id="offcanvasNavbarDarkLabel">设置</h5>
+            <button type="button" class="btn-close btn-close-white" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+        </div>
+        <div class="offcanvas-body">
+            <ul class="navbar-nav justify-content-end flex-grow-1 pe-3">
+                <li class="nav-item">
+                    <a class="nav-link active" aria-current="page" data-bs-toggle="modal" data-bs-target="#mailSetModal" >邮件设置</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="#">监视器连接信息(TODO...)</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="#">设置(TODO...)</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="/api/out">退出登录</a>
+                </li>
+            </ul>
+        </div>
+    </div>
+</header>
+{{ end }}
