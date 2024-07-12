@@ -11,10 +11,7 @@
     <main class="col-md-9 ms-sm-auto col-lg-9 px-md-4">
         <h2>main</h2>
 
-        <a id="toHierBtn">toHierBtn</a>
-        <a id="toArrBtn">toArrBtn</a>
-        <a id="sTree2Start">排序</a>
-        <a id="sTree2End">保存排序</a>
+        <a id="newSort">计算排序</a>
 
 
 
@@ -25,228 +22,257 @@
 
 </body>
 <script>
+    ;(function( $ ){
+        /**
+         * Author: https://github.com/Barrior
+         *
+         * DDSort: drag and drop sorting.
+         * @param {Object} options
+         *        target[string]: 		可选，jQuery事件委托选择器字符串，默认'li'
+         *        cloneStyle[object]: 	可选，设置占位符元素的样式
+         *        floatStyle[object]: 	可选，设置拖动元素的样式
+         *        down[function]: 		可选，鼠标按下时执行的函数
+         *        move[function]: 		可选，鼠标移动时执行的函数
+         *        up[function]: 		可选，鼠标抬起时执行的函数
+         */
+        $.fn.DDSort = function( options ){
+            var $doc = $( document ),
+                fnEmpty = function(){},
 
-    $(function() {
+                settings = $.extend( true, {
 
-        var data = [
-            {
-                "id": "item_a",
-                "parentId": 0,
-                "value": "aaaa111",
-                "branchOrder": 1
-            },
-            {
-                "id": "item_b",
-                "parentId": 0,
-                "value": "aaa",
-                "branchOrder": 2
-            },
-            {
-                "id": "item_b1",
-                "parentId": "item_b",
-                "value": "b1",
-                "branchOrder": 1
-            },
-            {
-                "id": "item_b2",
-                "parentId": "item_b",
-                "value": "b1",
-                "branchOrder": 2
-            },
-            {
-                "id": "item_b3",
-                "parentId": "item_b",
-                "value": "b1",
-                "branchOrder": 3
-            },
-            {
-                "id": "item_b4",
-                "parentId": "item_b",
-                "value": "b1",
-                "branchOrder": 4
-            },
-            {
-                "id": "item_b5",
-                "parentId": "item_b",
-                "value": "b1",
-                "branchOrder": 5
-            },
-            {
-                "id": "item_c",
-                "parentId": 0,
-                "value": "b1",
-                "branchOrder": 3
-            },
-            {
-                "id": "item_c1",
-                "parentId": "item_c",
-                "value": "b1",
-                "branchOrder": 1
-            },
-            {
-                "id": "item_c2",
-                "parentId": "item_c",
-                "value": "b1",
-                "branchOrder": 2
-            },
-            {
-                "id": "item_c3",
-                "parentId": "item_c",
-                "value": "b1",
-                "branchOrder": 3
-            },
-            {
-                "id": "item_c4",
-                "parentId": "item_c",
-                "value": "b1",
-                "branchOrder": 4
-            },
-            {
-                "id": "item_c5",
-                "parentId": "item_c",
-                "value": "b1",
-                "branchOrder": 5
-            },
-            {
-                "id": "item_d",
-                "parentId": 0,
-                "value": "b1",
-                "branchOrder": 4
-            },
-            {
-                "id": "item_d1",
-                "parentId": "item_d",
-                "value": "b1",
-                "branchOrder": 1
-            },
-            {
-                "id": "item_d2",
-                "parentId": "item_d",
-                "value": "b1",
-                "branchOrder": 2
-            },
-            {
-                "id": "item_d3",
-                "parentId": "item_d",
-                "value": "b1",
-                "branchOrder": 3
-            },
-            {
-                "id": "item_d4",
-                "parentId": "item_d",
-                "value": "b1",
-                "branchOrder": 4
-            },
-            {
-                "id": "item_d5",
-                "parentId": "item_d",
-                "value": "b1",
-                "branchOrder": 5
-            },
-            {
-                "id": "e",
-                "parentId": 0,
-                "value": "b1",
-                "branchOrder": 5
-            },
-            {
-                "id": "f",
-                "parentId": 0,
-                "value": "b1",
-                "branchOrder": 6
-            }
-        ]
+                    down: fnEmpty,
+                    move: fnEmpty,
+                    up: fnEmpty,
 
-        $("#sTree2").empty();
-
-        data.forEach(child => {
-            var htmlstr = `<li class="list-group-item" id="`+child.id+`" data-module="a" value="`+child.value+`" data-type="dir">
-                    <div>`+child.id+`</div>
-                </li>`
-            if (child.parentId === 0 ) {
-                $("#sTree2").append(htmlstr)
-            }else {
-                $("#"+child.parentId).append(`<ul class="list-group list-group-flush"></ul>`)
-                $("#"+child.parentId).children('ul').first().append(htmlstr)
-            }
-        });
-
-        var options = {
-                isop: false,
-                placeholderCss: {'background-color': '#ff8'},
-                hintCss: {'background-color':'#bbf'},
-                isAllowed: function(cEl, hint, target) {
-                    return true;
-                    // if(hint.parents('li').first().data('type') === 'dir' && cEl.data('type') !== 'dir')
-                    // {
-                    //     hint.css('background-color', '#ff9999');
-                    //     return false;
-                    // }
-                    // else
-                    // {
-                    //     hint.css('background-color', '#99ff99');
-                    //     return true;
-                    // }
-                },
-                opener: {
-                    active: true,
-                    close: '/images/Remove2.png',
-                    open: '/images/Add2.png',
-                    openerCss: {
-                        'display': 'inline-block',
-                        'width': '18px',
-                        'height': '18px',
-                        'float': 'left',
-                        'margin-left': '-35px',
-                        'margin-right': '5px',
-                        'background-position': 'center center',
-                        'background-repeat': 'no-repeat'
+                    target: 'li',
+                    cloneStyle: {
+                        'background-color': '#eee'
                     },
-                    openerClass: '',
-                },
-                baseClass:'baseClass',
-                placeholderClass: 'placeholderClass',
-                listsClass: 'listsClass list-group list-group-flush',
-                hintWrapperClass: "hintWrapperClass",
-            },
+                    floatStyle: {
+                        //用固定定位可以防止定位父级不是Body的情况的兼容处理，表示不兼容IE6，无妨
+                        'position': 'fixed',
+                        'box-shadow': '10px 10px 20px 0 #eee',
+                        // 'webkitTransform': 'rotate(4deg)',
+                        // 'mozTransform': 'rotate(4deg)',
+                        // 'msTransform': 'rotate(4deg)',
+                        // 'transform': 'rotate(4deg)'
+                    }
 
-        sWrapper = $('#settingsWrapper')
+                }, options );
 
-        $('#sTree2').sortableLists(options)
+            return this.each(function(){
 
-        $('#sTree2Start').on('click',function(){
-            $('#sTree2').IsOpStart()
-        })
+                var that = $( this ),
+                    height = 'height',
+                    width = 'width';
 
-        $('#sTree2End').on('click',function(){
-            $('#sTree2').IsOpEnd()
-        })
+                if( that.css( 'box-sizing' ) == 'border-box' ){
+                    height = 'outerHeight';
+                    width = 'outerWidth';
+                }
 
+                that.on( 'mousedown.DDSort', settings.target, function( e ){
+                    //只允许鼠标左键拖动
+                    if( e.which != 1 ){
+                        return;
+                    }
 
-        $('#toArrBtn').on('click', function(){
-            console.log($('#sTree2').sortableListsToArray());
-            var obj =  $('#sTree2').sortableListsToArray();
-            console.log(JSON.stringify(obj));
+                    //防止表单元素失效
+                    var tagName = e.target.tagName.toLowerCase();
+                    if( tagName == 'input' || tagName == 'textarea' || tagName == 'select' ){
+                        return;
+                    }
+
+                    var THIS = this,
+                        $this = $( THIS ),
+                        offset = $this.offset(),
+                        disX = e.pageX - offset.left,
+                        disY = e.pageY - offset.top,
+
+                        clone = $this.clone()
+                            .css( settings.cloneStyle )
+                            .css( 'height', $this[ height ]() )
+                            .empty(),
+
+                        hasClone = 1,
+
+                        //缓存计算
+                        thisOuterHeight = $this.outerHeight(),
+                        thatOuterHeight = that.outerHeight(),
+
+                        //滚动速度
+                        upSpeed = thisOuterHeight,
+                        downSpeed = thisOuterHeight,
+                        maxSpeed = thisOuterHeight * 3;
+
+                    settings.down.call( THIS );
+
+                    $doc.on( 'mousemove.DDSort', function( e ){
+                        if( hasClone ){
+                            $this.before( clone )
+                                .css( 'width', $this[ width ]() )
+                                .css( settings.floatStyle )
+                                .appendTo( $this.parent() );
+
+                            hasClone = 0;
+                        }
+
+                        var left = e.pageX - disX,
+                            top = e.pageY - disY,
+
+                            prev = clone.prev(),
+                            next = clone.next().not( $this );
+
+                        $this.css({
+                            left: left,
+                            top: top
+                        });
+
+                        //向上排序
+                        if( prev.length && top < prev.offset().top + prev.outerHeight()/2 ){
+
+                            clone.after( prev );
+
+                            //向下排序
+                        }else if( next.length && top + thisOuterHeight > next.offset().top + next.outerHeight()/2 ){
+
+                            clone.before( next );
+
+                        }
+
+                        /**
+                         * 处理滚动条
+                         * that是带着滚动条的元素，这里默认以为that元素是这样的元素（正常情况就是这样），如果使用者事件委托的元素不是这样的元素，那么需要提供接口出来
+                         */
+                        var thatScrollTop = that.scrollTop(),
+                            thatOffsetTop = that.offset().top,
+                            scrollVal;
+
+                        //向上滚动
+                        if( top < thatOffsetTop ){
+
+                            downSpeed = thisOuterHeight;
+                            upSpeed = ++upSpeed > maxSpeed ? maxSpeed : upSpeed;
+                            scrollVal = thatScrollTop - upSpeed;
+
+                            //向下滚动
+                        }else if( top + thisOuterHeight - thatOffsetTop > thatOuterHeight ){
+
+                            upSpeed = thisOuterHeight;
+                            downSpeed = ++downSpeed > maxSpeed ? maxSpeed : downSpeed;
+                            scrollVal = thatScrollTop + downSpeed;
+                        }
+
+                        that.scrollTop( scrollVal );
+
+                        settings.move.call( THIS );
+
+                    })
+                        .on( 'mouseup.DDSort', function(){
+
+                            $doc.off( 'mousemove.DDSort mouseup.DDSort' );
+
+                            //click的时候也会触发mouseup事件，加上判断阻止这种情况
+                            if( !hasClone ){
+                                clone.before( $this.removeAttr( 'style' ) ).remove();
+                                settings.up.call( THIS );
+                            }
+                        });
+
+                    return false;
+                });
+            });
+        };
+
+    })( jQuery );
+
+</script>
+
+<script>
+
+    $(document).ready(function(){
+        $('.hover-area').mouseenter(function(){
+            //$('.action-btn').fadeIn();
+            $(this).find('.action-btn').show();
+            $(this).css({
+                'height':'72px',
+            })
+        }).mouseleave(function(){
+            $(this).find('.action-btn').hide();
+            //$('.action-btn').fadeOut();
+            $(this).css({
+                'height':'38px',
+            })
         });
 
-        $('#toHierBtn').on('click', function() {
-            var obj =  $('#sTree2').sortableListsToHierarchy();
-
-            console.log(obj);
-
-            console.log(JSON.stringify(obj));
-
-        });
-
-        $('#toStrBtn').on('click', function() {
-            console.log($('#sTree2').sortableListsToString());
-        });
-
-        $('.descPicture').on('click', function(e) {
-            $(this).toggleClass('descPictureClose');
+        $('.dir').mouseenter(function(){
+            $(this).find('.dirop').show();
+            $(this).css({
+                'height':'72px',
+            })
+        }).mouseleave(function() {
+            $(this).find('.dirop').hide();
+            $(this).css({
+                'height':'42px',
+            })
         });
     });
 
+    // $( '#wrap' ).DDSort({
+    //     target: 'li',		//示例而用，默认即'li'
+    //     floatStyle: {
+    //         'border': '1px solid #ccc',
+    //         'background-color': '#ddd'
+    //     }
+    // });
+
+    $('#newSort').click(function(){
+        var ulValue = $( '#wrap' ).children();
+        console.log(ulValue)
+
+        for (var i=0; i<ulValue.length; i++) {
+            var liValue = ulValue[i].children
+            console.log(liValue)
+            for(var j=0; j<liValue.length;j++) {
+                console.log(liValue[j])
+            }
+        }
+    });
+
+    // $('.all-open').click(function (){
+    //     var open = $(this).attr('data-open');
+    //     $(this).empty();
+    //     if (open == 0) {
+    //         $(this).append("全部收起");
+    //         $('#wrap').find('ul').show();
+    //         $(this).attr('data-open', '1');
+    //         $('#wrap').find('.dir-open').attr('data-open', '1');
+    //     } else {
+    //         $(this).append("全部展开");
+    //         $('#wrap').find('ul').hide();
+    //         $(this).attr('data-open', '0');
+    //         $('#wrap').find('.dir-open').attr('data-open', '0');
+    //     }
+    // });
+
+
+    $('.dir-open').click(function (){
+        var open = $(this).attr('data-open');
+        var dirid = $(this).attr('data-dirid');
+        $(this).empty();
+        if (open == 0) {
+            $(this).append("收起");
+            $(this).attr('data-open', '1');
+            $('#'+dirid).show();
+        } else {
+            $(this).append("展开");
+            $(this).attr('data-open', '0');
+            $('#'+dirid).hide();
+        }
+    });
+
 </script>
+
 
 {{ template "end" . }}

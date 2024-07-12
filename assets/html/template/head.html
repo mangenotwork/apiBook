@@ -11,37 +11,51 @@
     <script type="text/javascript" src="/js/bootstrap.bundle.min.js?v={{ .TimeStamp }}"></script>
     <script type="text/javascript" src="/js/jquery-sortable-lists.min.js?v={{ .TimeStamp }}"></script>
     <style>
-        .tree {
-            padding: 22px;
+        #wrap{
+            width: 100%;
+            height: calc(100vh - 240px);
+            border: 1px solid #ccc;
+            overflow: auto;
+            overflow-x: hidden;
+            position: relative;
+            background-color: #dddddd;
+        }
+        #wrap ul{
+            padding: 0;
+            margin: 0;
+        }
+        #wrap li{
+            padding: 10px;
+            margin-bottom: 0px;
+            border-top: 1px solid #ccc;
+            border-bottom: 1px solid #ccc;
+            font: 14px/1.5 "微软雅黑";
+            list-style: none;
+            /*cursor: move;*/
             cursor: pointer;
         }
-        .tree ul {
+        #wrap li:hover{
+            background-color: #f6f6f6;
         }
-        .tree li {
-            font-size: 16px;
-            padding-top: 8px;
-            padding-bottom: 8px;
+
+        .dir {
+            height: 42px;
+            padding: 8px;
+            background-color: #c6c6c6;
+            cursor: pointer;
         }
-        .baseClass {
-            /*width: 100px;*/
-            /*height: 100px;*/
-            /*background-color: #0a53be;*/
+        .dir:hover {
+            background-color: #f6f6f6;
         }
-        .placeholderClass {
-            width: 100px;
-            height: 100px;
-            background-color: #0f5132;
+
+        .dir-ul {
+            display: block;
         }
-        .hintWrapperClass {
-            width: 100px;
-            height: 100px;
-            background-color: #0b5ed7;
+
+        .hover-area {
+            height: 38px;
         }
-        .listsClass {
-            /*width: 100px;*/
-            /*height: 100px;*/
-            /*background-color: #0f5132;*/
-        }
+
     </style>
 </head>
 {{ end }}
