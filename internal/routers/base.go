@@ -20,7 +20,7 @@ func Routers() *gin.Engine {
 	Router.StaticFS("/css", http.Dir("./assets/css"))
 	Router.StaticFS("/images", http.Dir("./assets/images"))
 	Router.Delims("{{", "}}")
-	//Svg()
+	Svg()
 	Router.LoadHTMLGlob("assets/html/**/*")
 	//Login()
 	Page()

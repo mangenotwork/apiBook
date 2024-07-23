@@ -1,28 +1,32 @@
 {{ define "api_dir" }}
 <div class="col-md-1 col-lg-3" style="height: calc(100vh - 56px);background-color: #424242;min-width:280px;">
 
-    <div style="height: 72px;color: #ffffff;padding: 8px;padding-bottom:12px;border-bottom: 1px solid #7c7b7b;">
+    <div style="height: 42px;color: #ffffff;padding: 8px;padding-bottom:12px;">
         <p style="font-size: 18px;margin-bottom: 0px;">XXXX项目</p>
-        <div class="btn-group btn-group-sm" role="group" aria-label="Basic outlined example" style="float: right;font-size: 12px;">
+        <!-- <div class="btn-group btn-group-sm" role="group" aria-label="Basic outlined example" style="float: right;font-size: 12px;">
             <button type="button" class="btn" style="color: #ffffff;">分享</button>
             <button type="button" class="btn" style="color: #ffffff;">切换项目</button>
-        </div>
+        </div> -->
+    </div>
+    
+    <div class="btn-group btn-group-sm" role="group" aria-label="Basic outlined example" style="margin-top: 8px;margin-bottom: 8px;background-color: #7c7b7b;width: 100%; ">
+        <button type="button" class="btn btn-dark">分享</button>
+        <button type="button" class="btn btn-dark">切换项目</button>
+        <button type="button" class="btn btn-dark">创建目录</button>
+        <button type="button" class="btn btn-dark">创建接口文档</button>
+        <button type="button" class="btn btn-dark" data-open="0">目录排序</button>
     </div>
 
-    <div style="height: 56px;padding: 8px;border-bottom: 1px solid #7c7b7b;">
+    <div style="height: 56px;padding-top: 8px;margin-bottom: 16px;">
         <div class="input-group">
             <input type="text" class="form-control" placeholder="api名称" aria-label="api名称" aria-describedby="button-addon2">
             <button class="btn btn-dark" type="button" id="button-addon2">搜索</button>
         </div>
     </div>
 
-    <div class="btn-group btn-group-sm" role="group" aria-label="Basic outlined example" style="margin-top: 8px;margin-bottom: 8px;background-color: #7c7b7b;width: 100%; ">
-        <button type="button" class="btn btn-dark">创建目录</button>
-        <button type="button" class="btn btn-dark">创建接口文档</button>
-        <button type="button" class="btn btn-dark" data-open="0">目录排序</button>
-    </div>
+    
 
-    <div id="wrap">
+    <div id="wrap" style="border-radius: 4px;">
         <div class="dir">
             <p style="font-size: 16px;margin-bottom: 2px;">【目录】 1111目录1111目录1111</p>
             <div class="btn-group btn-group-sm dirop" role="group" aria-label="Small button group" style="font-size: 14px;display: none;float: right;">
@@ -99,6 +103,30 @@
             </li>
             <li class="hover-area">
                 <p style="font-size: 14px;margin-bottom: 2px;">9999999999999</p>
+                <div class="btn-group btn-group-sm action-btn" role="group" aria-label="Small button group" style="font-size: 14px;display: none;float: right;">
+                    <button type="button" class="btn btn-outline-dark" style="padding: 2px 4px 2px 4px">移动</button>
+                    <button type="button" class="btn btn-outline-dark" style="padding: 2px 4px 2px 4px">分享</button>
+                    <button type="button" class="btn btn-outline-dark" style="padding: 2px 4px 2px 4px">删除</button>
+                </div>
+            </li>
+            <li class="hover-area">
+                <p style="font-size: 14px;margin-bottom: 2px;">a1111111111111111</p>
+                <div class="btn-group btn-group-sm action-btn" role="group" aria-label="Small button group" style="font-size: 14px;display: none;float: right;">
+                    <button type="button" class="btn btn-outline-dark" style="padding: 2px 4px 2px 4px">移动</button>
+                    <button type="button" class="btn btn-outline-dark" style="padding: 2px 4px 2px 4px">分享</button>
+                    <button type="button" class="btn btn-outline-dark" style="padding: 2px 4px 2px 4px">删除</button>
+                </div>
+            </li>
+            <li class="hover-area">
+                <p style="font-size: 14px;margin-bottom: 2px;">a1111111111111111</p>
+                <div class="btn-group btn-group-sm action-btn" role="group" aria-label="Small button group" style="font-size: 14px;display: none;float: right;">
+                    <button type="button" class="btn btn-outline-dark" style="padding: 2px 4px 2px 4px">移动</button>
+                    <button type="button" class="btn btn-outline-dark" style="padding: 2px 4px 2px 4px">分享</button>
+                    <button type="button" class="btn btn-outline-dark" style="padding: 2px 4px 2px 4px">删除</button>
+                </div>
+            </li>
+            <li class="hover-area">
+                <p style="font-size: 14px;margin-bottom: 2px;">a1111111111111111</p>
                 <div class="btn-group btn-group-sm action-btn" role="group" aria-label="Small button group" style="font-size: 14px;display: none;float: right;">
                     <button type="button" class="btn btn-outline-dark" style="padding: 2px 4px 2px 4px">移动</button>
                     <button type="button" class="btn btn-outline-dark" style="padding: 2px 4px 2px 4px">分享</button>

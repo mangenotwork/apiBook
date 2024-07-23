@@ -19,6 +19,9 @@
             overflow-x: hidden;
             position: relative;
             background-color: #dddddd;
+
+            scrollbar-width: none;
+            scrollbar-color: transparent transparent;
         }
         #wrap ul{
             padding: 0;
@@ -54,6 +57,40 @@
 
         .hover-area {
             height: 38px;
+        }
+
+
+        ::-webkit-scrollbar {
+        width: 12px; 
+        }
+        
+        ::-webkit-scrollbar-track {
+        background: #f1f1f1; 
+        }
+        
+        ::-webkit-scrollbar-thumb {
+        background: #888; 
+        }
+        
+        ::-webkit-scrollbar-thumb:hover {
+        background: #555;
+        }
+
+        .box {}
+
+        .box:hover {
+            box-shadow: 4px 16px 32px 4px rgba(48, 55, 66, 0.3);
+        }
+        
+        
+
+        .simple-list-example-scrollspy .active {
+            background-color: #f1f1f1; 
+        }
+
+        #doc {
+            scrollbar-width: none;
+            scrollbar-color: transparent transparent;
         }
 
     </style>
