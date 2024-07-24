@@ -10,7 +10,17 @@
 
     <main class="col-md-9 ms-sm-auto col-lg-10 px-md-4" style="background-color: #ffffff;">
         
-        <div class="box" style="margin-top: 12px;border: 1px solid #D3D3D3; border-radius: 4px;">
+        <div style="height: 42px;">
+            <div class="btn-group btn-group-sm" role="group" aria-label="Basic outlined example" style="margin-top: 8px;margin-bottom: 8px;width: 30%;float:right; ">
+                <button type="button" class="btn btn-outline-dark">全局header</button>
+                <button type="button" class="btn btn-outline-dark">全局code</button>
+                <button type="button" class="btn btn-outline-dark">{{ SVG "folder-plust" 16 16 }}</button>
+                <button type="button" class="btn btn-outline-dark">{{ SVG "plus-lg" 16 16 }}</button>
+                <button type="button" class="btn btn-outline-dark">{{ SVG "gear-fill" 16 16 }}</button>
+            </div>
+        </div>
+
+        <div class="box" style="margin-top: 8px;border: 1px solid #D3D3D3; border-radius: 4px;">
             <ul class="nav nav-tabs" style="width: 100%;height:54px;flex-direction: row;flex-wrap: nowrap;overflow-x: scroll;font-size: 11px;">
                 <li class="nav-item">
                   <a class="nav-link active" aria-current="page" href="#" style="width: 200px;color: aliceblue;background-color: #4c4c4c;">[Get] xxxxxxxxxxxx <span style="float: right;cursor: pointer;">{{ SVG "x-square-fill" 16 16 }}</span></a>
@@ -40,7 +50,7 @@
                     <a class="nav-link active" href="#" style="width: 200px;">[Get] xxxxxxxxxxxx <span style="float: right;cursor: pointer;">{{ SVG "x-square-fill" 16 16 }}</span></a>
                   </li>
               </ul>
-              <div id="doc" style="width: 100%; height: calc(100vh - 156px);background-color: #ffffff;overflow: auto;padding: 16px;position: relative;">
+              <div id="doc" style="width: 100%; height: calc(100vh - 188px);background-color: #ffffff;overflow: auto;padding: 16px;position: relative;">
 
                 <div class="row">
                     
@@ -50,16 +60,20 @@
                         overflow: auto" tabindex="0">
                         <div style="margin-bottom: 48px;margin-top: 36px;">
                             <h4 id="simple-list-item-1" style="margin-bottom: 16px;">基本信息</h4>
+                            <div class="card">
+                                <div class="card-body">
                             <ul >
                                 <li style="padding: 8px;"><span style="font-size: 16px;">接口名:</span><span style="font-size: 21px;margin-left: 16px;"> asdasdaasdasdsadasdasdas</span></li>
                                 <li style="padding: 8px;"><span style="font-size: 16px;">接口Url: </span><span style="font-size: 21px;margin-left: 16px;"><span class="badge rounded-pill text-bg-success" style="margin-right: 8px;">GET</span> asdasdaasdasdsadasdasdas</span></li>
                                 <li style="padding: 8px;">操作： <div class="btn-group" role="group" aria-label="Basic outlined example" style="margin-left: 16px;">
-                                    <button type="button" class="btn btn-outline-dark">编辑</button>
+                                    <button type="button" class="btn btn-outline-dark" onclick="newAPIDoc()">编辑</button>
                                     <button type="button" class="btn btn-outline-dark">请求</button>
                                     <button type="button" class="btn btn-outline-dark">分享</button>
                                     <button type="button" class="btn btn-outline-dark">Mock</button>
                                   </div></li>
                             </ul>
+                            </div>
+                            </div>
                         
 
                         </div>
@@ -76,7 +90,7 @@
                         </div>
                         <div style="margin-bottom: 48px;">
                             <h4 id="simple-list-item-3" style="margin-bottom: 36px;">请求Header</h4>
-                            <table class="table table-bordered table-light  table-hover">
+                            <table class="table table-bordered table-hover">
                                 <thead>
                                 <tr>
                                     <th scope="col">#</th>
@@ -108,7 +122,9 @@
                         </div>
 
                         <div style="margin-bottom: 48px;">
-                        <h4 id="simple-list-item-4" style="margin-bottom: 36px;">请求Body</h4>
+                        <h4 id="simple-list-item-4" style="margin-bottom: 36px;">请求参数</h4>
+                        <p>请求数据类型: json</p>
+                        <p>示例:</p>
                           <textarea style="width: 90%;height: 200px;">{
                                 "order_no": "aaaaaa45456",
                                 "product_select_list": [
@@ -120,7 +136,7 @@
                                 ],
                                 "description": "不喜欢这个会议，申请退款"
                             }</textarea>
-
+                            <p>参数说明:</p>      
                           <table class="table table-bordered table-light  table-hover">
                               <thead>
                               <tr>
@@ -180,6 +196,26 @@
         </div>
         
         
+
+
+<!-- 创建接口文档 Modal -->
+<div class="modal fade" id="apiDocModal" tabindex="-1" aria-labelledby="apiDocModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-fullscreen">
+      <div class="modal-content">
+        <div class="modal-header bg-dark" style="color: #ffffff;">
+          <h1 class="modal-title fs-5" id="apiDocModalLabel">新建接口文档</h1>
+          <button class="btn" type="button" data-bs-dismiss="modal" aria-label="Close" style="color: #ffffff;">X</button>
+        </div>
+        <div class="modal-body">
+          ...
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">取消</button>
+          <button type="button" class="btn btn-primary">保存</button>
+        </div>
+      </div>
+    </div>
+  </div>
 
 
 
@@ -395,6 +431,11 @@
             })
         });
     });
+
+    function newAPIDoc() {
+        console.log("新建接口文档")
+        $('#apiDocModal').modal('show');
+    }
 
     // $( '#wrap' ).DDSort({
     //     target: 'li',		//示例而用，默认即'li'

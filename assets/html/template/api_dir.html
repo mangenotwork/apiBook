@@ -9,14 +9,14 @@
         <button type="button" class="btn btn-dark" data-bs-toggle="tooltip" data-bs-custom-class="custom-tooltip" data-bs-placement="top" data-bs-title="分享文档">{{ SVG "share-fill" 16 16 }}</button>
         <button type="button" class="btn btn-dark" data-bs-toggle="tooltip" data-bs-custom-class="custom-tooltip" data-bs-placement="top" data-bs-title="切换项目">{{ SVG "arrow-left-right" 16 16 }}</button>
         <button type="button" class="btn btn-dark" data-bs-toggle="tooltip" data-bs-custom-class="custom-tooltip" data-bs-placement="top" data-bs-title="新建目录">{{ SVG "folder-plust" 16 16 }}</button>
-        <button type="button" class="btn btn-dark" data-bs-toggle="tooltip" data-bs-custom-class="custom-tooltip" data-bs-placement="top" data-bs-title="新建文档">{{ SVG "plus-lg" 16 16 }}</button>
+        <button type="button" class="btn btn-dark" data-bs-toggle="tooltip" data-bs-custom-class="custom-tooltip" data-bs-placement="top" data-bs-title="新建文档" onclick="newAPIDoc()">{{ SVG "plus-lg" 16 16 }}</button>
         <button type="button" class="btn btn-dark" data-bs-toggle="tooltip" data-bs-custom-class="custom-tooltip" data-bs-placement="top" data-bs-title="项目设置">{{ SVG "gear-fill" 16 16 }}</button>
     </div>
 
     <div style="height: 56px;padding-top: 8px;margin-bottom: 16px;">
         <div class="input-group">
             <input type="text" class="form-control" placeholder="api名称或url" aria-label="api名称或url" aria-describedby="button-addon2">
-            <button class="btn btn-dark" type="button" id="button-addon2">搜索</button>
+            <button class="btn btn-dark" type="button" id="button-addon2" data-bs-toggle="modal" data-bs-target="#apiDocModal">搜索</button>
         </div>
     </div>
 
@@ -24,17 +24,17 @@
 
     <div id="wrap" style="border-radius: 4px;">
         <div class="dir">
-            <p class="dir-open" data-open="1" data-dirid="dir-ul-2" style="font-size: 16px;margin-bottom: 2px;"><span>{{ SVG "folder2-open" 21 21 }}</span> 目录11111</p>
+            <p class="dir-open" data-open="1" data-dirid="dir-ul-2" style="font-size: 16px;margin-bottom: 2px;white-space: nowrap;text-overflow: ellipsis;overflow: hidden;"><span>{{ SVG "folder2-open" 21 21 }}</span> 目录1111111111111111111111111111111111111111111111</p>
             <div class="btn-group btn-group-sm dirop" role="group" aria-label="Small button group" style="font-size: 14px;display: none;float: right;">
                 <button type="button" class="btn btn-outline-dark" style="padding: 2px 4px 2px 4px" data-bs-toggle="tooltip" data-bs-custom-class="custom-tooltip" data-bs-placement="top" data-bs-title="目录排序">{{ SVG "arrow-down-up" 16 16 }}</button>
                 <button type="button" class="btn btn-outline-dark" style="padding: 2px 4px 2px 4px" data-bs-toggle="tooltip" data-bs-custom-class="custom-tooltip" data-bs-placement="top" data-bs-title="文档排序">{{ SVG "list-ol" 16 16 }}</button>
-                <button type="button" class="btn btn-outline-dark" style="padding: 2px 4px 2px 4px" data-bs-toggle="tooltip" data-bs-custom-class="custom-tooltip" data-bs-placement="top" data-bs-title="新建文档" >{{ SVG "plus-lg" 16 16 }}</button>
+                <button type="button" class="btn btn-outline-dark" style="padding: 2px 4px 2px 4px" data-bs-toggle="tooltip" data-bs-custom-class="custom-tooltip" data-bs-placement="top" data-bs-title="新建文档" onclick="newAPIDoc()">{{ SVG "plus-lg" 16 16 }}</button>
             </div>
         </div>
         <ul id="dir-ul-2" class="dir-ul" >
 
             <li class="hover-area" id="56456">
-                <p style="font-size: 14px;margin-bottom: 2px;"><span class="badge rounded-pill text-bg-success" style="margin-right: 8px;">GET</span>111111111111 </p>
+                <p style="font-size: 14px;margin-bottom: 2px;white-space: nowrap;text-overflow: ellipsis;overflow: hidden;"><span class="badge rounded-pill text-bg-success" style="margin-right: 8px;">GET</span>11111111111111111111111111111</p>
                 <div class="btn-group btn-group-sm action-btn" role="group" aria-label="Small button group" style="font-size: 14px;display: none;float: right;">
                     <button type="button" class="btn btn-outline-dark" style="padding: 2px 4px 2px 4px"  data-bs-toggle="tooltip" data-bs-custom-class="custom-tooltip" data-bs-placement="top" data-bs-title="移动">{{ SVG "arrows-move" 16 16 }}</button>
                     <button type="button" class="btn btn-outline-dark" style="padding: 2px 4px 2px 4px"  data-bs-toggle="tooltip" data-bs-custom-class="custom-tooltip" data-bs-placement="top" data-bs-title="编辑">{{ SVG "pencil-square" 16 16 }}</button>
@@ -42,7 +42,7 @@
                 </div>
             </li>
             <li class="hover-area" id="56156">
-                <p style="font-size: 14px;margin-bottom: 2px;" ><span class="badge rounded-pill text-bg-danger" style="margin-right: 8px;">DELETE</span>22222222222</p>
+                <p style="font-size: 14px;margin-bottom: 2px;white-space: nowrap;text-overflow: ellipsis;overflow: hidden;" ><span class="badge rounded-pill text-bg-danger" style="margin-right: 8px;">DELETE</span>22222222222</p>
                 <div class="btn-group btn-group-sm action-btn" role="group" aria-label="Small button group" style="font-size: 14px;display: none;float: right;">
                     <button type="button" class="btn btn-outline-dark" style="padding: 2px 4px 2px 4px"  data-bs-toggle="tooltip" data-bs-custom-class="custom-tooltip" data-bs-placement="top" data-bs-title="移动">{{ SVG "arrows-move" 16 16 }}</button>
                     <button type="button" class="btn btn-outline-dark" style="padding: 2px 4px 2px 4px"  data-bs-toggle="tooltip" data-bs-custom-class="custom-tooltip" data-bs-placement="top" data-bs-title="编辑">{{ SVG "pencil-square" 16 16 }}</button>
@@ -50,7 +50,7 @@
                 </div>
             </li>
             <li class="hover-area" id="56256">
-                <p style="font-size: 14px;margin-bottom: 2px;"><span class="badge rounded-pill text-bg-info" style="margin-right: 8px;">POST</span>3333333333333</p>
+                <p style="font-size: 14px;margin-bottom: 2px;white-space: nowrap;text-overflow: ellipsis;overflow: hidden;"><span class="badge rounded-pill text-bg-info" style="margin-right: 8px;">POST</span>3333333333333</p>
                 <div class="btn-group btn-group-sm action-btn" role="group" aria-label="Small button group" style="font-size: 14px;display: none;float: right;">
                     <button type="button" class="btn btn-outline-dark" style="padding: 2px 4px 2px 4px"  data-bs-toggle="tooltip" data-bs-custom-class="custom-tooltip" data-bs-placement="top" data-bs-title="移动">{{ SVG "arrows-move" 16 16 }}</button>
                     <button type="button" class="btn btn-outline-dark" style="padding: 2px 4px 2px 4px"  data-bs-toggle="tooltip" data-bs-custom-class="custom-tooltip" data-bs-placement="top" data-bs-title="编辑">{{ SVG "pencil-square" 16 16 }}</button>
@@ -58,7 +58,7 @@
                 </div>
             </li>
             <li class="hover-area">
-                <p style="font-size: 14px;margin-bottom: 2px;"><span class="badge rounded-pill text-bg-dark" style="margin-right: 8px;">HEAD</span>444444444444444</p>
+                <p style="font-size: 14px;margin-bottom: 2px;white-space: nowrap;text-overflow: ellipsis;overflow: hidden;"><span class="badge rounded-pill text-bg-dark" style="margin-right: 8px;">HEAD</span>444444444444444</p>
                 <div class="btn-group btn-group-sm action-btn" role="group" aria-label="Small button group" style="font-size: 14px;display: none;float: right;">
                     <button type="button" class="btn btn-outline-dark" style="padding: 2px 4px 2px 4px"  data-bs-toggle="tooltip" data-bs-custom-class="custom-tooltip" data-bs-placement="top" data-bs-title="移动">{{ SVG "arrows-move" 16 16 }}</button>
                     <button type="button" class="btn btn-outline-dark" style="padding: 2px 4px 2px 4px"  data-bs-toggle="tooltip" data-bs-custom-class="custom-tooltip" data-bs-placement="top" data-bs-title="编辑">{{ SVG "pencil-square" 16 16 }}</button>
@@ -66,7 +66,7 @@
                 </div>
             </li>
             <li class="hover-area">
-                <p style="font-size: 14px;margin-bottom: 2px;"><span class="badge rounded-pill text-bg-secondary" style="margin-right: 8px;">PUT</span>5555555555555555</p>
+                <p style="font-size: 14px;margin-bottom: 2px;white-space: nowrap;text-overflow: ellipsis;overflow: hidden;"><span class="badge rounded-pill text-bg-secondary" style="margin-right: 8px;">PUT</span>5555555555555555</p>
                 <div class="btn-group btn-group-sm action-btn" role="group" aria-label="Small button group" style="font-size: 14px;display: none;float: right;">
                     <button type="button" class="btn btn-outline-dark" style="padding: 2px 4px 2px 4px"  data-bs-toggle="tooltip" data-bs-custom-class="custom-tooltip" data-bs-placement="top" data-bs-title="移动">{{ SVG "arrows-move" 16 16 }}</button>
                     <button type="button" class="btn btn-outline-dark" style="padding: 2px 4px 2px 4px"  data-bs-toggle="tooltip" data-bs-custom-class="custom-tooltip" data-bs-placement="top" data-bs-title="编辑">{{ SVG "pencil-square" 16 16 }}</button>
@@ -74,7 +74,7 @@
                 </div>
             </li>
             <li class="hover-area">
-                <p style="font-size: 14px;margin-bottom: 2px;"><span class="badge rounded-pill text-bg-light" style="margin-right: 8px;">OPTIONS</span>6666666666666666</p>
+                <p style="font-size: 14px;margin-bottom: 2px;white-space: nowrap;text-overflow: ellipsis;overflow: hidden;"><span class="badge rounded-pill text-bg-light" style="margin-right: 8px;">OPTIONS</span>6666666666666666</p>
                 <div class="btn-group btn-group-sm action-btn" role="group" aria-label="Small button group" style="font-size: 14px;display: none;float: right;">
                     <button type="button" class="btn btn-outline-dark" style="padding: 2px 4px 2px 4px"  data-bs-toggle="tooltip" data-bs-custom-class="custom-tooltip" data-bs-placement="top" data-bs-title="移动">{{ SVG "arrows-move" 16 16 }}</button>
                     <button type="button" class="btn btn-outline-dark" style="padding: 2px 4px 2px 4px"  data-bs-toggle="tooltip" data-bs-custom-class="custom-tooltip" data-bs-placement="top" data-bs-title="编辑">{{ SVG "pencil-square" 16 16 }}</button>
@@ -82,7 +82,7 @@
                 </div>
             </li>
             <li class="hover-area">
-                <p style="font-size: 14px;margin-bottom: 2px;"><span class="badge rounded-pill text-bg-success" style="margin-right: 8px;">GET</span>777777777777777777</p>
+                <p style="font-size: 14px;margin-bottom: 2px;white-space: nowrap;text-overflow: ellipsis;overflow: hidden;"><span class="badge rounded-pill text-bg-success" style="margin-right: 8px;">GET</span>777777777777777777</p>
                 <div class="btn-group btn-group-sm action-btn" role="group" aria-label="Small button group" style="font-size: 14px;display: none;float: right;">
                     <button type="button" class="btn btn-outline-dark" style="padding: 2px 4px 2px 4px"  data-bs-toggle="tooltip" data-bs-custom-class="custom-tooltip" data-bs-placement="top" data-bs-title="移动">{{ SVG "arrows-move" 16 16 }}</button>
                     <button type="button" class="btn btn-outline-dark" style="padding: 2px 4px 2px 4px"  data-bs-toggle="tooltip" data-bs-custom-class="custom-tooltip" data-bs-placement="top" data-bs-title="编辑">{{ SVG "pencil-square" 16 16 }}</button>
@@ -90,7 +90,7 @@
                 </div>
             </li>
             <li class="hover-area">
-                <p style="font-size: 14px;margin-bottom: 2px;"><span class="badge rounded-pill text-bg-success" style="margin-right: 8px;">GET</span>888888888888888</p>
+                <p style="font-size: 14px;margin-bottom: 2px;white-space: nowrap;text-overflow: ellipsis;overflow: hidden;"><span class="badge rounded-pill text-bg-success" style="margin-right: 8px;">GET</span>888888888888888</p>
                 <div class="btn-group btn-group-sm action-btn" role="group" aria-label="Small button group" style="font-size: 14px;display: none;float: right;">
                     <button type="button" class="btn btn-outline-dark" style="padding: 2px 4px 2px 4px"  data-bs-toggle="tooltip" data-bs-custom-class="custom-tooltip" data-bs-placement="top" data-bs-title="移动">{{ SVG "arrows-move" 16 16 }}</button>
                     <button type="button" class="btn btn-outline-dark" style="padding: 2px 4px 2px 4px"  data-bs-toggle="tooltip" data-bs-custom-class="custom-tooltip" data-bs-placement="top" data-bs-title="编辑">{{ SVG "pencil-square" 16 16 }}</button>
@@ -98,7 +98,7 @@
                 </div>
             </li>
             <li class="hover-area">
-                <p style="font-size: 14px;margin-bottom: 2px;"><span class="badge rounded-pill text-bg-success" style="margin-right: 8px;">GET</span>9999999999999</p>
+                <p style="font-size: 14px;margin-bottom: 2px;white-space: nowrap;text-overflow: ellipsis;overflow: hidden;"><span class="badge rounded-pill text-bg-success" style="margin-right: 8px;">GET</span>9999999999999</p>
                 <div class="btn-group btn-group-sm action-btn" role="group" aria-label="Small button group" style="font-size: 14px;display: none;float: right;">
                     <button type="button" class="btn btn-outline-dark" style="padding: 2px 4px 2px 4px"  data-bs-toggle="tooltip" data-bs-custom-class="custom-tooltip" data-bs-placement="top" data-bs-title="移动">{{ SVG "arrows-move" 16 16 }}</button>
                     <button type="button" class="btn btn-outline-dark" style="padding: 2px 4px 2px 4px"  data-bs-toggle="tooltip" data-bs-custom-class="custom-tooltip" data-bs-placement="top" data-bs-title="编辑">{{ SVG "pencil-square" 16 16 }}</button>
@@ -106,7 +106,7 @@
                 </div>
             </li>
             <li class="hover-area">
-                <p style="font-size: 14px;margin-bottom: 2px;"><span class="badge rounded-pill text-bg-success" style="margin-right: 8px;">GET</span>a1111111111111111</p>
+                <p style="font-size: 14px;margin-bottom: 2px;white-space: nowrap;text-overflow: ellipsis;overflow: hidden;"><span class="badge rounded-pill text-bg-success" style="margin-right: 8px;">GET</span>a1111111111111111</p>
                 <div class="btn-group btn-group-sm action-btn" role="group" aria-label="Small button group" style="font-size: 14px;display: none;float: right;">
                     <button type="button" class="btn btn-outline-dark" style="padding: 2px 4px 2px 4px"  data-bs-toggle="tooltip" data-bs-custom-class="custom-tooltip" data-bs-placement="top" data-bs-title="移动">{{ SVG "arrows-move" 16 16 }}</button>
                     <button type="button" class="btn btn-outline-dark" style="padding: 2px 4px 2px 4px"  data-bs-toggle="tooltip" data-bs-custom-class="custom-tooltip" data-bs-placement="top" data-bs-title="编辑">{{ SVG "pencil-square" 16 16 }}</button>
@@ -114,7 +114,7 @@
                 </div>
             </li>
             <li class="hover-area">
-                <p style="font-size: 14px;margin-bottom: 2px;"><span class="badge rounded-pill text-bg-success" style="margin-right: 8px;">GET</span>a1111111111111111</p>
+                <p style="font-size: 14px;margin-bottom: 2px;white-space: nowrap;text-overflow: ellipsis;overflow: hidden;"><span class="badge rounded-pill text-bg-success" style="margin-right: 8px;">GET</span>a1111111111111111</p>
                 <div class="btn-group btn-group-sm action-btn" role="group" aria-label="Small button group" style="font-size: 14px;display: none;float: right;">
                     <button type="button" class="btn btn-outline-dark" style="padding: 2px 4px 2px 4px"  data-bs-toggle="tooltip" data-bs-custom-class="custom-tooltip" data-bs-placement="top" data-bs-title="移动">{{ SVG "arrows-move" 16 16 }}</button>
                     <button type="button" class="btn btn-outline-dark" style="padding: 2px 4px 2px 4px"  data-bs-toggle="tooltip" data-bs-custom-class="custom-tooltip" data-bs-placement="top" data-bs-title="编辑">{{ SVG "pencil-square" 16 16 }}</button>
@@ -122,7 +122,7 @@
                 </div>
             </li>
             <li class="hover-area">
-                <p style="font-size: 14px;margin-bottom: 2px;"><span class="badge rounded-pill text-bg-success" style="margin-right: 8px;">GET</span>a1111111111111111</p>
+                <p style="font-size: 14px;margin-bottom: 2px;white-space: nowrap;text-overflow: ellipsis;overflow: hidden;"><span class="badge rounded-pill text-bg-success" style="margin-right: 8px;">GET</span>a1111111111111111</p>
                 <div class="btn-group btn-group-sm action-btn" role="group" aria-label="Small button group" style="font-size: 14px;display: none;float: right;">
                     <button type="button" class="btn btn-outline-dark" style="padding: 2px 4px 2px 4px"  data-bs-toggle="tooltip" data-bs-custom-class="custom-tooltip" data-bs-placement="top" data-bs-title="移动">{{ SVG "arrows-move" 16 16 }}</button>
                     <button type="button" class="btn btn-outline-dark" style="padding: 2px 4px 2px 4px"  data-bs-toggle="tooltip" data-bs-custom-class="custom-tooltip" data-bs-placement="top" data-bs-title="编辑">{{ SVG "pencil-square" 16 16 }}</button>
@@ -130,7 +130,7 @@
                 </div>
             </li>
             <li class="hover-area">
-                <p style="font-size: 14px;margin-bottom: 2px;"><span class="badge rounded-pill text-bg-success" style="margin-right: 8px;">GET</span>a1111111111111111</p>
+                <p style="font-size: 14px;margin-bottom: 2px;white-space: nowrap;text-overflow: ellipsis;overflow: hidden;"><span class="badge rounded-pill text-bg-success" style="margin-right: 8px;">GET</span>a1111111111111111</p>
                 <div class="btn-group btn-group-sm action-btn" role="group" aria-label="Small button group" style="font-size: 14px;display: none;float: right;">
                     <button type="button" class="btn btn-outline-dark" style="padding: 2px 4px 2px 4px"  data-bs-toggle="tooltip" data-bs-custom-class="custom-tooltip" data-bs-placement="top" data-bs-title="移动">{{ SVG "arrows-move" 16 16 }}</button>
                     <button type="button" class="btn btn-outline-dark" style="padding: 2px 4px 2px 4px"  data-bs-toggle="tooltip" data-bs-custom-class="custom-tooltip" data-bs-placement="top" data-bs-title="编辑">{{ SVG "pencil-square" 16 16 }}</button>
@@ -150,7 +150,7 @@
         </div>
         <ul id="dir-ul-3" class="dir-ul">
             <li class="hover-area">
-                <p style="font-size: 14px;margin-bottom: 2px;"><span class="badge rounded-pill text-bg-success" style="margin-right: 8px;">GET</span>b33333333333333333</p>
+                <p style="font-size: 14px;margin-bottom: 2px;white-space: nowrap;text-overflow: ellipsis;overflow: hidden;"><span class="badge rounded-pill text-bg-success" style="margin-right: 8px;">GET</span>b33333333333333333</p>
                 <div class="btn-group btn-group-sm action-btn" role="group" aria-label="Small button group" style="font-size: 14px;display: none;float: right;">
                     <button type="button" class="btn btn-outline-dark" style="padding: 2px 4px 2px 4px"  data-bs-toggle="tooltip" data-bs-custom-class="custom-tooltip" data-bs-placement="top" data-bs-title="移动">{{ SVG "arrows-move" 16 16 }}</button>
                     <button type="button" class="btn btn-outline-dark" style="padding: 2px 4px 2px 4px"  data-bs-toggle="tooltip" data-bs-custom-class="custom-tooltip" data-bs-placement="top" data-bs-title="编辑">{{ SVG "pencil-square" 16 16 }}</button>
@@ -158,7 +158,7 @@
                 </div>
             </li>
             <li class="hover-area">
-                <p style="font-size: 14px;margin-bottom: 2px;"><span class="badge rounded-pill text-bg-success" style="margin-right: 8px;">GET</span>b4444444444444444444</p>
+                <p style="font-size: 14px;margin-bottom: 2px;white-space: nowrap;text-overflow: ellipsis;overflow: hidden;"><span class="badge rounded-pill text-bg-success" style="margin-right: 8px;">GET</span>b4444444444444444444</p>
                 <div class="btn-group btn-group-sm action-btn" role="group" aria-label="Small button group" style="font-size: 14px;display: none;float: right;">
                     <button type="button" class="btn btn-outline-dark" style="padding: 2px 4px 2px 4px"  data-bs-toggle="tooltip" data-bs-custom-class="custom-tooltip" data-bs-placement="top" data-bs-title="移动">{{ SVG "arrows-move" 16 16 }}</button>
                     <button type="button" class="btn btn-outline-dark" style="padding: 2px 4px 2px 4px"  data-bs-toggle="tooltip" data-bs-custom-class="custom-tooltip" data-bs-placement="top" data-bs-title="编辑">{{ SVG "pencil-square" 16 16 }}</button>
@@ -166,7 +166,7 @@
                 </div>
             </li>
             <li class="hover-area">
-                <p style="font-size: 14px;margin-bottom: 2px;"><span class="badge rounded-pill text-bg-success" style="margin-right: 8px;">GET</span>b555555555555555555555</p>
+                <p style="font-size: 14px;margin-bottom: 2px;white-space: nowrap;text-overflow: ellipsis;overflow: hidden;"><span class="badge rounded-pill text-bg-success" style="margin-right: 8px;">GET</span>b555555555555555555555</p>
                 <div class="btn-group btn-group-sm action-btn" role="group" aria-label="Small button group" style="font-size: 14px;display: none;float: right;">
                     <button type="button" class="btn btn-outline-dark" style="padding: 2px 4px 2px 4px"  data-bs-toggle="tooltip" data-bs-custom-class="custom-tooltip" data-bs-placement="top" data-bs-title="移动">{{ SVG "arrows-move" 16 16 }}</button>
                     <button type="button" class="btn btn-outline-dark" style="padding: 2px 4px 2px 4px"  data-bs-toggle="tooltip" data-bs-custom-class="custom-tooltip" data-bs-placement="top" data-bs-title="编辑">{{ SVG "pencil-square" 16 16 }}</button>
@@ -174,7 +174,7 @@
                 </div>
             </li>
             <li class="hover-area">
-                <p style="font-size: 14px;margin-bottom: 2px;"><span class="badge rounded-pill text-bg-success" style="margin-right: 8px;">GET</span>b66666666666666666666</p>
+                <p style="font-size: 14px;margin-bottom: 2px;white-space: nowrap;text-overflow: ellipsis;overflow: hidden;"><span class="badge rounded-pill text-bg-success" style="margin-right: 8px;">GET</span>b66666666666666666666</p>
                 <div class="btn-group btn-group-sm action-btn" role="group" aria-label="Small button group" style="font-size: 14px;display: none;float: right;">
                     <button type="button" class="btn btn-outline-dark" style="padding: 2px 4px 2px 4px"  data-bs-toggle="tooltip" data-bs-custom-class="custom-tooltip" data-bs-placement="top" data-bs-title="移动">{{ SVG "arrows-move" 16 16 }}</button>
                     <button type="button" class="btn btn-outline-dark" style="padding: 2px 4px 2px 4px"  data-bs-toggle="tooltip" data-bs-custom-class="custom-tooltip" data-bs-placement="top" data-bs-title="编辑">{{ SVG "pencil-square" 16 16 }}</button>
@@ -182,7 +182,7 @@
                 </div>
             </li>
             <li class="hover-area">
-                <p style="font-size: 14px;margin-bottom: 2px;"><span class="badge rounded-pill text-bg-success" style="margin-right: 8px;">GET</span>b7777777777777777777777</p>
+                <p style="font-size: 14px;margin-bottom: 2px;white-space: nowrap;text-overflow: ellipsis;overflow: hidden;"><span class="badge rounded-pill text-bg-success" style="margin-right: 8px;">GET</span>b7777777777777777777777</p>
                 <div class="btn-group btn-group-sm action-btn" role="group" aria-label="Small button group" style="font-size: 14px;display: none;float: right;">
                     <button type="button" class="btn btn-outline-dark" style="padding: 2px 4px 2px 4px"  data-bs-toggle="tooltip" data-bs-custom-class="custom-tooltip" data-bs-placement="top" data-bs-title="移动">{{ SVG "arrows-move" 16 16 }}</button>
                     <button type="button" class="btn btn-outline-dark" style="padding: 2px 4px 2px 4px"  data-bs-toggle="tooltip" data-bs-custom-class="custom-tooltip" data-bs-placement="top" data-bs-title="编辑">{{ SVG "pencil-square" 16 16 }}</button>
