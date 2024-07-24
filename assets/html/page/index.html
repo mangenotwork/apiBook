@@ -8,12 +8,12 @@
 
     {{ template "api_dir" . }}
 
-    <main class="col-md-9 ms-sm-auto col-lg-9 px-md-4" style="background-color: #ffffff;">
+    <main class="col-md-9 ms-sm-auto col-lg-10 px-md-4" style="background-color: #ffffff;">
         
         <div class="box" style="margin-top: 12px;border: 1px solid #D3D3D3; border-radius: 4px;">
             <ul class="nav nav-tabs" style="width: 100%;height:54px;flex-direction: row;flex-wrap: nowrap;overflow-x: scroll;font-size: 11px;">
                 <li class="nav-item">
-                  <a class="nav-link active" aria-current="page" href="#" style="width: 200px;background-color: black;color: aliceblue;">[Get] xxxxxxxxxxxx <span style="float: right;cursor: pointer;">{{ SVG "x-square-fill" 16 16 }}</span></a>
+                  <a class="nav-link active" aria-current="page" href="#" style="width: 200px;color: aliceblue;background-color: #4c4c4c;">[Get] xxxxxxxxxxxx <span style="float: right;cursor: pointer;">{{ SVG "x-square-fill" 16 16 }}</span></a>
                 </li>
                 <li class="nav-item">
                   <a class="nav-link active" href="#" style="width: 200px;">[Get] xxxxxxxxxxxx <span style="float: right;cursor: pointer;">{{ SVG "x-square-fill" 16 16 }}</span></a>
@@ -52,23 +52,31 @@
                             <h4 id="simple-list-item-1" style="margin-bottom: 16px;">基本信息</h4>
                             <ul >
                                 <li style="padding: 8px;"><span style="font-size: 16px;">接口名:</span><span style="font-size: 21px;margin-left: 16px;"> asdasdaasdasdsadasdasdas</span></li>
-                                <li style="padding: 8px;"><span style="font-size: 16px;">接口Url: </span><span style="font-size: 21px;margin-left: 16px;"> [GET] asdasdaasdasdsadasdasdas</span></li>
+                                <li style="padding: 8px;"><span style="font-size: 16px;">接口Url: </span><span style="font-size: 21px;margin-left: 16px;"><span class="badge rounded-pill text-bg-success" style="margin-right: 8px;">GET</span> asdasdaasdasdsadasdasdas</span></li>
                                 <li style="padding: 8px;">操作： <div class="btn-group" role="group" aria-label="Basic outlined example" style="margin-left: 16px;">
                                     <button type="button" class="btn btn-outline-dark">编辑</button>
-                                    <button type="button" class="btn btn-outline-dark">快速请求</button>
-                                    <button type="button" class="btn btn-outline-dark">TODO</button>
+                                    <button type="button" class="btn btn-outline-dark">请求</button>
+                                    <button type="button" class="btn btn-outline-dark">分享</button>
+                                    <button type="button" class="btn btn-outline-dark">Mock</button>
                                   </div></li>
                             </ul>
                         
 
                         </div>
                         <div style="margin-bottom: 48px;">
-                            <h4 id="simple-list-item-3" style="margin-bottom: 16px;">接口说明</h4>
-                            <p>This is some placeholder content for the scrollspy page. Note that as you scroll down the page, the appropriate navigation link is highlighted. It's repeated throughout the component example. We keep adding some more example copy here to emphasize the scrolling and highlighting.This is some placeholder content for the scrollspy page. Note that as you scroll down the page, the appropriate navigation link is highlighted. It's repeated throughout the component example. We keep adding some more example copy here to emphasize the scrolling and highlighting.</p>
+                            <h4 id="simple-list-item-2" style="margin-bottom: 36px;">接口说明</h4>
+
+                            <div class="card">
+                                <div class="card-body">
+                                    <p>This is some placeholder content for the scrollspy page. Note that as you scroll down the page, the appropriate navigation link is highlighted. It's repeated throughout the component example. We keep adding some more example copy here to emphasize the scrolling and highlighting.This is some placeholder content for the scrollspy page. Note that as you scroll down the page, the appropriate navigation link is highlighted. It's repeated throughout the component example. We keep adding some more example copy here to emphasize the scrolling and highlighting.</p>
+                                </div>
+                            </div>
+
+
                         </div>
                         <div style="margin-bottom: 48px;">
-                            <h4 id="simple-list-item-2" style="margin-bottom: 16px;">请求参数</h4>
-                            <table class="table table-bordered table-secondary">
+                            <h4 id="simple-list-item-3" style="margin-bottom: 36px;">请求Header</h4>
+                            <table class="table table-bordered table-light  table-hover">
                                 <thead>
                                 <tr>
                                     <th scope="col">#</th>
@@ -98,22 +106,70 @@
                                 </tbody>
                             </table>
                         </div>
-                        <h4 id="simple-list-item-3">响应示例</h4>
-                        <p>This is some placeholder content for the scrollspy page. Note that as you scroll down the page, the appropriate navigation link is highlighted. It's repeated throughout the component example. We keep adding some more example copy here to emphasize the scrolling and highlighting.This is some placeholder content for the scrollspy page. Note that as you scroll down the page, the appropriate navigation link is highlighted. It's repeated throughout the component example. We keep adding some more example copy here to emphasize the scrolling and highlighting.</p>
-                        <h4 id="simple-list-item-4">Item 4</h4>
-                        <p>This is some placeholder content for the scrollspy page. Note that as you scroll down the page, the appropriate navigation link is highlighted. It's repeated throughout the component example. We keep adding some more example copy here to emphasize the scrolling and highlighting.</p>
-                        <h4 id="simple-list-item-5">Item 5</h4>
+
+                        <div style="margin-bottom: 48px;">
+                        <h4 id="simple-list-item-4" style="margin-bottom: 36px;">请求Body</h4>
+                          <textarea style="width: 90%;height: 200px;">{
+                                "order_no": "aaaaaa45456",
+                                "product_select_list": [
+                                    {
+                                        "product_id": 1231,
+                                        "product_type": 3,
+                                        "select_count": 1
+                                    }
+                                ],
+                                "description": "不喜欢这个会议，申请退款"
+                            }</textarea>
+
+                          <table class="table table-bordered table-light  table-hover">
+                              <thead>
+                              <tr>
+                                  <th scope="col">#</th>
+                                  <th scope="col">First</th>
+                                  <th scope="col">Last</th>
+                                  <th scope="col">Handle</th>
+                              </tr>
+                              </thead>
+                              <tbody>
+                              <tr>
+                                  <th scope="row">1</th>
+                                  <td>Mark</td>
+                                  <td>Otto</td>
+                                  <td>@mdo</td>
+                              </tr>
+                              <tr>
+                                  <th scope="row">2</th>
+                                  <td>Jacob</td>
+                                  <td>Thornton</td>
+                                  <td>@fat</td>
+                              </tr>
+                              <tr>
+                                  <th scope="row">3</th>
+                                  <td colspan="2">Larry the Bird</td>
+                                  <td>@twitter</td>
+                              </tr>
+                              </tbody>
+                          </table>
+                        </div>
+
+                        <div style="margin-bottom: 48px;">
+                            <h4 id="simple-list-item-5"  style="margin-bottom: 36px;">响应成功</h4>
+                            <p>This is some placeholder content for the scrollspy page. Note that as you scroll down the page, the appropriate navigation link is highlighted. It's repeated throughout the component example. We keep adding some more example copy here to emphasize the scrolling and highlighting.</p>
+                        </div>
+
+                            <h4 id="simple-list-item-6">Item 5</h4>
                         <p>This is some placeholder content for the scrollspy page. Note that as you scroll down the page, the appropriate navigation link is highlighted. It's repeated throughout the component example. We keep adding some more example copy here to emphasize the scrolling and highlighting.This is some placeholder content for the scrollspy page. Note that as you scroll down the page, the appropriate navigation link is highlighted. It's repeated throughout the component example. We keep adding some more example copy here to emphasize the scrolling and highlighting.</p>
                       </div>
                     </div>
 
                     <div class="col-2">
                         <div id="simple-list-example" class="d-flex flex-column gap-2 simple-list-example-scrollspy text-center">
-                          <a class="p-1 rounded" href="#simple-list-item-1">Item 1</a>
-                          <a class="p-1 rounded" href="#simple-list-item-2">Item 2</a>
-                          <a class="p-1 rounded" href="#simple-list-item-3">Item 3</a>
-                          <a class="p-1 rounded" href="#simple-list-item-4">Item 4</a>
-                          <a class="p-1 rounded" href="#simple-list-item-5">Item 5</a>
+                          <a class="p-1 rounded" style="color: #1a1d20;" href="#simple-list-item-1">基本信息</a>
+                          <a class="p-1 rounded" style="color: #1a1d20;" href="#simple-list-item-2">接口说明</a>
+                          <a class="p-1 rounded" style="color: #1a1d20;" href="#simple-list-item-3">请求Header</a>
+                          <a class="p-1 rounded" style="color: #1a1d20;" href="#simple-list-item-4">请求Body</a>
+                          <a class="p-1 rounded" style="color: #1a1d20;" href="#simple-list-item-5">响应成功</a>
+                          <a class="p-1 rounded" style="color: #1a1d20;" href="#simple-list-item-6">响应失败</a>
                         </div>
                       </div>
 
@@ -133,9 +189,11 @@
 </div>
 
 
-
-
 </body>
+
+<script type="text/javascript" src="/js/jquery.min.js?v={{ .TimeStamp }}"></script>
+<script type="text/javascript" src="/js/bootstrap.bundle.min.js?v={{ .TimeStamp }}"></script>
+
 <script>
     ;(function( $ ){
         /**
@@ -155,11 +213,9 @@
                 fnEmpty = function(){},
 
                 settings = $.extend( true, {
-
                     down: fnEmpty,
                     move: fnEmpty,
                     up: fnEmpty,
-
                     target: 'li',
                     cloneStyle: {
                         'background-color': '#eee'
@@ -306,11 +362,12 @@
 
 <script>
 
-   
-
     $(document).ready(function(){
 
-    
+        var tooltipTriggerList = Array.prototype.slice.call(document.querySelectorAll('[data-bs-toggle="tooltip"]'))
+        var tooltipList = tooltipTriggerList.map(function (tooltipTriggerEl) {
+            return new bootstrap.Tooltip(tooltipTriggerEl)
+        })
 
         $('.hover-area').mouseenter(function(){
             //$('.action-btn').fadeIn();
@@ -350,7 +407,6 @@
     $('#newSort').click(function(){
         var ulValue = $( '#wrap' ).children();
         console.log(ulValue)
-
         for (var i=0; i<ulValue.length; i++) {
             var liValue = ulValue[i].children
             console.log(liValue)
@@ -360,33 +416,17 @@
         }
     });
 
-    // $('.all-open').click(function (){
-    //     var open = $(this).attr('data-open');
-    //     $(this).empty();
-    //     if (open == 0) {
-    //         $(this).append("全部收起");
-    //         $('#wrap').find('ul').show();
-    //         $(this).attr('data-open', '1');
-    //         $('#wrap').find('.dir-open').attr('data-open', '1');
-    //     } else {
-    //         $(this).append("全部展开");
-    //         $('#wrap').find('ul').hide();
-    //         $(this).attr('data-open', '0');
-    //         $('#wrap').find('.dir-open').attr('data-open', '0');
-    //     }
-    // });
-
-
     $('.dir-open').click(function (){
         var open = $(this).attr('data-open');
         var dirid = $(this).attr('data-dirid');
-        $(this).empty();
+        console.log($(this).find('span'))
+        $(this).find('span').empty();
         if (open == 0) {
-            $(this).append("收起");
+            $(this).find('span').append('{{ SVG "folder2-open" 21 21 }}');
             $(this).attr('data-open', '1');
             $('#'+dirid).show();
         } else {
-            $(this).append("展开");
+            $(this).find('span').append('{{ SVG "folder" 21 21 }}');
             $(this).attr('data-open', '0');
             $('#'+dirid).hide();
         }

@@ -7,9 +7,7 @@
     <link rel="icon" href="">
     <title>{{ .Title }}</title>
     <link href="/css/bootstrap.min.css?v={{ .TimeStamp }}" rel="stylesheet">
-    <script type="text/javascript" src="/js/jquery.min.js?v={{ .TimeStamp }}"></script>
-    <script type="text/javascript" src="/js/bootstrap.bundle.min.js?v={{ .TimeStamp }}"></script>
-    <script type="text/javascript" src="/js/jquery-sortable-lists.min.js?v={{ .TimeStamp }}"></script>
+
     <style>
         #wrap{
             width: 100%;
@@ -81,8 +79,6 @@
         .box:hover {
             box-shadow: 4px 16px 32px 4px rgba(48, 55, 66, 0.3);
         }
-        
-        
 
         .simple-list-example-scrollspy .active {
             background-color: #f1f1f1; 
@@ -91,6 +87,10 @@
         #doc {
             scrollbar-width: none;
             scrollbar-color: transparent transparent;
+        }
+
+        .custom-tooltip {
+            --bs-tooltip-bg: var(--bs-secondary);
         }
 
     </style>
