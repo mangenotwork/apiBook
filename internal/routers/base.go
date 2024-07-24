@@ -2,10 +2,11 @@ package routers
 
 import (
 	"apiBook/internal/handler"
+	"net/http"
+
 	"github.com/gin-contrib/gzip"
 	"github.com/gin-gonic/gin"
 	"github.com/mangenotwork/common/ginHelper"
-	"net/http"
 )
 
 var Router *gin.Engine
@@ -33,6 +34,8 @@ func Routers() *gin.Engine {
 func Page() {
 	page := Router.Group("")
 	page.GET("/index", handler.Index)
+	page.GET("/", handler.Login)
+	page.GET("/home", handler.Home)
 }
 
 func Test() {

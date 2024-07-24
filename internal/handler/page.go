@@ -1,11 +1,12 @@
 package handler
 
 import (
+	"net/http"
+	"time"
+
 	"github.com/gin-gonic/gin"
 	"github.com/mangenotwork/common/conf"
 	"github.com/mangenotwork/common/ginHelper"
-	"net/http"
-	"time"
 )
 
 func Testcase(c *ginHelper.GinCtx) {
@@ -25,5 +26,21 @@ func Index(c *gin.Context) {
 		ginH(gin.H{
 			"nav": "home",
 		}),
+	)
+}
+
+func Login(c *gin.Context) {
+	c.HTML(
+		http.StatusOK,
+		"login.html",
+		gin.H{},
+	)
+}
+
+func Home(c *gin.Context) {
+	c.HTML(
+		http.StatusOK,
+		"home.html",
+		gin.H{},
 	)
 }
