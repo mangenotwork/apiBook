@@ -1,6 +1,7 @@
 package main
 
 import (
+	"apiBook/common/db"
 	"apiBook/internal/routers"
 	"github.com/gin-gonic/gin"
 	"github.com/mangenotwork/common/conf"
@@ -11,7 +12,7 @@ import (
 
 func main() {
 	conf.InitConf("./conf/")
-
+	db.Init()
 	// 启动 https servers
 	gin.SetMode(gin.DebugMode)
 	server := &http.Server{

@@ -3,6 +3,7 @@ module apiBook
 go 1.19
 
 require (
+	github.com/boltdb/bolt v1.3.1
 	github.com/gin-contrib/gzip v1.0.1
 	github.com/gin-gonic/gin v1.10.0
 	github.com/mangenotwork/common v0.1.3

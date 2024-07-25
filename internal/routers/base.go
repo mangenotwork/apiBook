@@ -23,22 +23,27 @@ func Routers() *gin.Engine {
 	Router.Delims("{{", "}}")
 	Svg()
 	Router.LoadHTMLGlob("assets/html/**/*")
-	//Login()
+	Login()
 	Page()
 	//API()
 	//Data()
-	Test()
 	return Router
 }
 
-func Page() {
-	page := Router.Group("")
-	page.GET("/index", handler.Index)
-	page.GET("/", handler.Login)
-	page.GET("/home", handler.Home)
+func Login() {
+	login := Router.Group("")
+	login.Use(ginHelper.CSRFMiddleware())
+	login.GET("/", handler.LoginPage)
+	login.POST("/set/admin", handler.SetAdmin)
+	login.POST("/login", handler.Login)
+	login.GET("/out", handler.Out)
 }
 
-func Test() {
-	test := Router.Group("")
-	test.GET("/test", ginHelper.Handle(handler.Testcase))
+func Page() {
+	Router.NoRoute(handler.NotFond)
+	Router.NoMethod(handler.NotFond)
+	page := Router.Group("")
+	page.Use(AuthPG())
+	page.GET("/index", handler.Index)
+	page.GET("/home", handler.Home)
 }

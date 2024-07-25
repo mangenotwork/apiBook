@@ -6,7 +6,7 @@
 
             <div class="col-sm-4" style="background-color: black;min-height:100vh;">
                     
-                <h2 style="padding-top: 30%;color: #fff;margin-left: 36px;">API Book</h2>
+                <h2 style="padding-top: 160px;color: #fff;margin-left: 36px;">API Book</h2>
                 <p style="color: #fff;margin-left: 36px;">接口文档管理工具</p>
                 <p style="color: #fff;margin-left: 36px;">https://github.com/mangenotwork/apiBook</p>
                 <p style="color: #fff;margin-left: 36px;">v0.0.1</p>
@@ -14,14 +14,13 @@
             
             <div class="col-sm-8" style="height: 100%;">
                 
-                <div class="container" style="height: 100%;padding-top: 30%;
-                max-width: 330px;">
-               <h4 class="h3 mb-3 fw-normal">登录</h4>
-                <form class=" text-center" action="/home" method="get">
-                    
-                    <div class="form-floating" style="margin-bottom: 2px;">
-                        <input type="text" class="form-control" id="user" name="user" placeholder="name">
-                        <label for="user">账号</label>
+                <div class="container" style="height: 100%;padding-top: 260px;max-width: 330px;">
+
+                <form class=" text-center" action="/login" method="post">
+                    {{ .csrf }}
+                    <div class="form-floating" style="margin-bottom: 16px;">
+                        <input type="text" class="form-control" id="name" name="name" placeholder="name">
+                        <label for="name">账号</label>
                     </div>
                     <div class="form-floating" style="margin-bottom: 32px;">
                         <input type="password" class="form-control" id="password" name="password" placeholder="password">
@@ -38,4 +37,4 @@
         
     </main>
 </body>
-</html>
+{{ template "end" . }}

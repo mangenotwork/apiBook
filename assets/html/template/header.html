@@ -12,30 +12,24 @@
                         </a>
                         <ul class="dropdown-menu">
                             <li><a class="dropdown-item" href="/home">首页</a></li>
-                            <li><a class="dropdown-item" href="#">创建项目</a></li>
-                            <li><a class="dropdown-item" onclick="newAPIDoc()">创建接口文档</a></li>
+                            <li><a class="dropdown-item" onclick="addProject()">创建项目</a></li>
                             <li><hr class="dropdown-divider"></li>
                             <li><a class="dropdown-item" href="#"  data-bs-toggle="offcanvas" data-bs-target="#offcanvasNavbarDark" aria-controls="offcanvasNavbarDark">设置</a></li>
                         </ul>
                     </li>
+                    {{ if eq .nav "index" }}
                     <li class="nav-item dropdown">
                         <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false" style="color: #ffffff">
                             项目
                         </a>
                         <ul class="dropdown-menu">
-                            <li><a class="dropdown-item" href="#">Action</a></li>
-                            <li><a class="dropdown-item" href="#">Another action</a></li>
-                            <li><a class="dropdown-item" href="#">Something else here</a></li>
+                            <li><a class="dropdown-item" href="#">设置</a></li>
+                            <li><a class="dropdown-item" href="#">分享</a></li>
+                            <li><a class="dropdown-item" href="#">添加成员</a></li>
                         </ul>
                     </li>
-                    <li class="nav-item">
-                        <a class="nav-link active" aria-current="page" href="#" style="color: #ffffff">快速请求</a>
-                    </li>
+                    {{ end }}
                 </ul>
-<!--                <form class="d-flex" role="search">-->
-<!--                    <input class="form-control me-2" type="search" placeholder="api名称" aria-label="Search" style="width: 260px;">-->
-<!--                    <button class="btn btn-outline-light" type="submit">搜索</button>-->
-<!--                </form>-->
             </div>
         </nav>
     </div>
@@ -51,18 +45,22 @@
             <button type="button" class="btn-close btn-close-white" data-bs-dismiss="offcanvas" aria-label="Close"></button>
         </div>
         <div class="offcanvas-body">
+            <div>
+                Name
+            </div>
+            <hr>
             <ul class="navbar-nav justify-content-end flex-grow-1 pe-3">
                 <li class="nav-item">
-                    <a class="nav-link active" aria-current="page" data-bs-toggle="modal" data-bs-target="#mailSetModal" >邮件设置</a>
+                    <a class="nav-link" href="#">我的资料</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="#">监视器连接信息(TODO...)</a>
+                    <a class="nav-link" href="#">用户管理</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="#">设置(TODO...)</a>
+                    <a class="nav-link" href="#">帮助</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="/api/out">退出登录</a>
+                    <a class="nav-link" href="/out">退出登录</a>
                 </li>
             </ul>
         </div>

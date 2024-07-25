@@ -1,17 +1,16 @@
 package handler
 
 import (
+	"apiBook/internal/dao"
+	"apiBook/internal/define"
+	"github.com/mangenotwork/common/ginHelper"
+	"github.com/mangenotwork/common/utils"
 	"net/http"
 	"time"
 
 	"github.com/gin-gonic/gin"
 	"github.com/mangenotwork/common/conf"
-	"github.com/mangenotwork/common/ginHelper"
 )
-
-func Testcase(c *ginHelper.GinCtx) {
-	c.APIOutPut("test", "test")
-}
 
 func ginH(h gin.H) gin.H {
 	h["Title"] = conf.Conf.Default.App.Name
@@ -19,28 +18,67 @@ func ginH(h gin.H) gin.H {
 	return h
 }
 
-func Index(c *gin.Context) {
-	c.HTML(
+func NotFond(ctx *gin.Context) {
+	// 实现内部重定向
+	ctx.HTML(
+		http.StatusOK,
+		"not_fond.html",
+		ginH(gin.H{}),
+	)
+}
+
+func Index(ctx *gin.Context) {
+	ctx.HTML(
 		http.StatusOK,
 		"index.html",
 		ginH(gin.H{
-			"nav": "home",
+			"nav": "index",
 		}),
 	)
 }
 
-func Login(c *gin.Context) {
-	c.HTML(
+func LoginPage(ctx *gin.Context) {
+
+	token, _ := ctx.Cookie(define.UserToken)
+	if token != "" {
+		j := utils.NewJWT(conf.Conf.Default.Jwt.Secret, conf.Conf.Default.Jwt.Expire)
+		if err := j.ParseToken(token); err == nil {
+			ctx.Redirect(http.StatusFound, "/home")
+			return
+		}
+	}
+
+	// 检查是否存在用户表
+	num := dao.NewUserDao().GetUserNum()
+	if num == 0 {
+		ctx.HTML(
+			http.StatusOK,
+			"init.html",
+			gin.H{
+				"nav":  "init",
+				"csrf": ginHelper.FormSetCSRF(ctx.Request),
+			},
+		)
+		return
+	}
+
+	ctx.HTML(
 		http.StatusOK,
 		"login.html",
-		gin.H{},
+		gin.H{
+			"nav":  "login",
+			"csrf": ginHelper.FormSetCSRF(ctx.Request),
+		},
 	)
+	return
 }
 
-func Home(c *gin.Context) {
-	c.HTML(
+func Home(ctx *gin.Context) {
+	ctx.HTML(
 		http.StatusOK,
 		"home.html",
-		gin.H{},
+		gin.H{
+			"nav": "home",
+		},
 	)
 }

@@ -7,11 +7,7 @@ httpServer:
   open: true
   prod: 17777
 
-# 管理员账号密码
-admin:
-  -
-    name: "admin"
-    password: "123"
+dbPath: "./data.db"
 
 # jwt设置
 jwt:

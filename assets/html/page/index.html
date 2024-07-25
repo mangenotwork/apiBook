@@ -194,9 +194,9 @@
 
               </div>
         </div>
-        
-        
 
+
+        {{ template "add_project" .}}
 
 <!-- 创建接口文档 Modal -->
 <div class="modal fade" id="apiDocModal" tabindex="-1" aria-labelledby="apiDocModalLabel" aria-hidden="true">
@@ -232,10 +232,7 @@
 
 
 </body>
-
-<script type="text/javascript" src="/js/jquery.min.js?v={{ .TimeStamp }}"></script>
-<script type="text/javascript" src="/js/bootstrap.bundle.min.js?v={{ .TimeStamp }}"></script>
-
+{{ template "pubjs" . }}
 <script>
     ;(function( $ ){
         /**
@@ -438,10 +435,7 @@
         });
     });
 
-    function newAPIDoc() {
-        console.log("新建接口文档")
-        $('#apiDocModal').modal('show');
-    }
+
 
     // $( '#wrap' ).DDSort({
     //     target: 'li',		//示例而用，默认即'li'
