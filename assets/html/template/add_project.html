@@ -1,17 +1,36 @@
 {{ define "add_project" }}
-<div class="modal fade" id="addProjectModal" tabindex="-1" aria-labelledby="addProjectModalLabel" aria-hidden="true">
+<div class="modal fade" id="addProjectModal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="addProjectModalLabel" aria-hidden="true">
     <div class="modal-dialog modal-xl">
         <div class="modal-content">
             <div class="modal-header">
                 <h1 class="modal-title fs-5" id="addProjectModalLabel">新建项目</h1>
                 <button class="btn" type="button" data-bs-dismiss="modal" aria-label="Close" style="color: #ffffff;">X</button>
             </div>
-            <div class="modal-body">
-                ...
+            <div class="modal-body" style="padding: 56px;">
+
+                <div class="form-floating" style="margin-bottom: 18px;">
+                    <input type="text" class="form-control" id="floatingInput" placeholder="name@example.com">
+                    <label for="floatingInput">项目名</label>
+                </div>
+
+                <div class="form-floating" style="margin-bottom: 18px;">
+                    <textarea class="form-control" placeholder="Leave a comment here" id="floatingTextarea2" style="height: 100px"></textarea>
+                    <label for="floatingTextarea2">项目描述</label>
+                </div>
+
+                <div class="form-floating" style="margin-bottom: 18px;">
+                    <select class="form-select" id="floatingSelectGrid">
+                        <option value="1" style="font-size: 18px;">公有</option>
+                        <option value="2" style="font-size: 18px;">私有</option>
+                    </select>
+                    <label for="floatingSelectGrid">设置项目隐私性</label>
+                    <span style="color: #6c757d;font-size: 12px;">注意: 如设置为私有，添加协作人员在创建项目之后【项目设置】中操作。</span>
+                </div>
+
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">取消</button>
-                <button type="button" class="btn btn-primary">保存</button>
+                <button type="button" class="btn btn-primary">提交</button>
             </div>
         </div>
     </div>

@@ -1,8 +1,14 @@
 {{ template "head" . }}
-<body>
-<main class="form-signin w-100 m-auto">
-    <h2 class="h3 mb-3 fw-normal">错误: {{ .err }}</h2>
-    <a href="/">返回</a>
+<body class="bkf5">
+<main class="w-100">
+    <div class="row" style="margin: 0;">
+        {{ template "apibook-info" . }}
+        <div class="col-sm-8 h100">
+            <div class="container h100 login-div">
+                <h2 class="h3 mb-3 fw-normal">错误: {{ .err }}</h2>
+                <a href="/">返回</a>
+            </div>
+        </div>
 </main>
 </body>
 {{ template "end" . }}
