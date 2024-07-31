@@ -9,12 +9,13 @@ import (
 	"github.com/mangenotwork/common/log"
 	"github.com/mangenotwork/common/utils"
 	"net/http"
+	"time"
 )
 
 func SetAdmin(ctx *gin.Context) {
 	num := dao.NewUserDao().GetUserNum()
 	if num == 0 {
-
+		account := ctx.PostForm("account")
 		name := ctx.PostForm("name")
 		password := ctx.PostForm("password")
 		password2 := ctx.PostForm("password2")
@@ -28,10 +29,11 @@ func SetAdmin(ctx *gin.Context) {
 		}
 
 		user := &entity.User{
-			UserId:   utils.IDMd5(),
-			Name:     name,
-			Password: password,
-			IsAdmin:  1,
+			Account:    account,
+			Name:       name,
+			Password:   password,
+			IsAdmin:    1,
+			CreateTime: time.Now().Unix(),
 		}
 
 		err := dao.NewUserDao().Create(user)
@@ -44,7 +46,7 @@ func SetAdmin(ctx *gin.Context) {
 			return
 		}
 
-		setToken(ctx, user.UserId)
+		setToken(ctx, user.Account)
 		return
 	}
 
@@ -72,10 +74,10 @@ func setToken(ctx *gin.Context, userId string) {
 
 func Login(ctx *gin.Context) {
 
-	name := ctx.PostForm("name")
+	account := ctx.PostForm("account")
 	password := ctx.PostForm("password")
 
-	user, err := dao.NewUserDao().Get(name)
+	user, err := dao.NewUserDao().Get(account)
 	if err != nil {
 		log.Error(err)
 		ctx.HTML(200, "err.html", gin.H{
@@ -85,8 +87,8 @@ func Login(ctx *gin.Context) {
 		return
 	}
 
-	if name == user.Name && password == user.Password {
-		setToken(ctx, user.UserId)
+	if account == user.Account && password == user.Password {
+		setToken(ctx, user.Account)
 		return
 	}
 
@@ -100,4 +102,16 @@ func Login(ctx *gin.Context) {
 func Out(ctx *gin.Context) {
 	ctx.SetCookie("sign", "", 60*60*24*7, "/", "", false, true)
 	ctx.Redirect(http.StatusFound, "/")
+}
+
+func UserInfo(c *gin.Context) {
+}
+
+func UserModify(c *gin.Context) {
+}
+
+func UserResetPassword(c *gin.Context) {
+}
+
+func UserList(c *gin.Context) {
 }

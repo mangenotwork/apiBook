@@ -21,11 +21,11 @@ func (dao *UserDao) GetUserNum() int {
 }
 
 func (dao *UserDao) Create(user *entity.User) error {
-	return db.DB.Set(db.UserTable, user.Name, user)
+	return db.DB.Set(db.UserTable, user.Account, user)
 }
 
-func (dao *UserDao) Get(name string) (*entity.User, error) {
+func (dao *UserDao) Get(account string) (*entity.User, error) {
 	user := &entity.User{}
-	err := db.DB.Get(db.UserTable, name, &user)
+	err := db.DB.Get(db.UserTable, account, &user)
 	return user, err
 }
