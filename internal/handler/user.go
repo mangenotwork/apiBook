@@ -1,13 +1,13 @@
 package handler
 
 import (
+	"apiBook/common/conf"
+	"apiBook/common/log"
+	"apiBook/common/utils"
 	"apiBook/internal/dao"
 	"apiBook/internal/define"
 	"apiBook/internal/entity"
 	"github.com/gin-gonic/gin"
-	"github.com/mangenotwork/common/conf"
-	"github.com/mangenotwork/common/log"
-	"github.com/mangenotwork/common/utils"
 	"net/http"
 	"time"
 )

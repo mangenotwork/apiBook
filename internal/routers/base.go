@@ -1,28 +1,31 @@
 package routers
 
 import (
+	"apiBook/internal/define"
 	"apiBook/internal/handler"
+	"github.com/gorilla/csrf"
+	adapter "github.com/gwatts/gin-adapter"
+	"html/template"
 	"net/http"
 
 	"github.com/gin-contrib/gzip"
 	"github.com/gin-gonic/gin"
-	"github.com/mangenotwork/common/ginHelper"
 )
 
-var Router *gin.Engine
-
-func init() {
-	Router = gin.Default()
-}
+var (
+	Router *gin.Engine
+)
 
 func Routers() *gin.Engine {
 	Router.Use(gzip.Gzip(gzip.DefaultCompression))
 	Router.StaticFS("/js", http.Dir("./assets/js"))
 	Router.StaticFS("/css", http.Dir("./assets/css"))
 	Router.StaticFS("/images", http.Dir("./assets/images"))
+
 	Router.Delims("{{", "}}")
-	Svg()
+	FuncMap()
 	Router.LoadHTMLGlob("assets/html/**/*")
+
 	Login()    // 登录
 	Page()     // 页面
 	Project()  // 项目
@@ -32,9 +35,33 @@ func Routers() *gin.Engine {
 	return Router
 }
 
+func CSRFMiddleware() gin.HandlerFunc {
+	csrfMiddleware := csrf.Protect(
+		[]byte(define.CsrfAuthKey),
+		csrf.Secure(false),
+		csrf.HttpOnly(true),
+		csrf.CookieName(define.CsrfName),
+		csrf.FieldName(define.CsrfName),
+		csrf.RequestHeader(define.CsrfName),
+		csrf.ErrorHandler(http.HandlerFunc(func(writer http.ResponseWriter, request *http.Request) {
+			writer.WriteHeader(http.StatusForbidden)
+			_, _ = writer.Write([]byte(`403`))
+		})),
+	)
+	return adapter.Wrap(csrfMiddleware)
+}
+
+func FuncMap() {
+	Router.SetFuncMap(template.FuncMap{
+		"SVG":         SvgHtml,
+		"InputModule": Input,
+		"ApiBookInfo": ApiBookInfo,
+	})
+}
+
 func Login() {
 	login := Router.Group("")
-	login.Use(ginHelper.CSRFMiddleware())
+	login.Use(CSRFMiddleware())
 	login.GET("/", handler.LoginPage)
 	login.POST("/set/admin", handler.SetAdmin)
 	login.POST("/login", handler.Login)
@@ -52,7 +79,7 @@ func Page() {
 
 func Project() {
 	project := Router.Group("/project")
-	project.Use(AuthAPI())
+	//project.Use(AuthAPI())
 	project.GET("/list", handler.ProjectList)        // 项目列表
 	project.GET("/item", handler.ProjectItem)        // 项目详情
 	project.POST("/create", handler.ProjectCreate)   // 创建项目

@@ -1,8 +1,13 @@
 package handler
 
-import "github.com/gin-gonic/gin"
+import (
+	"apiBook/common/ginHelper"
+	"github.com/gin-gonic/gin"
+)
 
 func AdminCreateUser(c *gin.Context) {
+	ctx := ginHelper.NewGinCtx(c)
+	ctx.APIOutPut("ok", "ok")
 }
 
 func AdminDeleteUser(c *gin.Context) {

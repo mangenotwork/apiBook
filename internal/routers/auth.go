@@ -1,11 +1,11 @@
 package routers
 
 import (
+	"apiBook/common/conf"
+	"apiBook/common/ginHelper"
+	"apiBook/common/utils"
 	"apiBook/internal/define"
 	"github.com/gin-gonic/gin"
-	"github.com/mangenotwork/common/conf"
-	"github.com/mangenotwork/common/ginHelper"
-	"github.com/mangenotwork/common/utils"
 	"net/http"
 )
 

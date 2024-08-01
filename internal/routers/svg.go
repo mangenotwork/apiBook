@@ -5,12 +5,6 @@ import (
 	"html/template"
 )
 
-func Svg() {
-	Router.SetFuncMap(template.FuncMap{
-		"SVG": SvgHtml,
-	})
-}
-
 func SvgHtml(svgName string, w, h int) template.HTML {
 	str := fmt.Sprintf(svgHtml[svgName], w, h)
 	return template.HTML(str)

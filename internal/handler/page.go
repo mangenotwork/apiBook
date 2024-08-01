@@ -1,15 +1,17 @@
 package handler
 
 import (
+	"apiBook/common/utils"
 	"apiBook/internal/dao"
 	"apiBook/internal/define"
-	"github.com/mangenotwork/common/ginHelper"
-	"github.com/mangenotwork/common/utils"
+	"fmt"
+	"github.com/gorilla/csrf"
+	"html/template"
 	"net/http"
 	"time"
 
+	"apiBook/common/conf"
 	"github.com/gin-gonic/gin"
-	"github.com/mangenotwork/common/conf"
 )
 
 func ginH(h gin.H) gin.H {
@@ -56,7 +58,7 @@ func LoginPage(ctx *gin.Context) {
 			"init.html",
 			gin.H{
 				"nav":  "init",
-				"csrf": ginHelper.FormSetCSRF(ctx.Request),
+				"csrf": FormSetCSRF(ctx.Request),
 			},
 		)
 		return
@@ -67,7 +69,7 @@ func LoginPage(ctx *gin.Context) {
 		"login.html",
 		gin.H{
 			"nav":  "login",
-			"csrf": ginHelper.FormSetCSRF(ctx.Request),
+			"csrf": FormSetCSRF(ctx.Request),
 		},
 	)
 	return
@@ -81,4 +83,10 @@ func Home(ctx *gin.Context) {
 			"nav": "home",
 		},
 	)
+}
+
+func FormSetCSRF(r *http.Request) template.HTML {
+	fragment := fmt.Sprintf(`<input type="hidden" name="%s" value="%s">`,
+		define.CsrfName, csrf.Token(r))
+	return template.HTML(fragment)
 }

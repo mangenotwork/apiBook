@@ -1,10 +1,12 @@
 package handler
 
 import (
+	"apiBook/common/ginHelper"
 	"github.com/gin-gonic/gin"
 )
 
 func ProjectList(c *gin.Context) {
+	ginHelper.NewGinCtx(c)
 }
 
 func ProjectItem(c *gin.Context) {

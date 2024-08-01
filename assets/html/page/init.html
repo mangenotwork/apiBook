@@ -2,18 +2,17 @@
 <body class="bkf5">
 <main class="w-100">
     <div class="row" style="margin: 0;">
-        {{ template "apibook-info" . }}
+        {{ ApiBookInfo }}
         <div class="col-sm-8 h100">
             <div class="container h100 login-div">
                 <h3 style="margin-bottom: 32px;">请创建管理员</h3>
                 <form class=" text-center" action="/set/admin" method="post">
                     {{ .csrf }}
-                    <div style="margin-bottom: 16px">{{ template "input-name" . }}</div>
-                    <div style="margin-bottom: 32px;">{{ template "input-password" . }}</div>
-                    <div class="form-floating" style="margin-bottom: 32px;">
-                        <input type="password" class="form-control" id="password2" name="password2" placeholder="password">
-                        <label for="password2">确认密码</label>
-                    </div>
+                    <div style="margin-bottom: 16px">{{ InputModule "text" "name" "" "name" "昵称"}}</div>
+                    <div style="margin-bottom: 16px">{{ InputModule "text" "account" "" "account" "登录账号"}}</div>
+                    <div style="margin-bottom: 16px;">{{ InputModule "password" "password" "" "password" "密码" }}</div>
+                    <div style="margin-bottom: 32px;">{{ InputModule "password" "password2" "" "password2" "确认密码" }}</div>
+
                     <button class="w-100 btn btn-lg btn-dark" type="submit">创建</button>
                 </form>
             </div>

@@ -2,14 +2,14 @@
 <body class="bkf5">
     <main class="w-100">
         <div class="row" style="margin: 0;">
-            {{ template "apibook-info" . }}
+            {{ ApiBookInfo }}
             <div class="col-sm-8 h100">
                 <div class="container h100 login-div">
                     <h3 style="margin-bottom: 32px;">登录</h3>
                     <form class=" text-center" action="/login" method="post">
                         {{ .csrf }}
-                        <div style="margin-bottom: 16px">{{ template "input-name" . }}</div>
-                        <div style="margin-bottom: 32px;">{{ template "input-password" . }}</div>
+                        <div style="margin-bottom: 16px">{{ InputModule "text" "account" "" "account" "登录账号"}}</div>
+                        <div style="margin-bottom: 32px;">{{ InputModule "password" "password" "" "password" "密码" }}</div>
                         <button class="w-100 btn btn-lg btn-dark" type="submit">登录</button>
                     </form>
                 </div>

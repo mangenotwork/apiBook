@@ -11,6 +11,8 @@ dbPath: "./data.db"
 
 # jwt设置
 jwt:
-  secret: "website-monitor"
+  secret: "ah234skj3saa2312hk23jdf21kj334hj23v42j4"
   expire: 86400
 
+csrfAuthKey: "cToken"
+csrfName: "123456789"
