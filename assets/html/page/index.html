@@ -216,247 +216,19 @@
     </div>
   </div>
 
-
 <!-- 文档排序 Modal -->
 
 <!-- 目录排序 Modal -->
-
-
-
 
     </main>
 
     </div>
 </div>
 
-
 </body>
 {{ template "pubjs" . }}
 <script>
-    ;(function( $ ){
-        /**
-         * Author: https://github.com/Barrior
-         *
-         * DDSort: drag and drop sorting.
-         * @param {Object} options
-         *        target[string]: 		可选，jQuery事件委托选择器字符串，默认'li'
-         *        cloneStyle[object]: 	可选，设置占位符元素的样式
-         *        floatStyle[object]: 	可选，设置拖动元素的样式
-         *        down[function]: 		可选，鼠标按下时执行的函数
-         *        move[function]: 		可选，鼠标移动时执行的函数
-         *        up[function]: 		可选，鼠标抬起时执行的函数
-         */
-        $.fn.DDSort = function( options ){
-            var $doc = $( document ),
-                fnEmpty = function(){},
-
-                settings = $.extend( true, {
-                    down: fnEmpty,
-                    move: fnEmpty,
-                    up: fnEmpty,
-                    target: 'li',
-                    cloneStyle: {
-                        'background-color': '#eee'
-                    },
-                    floatStyle: {
-                        //用固定定位可以防止定位父级不是Body的情况的兼容处理，表示不兼容IE6，无妨
-                        'position': 'fixed',
-                        'box-shadow': '10px 10px 20px 0 #eee',
-                        // 'webkitTransform': 'rotate(4deg)',
-                        // 'mozTransform': 'rotate(4deg)',
-                        // 'msTransform': 'rotate(4deg)',
-                        // 'transform': 'rotate(4deg)'
-                    }
-
-                }, options );
-
-            return this.each(function(){
-
-                var that = $( this ),
-                    height = 'height',
-                    width = 'width';
-
-                if( that.css( 'box-sizing' ) == 'border-box' ){
-                    height = 'outerHeight';
-                    width = 'outerWidth';
-                }
-
-                that.on( 'mousedown.DDSort', settings.target, function( e ){
-                    //只允许鼠标左键拖动
-                    if( e.which != 1 ){
-                        return;
-                    }
-
-                    //防止表单元素失效
-                    var tagName = e.target.tagName.toLowerCase();
-                    if( tagName == 'input' || tagName == 'textarea' || tagName == 'select' ){
-                        return;
-                    }
-
-                    var THIS = this,
-                        $this = $( THIS ),
-                        offset = $this.offset(),
-                        disX = e.pageX - offset.left,
-                        disY = e.pageY - offset.top,
-
-                        clone = $this.clone()
-                            .css( settings.cloneStyle )
-                            .css( 'height', $this[ height ]() )
-                            .empty(),
-
-                        hasClone = 1,
-
-                        //缓存计算
-                        thisOuterHeight = $this.outerHeight(),
-                        thatOuterHeight = that.outerHeight(),
-
-                        //滚动速度
-                        upSpeed = thisOuterHeight,
-                        downSpeed = thisOuterHeight,
-                        maxSpeed = thisOuterHeight * 3;
-
-                    settings.down.call( THIS );
-
-                    $doc.on( 'mousemove.DDSort', function( e ){
-                        if( hasClone ){
-                            $this.before( clone )
-                                .css( 'width', $this[ width ]() )
-                                .css( settings.floatStyle )
-                                .appendTo( $this.parent() );
-
-                            hasClone = 0;
-                        }
-
-                        var left = e.pageX - disX,
-                            top = e.pageY - disY,
-
-                            prev = clone.prev(),
-                            next = clone.next().not( $this );
-
-                        $this.css({
-                            left: left,
-                            top: top
-                        });
-
-                        //向上排序
-                        if( prev.length && top < prev.offset().top + prev.outerHeight()/2 ){
-
-                            clone.after( prev );
-
-                            //向下排序
-                        }else if( next.length && top + thisOuterHeight > next.offset().top + next.outerHeight()/2 ){
-
-                            clone.before( next );
-
-                        }
-
-                        /**
-                         * 处理滚动条
-                         * that是带着滚动条的元素，这里默认以为that元素是这样的元素（正常情况就是这样），如果使用者事件委托的元素不是这样的元素，那么需要提供接口出来
-                         */
-                        var thatScrollTop = that.scrollTop(),
-                            thatOffsetTop = that.offset().top,
-                            scrollVal;
-
-                        //向上滚动
-                        if( top < thatOffsetTop ){
-
-                            downSpeed = thisOuterHeight;
-                            upSpeed = ++upSpeed > maxSpeed ? maxSpeed : upSpeed;
-                            scrollVal = thatScrollTop - upSpeed;
-
-                            //向下滚动
-                        }else if( top + thisOuterHeight - thatOffsetTop > thatOuterHeight ){
-
-                            upSpeed = thisOuterHeight;
-                            downSpeed = ++downSpeed > maxSpeed ? maxSpeed : downSpeed;
-                            scrollVal = thatScrollTop + downSpeed;
-                        }
-
-                        that.scrollTop( scrollVal );
-
-                        settings.move.call( THIS );
-
-                    })
-                        .on( 'mouseup.DDSort', function(){
-
-                            $doc.off( 'mousemove.DDSort mouseup.DDSort' );
-
-                            //click的时候也会触发mouseup事件，加上判断阻止这种情况
-                            if( !hasClone ){
-                                clone.before( $this.removeAttr( 'style' ) ).remove();
-                                settings.up.call( THIS );
-                            }
-                        });
-
-                    return false;
-                });
-            });
-        };
-
-    })( jQuery );
-
-</script>
-
-<script>
-
-    $(document).ready(function(){
-
-        var tooltipTriggerList = Array.prototype.slice.call(document.querySelectorAll('[data-bs-toggle="tooltip"]'))
-        var tooltipList = tooltipTriggerList.map(function (tooltipTriggerEl) {
-            return new bootstrap.Tooltip(tooltipTriggerEl)
-        })
-
-        $('.hover-area').mouseenter(function(){
-            //$('.action-btn').fadeIn();
-            $(this).find('.action-btn').show();
-            $(this).css({
-                'height':'72px',
-            })
-        }).mouseleave(function(){
-            $(this).find('.action-btn').hide();
-            //$('.action-btn').fadeOut();
-            $(this).css({
-                'height':'38px',
-            })
-        });
-
-        $('.dir').mouseenter(function(){
-            $(this).find('.dirop').show();
-            $(this).css({
-                'height':'72px',
-            })
-        }).mouseleave(function() {
-            $(this).find('.dirop').hide();
-            $(this).css({
-                'height':'42px',
-            })
-        });
-    });
-
-
-
-    // $( '#wrap' ).DDSort({
-    //     target: 'li',		//示例而用，默认即'li'
-    //     floatStyle: {
-    //         'border': '1px solid #ccc',
-    //         'background-color': '#ddd'
-    //     }
-    // });
-
-    $('#newSort').click(function(){
-        var ulValue = $( '#wrap' ).children();
-        console.log(ulValue)
-        for (var i=0; i<ulValue.length; i++) {
-            var liValue = ulValue[i].children
-            console.log(liValue)
-            for(var j=0; j<liValue.length;j++) {
-                console.log(liValue[j])
-            }
-        }
-    });
-
-    $('.dir-open').click(function (){
+    $(document).on('click', '.dir-open', function() {
         var open = $(this).attr('data-open');
         var dirid = $(this).attr('data-dirid');
         console.log($(this).find('span'))
@@ -472,7 +244,138 @@
         }
     });
 
+    $(document).on('hover', '.docli', function() {
+        $(this).css('background-color', '#f6f6f6');
+    });
+
+    $(document).on('mouseenter', '.hover-area', function() {
+        tooltipInit()
+        $(this).find('.action-btn').show();
+        $(this).css({
+            'height':'72px',
+        })
+    }).on('mouseleave', '.hover-area', function() {
+        $(this).find('.action-btn').hide();
+        //$('.action-btn').fadeOut();
+        $(this).css({
+            'height':'38px',
+        })
+    });
+
+
+    $(document).on('mouseenter', '.dir', function() {
+        $(this).find('.dirop').show();
+        $(this).css({
+            'height':'72px',
+        })
+    }).on('mouseleave', '.dir', function() {
+        $(this).find('.dirop').hide();
+        $(this).css({
+            'height':'42px',
+        })
+    });
+
+
+    $(document).ready(function(){
+
+        $('#newSort').click(function(){
+            var ulValue = $( '#wrap' ).children();
+            console.log(ulValue)
+            for (var i=0; i<ulValue.length; i++) {
+                var liValue = ulValue[i].children
+                console.log(liValue)
+                for(var j=0; j<liValue.length;j++) {
+                    console.log(liValue[j])
+                }
+            }
+        });
+
+        var apiDir = [
+            {
+                "dir":{ "dirid":"sadhisadhuij","name":"目录11111"},
+                "doc":[
+                    {"id":"456", "method": "get", "title": "1111111111"},
+                    {"id":"123", "method": "post", "title": "22222222222"}
+                ]
+            },
+            {
+                "dir":{ "dirid":"asdsad","name":"目录222222"},
+                "doc":[
+                    {"id":"332", "method": "delete", "title": "1111111111"},
+                    {"id":"223", "method": "put", "title": "22222222222"}
+                ]
+            },
+            {
+                "dir":{ "dirid":"asd333","name":"目录33333333"},
+                "doc":[
+                    {"id":"331", "method": "delete", "title": "1111111111"},
+                    {"id":"333", "method": "put", "title": "22222222222"},
+                    {"id":"333", "method": "put", "title": "22222222222"},
+                    {"id":"333", "method": "put", "title": "22222222222"}
+                ]
+            },
+        ]
+
+        const dirDev = function (dirid, name) {
+            return '<div class="dir">\n' +
+                '            <p class="dir-open" data-open="1" data-dirid="'+dirid+'"><span>{{ SVG "folder2-open" 21 21 }}</span>'+name+'</p>\n' +
+                '            <div class="btn-group btn-group-sm dirop" role="group" aria-label="Small button group">\n' +
+                '                <button type="button" class="btn btn-outline-dark" data-bs-toggle="tooltip" data-bs-custom-class="custom-tooltip" data-bs-placement="top" data-bs-title="目录排序">{{ SVG "arrow-down-up" 16 16 }}</button>\n' +
+                '                <button type="button" class="btn btn-outline-dark" data-bs-toggle="tooltip" data-bs-custom-class="custom-tooltip" data-bs-placement="top" data-bs-title="文档排序">{{ SVG "list-ol" 16 16 }}</button>\n' +
+                '                <button type="button" class="btn btn-outline-dark" data-bs-toggle="tooltip" data-bs-custom-class="custom-tooltip" data-bs-placement="top" data-bs-title="新建文档" onclick="newAPIDoc()">{{ SVG "plus-lg" 16 16 }}</button>\n' +
+                '            </div>\n' +
+                '        </div>' +
+                '<ul id="'+dirid+'" class="dir-ul" >' +
+                '</ul>'
+        }
+
+        const docLi = function (id, method, name) {
+            var methodtxt = ""
+            switch (method) {
+                case "get":
+                    methodtxt = '<span class="badge rounded-pill text-bg-success">GET</span>'
+                    break;
+                case "delete":
+                    methodtxt = '<span class="badge rounded-pill text-bg-danger">DELETE</span>'
+                    break;
+                case "post":
+                    methodtxt = '<span class="badge rounded-pill text-bg-info">POST</span>'
+                    break;
+                case "head":
+                    methodtxt = '<span class="badge rounded-pill text-bg-dark">HEAD</span>'
+                    break;
+                case "put":
+                    methodtxt = '<span class="badge rounded-pill text-bg-secondary">PUT</span>'
+                    break;
+                case "options":
+                    methodtxt = '<span class="badge rounded-pill text-bg-light">OPTIONS</span>'
+                    break;
+            }
+            return '<li class="hover-area docli" id="'+id+'">\n' +
+                '                <p>'+methodtxt+name+'</p>\n' +
+                '                <div class="btn-group btn-group-sm action-btn docliop" role="group" aria-label="Small button group">\n' +
+                '                    <button type="button" class="btn btn-outline-dark" data-bs-toggle="tooltip" data-bs-custom-class="custom-tooltip" data-bs-placement="top" data-bs-title="移动">{{ SVG "arrows-move" 16 16 }}</button>\n' +
+                '                    <button type="button" class="btn btn-outline-dark" data-bs-toggle="tooltip" data-bs-custom-class="custom-tooltip" data-bs-placement="top" data-bs-title="编辑">{{ SVG "pencil-square" 16 16 }}</button>\n' +
+                '                    <button type="button" class="btn btn-outline-dark" data-bs-toggle="tooltip" data-bs-custom-class="custom-tooltip" data-bs-placement="top" data-bs-title="分享">{{ SVG "share-fill" 16 16 }}</button>\n' +
+                '                </div>\n' +
+                '            </li>'
+        }
+
+        for(var item in apiDir) {
+            if (apiDir.hasOwnProperty(item)){
+                console.log(item, apiDir[item])
+                var dirid = apiDir[item].dir.dirid;
+                var dirname = apiDir[item].dir.name;
+                var doc = apiDir[item].doc;
+                $("#wrap").append(dirDev(dirid, dirname))
+                for(var li in doc) {
+                    if (doc.hasOwnProperty(li)) {
+                        $("#"+dirid).append(docLi(doc[li].id, doc[li].method, doc[li].title))
+                    }
+                }
+            }
+        }
+    });
+
 </script>
-
-
 {{ template "end" . }}

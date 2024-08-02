@@ -240,12 +240,8 @@ type Smtp struct {
 
 // InitConf 读取yaml文件 获取配置, 常用于 func init() 中
 func InitConf(path string) {
-	confFileName := "app.yaml"
 	workPath, _ := os.Getwd()
-	if os.Getenv("RUNMODE") != "" {
-		confFileName = os.Getenv("RUNMODE") + ".yaml"
-	}
-	appConfigPath := filepath.Join(workPath, path, confFileName)
+	appConfigPath := filepath.Join(workPath, path)
 	if !utils.FileExists(appConfigPath) {
 		panic("【启动失败】 未找到配置文件!" + appConfigPath)
 	}

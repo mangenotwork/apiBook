@@ -17,6 +17,7 @@ func AuthPG() gin.HandlerFunc {
 
 		j := utils.NewJWT(conf.Conf.Default.Jwt.Secret, conf.Conf.Default.Jwt.Expire)
 		if err := j.ParseToken(token); err == nil {
+			c.Set("userAcc", j.GetString("userAcc"))
 			c.Next()
 			return
 		}
@@ -35,6 +36,7 @@ func AuthAPI() gin.HandlerFunc {
 
 		j := utils.NewJWT(conf.Conf.Default.Jwt.Secret, conf.Conf.Default.Jwt.Expire)
 		if err := j.ParseToken(token); err == nil {
+			c.Set("userAcc", j.GetString("userAcc"))
 			c.Next()
 			return
 		}

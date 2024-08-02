@@ -8,6 +8,7 @@ import (
 	"apiBook/internal/routers"
 	"context"
 	"errors"
+	"flag"
 	"fmt"
 	"github.com/gin-gonic/gin"
 	"io"
@@ -20,16 +21,22 @@ import (
 
 func main() {
 
-	conf.InitConf("./conf/")
+	// 读取配置文件与初始化本地数据文件
+	var confPath string
+	flag.StringVar(&confPath, "c", "./conf/app.yaml", "配置文件路径")
+	flag.Parse()
+	conf.InitConf(confPath)
 	db.Init()
 
-	gin.SetMode(gin.ReleaseMode)
-	gin.DefaultWriter = io.Discard
-	routers.Router = gin.New()
-
-	// 初始化全局变量
+	// 全局变量初始化
 	define.CsrfAuthKey, _ = conf.YamlGetString("csrfAuthKey")
 	define.CsrfName, _ = conf.YamlGetString("csrfName")
+
+	// 初始化gin框架
+	//gin.SetMode(gin.ReleaseMode)
+	gin.SetMode(gin.DebugMode)
+	gin.DefaultWriter = io.Discard
+	routers.Router = gin.New()
 
 	srv := &http.Server{
 		Addr:           fmt.Sprintf(":%s", conf.Conf.Default.HttpServer.Prod),

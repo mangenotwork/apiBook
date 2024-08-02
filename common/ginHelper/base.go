@@ -2,7 +2,9 @@ package ginHelper
 
 import (
 	"github.com/gin-gonic/gin"
+	"net"
 	"net/http"
+	"strings"
 	"time"
 )
 
@@ -86,4 +88,21 @@ func TokenInvalidOut(c *gin.Context) {
 // GetPostArgs 获取参数
 func GetPostArgs(c *gin.Context, obj interface{}) error {
 	return c.BindJSON(obj)
+}
+
+func GetIP(r *http.Request) (ip string) {
+	for _, ip := range strings.Split(r.Header.Get("X-Forward-For"), ",") {
+		if net.ParseIP(ip) != nil {
+			return ip
+		}
+	}
+	if ip = r.Header.Get("X-Real-IP"); net.ParseIP(ip) != nil {
+		return ip
+	}
+	if ip, _, err := net.SplitHostPort(r.RemoteAddr); err == nil {
+		if net.ParseIP(ip) != nil {
+			return ip
+		}
+	}
+	return "0.0.0.0"
 }

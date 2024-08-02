@@ -213,6 +213,35 @@ func Panic(args ...interface{}) {
 	panic(args)
 }
 
+func (l *logger) HttpLog(level Level, args string, times int) {
+	var buffer bytes.Buffer
+	buffer.WriteString(time.Now().Format("2006-01-02 15:04:05.000 "))
+	buffer.WriteString(LevelMap[level])
+	buffer.WriteString(" \t| ")
+	buffer.WriteString(args)
+	buffer.WriteString("\n")
+	out := buffer.Bytes()
+	if l.terminal {
+		_, _ = buffer.WriteTo(os.Stdout)
+	}
+	// 输出到文件或远程日志服务
+	if l.outFile {
+		_, _ = l.outFileWriter.Write(out)
+	}
+	if l.outService {
+		for _, v := range l.outServiceLevel {
+			if Level(v) == level {
+				out = append([]byte("1"+l.appName+"|"), out...)
+				_, _ = l.outServiceConn.Write(out)
+			}
+		}
+	}
+}
+
 func HttpInfo(args ...interface{}) {
-	std.Log(6, fmt.Sprint(args...), -1)
+	std.HttpLog(6, fmt.Sprint(args...), -1)
+}
+
+func HttpInfoF(format string, args ...interface{}) {
+	std.HttpLog(6, fmt.Sprintf(format, args...), 2)
 }

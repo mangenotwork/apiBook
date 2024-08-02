@@ -57,9 +57,9 @@ func SetAdmin(ctx *gin.Context) {
 	return
 }
 
-func setToken(ctx *gin.Context, userId string) {
+func setToken(ctx *gin.Context, userAcc string) {
 	j := utils.NewJWT(conf.Conf.Default.Jwt.Secret, conf.Conf.Default.Jwt.Expire)
-	j.AddClaims("userId", userId)
+	j.AddClaims("userAcc", userAcc)
 
 	token, tokenErr := j.Token()
 	if tokenErr != nil {

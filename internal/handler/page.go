@@ -1,6 +1,7 @@
 package handler
 
 import (
+	"apiBook/common/log"
 	"apiBook/common/utils"
 	"apiBook/internal/dao"
 	"apiBook/internal/define"
@@ -76,6 +77,9 @@ func LoginPage(ctx *gin.Context) {
 }
 
 func Home(ctx *gin.Context) {
+	userAcc := ctx.GetString("userAcc")
+	log.Info(userAcc)
+
 	ctx.HTML(
 		http.StatusOK,
 		"home.html",

@@ -1,12 +1,15 @@
 package routers
 
 import (
+	"apiBook/common/ginHelper"
+	"apiBook/common/log"
 	"apiBook/internal/define"
 	"apiBook/internal/handler"
 	"github.com/gorilla/csrf"
 	adapter "github.com/gwatts/gin-adapter"
 	"html/template"
 	"net/http"
+	"time"
 
 	"github.com/gin-contrib/gzip"
 	"github.com/gin-gonic/gin"
@@ -17,7 +20,7 @@ var (
 )
 
 func Routers() *gin.Engine {
-	Router.Use(gzip.Gzip(gzip.DefaultCompression))
+	Router.Use(gzip.Gzip(gzip.DefaultCompression), Base())
 	Router.StaticFS("/js", http.Dir("./assets/js"))
 	Router.StaticFS("/css", http.Dir("./assets/css"))
 	Router.StaticFS("/images", http.Dir("./assets/images"))
@@ -33,6 +36,56 @@ func Routers() *gin.Engine {
 	User()     // 用户相关
 	Admin()    // 管理员
 	return Router
+}
+
+// Base  拦截器，限流，记录， 商户，认证等等
+func Base() gin.HandlerFunc {
+	return func(ctx *gin.Context) {
+
+		startTime := time.Now()
+		// 设置请求端ip
+		setIP(ctx)
+		// 全局多语言语种
+		ctx.Set(ginHelper.Lang, ctx.GetHeader(ginHelper.Lang))
+		// 全局来源
+		ctx.Set(ginHelper.Source, ctx.GetHeader(ginHelper.Source))
+
+		ctx.Next()
+
+		// 记录请求
+		reqLog(ctx, startTime)
+
+	}
+}
+
+func setIP(ctx *gin.Context) {
+	ctx.Set(ginHelper.ReqIP, ginHelper.GetIP(ctx.Request))
+}
+
+func reqLog(ctx *gin.Context, startTime time.Time) {
+	endTime := time.Now()
+	latencyTime := endTime.Sub(startTime)
+	reqMethod := ctx.Request.Method
+	reqUri := ctx.Request.RequestURI
+	statusCode := ctx.Writer.Status()
+	clientIP := ctx.ClientIP()
+
+	// 大于300ms的接口需要记录
+	if latencyTime.Milliseconds() > 300 {
+		log.WarnF(" %3d | %13v | %15s | %s | %s | >>> 慢接口，请优化!!!",
+			statusCode,
+			latencyTime,
+			clientIP,
+			reqMethod,
+			reqUri)
+	} else {
+		log.HttpInfoF(" %10v | %10s | %s:%d | %s ",
+			latencyTime,
+			clientIP,
+			reqMethod,
+			statusCode,
+			reqUri)
+	}
 }
 
 func CSRFMiddleware() gin.HandlerFunc {
