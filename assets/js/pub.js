@@ -168,3 +168,18 @@ function tooltipInit() {
         return new bootstrap.Tooltip(tooltipTriggerEl)
     })
 }
+
+function getJsonPaths(json, currentPath = '') {
+    let paths = [];
+    function traverse(obj, path) {
+        Object.keys(obj).forEach(key => {
+            const newPath = path + (path === '' ? '' : '.') + key;
+            paths.push(newPath);
+            if (typeof obj[key] === 'object' && obj[key] !== null && !Array.isArray(obj[key])) {
+                traverse(obj[key], newPath);
+            }
+      });
+    }
+    traverse(json, currentPath);
+    return paths;
+}

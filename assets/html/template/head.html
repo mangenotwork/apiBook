@@ -7,7 +7,7 @@
     <link rel="icon" href="">
     <title>{{ .Title }}</title>
     <link href="/css/bootstrap.min.css?v={{ .TimeStamp }}" rel="stylesheet">
-
+    <link href="/css/jsoneditor.css?v={{ .TimeStamp }}" rel="stylesheet">
     <style>
         #wrap{
             width: 100%;
@@ -43,12 +43,13 @@
             padding: 8px;
             background-color: #c6c6c6;
             cursor: pointer;
+            border: 1px solid #e0e0e0;
         }
         .dir:hover {
             background-color: #f6f6f6;
         }
         .dir-ul {
-            display: block;
+            display: none;
         }
         .hover-area {
             height: 38px;
@@ -122,6 +123,38 @@
         }
         .docliop button {
             padding: 2px 4px 2px 4px;
+        }
+        .jsoneditor-format {
+            display: none;
+        }
+        .jsoneditor-compact {
+            display: none;
+        }
+        .jsoneditor-sort {
+            display: none;
+        }
+        .jsoneditor-repair{
+            display: none;
+        }
+        .jsoneditor-transform{
+            display: none;
+        }
+        .jsoneditor-contextmenu-button{
+            display: none;
+        }
+        .jsoneditor-search{
+            margin-left: 36px;
+            position: static;
+        }
+        .jsonzs{
+            margin-left: 16px;color: red;
+        }
+        .jsoneditor-menu{
+            background-color: #1a1a1a;
+            border-bottom: 1px solid #d0d0d0;
+        }
+        .jsoneditor{
+            border: thin solid #d0d0d0;
         }
     </style>
 </head>
