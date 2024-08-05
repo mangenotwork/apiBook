@@ -10,8 +10,9 @@ import (
 )
 
 var (
-	DB     *LocalDB
-	ISNULL = fmt.Errorf("ISNULL")
+	DB            *LocalDB
+	ISNULL        = fmt.Errorf("ISNULL")
+	TableNotFound = fmt.Errorf("table notfound")
 )
 
 type LocalDB struct {
@@ -81,14 +82,9 @@ func (ldb *LocalDB) Get(table, key string, data interface{}) error {
 		_ = ldb.Conn.Close()
 	}()
 	return ldb.Conn.View(func(tx *bolt.Tx) error {
-	R:
 		b := tx.Bucket([]byte(table))
 		if b == nil {
-			err := ldb.ClearTable(table)
-			if err != nil {
-				return err
-			}
-			goto R
+			return TableNotFound
 		}
 		bt := b.Get([]byte(key))
 		if len(bt) < 1 {
@@ -118,7 +114,7 @@ func (ldb *LocalDB) Set(table, key string, data interface{}) error {
 	R:
 		b := tx.Bucket([]byte(table))
 		if b == nil {
-			err = ldb.ClearTable(table)
+			_, err = tx.CreateBucket([]byte(table))
 			if err != nil {
 				return err
 			}
@@ -184,4 +180,28 @@ func (ldb *LocalDB) Stats(table string) (bolt.BucketStats, error) {
 	})
 
 	return stats, err
+}
+
+func (ldb *LocalDB) AllKey(table string) ([]string, error) {
+	keys := make([]string, 0)
+
+	ldb.Open()
+
+	defer func() {
+		_ = ldb.Conn.Close()
+	}()
+
+	err := ldb.Conn.View(func(tx *bolt.Tx) error {
+		b := tx.Bucket([]byte(table))
+		if b == nil {
+			return TableNotFound
+		}
+
+		c := b.Cursor()
+		for k, _ := c.First(); k != nil; k, _ = c.Next() {
+			keys = append(keys, string(k))
+		}
+		return nil
+	})
+	return keys, err
 }

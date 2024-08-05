@@ -10,6 +10,52 @@
     function addProject() {
         $('#addProjectModal').modal('show');
     }
+
+    const dirDev = function (dirid, name) {
+        return '<div class="dir">\n' +
+            '            <p class="dir-open" data-open="0" data-dirid="'+dirid+'"><span>{{ SVG "folder" 21 21 }}</span>'+name+'</p>\n' +
+            '            <div class="btn-group btn-group-sm dirop" role="group" aria-label="Small button group">\n' +
+            '                <button type="button" class="btn btn-outline-dark" data-bs-toggle="tooltip" data-bs-custom-class="custom-tooltip" data-bs-placement="top" data-bs-title="目录排序">{{ SVG "arrow-down-up" 16 16 }}</button>\n' +
+            '                <button type="button" class="btn btn-outline-dark" data-bs-toggle="tooltip" data-bs-custom-class="custom-tooltip" data-bs-placement="top" data-bs-title="文档排序">{{ SVG "list-ol" 16 16 }}</button>\n' +
+            '                <button type="button" class="btn btn-outline-dark" data-bs-toggle="tooltip" data-bs-custom-class="custom-tooltip" data-bs-placement="top" data-bs-title="新建文档" onclick="newAPIDoc()">{{ SVG "plus-lg" 16 16 }}</button>\n' +
+            '            </div>\n' +
+            '        </div>' +
+            '<ul id="'+dirid+'" class="dir-ul" >' +
+            '</ul>'
+    }
+
+    const docLi = function (id, method, name) {
+        var methodtxt = ""
+        switch (method) {
+            case "get":
+                methodtxt = '<span class="badge rounded-pill text-bg-success">GET</span>'
+                break;
+            case "delete":
+                methodtxt = '<span class="badge rounded-pill text-bg-danger">DELETE</span>'
+                break;
+            case "post":
+                methodtxt = '<span class="badge rounded-pill text-bg-info">POST</span>'
+                break;
+            case "head":
+                methodtxt = '<span class="badge rounded-pill text-bg-dark">HEAD</span>'
+                break;
+            case "put":
+                methodtxt = '<span class="badge rounded-pill text-bg-secondary">PUT</span>'
+                break;
+            case "options":
+                methodtxt = '<span class="badge rounded-pill text-bg-light">OPTIONS</span>'
+                break;
+        }
+        return '<li class="hover-area docli" id="'+id+'">\n' +
+            '                <p>'+methodtxt+name+'</p>\n' +
+            '                <div class="btn-group btn-group-sm action-btn docliop" role="group" aria-label="Small button group">\n' +
+            '                    <button type="button" class="btn btn-outline-dark" data-bs-toggle="tooltip" data-bs-custom-class="custom-tooltip" data-bs-placement="top" data-bs-title="移动">{{ SVG "arrows-move" 16 16 }}</button>\n' +
+            '                    <button type="button" class="btn btn-outline-dark" data-bs-toggle="tooltip" data-bs-custom-class="custom-tooltip" data-bs-placement="top" data-bs-title="编辑">{{ SVG "pencil-square" 16 16 }}</button>\n' +
+            '                    <button type="button" class="btn btn-outline-dark" data-bs-toggle="tooltip" data-bs-custom-class="custom-tooltip" data-bs-placement="top" data-bs-title="分享">{{ SVG "share-fill" 16 16 }}</button>\n' +
+            '                </div>\n' +
+            '            </li>'
+    }
+
 </script>
 <script type="text/javascript" src="/js/pub.js?v={{ .TimeStamp }}"></script>
 {{ end }}

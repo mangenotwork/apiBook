@@ -1,12 +1,14 @@
 package entity
 
+import "apiBook/internal/define"
+
 type Project struct {
-	ProjectId    string `json:"projectId"`
-	Name         string `json:"name"`        // 项目名
-	Description  string `json:"description"` // 项目简述
-	CreateUserId string `json:"CreateUserId"`
-	CreateDate   string `json:"createDate"` // 创建时间
-	Private      int    `json:"private"`    // 1:私有  0:公有(所有人可见)
+	ProjectId     string                    `json:"projectId"`
+	Name          string                    `json:"name"`        // 项目名
+	Description   string                    `json:"description"` // 项目简述
+	CreateUserAcc string                    `json:"CreateUserAcc"`
+	CreateDate    string                    `json:"createDate"` // 创建时间
+	Private       define.ProjectPrivateCode `json:"private"`    // 1:公有(所有人可见)  2:私有
 }
 
 type ProjectProperty struct {

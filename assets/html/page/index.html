@@ -39,19 +39,17 @@
                     <a class="nav-link active" href="#" style="width: 200px;">[Get] xxxxxxxxxxxx <span style="float: right;cursor: pointer;">{{ SVG "x-square-fill" 16 16 }}</span></a>
                   </li>
               </ul>
-              <div id="doc" style="width: 100%; height: calc(100vh - 188px);background-color: #ffffff;overflow: auto;padding: 16px;position: relative;">
+              <div id="doc" style="width: 100%; height: calc(100vh - 136px);background-color: #ffffff;overflow: auto;padding: 16px;position: relative;">
 
                 <div class="row">
                     
                     <div class="col-10">
-                      <div data-bs-spy="scroll" data-bs-target="#simple-list-example" data-bs-offset="0" data-bs-smooth-scroll="true" class="scrollspy-example" style="height: calc(100vh - 200px);
-                        margin-top: .5rem;
-                        overflow: auto" tabindex="0">
+                      <div data-bs-spy="scroll" data-bs-target="#simple-list-example" data-bs-offset="0" data-bs-smooth-scroll="true" class="scrollspy-example" style="margin-top: .5rem;overflow: auto" tabindex="0">
                         <div style="margin-bottom: 48px;margin-top: 36px;">
                             <h4 id="simple-list-item-1" style="margin-bottom: 16px;">基本信息</h4>
                             <div class="card">
                                 <div class="card-body">
-                            <ul >
+                            <ul>
                                 <li style="padding: 8px;"><span style="font-size: 16px;">接口名:</span><span style="font-size: 21px;margin-left: 16px;"> asdasdaasdasdsadasdasdas</span></li>
                                 <li style="padding: 8px;"><span style="font-size: 16px;">接口Url: </span><span style="font-size: 21px;margin-left: 16px;"><span class="badge rounded-pill text-bg-success" style="margin-right: 8px;">GET</span> asdasdaasdasdsadasdasdas</span></li>
                                 <li style="padding: 8px;">操作： <div class="btn-group" role="group" aria-label="Basic outlined example" style="margin-left: 16px;">
@@ -59,6 +57,7 @@
                                     <button type="button" class="btn btn-outline-dark">请求</button>
                                     <button type="button" class="btn btn-outline-dark">分享</button>
                                     <button type="button" class="btn btn-outline-dark">Mock</button>
+                                    <a type="button" class="btn btn-outline-dark" href="https://www.zhaozhongtian.top" target="_blank">在线工具</a>
                                   </div></li>
                             </ul>
                             </div>
@@ -173,12 +172,11 @@
 
                   </div>
 
-
               </div>
         </div>
 
-
         {{ template "add_project" .}}
+        {[ template "toast" . ]}
 
 <!-- 创建接口文档 Modal -->
 <div class="modal fade" id="apiDocModal" tabindex="-1" aria-labelledby="apiDocModalLabel" aria-hidden="true">
@@ -300,51 +298,6 @@
             },
         ]
 
-        const dirDev = function (dirid, name) {
-            return '<div class="dir">\n' +
-                '            <p class="dir-open" data-open="0" data-dirid="'+dirid+'"><span>{{ SVG "folder" 21 21 }}</span>'+name+'</p>\n' +
-                '            <div class="btn-group btn-group-sm dirop" role="group" aria-label="Small button group">\n' +
-                '                <button type="button" class="btn btn-outline-dark" data-bs-toggle="tooltip" data-bs-custom-class="custom-tooltip" data-bs-placement="top" data-bs-title="目录排序">{{ SVG "arrow-down-up" 16 16 }}</button>\n' +
-                '                <button type="button" class="btn btn-outline-dark" data-bs-toggle="tooltip" data-bs-custom-class="custom-tooltip" data-bs-placement="top" data-bs-title="文档排序">{{ SVG "list-ol" 16 16 }}</button>\n' +
-                '                <button type="button" class="btn btn-outline-dark" data-bs-toggle="tooltip" data-bs-custom-class="custom-tooltip" data-bs-placement="top" data-bs-title="新建文档" onclick="newAPIDoc()">{{ SVG "plus-lg" 16 16 }}</button>\n' +
-                '            </div>\n' +
-                '        </div>' +
-                '<ul id="'+dirid+'" class="dir-ul" >' +
-                '</ul>'
-        }
-
-        const docLi = function (id, method, name) {
-            var methodtxt = ""
-            switch (method) {
-                case "get":
-                    methodtxt = '<span class="badge rounded-pill text-bg-success">GET</span>'
-                    break;
-                case "delete":
-                    methodtxt = '<span class="badge rounded-pill text-bg-danger">DELETE</span>'
-                    break;
-                case "post":
-                    methodtxt = '<span class="badge rounded-pill text-bg-info">POST</span>'
-                    break;
-                case "head":
-                    methodtxt = '<span class="badge rounded-pill text-bg-dark">HEAD</span>'
-                    break;
-                case "put":
-                    methodtxt = '<span class="badge rounded-pill text-bg-secondary">PUT</span>'
-                    break;
-                case "options":
-                    methodtxt = '<span class="badge rounded-pill text-bg-light">OPTIONS</span>'
-                    break;
-            }
-            return '<li class="hover-area docli" id="'+id+'">\n' +
-                '                <p>'+methodtxt+name+'</p>\n' +
-                '                <div class="btn-group btn-group-sm action-btn docliop" role="group" aria-label="Small button group">\n' +
-                '                    <button type="button" class="btn btn-outline-dark" data-bs-toggle="tooltip" data-bs-custom-class="custom-tooltip" data-bs-placement="top" data-bs-title="移动">{{ SVG "arrows-move" 16 16 }}</button>\n' +
-                '                    <button type="button" class="btn btn-outline-dark" data-bs-toggle="tooltip" data-bs-custom-class="custom-tooltip" data-bs-placement="top" data-bs-title="编辑">{{ SVG "pencil-square" 16 16 }}</button>\n' +
-                '                    <button type="button" class="btn btn-outline-dark" data-bs-toggle="tooltip" data-bs-custom-class="custom-tooltip" data-bs-placement="top" data-bs-title="分享">{{ SVG "share-fill" 16 16 }}</button>\n' +
-                '                </div>\n' +
-                '            </li>'
-        }
-
         for(var item in apiDir) {
             if (apiDir.hasOwnProperty(item)){
                 var dirid = apiDir[item].dir.dirid;
@@ -388,7 +341,6 @@
         }
         editor.set(initialJson)
         editor.expandAll()
-        
 
         var zs = {
             "jsonpath:Array":"adasdasdasd",
@@ -399,7 +351,6 @@
             "jsonpath:String": "Hasdello234324 sda2Worsdadld",
             "jsonpath:axccc,cccc,vvv,eee": "asdasd1111111111111111"
         }
-       
 
         // get json
         const updatedJson = editor.get()
@@ -412,9 +363,6 @@
             $(this).parent().parent().append('<td style="padding-left: 16px;color: red;font-size:12px;"> /* '+zs[$(this).prop("id")]+' */</td>')
         }
        })
-       
-    
-       
 
     });
 

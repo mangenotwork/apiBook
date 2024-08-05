@@ -119,6 +119,7 @@ func Login() {
 	login.POST("/set/admin", handler.SetAdmin)
 	login.POST("/login", handler.Login)
 	login.GET("/out", handler.Out)
+	login.GET("/clear/project", handler.ClearData)
 }
 
 func Page() {
@@ -132,13 +133,13 @@ func Page() {
 
 func Project() {
 	project := Router.Group("/project")
-	//project.Use(AuthAPI())
+	project.Use(AuthAPI())
 	project.GET("/list", handler.ProjectList)        // 项目列表
 	project.GET("/item", handler.ProjectItem)        // 项目详情
 	project.POST("/create", handler.ProjectCreate)   // 创建项目
 	project.POST("/modify", handler.ProjectModify)   // 修改项目
 	project.POST("/delete", handler.ProjectDelete)   // 删除项目
-	project.POST("/users", handler.ProjectUsers)     // 项目协作人员列表
+	project.GET("/users", handler.ProjectUsers)      // 项目协作人员列表
 	project.POST("/adduser", handler.ProjectAddUser) // 项目添加协助人员
 }
 
@@ -160,7 +161,7 @@ func Document() {
 func User() {
 	user := Router.Group("/user")
 	user.Use(AuthAPI())
-	user.GET("/info", handler.UserInfo)                      // 获取用户信息
+	user.GET("/info", handler.GetUserInfo)                   // 获取用户信息
 	user.POST("/modify", handler.UserModify)                 // 修改用户信息
 	user.POST("/reset/password ", handler.UserResetPassword) // 重置用户密码
 	user.GET("/list", handler.UserList)                      // 获取所有用户列表

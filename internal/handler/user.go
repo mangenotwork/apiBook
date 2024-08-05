@@ -2,6 +2,7 @@ package handler
 
 import (
 	"apiBook/common/conf"
+	"apiBook/common/db"
 	"apiBook/common/log"
 	"apiBook/common/utils"
 	"apiBook/internal/dao"
@@ -104,7 +105,14 @@ func Out(ctx *gin.Context) {
 	ctx.Redirect(http.StatusFound, "/")
 }
 
-func UserInfo(c *gin.Context) {
+func ClearData(ctx *gin.Context) {
+	for _, v := range db.Tables {
+		_ = db.DB.ClearTable(v)
+	}
+	ctx.String(http.StatusFound, "ok")
+}
+
+func GetUserInfo(c *gin.Context) {
 }
 
 func UserModify(c *gin.Context) {

@@ -183,3 +183,73 @@ function getJsonPaths(json, currentPath = '') {
     traverse(json, currentPath);
     return paths;
 }
+
+function AjaxGet(url, func) {
+    $.ajax({
+        type: "get",
+        url: url,
+        data: "",
+        dataType: 'json',
+        async: true,
+        success: function(data){
+            func(data);
+        },
+        error: function(xhr,textStatus) {
+            console.log(xhr, textStatus);
+        }
+    });
+}
+
+function AjaxGetNotAsync(url, func) {
+    $.ajax({
+        type: "get",
+        url: url,
+        data: "",
+        dataType: 'json',
+        async: false,
+        success: function(data){
+            func(data);
+        },
+        error: function(xhr,textStatus) {
+            console.log(xhr, textStatus);
+        }
+    });
+}
+
+function AjaxPost(url, param, func) {
+    $.ajax({
+        type: "post",
+        url: url,
+        data: JSON.stringify(param),
+        dataType: 'json',
+        async: true,
+        success: function(data){
+            func(data);
+        },
+        error: function(xhr,textStatus) {
+            console.log(xhr, textStatus);
+        }
+    });
+}
+
+function ToastShow(msg) {
+    const toastLiveExample = $('#liveToast')
+    const toast = new bootstrap.Toast(toastLiveExample)
+    $("#liveToastMsg").empty(msg);
+    $("#liveToastMsg").append(msg);
+    toast.show()
+}
+
+// 创建项目
+function ProjectCreate() {
+    const url = "/project/create"
+    var param = {
+        "name": $("#projectName").val(),
+        "description": $("#projectDescription").val(),
+        "private": Number($("#projectPrivate").val()),
+    }
+    AjaxPost(url, param, function (data){
+        ToastShow(data.msg);
+        //$("#setAlertModal").modal('toggle');
+    })
+}

@@ -18,3 +18,11 @@ var (
 	CsrfAuthKey = ""
 	CsrfName    = ""
 )
+
+type ProjectPrivateCode int
+
+const (
+	ProjectNone    ProjectPrivateCode = iota
+	ProjectPublic                     // 公有
+	ProjectPrivate                    // 私有
+)

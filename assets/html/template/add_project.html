@@ -11,23 +11,23 @@
                 <div style="margin-bottom: 18px">{{ InputModule "text" "projectName" "" "projectName" "项目名"}}</div>
 
                 <div class="form-floating" style="margin-bottom: 18px;">
-                    <textarea class="form-control" placeholder="Leave a comment here" id="floatingTextarea2" style="height: 100px"></textarea>
-                    <label for="floatingTextarea2">项目描述</label>
+                    <textarea class="form-control" placeholder="Leave a comment here" id="projectDescription" style="height: 100px"></textarea>
+                    <label for="projectDescription">项目描述</label>
                 </div>
 
                 <div class="form-floating" style="margin-bottom: 18px;">
-                    <select class="form-select" id="floatingSelectGrid">
+                    <select class="form-select" id="projectPrivate">
                         <option value="1" style="font-size: 18px;">公有</option>
                         <option value="2" style="font-size: 18px;">私有</option>
                     </select>
-                    <label for="floatingSelectGrid">设置项目隐私性</label>
+                    <label for="projectPrivate">设置项目隐私性</label>
                     <span style="color: #6c757d;font-size: 12px;">注意: 如设置为私有，添加协作人员在创建项目之后【项目设置】中操作。</span>
                 </div>
 
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">取消</button>
-                <button type="button" class="btn btn-primary">提交</button>
+                <button type="button" class="btn btn-primary" onclick="ProjectCreate()">提交</button>
             </div>
         </div>
     </div>
