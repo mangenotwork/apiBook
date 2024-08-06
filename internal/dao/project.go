@@ -172,3 +172,47 @@ func (dao *ProjectDao) GetUserList(pid, userAcc string) ([]string, error) {
 
 	return resp, nil
 }
+
+func (dao *ProjectDao) AddUser(pid, userAcc, addAcc string) error {
+	data, err := dao.Get(pid, userAcc)
+	if err != nil {
+		log.Error(err)
+		return err
+	}
+
+	if data.Private == define.ProjectPublic {
+		return fmt.Errorf("公有项目无需添加协助者")
+	}
+
+	err = db.DB.Set(fmt.Sprintf(db.UserPrivateProjectTable, addAcc), data.ProjectId, 1)
+	if err != nil {
+		return err
+	}
+
+	err = db.DB.Set(fmt.Sprintf(db.ProjectPrivateUserTable, data.ProjectId), addAcc, 1)
+	if err != nil {
+		return err
+	}
+
+	return nil
+}
+
+func (dao *ProjectDao) DelUser(pid, userAcc, delAcc string) error {
+	data, err := dao.Get(pid, userAcc)
+	if err != nil {
+		log.Error(err)
+		return err
+	}
+
+	err = db.DB.Delete(fmt.Sprintf(db.UserPrivateProjectTable, delAcc), data.ProjectId)
+	if err != nil {
+		log.Error(err)
+	}
+
+	err = db.DB.Delete(fmt.Sprintf(db.ProjectPrivateUserTable, data.ProjectId), delAcc)
+	if err != nil {
+		log.Error(err)
+	}
+
+	return nil
+}

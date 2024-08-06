@@ -3,11 +3,13 @@ package handler
 import (
 	"apiBook/common/conf"
 	"apiBook/common/db"
+	"apiBook/common/ginHelper"
 	"apiBook/common/log"
 	"apiBook/common/utils"
 	"apiBook/internal/dao"
 	"apiBook/internal/define"
 	"apiBook/internal/entity"
+	"fmt"
 	"github.com/gin-gonic/gin"
 	"net/http"
 	"time"
@@ -113,13 +115,97 @@ func ClearData(ctx *gin.Context) {
 }
 
 func GetUserInfo(c *gin.Context) {
+	ctx := ginHelper.NewGinCtx(c)
+	acc := ctx.Query("acc")
+
+	data, err := dao.NewUserDao().Get(acc)
+	if err != nil {
+		ctx.APIOutPutError(fmt.Errorf("未获取到用户信息"), "未获取到用户信息")
+		return
+	}
+
+	resp := &UserInfo{
+		Name:       data.Name,
+		Account:    data.Account,
+		CreateTime: data.CreateTime,
+		IsDisable:  data.IsDisable,
+	}
+
+	ctx.APIOutPut(resp, "")
+	return
 }
 
 func UserModify(c *gin.Context) {
+	ctx := ginHelper.NewGinCtx(c)
+	param := &UserModifyReq{}
+	err := ctx.GetPostArgs(&param)
+	if err != nil {
+		ctx.APIOutPutError(fmt.Errorf("参数错误"), "参数错误")
+		return
+	}
+
+	userAcc := ctx.GetString("userAcc")
+	if userAcc == "" {
+		ctx.AuthErrorOut()
+		return
+	}
+
+	err = dao.NewUserDao().Modify(userAcc, param.Name)
+	if err != nil {
+		ctx.APIOutPutError(err, "修改用户信息失败")
+		return
+	}
+
+	ctx.APIOutPut("修改用户信息成功", "修改用户信息成功")
+	return
 }
 
 func UserResetPassword(c *gin.Context) {
+	ctx := ginHelper.NewGinCtx(c)
+	param := &UserResetPasswordReq{}
+	err := ctx.GetPostArgs(&param)
+	if err != nil {
+		ctx.APIOutPutError(fmt.Errorf("参数错误"), "参数错误")
+		return
+	}
+
+	userAcc := ctx.GetString("userAcc")
+	if userAcc == "" {
+		ctx.AuthErrorOut()
+		return
+	}
+
+	if param.Password != param.Password2 {
+		ctx.APIOutPutError(fmt.Errorf("两次密码不一致"), "两次密码不一致")
+		return
+	}
+
+	err = dao.NewUserDao().ResetPassword(userAcc, param.Password)
+	if err != nil {
+		ctx.APIOutPutError(err, "修改密码失败")
+		return
+	}
+
+	ctx.APIOutPut("修改密码成功", "修改密码成功")
+	return
 }
 
 func UserList(c *gin.Context) {
+	ctx := ginHelper.NewGinCtx(c)
+
+	list := dao.NewUserDao().GetAllUser()
+
+	resp := make([]*UserInfo, 0)
+
+	for _, v := range list {
+		resp = append(resp, &UserInfo{
+			Name:       v.Name,
+			Account:    v.Account,
+			CreateTime: v.CreateTime,
+			IsDisable:  v.IsDisable,
+		})
+	}
+
+	ctx.APIOutPut(resp, "")
+	return
 }

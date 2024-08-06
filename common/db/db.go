@@ -205,3 +205,28 @@ func (ldb *LocalDB) AllKey(table string) ([]string, error) {
 	})
 	return keys, err
 }
+
+func (ldb *LocalDB) GetAll(table string) ([][]byte, error) {
+	result := make([][]byte, 0)
+
+	ldb.Open()
+
+	defer func() {
+		_ = ldb.Conn.Close()
+	}()
+
+	err := ldb.Conn.View(func(tx *bolt.Tx) error {
+		b := tx.Bucket([]byte(table))
+		if b == nil {
+			return TableNotFound
+		}
+
+		return b.ForEach(func(k, v []byte) error {
+			result = append(result, v)
+			return nil
+		})
+
+	})
+
+	return result, err
+}

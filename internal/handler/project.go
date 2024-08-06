@@ -61,6 +61,9 @@ func ProjectCreate(c *gin.Context) {
 		return
 	}
 
+	// todo 创建默认目录
+	// todo 创建回收站目录
+
 	ctx.APIOutPut("创建成功", "创建成功")
 	return
 }
@@ -154,5 +157,51 @@ func ProjectUsers(c *gin.Context) {
 }
 
 func ProjectAddUser(c *gin.Context) {
+	ctx := ginHelper.NewGinCtx(c)
+	param := &ProjectAddUserReq{}
+	err := ctx.GetPostArgs(&param)
+	if err != nil {
+		ctx.APIOutPutError(fmt.Errorf("参数错误"), "参数错误")
+		return
+	}
 
+	userAcc := ctx.GetString("userAcc")
+	if userAcc == "" {
+		ctx.AuthErrorOut()
+		return
+	}
+
+	err = dao.NewProjectDao().AddUser(param.PId, userAcc, param.Account)
+	if err != nil {
+		ctx.APIOutPutError(err, err.Error())
+		return
+	}
+
+	ctx.APIOutPut("添加协作者成功", "添加协作者成功")
+	return
+}
+
+func ProjectDelUser(c *gin.Context) {
+	ctx := ginHelper.NewGinCtx(c)
+	param := &ProjectAddUserReq{}
+	err := ctx.GetPostArgs(&param)
+	if err != nil {
+		ctx.APIOutPutError(fmt.Errorf("参数错误"), "参数错误")
+		return
+	}
+
+	userAcc := ctx.GetString("userAcc")
+	if userAcc == "" {
+		ctx.AuthErrorOut()
+		return
+	}
+
+	err = dao.NewProjectDao().DelUser(param.PId, userAcc, param.Account)
+	if err != nil {
+		ctx.APIOutPutError(err, err.Error())
+		return
+	}
+
+	ctx.APIOutPut("删除协作者成功", "删除协作者成功")
+	return
 }

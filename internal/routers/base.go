@@ -141,6 +141,7 @@ func Project() {
 	project.POST("/delete", handler.ProjectDelete)   // 删除项目
 	project.GET("/users", handler.ProjectUsers)      // 项目协作人员列表
 	project.POST("/adduser", handler.ProjectAddUser) // 项目添加协助人员
+	project.POST("/deluser", handler.ProjectDelUser) // 项目移除协作者
 }
 
 func Document() {
@@ -170,7 +171,7 @@ func User() {
 func Admin() {
 	admin := Router.Group("/mange")
 	admin.Use(AuthAPI())
-	// todo 是否是管理员中间件
+	admin.GET("/t", handler.AdminT)
 	admin.POST("/create/user", handler.AdminCreateUser)   // 创建用户
 	admin.POST("/delete/user", handler.AdminDeleteUser)   // 删除用户
 	admin.POST("/disable/user", handler.AdminDisableUser) // 禁用用户
