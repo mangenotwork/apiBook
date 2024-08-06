@@ -35,6 +35,9 @@ func Routers() *gin.Engine {
 	Document() // 文档
 	User()     // 用户相关
 	Admin()    // 管理员
+
+	Mock() // mock
+
 	return Router
 }
 
@@ -175,4 +178,11 @@ func Admin() {
 	admin.POST("/create/user", handler.AdminCreateUser)   // 创建用户
 	admin.POST("/delete/user", handler.AdminDeleteUser)   // 删除用户
 	admin.POST("/disable/user", handler.AdminDisableUser) // 禁用用户
+}
+
+func Mock() {
+	Router.Any("/simulator/:path", handler.Simulator) // mock 模拟器
+	mock := Router.Group("/mock")
+	mock.Use(AuthAPI())
+	// 新增mock
 }

@@ -61,8 +61,31 @@ func ProjectCreate(c *gin.Context) {
 		return
 	}
 
-	// todo 创建默认目录
-	// todo 创建回收站目录
+	// 创建默认和回收站目录
+
+	dirDef := &entity.DocumentDir{
+		DirId:   utils.IDStr(),
+		DirName: "默认",
+		Sort:    1,
+	}
+
+	dirRecycleBin := &entity.DocumentDir{
+		DirId:   utils.IDStr(),
+		DirName: "回收站",
+		Sort:    2,
+	}
+
+	err = dao.NewDirDao().Create(param.ProjectId, dirDef)
+	if err != nil {
+		ctx.APIOutPutError(err, err.Error())
+		return
+	}
+
+	err = dao.NewDirDao().Create(param.ProjectId, dirRecycleBin)
+	if err != nil {
+		ctx.APIOutPutError(err, err.Error())
+		return
+	}
 
 	ctx.APIOutPut("创建成功", "创建成功")
 	return

@@ -42,4 +42,6 @@ type AdminDisableUserReq struct {
 }
 
 type DocumentDirCreateReq struct {
+	PId     string `json:"pid"`
+	DirName string `json:"dir_name"`
 }
