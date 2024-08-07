@@ -1,10 +1,10 @@
-{{ define "add_project" }}
+{{ define "ProjectModalAdd" }}
 <div class="modal fade" id="addProjectModal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="addProjectModalLabel" aria-hidden="true">
     <div class="modal-dialog modal-xl">
         <div class="modal-content">
             <div class="modal-header">
                 <h1 class="modal-title fs-5" id="addProjectModalLabel">新建项目</h1>
-                <button class="btn" type="button" data-bs-dismiss="modal" aria-label="Close" style="color: #ffffff;">X</button>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body" style="padding: 56px;">
 
@@ -23,6 +23,7 @@
                     <label for="projectPrivate">设置项目隐私性</label>
                     <span style="color: #6c757d;font-size: 12px;">注意: 如设置为私有，添加协作人员在创建项目之后【项目设置】中操作。</span>
                 </div>
+
 
             </div>
             <div class="modal-footer">

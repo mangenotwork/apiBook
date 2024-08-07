@@ -192,6 +192,11 @@ func UserResetPassword(c *gin.Context) {
 
 func UserList(c *gin.Context) {
 	ctx := ginHelper.NewGinCtx(c)
+	ctx.APIOutPut(GetUserList(), "")
+	return
+}
+
+func GetUserList() []*UserInfo {
 
 	list := dao.NewUserDao().GetAllUser()
 
@@ -205,7 +210,5 @@ func UserList(c *gin.Context) {
 			IsDisable:  v.IsDisable,
 		})
 	}
-
-	ctx.APIOutPut(resp, "")
-	return
+	return resp
 }

@@ -16,27 +16,45 @@ func NewProjectDao() *ProjectDao {
 	return &ProjectDao{}
 }
 
+func (dao *ProjectDao) HasName(name string) bool {
+	var result int = 0
+	_ = db.DB.Get(db.GetProjectNameTable(), name, &result)
+	if result > 0 {
+		return true
+	}
+	return false
+}
+
 func (dao *ProjectDao) Create(data *entity.Project, userAcc string) error {
 
+	if dao.HasName(data.Name) {
+		return fmt.Errorf("项目名已存在")
+	}
+
 	if data.Private == define.ProjectPrivate {
-		err := db.DB.Set(fmt.Sprintf(db.UserPrivateProjectTable, userAcc), data.ProjectId, 1)
+		err := db.DB.Set(db.GetUserPrivateProjectTable(userAcc), data.ProjectId, 1)
 		if err != nil {
 			return err
 		}
 
-		err = db.DB.Set(fmt.Sprintf(db.ProjectPrivateUserTable, data.ProjectId), userAcc, 1)
+		err = db.DB.Set(db.GetProjectPrivateUserTable(data.ProjectId), userAcc, 1)
 		if err != nil {
 			return err
 		}
 
 	} else {
-		err := db.DB.Set(db.ProjectPublicTable, data.ProjectId, 1)
+		err := db.DB.Set(db.GetProjectPublicTable(), data.ProjectId, 1)
 		if err != nil {
 			return err
 		}
 	}
 
-	return db.DB.Set(db.ProjectTable, data.ProjectId, data)
+	err := db.DB.Set(db.GetProjectTable(), data.ProjectId, data)
+	if err != nil {
+		return err
+	}
+
+	return db.DB.Set(db.GetProjectNameTable(), data.Name, 1)
 }
 
 func (dao *ProjectDao) GetList(userAcc string) []*entity.Project {
@@ -47,7 +65,7 @@ func (dao *ProjectDao) GetList(userAcc string) []*entity.Project {
 		log.Info(err)
 	}
 
-	uKeyList, err := db.DB.AllKey(fmt.Sprintf(db.UserPrivateProjectTable, userAcc))
+	uKeyList, err := db.DB.AllKey(db.GetUserPrivateProjectTable(userAcc))
 	if err != nil {
 		log.Info(err)
 	}
@@ -76,7 +94,7 @@ func (dao *ProjectDao) Get(pid, userAcc string) (*entity.Project, error) {
 
 	if projectData.Private == define.ProjectPrivate {
 		var has int = 0
-		_ = db.DB.Get(fmt.Sprintf(db.UserPrivateProjectTable, userAcc), pid, &has)
+		_ = db.DB.Get(db.GetUserPrivateProjectTable(userAcc), pid, &has)
 		if has == 0 {
 			return projectData, fmt.Errorf("没有权限")
 		}
@@ -101,12 +119,12 @@ func (dao *ProjectDao) Modify(newData *entity.Project, userAcc string) error {
 
 	if oldData.Private != newData.Private {
 		if newData.Private == define.ProjectPrivate {
-			err = db.DB.Set(fmt.Sprintf(db.UserPrivateProjectTable, userAcc), oldData.ProjectId, 1)
+			err = db.DB.Set(db.GetUserPrivateProjectTable(userAcc), oldData.ProjectId, 1)
 			if err != nil {
 				return err
 			}
 
-			err = db.DB.Set(fmt.Sprintf(db.ProjectPrivateUserTable, oldData.ProjectId), userAcc, 1)
+			err = db.DB.Set(db.GetProjectPrivateUserTable(oldData.ProjectId), userAcc, 1)
 			if err != nil {
 				return err
 			}
@@ -135,12 +153,12 @@ func (dao *ProjectDao) Delete(pid, userAcc string) error {
 	}
 
 	if data.Private == define.ProjectPrivate {
-		err = db.DB.Delete(fmt.Sprintf(db.UserPrivateProjectTable, userAcc), data.ProjectId)
+		err = db.DB.Delete(db.GetUserPrivateProjectTable(userAcc), data.ProjectId)
 		if err != nil {
 			log.Error(err)
 		}
 
-		err = db.DB.Delete(fmt.Sprintf(db.ProjectPrivateUserTable, data.ProjectId), userAcc)
+		err = db.DB.Delete(db.GetProjectPrivateUserTable(data.ProjectId), userAcc)
 		if err != nil {
 			log.Error(err)
 		}
@@ -164,7 +182,7 @@ func (dao *ProjectDao) GetUserList(pid, userAcc string) ([]string, error) {
 		return resp, err
 	}
 
-	resp, err = db.DB.AllKey(fmt.Sprintf(db.ProjectPrivateUserTable, data.ProjectId))
+	resp, err = db.DB.AllKey(db.GetProjectPrivateUserTable(data.ProjectId))
 	if err != nil {
 		log.Error(err)
 		return resp, err
@@ -184,12 +202,12 @@ func (dao *ProjectDao) AddUser(pid, userAcc, addAcc string) error {
 		return fmt.Errorf("公有项目无需添加协助者")
 	}
 
-	err = db.DB.Set(fmt.Sprintf(db.UserPrivateProjectTable, addAcc), data.ProjectId, 1)
+	err = db.DB.Set(db.GetUserPrivateProjectTable(addAcc), data.ProjectId, 1)
 	if err != nil {
 		return err
 	}
 
-	err = db.DB.Set(fmt.Sprintf(db.ProjectPrivateUserTable, data.ProjectId), addAcc, 1)
+	err = db.DB.Set(db.GetProjectPrivateUserTable(data.ProjectId), addAcc, 1)
 	if err != nil {
 		return err
 	}
@@ -204,12 +222,12 @@ func (dao *ProjectDao) DelUser(pid, userAcc, delAcc string) error {
 		return err
 	}
 
-	err = db.DB.Delete(fmt.Sprintf(db.UserPrivateProjectTable, delAcc), data.ProjectId)
+	err = db.DB.Delete(db.GetUserPrivateProjectTable(delAcc), data.ProjectId)
 	if err != nil {
 		log.Error(err)
 	}
 
-	err = db.DB.Delete(fmt.Sprintf(db.ProjectPrivateUserTable, data.ProjectId), delAcc)
+	err = db.DB.Delete(db.GetProjectPrivateUserTable(data.ProjectId), delAcc)
 	if err != nil {
 		log.Error(err)
 	}

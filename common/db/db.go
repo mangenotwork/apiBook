@@ -51,7 +51,6 @@ func (ldb *LocalDB) Init() {
 		_ = db.Close()
 	}()
 	for _, table := range ldb.Tables {
-		log.Info("检查数据表 : ", table)
 		err = db.Update(func(tx *bolt.Tx) error {
 			b := tx.Bucket([]byte(table))
 			if b == nil {
@@ -206,27 +205,24 @@ func (ldb *LocalDB) AllKey(table string) ([]string, error) {
 	return keys, err
 }
 
-func (ldb *LocalDB) GetAll(table string) ([][]byte, error) {
-	result := make([][]byte, 0)
-
+func (ldb *LocalDB) GetAll(table string, f func(k, v []byte)) error {
 	ldb.Open()
 
 	defer func() {
 		_ = ldb.Conn.Close()
 	}()
 
-	err := ldb.Conn.View(func(tx *bolt.Tx) error {
+	err := ldb.Conn.Update(func(tx *bolt.Tx) error {
 		b := tx.Bucket([]byte(table))
 		if b == nil {
 			return TableNotFound
 		}
 
 		return b.ForEach(func(k, v []byte) error {
-			result = append(result, v)
+			f(k, v)
 			return nil
 		})
 
 	})
-
-	return result, err
+	return err
 }

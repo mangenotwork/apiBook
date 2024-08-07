@@ -175,8 +175,9 @@
               </div>
         </div>
 
-        {{ template "add_project" .}}
-        {[ template "toast" . ]}
+        {{ template "toast" . }}
+        {{ template "ProjectModalAdd" .}}
+
 
 <!-- 创建接口文档 Modal -->
 <div class="modal fade" id="apiDocModal" tabindex="-1" aria-labelledby="apiDocModalLabel" aria-hidden="true">

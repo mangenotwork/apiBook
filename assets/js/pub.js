@@ -240,6 +240,14 @@ function ToastShow(msg) {
     toast.show()
 }
 
+function newAPIDoc() {
+    $('#apiDocModal').modal('show');
+}
+
+function addProject() {
+    $('#addProjectModal').modal('show');
+}
+
 // 创建项目
 function ProjectCreate() {
     const url = "/project/create"
@@ -249,7 +257,40 @@ function ProjectCreate() {
         "private": Number($("#projectPrivate").val()),
     }
     AjaxPost(url, param, function (data){
+        console.log(data)
         ToastShow(data.msg);
-        //$("#setAlertModal").modal('toggle');
+        if (data.code === 0) {
+            setTimeout(function() {
+                location.reload();
+            }, 1000);
+        }
+    })
+}
+
+function addUser() {
+    $('#addUserModal').modal('show');
+}
+
+function UserCreate() {
+    const url = "/mange/create/user"
+    var isAdmin = 0
+    if ($("#isAdmin").is(":checked")) {
+        isAdmin = 1
+    }
+    var param = {
+        "name": $("#name").val(),
+        "account": $("#account").val(),
+        "password": $("#password").val(),
+        "password2": $("#password2").val(),
+        "isAdmin": isAdmin,
+    }
+    AjaxPost(url, param, function (data){
+        console.log(data)
+        ToastShow(data.msg);
+        if (data.code === 0) {
+            setTimeout(function() {
+                location.reload();
+            }, 1000);
+        }
     })
 }

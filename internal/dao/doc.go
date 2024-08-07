@@ -3,8 +3,8 @@ package dao
 import (
 	"apiBook/common/db"
 	"apiBook/common/log"
+	"apiBook/internal/define"
 	"apiBook/internal/entity"
-	"fmt"
 )
 
 type DocDao struct {
@@ -16,12 +16,12 @@ func NewDocDao() *DocDao {
 
 func (dao *DocDao) Create(data *entity.Document, content *entity.DocumentContent) error {
 
-	err := db.DB.Set(fmt.Sprintf(db.DocumentTable, data.ProjectId), data.DocId, data)
+	err := db.DB.Set(db.GetDocumentTable(data.ProjectId), data.DocId, data)
 	if err != nil {
 		return err
 	}
 
-	err = db.DB.Set(fmt.Sprintf(db.DocumentContentTable, content.ProjectId), content.DocId, content)
+	err = db.DB.Set(db.GetDocumentContentTable(content.ProjectId), content.DocId, content)
 	if err != nil {
 		return err
 	}
@@ -56,4 +56,99 @@ func (dao *DocDao) GetDocList(pid string, list []*entity.DocumentDirItem) []*ent
 	}
 
 	return result
+}
+
+func (dao *DocDao) Modify(content *entity.DocumentContent) error {
+	oldDoc, err := dao.GetDocument(content.ProjectId, content.DocId)
+	if err != nil {
+		return err
+	}
+
+	oldDoc.Url = content.Url
+	oldDoc.Name = content.Name
+	oldDoc.Method = content.Method
+
+	err = db.DB.Set(db.GetDocumentTable(content.ProjectId), content.DocId, oldDoc)
+	if err != nil {
+		return err
+	}
+
+	oldDocContent, err := dao.GetDocumentContent(content.ProjectId, content.DocId)
+	if err != nil {
+		return err
+	}
+
+	oldDocContent.Name = content.Name
+	oldDocContent.Url = content.Url
+	oldDocContent.Method = content.Method
+	oldDocContent.Description = content.Description
+	oldDocContent.ReqHeader = content.ReqHeader
+	oldDocContent.ReqType = content.ReqType
+	oldDocContent.ReqBodyJson = content.ReqBodyJson
+	oldDocContent.ReqBodyText = content.ReqBodyText
+	oldDocContent.ReqBodyFormData = content.ReqBodyFormData
+	oldDocContent.ReqBodyXWWWFormUrlEncoded = content.ReqBodyXWWWFormUrlEncoded
+	oldDocContent.ReqBodyXml = content.ReqBodyXml
+	oldDocContent.ReqBodyRaw = content.ReqBodyRaw
+	oldDocContent.ReqBodyBinary = content.ReqBodyBinary
+	oldDocContent.ReqBodyGraphQL = content.ReqBodyGraphQL
+	oldDocContent.ReqBodyInfo = content.ReqBodyInfo
+	oldDocContent.Resp = content.Resp
+
+	err = db.DB.Set(db.GetDocumentContentTable(content.ProjectId), content.DocId, oldDocContent)
+	if err != nil {
+		return err
+	}
+
+	return nil
+}
+
+func (dao *DocDao) Delete(pid, dirId, docId string) error {
+	oldDoc, err := dao.GetDocument(pid, docId)
+	if err != nil {
+		return err
+	}
+
+	oldDoc.DirId = db.GetDocumentDirItemTable(define.GetDirRecycleBinKey(pid))
+	err = db.DB.Set(db.GetDocumentTable(pid), docId, oldDoc)
+	if err != nil {
+		return err
+	}
+
+	err = db.DB.Set(db.GetDocumentDirTable(define.GetDirRecycleBinKey(pid)), dirId, 1)
+	if err != nil {
+		return err
+	}
+
+	err = db.DB.Delete(db.GetDocumentDirTable(pid), dirId)
+	if err != nil {
+		return err
+	}
+
+	return nil
+}
+
+func (dao *DocDao) ChangeDir(pid, dirId, dirIdNew, docId string) error {
+	oldDoc, err := dao.GetDocument(pid, docId)
+	if err != nil {
+		return err
+	}
+
+	oldDoc.DirId = dirIdNew
+	err = db.DB.Set(db.GetDocumentTable(pid), docId, oldDoc)
+	if err != nil {
+		return err
+	}
+
+	err = db.DB.Set(db.GetDocumentDirTable(pid), dirIdNew, 1)
+	if err != nil {
+		return err
+	}
+
+	err = db.DB.Delete(db.GetDocumentDirTable(pid), dirId)
+	if err != nil {
+		return err
+	}
+
+	return nil
 }

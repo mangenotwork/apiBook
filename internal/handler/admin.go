@@ -57,7 +57,7 @@ func AdminCreateUser(c *gin.Context) {
 		Account:    param.Account,
 		Name:       param.Name,
 		Password:   param.Password,
-		IsAdmin:    0,
+		IsAdmin:    param.IsAdmin,
 		CreateTime: time.Now().Unix(),
 	}
 

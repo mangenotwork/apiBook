@@ -11,7 +11,6 @@ import (
 	"flag"
 	"fmt"
 	"github.com/gin-gonic/gin"
-	"io"
 	"net/http"
 	"os"
 	"os/signal"
@@ -35,7 +34,7 @@ func main() {
 	// 初始化gin框架
 	//gin.SetMode(gin.ReleaseMode)
 	gin.SetMode(gin.DebugMode)
-	gin.DefaultWriter = io.Discard
+	//gin.DefaultWriter = io.Discard
 	routers.Router = gin.New()
 
 	srv := &http.Server{

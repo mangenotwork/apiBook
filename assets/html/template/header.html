@@ -46,16 +46,18 @@
         </div>
         <div class="offcanvas-body">
             <div>
-                Name
+                {{ .userName }}
             </div>
             <hr>
             <ul class="navbar-nav justify-content-end flex-grow-1 pe-3">
                 <li class="nav-item">
                     <a class="nav-link" href="#">我的资料</a>
                 </li>
+                {{ if eq 1 .isAdmin }}
                 <li class="nav-item">
-                    <a class="nav-link" href="#">用户管理</a>
+                    <a class="nav-link" href="/user/mange">用户管理</a>
                 </li>
+                {{ end }}
                 <li class="nav-item">
                     <a class="nav-link" href="#">帮助</a>
                 </li>

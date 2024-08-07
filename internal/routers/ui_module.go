@@ -23,3 +23,25 @@ func ApiBookInfo() template.HTML {
 	</div>`
 	return template.HTML(htmlTemplate)
 }
+
+func ProjectCard(pid, name, description string, private define.ProjectPrivateCode) template.HTML {
+	privateSpan := ""
+	if private == define.ProjectPrivate {
+		privateSpan = `<span class="badge text-bg-primary">私有</span>`
+	} else {
+		privateSpan = `<span class="badge text-bg-info">公有</span>`
+	}
+
+	htmlTemplate := `<div class="card mb-3 project">
+            <div class="card-body">
+                <h5 class="card-title">` + name + `</h5>
+                <div class="plabel">` + privateSpan + `</div>
+                <p class="card-text">` + description + `</p>
+                <a href="/index/` + pid + `" class="card-link">打开文档</a>
+                <a onclick="addProject()" class="card-link">设置</a>
+                <a href="#" class="card-link">分享</a>
+            </div>
+        </div>`
+
+	return template.HTML(htmlTemplate)
+}

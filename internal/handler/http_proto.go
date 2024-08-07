@@ -30,6 +30,7 @@ type AdminCreateUserReq struct {
 	Account   string `json:"account"`
 	Password  string `json:"password"`
 	Password2 string `json:"password2"`
+	IsAdmin   int    `json:"isAdmin"` // 1是
 }
 
 type AdminDeleteUserReq struct {
@@ -60,4 +61,22 @@ type DocumentDirModifyReq struct {
 type DocumentListReq struct {
 	PId   string `json:"pid"`
 	DirId string `json:"dirId"`
+}
+
+type DocumentItemParam struct {
+	PId   string `json:"pid"`
+	DocId string `json:"docId"`
+}
+
+type DocumentDeleteReq struct {
+	PId   string `json:"pid"`
+	DirId string `json:"dirId"`
+	DocId string `json:"docId"`
+}
+
+type DocumentChangeDirReq struct {
+	PId      string `json:"pid"`
+	DirId    string `json:"dirId"`
+	DirIdNew string `json:"dirIdNew"`
+	DocId    string `json:"docId"`
 }

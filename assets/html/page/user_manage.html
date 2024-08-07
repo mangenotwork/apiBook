@@ -1,0 +1,46 @@
+{{ template "head" . }}
+<body>
+{{ template "header" . }}
+
+<div class="container-fluid" style="padding: 36px;">
+
+    <div class="row">
+        <div class="col-2"><button type="button" class="btn btn-outline-secondary" onclick="addUser()">创建用户 {{ SVG "plus-lg" 18 18 }} </button></div>
+        <div class="input-group col-3" style="width: 360px;">
+            <input type="text" class="form-control" placeholder="用户名称" aria-label="Recipient's username" aria-describedby="button-addon2">
+            <button class="btn btn-outline-secondary" type="button" id="button-addon2">搜索</button>
+        </div>
+    </div>
+
+    <hr>
+    <br>
+    <div style="height: calc(100vh - 256px);overflow: auto;position: relative;width: 666px;">
+
+        <div class="list-group">
+
+            {{ range .userList }}
+                <a href="#" class="list-group-item list-group-item-action
+                {{ if eq 1 .IsDisable}} list-group-item-dark {{end}}">
+                    {{ .Name }} ({{ .Account }})
+                    {{ if eq 1 .IsAdmin }}  (管理员) {{ end }}
+                </a>
+            {{ end }}
+
+        </div>
+
+    </div>
+
+    {{ template "toast" . }}
+    {{ template "ProjectModalAdd" .}}
+    {{ template "UserModalAdd" . }}
+
+</div>
+
+</body>
+{{ template "pubjs" . }}
+<script>
+    $(document).ready(function(){
+
+    });
+</script>
+{{ template "end" . }}

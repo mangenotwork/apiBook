@@ -15,7 +15,7 @@ func NewUserDao() *UserDao {
 }
 
 func (dao *UserDao) GetUserNum() int {
-	stats, err := db.DB.Stats(db.UserTable)
+	stats, err := db.DB.Stats(db.GetUserTable())
 	if err != nil {
 		panic(err)
 	}
@@ -68,27 +68,20 @@ func (dao *UserDao) ResetPassword(account, password string) error {
 }
 
 func (dao *UserDao) GetAllUser() []*entity.User {
-	list, err := db.DB.GetAll(db.UserTable)
+	list := make([]*entity.User, 0)
+
+	err := db.DB.GetAll(db.UserTable, func(k, v []byte) {
+		item := &entity.User{}
+		err := json.Unmarshal(v, item)
+		if err != nil {
+			return
+		}
+		list = append(list, item)
+	})
 	if err != nil {
 		log.Error(err)
 	}
-
-	userList := make([]*entity.User, 0)
-
-	for _, v := range list {
-
-		user := &entity.User{}
-		err = json.Unmarshal(v, &user)
-
-		if err != nil {
-			log.Error(err)
-		} else {
-			userList = append(userList, user)
-		}
-
-	}
-
-	return userList
+	return list
 }
 
 func (dao *UserDao) IsAdmin(acc string) bool {

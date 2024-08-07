@@ -1,18 +1,19 @@
 package routers
 
 import (
-	"apiBook/common/ginHelper"
-	"apiBook/common/log"
-	"apiBook/internal/define"
-	"apiBook/internal/handler"
-	"github.com/gorilla/csrf"
-	adapter "github.com/gwatts/gin-adapter"
 	"html/template"
 	"net/http"
 	"time"
 
+	"apiBook/common/ginHelper"
+	"apiBook/common/log"
+	"apiBook/internal/define"
+	"apiBook/internal/handler"
+
 	"github.com/gin-contrib/gzip"
 	"github.com/gin-gonic/gin"
+	"github.com/gorilla/csrf"
+	adapter "github.com/gwatts/gin-adapter"
 )
 
 var (
@@ -112,6 +113,7 @@ func FuncMap() {
 		"SVG":         SvgHtml,
 		"InputModule": Input,
 		"ApiBookInfo": ApiBookInfo,
+		"ProjectCard": ProjectCard,
 	})
 }
 
@@ -132,6 +134,7 @@ func Page() {
 	page.Use(AuthPG())
 	page.GET("/index", handler.Index)
 	page.GET("/home", handler.Home)
+	page.GET("/user/mange", handler.UserMange)
 }
 
 func Project() {
@@ -160,6 +163,7 @@ func Document() {
 	document.POST("/item", handler.DocumentItem)            // 文档详情
 	document.POST("/modify", handler.DocumentModify)        // 修改文档
 	document.POST("/delete", handler.DocumentDelete)        // 删除文档
+	document.POST("/changeDir", handler.DocumentChangeDir)  // 文档切换目录
 	document.POST("/sort", handler.DocumentSort)            // 排序文档
 }
 

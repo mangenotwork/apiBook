@@ -165,7 +165,7 @@ func DocumentList(c *gin.Context) {
 
 func DocumentCreate(c *gin.Context) {
 	ctx := ginHelper.NewGinCtx(c)
-	param := entity.DocumentParam{}
+	param := &entity.DocumentParam{}
 	err := ctx.GetPostArgs(&param)
 	if err != nil {
 		ctx.APIOutPutError(fmt.Errorf("参数错误"), "参数错误")
@@ -217,20 +217,127 @@ func DocumentCreate(c *gin.Context) {
 }
 
 func DocumentItem(c *gin.Context) {
-
-}
-
-func DocumentModify(c *gin.Context) {
 	ctx := ginHelper.NewGinCtx(c)
-	param := entity.DocumentParam{}
+	param := &DocumentItemParam{}
 	err := ctx.GetPostArgs(&param)
 	if err != nil {
 		ctx.APIOutPutError(fmt.Errorf("参数错误"), "参数错误")
 		return
 	}
+
+	userAcc := ctx.GetString("userAcc")
+	if userAcc == "" {
+		ctx.AuthErrorOut()
+		return
+	}
+
+	_, err = dao.NewProjectDao().Get(param.PId, userAcc)
+	if err != nil {
+		ctx.APIOutPutError(err, err.Error())
+		return
+	}
+
+	data, err := dao.NewDocDao().GetDocumentContent(param.PId, param.DocId)
+	if err != nil {
+		ctx.APIOutPutError(err, err.Error())
+		return
+	}
+
+	ctx.APIOutPut(data, "")
+	return
+}
+
+func DocumentModify(c *gin.Context) {
+	ctx := ginHelper.NewGinCtx(c)
+	param := &entity.DocumentParam{}
+	err := ctx.GetPostArgs(&param)
+	if err != nil {
+		ctx.APIOutPutError(fmt.Errorf("参数错误"), "参数错误")
+		return
+	}
+
+	userAcc := ctx.GetString("userAcc")
+	if userAcc == "" {
+		ctx.AuthErrorOut()
+		return
+	}
+
+	_, err = dao.NewProjectDao().Get(param.ProjectId, userAcc)
+	if err != nil {
+		ctx.APIOutPutError(err, err.Error())
+		return
+	}
+
+	err = dao.NewDocDao().Modify(param.Content)
+	if err != nil {
+		ctx.APIOutPutError(err, "修改文档失败")
+		return
+	}
+
+	ctx.APIOutPut("修改文档成功", "修改文档成功")
+	return
 }
 
 func DocumentDelete(c *gin.Context) {
+	ctx := ginHelper.NewGinCtx(c)
+	param := &DocumentDeleteReq{}
+	err := ctx.GetPostArgs(&param)
+	if err != nil {
+		ctx.APIOutPutError(fmt.Errorf("参数错误"), "参数错误")
+		return
+	}
+
+	userAcc := ctx.GetString("userAcc")
+	if userAcc == "" {
+		ctx.AuthErrorOut()
+		return
+	}
+
+	_, err = dao.NewProjectDao().Get(param.PId, userAcc)
+	if err != nil {
+		ctx.APIOutPutError(err, err.Error())
+		return
+	}
+
+	err = dao.NewDocDao().Delete(param.PId, param.DirId, param.DocId)
+	if err != nil {
+		ctx.APIOutPutError(err, "删除文档失败")
+		return
+	}
+
+	ctx.APIOutPut("删除文档成功", "删除文档成功")
+	return
+}
+
+func DocumentChangeDir(c *gin.Context) {
+	ctx := ginHelper.NewGinCtx(c)
+	param := &DocumentChangeDirReq{}
+	err := ctx.GetPostArgs(&param)
+	if err != nil {
+		ctx.APIOutPutError(fmt.Errorf("参数错误"), "参数错误")
+		return
+	}
+
+	userAcc := ctx.GetString("userAcc")
+	if userAcc == "" {
+		ctx.AuthErrorOut()
+		return
+	}
+
+	_, err = dao.NewProjectDao().Get(param.PId, userAcc)
+	if err != nil {
+		ctx.APIOutPutError(err, err.Error())
+		return
+	}
+
+	err = dao.NewDocDao().ChangeDir(param.PId, param.DirId, param.DirIdNew, param.DocId)
+	if err != nil {
+		ctx.APIOutPutError(err, "更改文档目录失败")
+		return
+	}
+
+	ctx.APIOutPut("更改成功", "更改成功")
+	return
 }
 
 func DocumentSort(c *gin.Context) {

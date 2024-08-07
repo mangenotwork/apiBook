@@ -5,7 +5,6 @@ import (
 	"apiBook/common/log"
 	"apiBook/common/utils"
 	"apiBook/internal/dao"
-	"apiBook/internal/define"
 	"apiBook/internal/entity"
 	"fmt"
 	"github.com/gin-gonic/gin"
@@ -40,6 +39,7 @@ func ProjectItem(c *gin.Context) {
 
 func ProjectCreate(c *gin.Context) {
 	ctx := ginHelper.NewGinCtx(c)
+
 	param := &entity.Project{}
 	err := ctx.GetPostArgs(&param)
 	if err != nil {
@@ -56,33 +56,14 @@ func ProjectCreate(c *gin.Context) {
 	param.CreateUserAcc = userAcc
 	param.ProjectId = utils.IDMd5()
 	param.CreateDate = utils.NowDate()
+
 	err = dao.NewProjectDao().Create(param, userAcc)
-	if err != nil {
-		ctx.APIOutPutError(err, "创建失败")
-		return
-	}
-
-	// 创建默认和回收站目录
-
-	dirDef := &entity.DocumentDir{
-		DirId:   define.GetDirDefault(param.ProjectId),
-		DirName: "默认",
-		Sort:    1,
-	}
-
-	dirRecycleBin := &entity.DocumentDir{
-		DirId:   define.GetDirRecycleBinKey(param.ProjectId),
-		DirName: "回收站",
-		Sort:    2,
-	}
-
-	err = dao.NewDirDao().Create(param.ProjectId, dirDef)
 	if err != nil {
 		ctx.APIOutPutError(err, err.Error())
 		return
 	}
 
-	err = dao.NewDirDao().Create(param.ProjectId, dirRecycleBin)
+	err = dao.NewDirDao().CreateInit(param.ProjectId)
 	if err != nil {
 		ctx.APIOutPutError(err, err.Error())
 		return

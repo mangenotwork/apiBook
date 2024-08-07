@@ -1,0 +1,26 @@
+{{ define "UserModalAdd" }}
+<div class="modal fade" id="addUserModal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="addUserModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-xl">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h1 class="modal-title fs-5" id="addUserModalLabel">新建用户</h1>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body" style="padding: 56px;">
+                <div style="margin-bottom: 18px">{{ InputModule "text" "name" "" "name" "用户名"}}</div>
+                <div style="margin-bottom: 18px">{{ InputModule "text" "account" "" "account" "用户账号"}}</div>
+                <div style="margin-bottom: 18px;">{{ InputModule "password" "password" "" "password" "密码" }}</div>
+                <div style="margin-bottom: 18px;">{{ InputModule "password" "password2" "" "password2" "确认密码" }}</div>
+                <div class="form-check form-switch">
+                    <input class="form-check-input" type="checkbox" role="switch" id="isAdmin" style="width: 86px;height: 26px;margin-right: 16px;">
+                    <label class="form-check-label" for="isAdmin">是否设置为管理员</label>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">取消</button>
+                <button type="button" class="btn btn-primary" onclick="UserCreate()">提交</button>
+            </div>
+        </div>
+    </div>
+</div>
+{{ end }}
