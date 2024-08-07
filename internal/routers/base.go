@@ -157,6 +157,7 @@ func Document() {
 	document.POST("/dir/sort", handler.DocumentDirSort)     // 排序文档目录
 	document.POST("/list", handler.DocumentList)            // 文档列表
 	document.POST("/create", handler.DocumentCreate)        // 创建文档
+	document.POST("/item", handler.DocumentItem)            // 文档详情
 	document.POST("/modify", handler.DocumentModify)        // 修改文档
 	document.POST("/delete", handler.DocumentDelete)        // 删除文档
 	document.POST("/sort", handler.DocumentSort)            // 排序文档

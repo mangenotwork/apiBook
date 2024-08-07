@@ -5,6 +5,7 @@ import (
 	"apiBook/common/log"
 	"apiBook/common/utils"
 	"apiBook/internal/dao"
+	"apiBook/internal/define"
 	"apiBook/internal/entity"
 	"fmt"
 	"github.com/gin-gonic/gin"
@@ -64,13 +65,13 @@ func ProjectCreate(c *gin.Context) {
 	// 创建默认和回收站目录
 
 	dirDef := &entity.DocumentDir{
-		DirId:   utils.IDStr(),
+		DirId:   define.GetDirDefault(param.ProjectId),
 		DirName: "默认",
 		Sort:    1,
 	}
 
 	dirRecycleBin := &entity.DocumentDir{
-		DirId:   utils.IDStr(),
+		DirId:   define.GetDirRecycleBinKey(param.ProjectId),
 		DirName: "回收站",
 		Sort:    2,
 	}

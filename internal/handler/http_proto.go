@@ -7,8 +7,8 @@ type ProjectUsersResp struct {
 type UserInfo struct {
 	Name       string `json:"name"`
 	Account    string `json:"account"`
-	CreateTime int64  `json:"create_time"` // 创建时间
-	IsDisable  int    `json:"disable"`     // 是否被禁用 1:是
+	CreateTime int64  `json:"createTime"` // 创建时间
+	IsDisable  int    `json:"disable"`    // 是否被禁用 1:是
 }
 
 type ProjectAddUserReq struct {
@@ -38,10 +38,26 @@ type AdminDeleteUserReq struct {
 
 type AdminDisableUserReq struct {
 	Account   string `json:"account"`
-	IsDisable int    `json:"is_disable"`
+	IsDisable int    `json:"isDisable"`
 }
 
 type DocumentDirCreateReq struct {
 	PId     string `json:"pid"`
-	DirName string `json:"dir_name"`
+	DirName string `json:"dirName"`
+}
+
+type DocumentDirDeleteReq struct {
+	PId   string `json:"pid"`
+	DirId string `json:"dirId"`
+}
+
+type DocumentDirModifyReq struct {
+	PId     string `json:"pid"`
+	DirId   string `json:"dirId"`
+	DirName string `json:"dirName"`
+}
+
+type DocumentListReq struct {
+	PId   string `json:"pid"`
+	DirId string `json:"dirId"`
 }
