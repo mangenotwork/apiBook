@@ -1,27 +1,27 @@
-{{ define "ProjectModalAdd" }}
-<div class="modal fade" id="addProjectModal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="addProjectModalLabel" aria-hidden="true">
+{{ define "ProjectModalModify" }}
+<div class="modal fade" id="modifyProjectModal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="modifyProjectModalLabel" aria-hidden="true">
     <div class="modal-dialog modal-xl">
         <div class="modal-content">
             <div class="modal-header">
-                <h1 class="modal-title fs-5" id="addProjectModalLabel">新建项目</h1>
+                <h1 class="modal-title fs-5" id="modifyProjectModalLabel">新建项目</h1>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body" style="padding: 56px;">
 
-                <div style="margin-bottom: 18px">{{ InputModule "text" "projectName" "" "projectName" "项目名"}}</div>
+                <div style="margin-bottom: 18px">{{ InputModule "text" "modifyProjectName" "" "projectName" "项目名"}}</div>
 
                 <div class="form-floating" style="margin-bottom: 18px;">
-                    <textarea class="form-control" placeholder="Leave a comment here" id="projectDescription" style="height: 100px"></textarea>
-                    <label for="projectDescription">项目描述</label>
+                    <textarea class="form-control" placeholder="Leave a comment here" id="modifyProjectDescription" style="height: 100px"></textarea>
+                    <label for="modifyProjectDescription">项目描述</label>
                 </div>
 
                 <div class="form-floating" style="margin-bottom: 18px;">
-                    <select class="form-select" id="projectPrivate">
+                    <select class="form-select" id="modifyProjectPrivate">
                         <option value="1" style="font-size: 18px;">公有</option>
                         <option value="2" style="font-size: 18px;">私有</option>
                     </select>
-                    <label for="projectPrivate">设置项目隐私性</label>
-                    <span style="color: #6c757d;font-size: 12px;">注意: 如设置为私有，添加协作人员在创建项目之后【项目设置】中操作。</span>
+                    <label for="modifyProjectPrivate">设置项目隐私性</label>
+                    <span style="color: #6c757d;font-size: 12px;">注意: 如设置为私有，添加协作人员在【项目设置】中操作。</span>
                 </div>
 
             </div>

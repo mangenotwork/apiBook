@@ -1,0 +1,103 @@
+{{ template "head" . }}
+<body>
+{{ template "header" . }}
+
+<div class="container-fluid" style="padding: 36px;">
+
+    <nav aria-label="breadcrumb">
+        <ol class="breadcrumb">
+            <li class="breadcrumb-item"> > <a href="/home">首页</a></li>
+            <li class="breadcrumb-item active" aria-current="page">{{ .project.Name }}</li>
+        </ol>
+    </nav>
+
+    <div class="row">
+
+        <div>
+            <div class="card" style="margin-bottom: 48px;">
+                <div class="card-body">
+                    <ul>
+                        <li style="padding: 8px;"><span style="font-size: 16px;">项目名: </span><span style="font-size: 21px;margin-left: 16px;">
+                            {{ .project.Name }}
+                            {{ if eq 1 .project.Private}}
+                                <span class="badge text-bg-info">公有</span>
+                            {{ else }}
+                                <span class="badge text-bg-primary">私有</span>
+                            {{ end }}
+                        </span></li>
+                        <li style="padding: 8px;"><span style="font-size: 16px;">项目简述: </span><span style="font-size: 21px;margin-left: 16px;">{{ .project.Description }}</span></li>
+                        <li style="padding: 8px;"><span style="font-size: 16px;">创建时间: </span><span style="font-size: 21px;margin-left: 16px;"> {{ .project.CreateDate }}</span></li>
+                        <li style="padding: 8px;">操作：
+                            <div class="btn-group" role="group" aria-label="Basic outlined example" style="margin-left: 16px;">
+                                <button type="button" class="btn btn-outline-dark" onclick="">修改todo</button>
+                                <button type="button" class="btn btn-outline-dark" onclick="delProjectOpen()">删除</button>
+                            </div>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        {{ if eq 2 .project.Private }}
+
+        <div>
+            <h4 style="margin-bottom: 16px;">项目协作者</h4>
+            <hr>
+            <div class="row">
+                <div class="col-sm-4">
+                    选择协作者
+                    <select id="userList" class="selectpicker" multiple data-live-search="true" >
+                        {{ range .canJsonUser }}
+                            <option value="{{ .Account }}">{{ .Name }} (账号 : {{ .Account }})</option>
+                        {{ end }}
+                    </select>
+                    <br>
+                    <br>
+                    <button type="button" class="btn btn-light" style="width: 312px;margin-bottom: 24px;" onclick="teamWorkerProjectAdd('{{ .project.ProjectId }}')">添加</button>
+                </div>
+                <div class="col-sm-8">
+                    <div class="list-group" id="projectTeamWorker" style="height: 350px;overflow: auto;position: relative;">
+
+                        {{ range .projectUserList }}
+                            <div class="list-group-item list-group-item-action
+                            {{ if eq 1 .IsDisable}} list-group-item-secondary {{end}}" style="height: 62px;">
+                                {{ .Name }} ( 账号: {{ .Account }} )
+                                {{ if eq 0 .IsCreate }}
+                                    <div class="btn-group" role="group" aria-label="Basic outlined example" style="float: right;">
+                                        <button type="button" class="btn btn-outline-dark" onclick="teamWorkerProjectDel('{{ .Account }}','{{ .Pid }}')">移除</button>
+                                    </div>
+                                {{ else }}
+                                    (创建者)
+                                {{end}}
+                                {{ if eq 1 .IsDisable}}
+                                    (用户被禁用)
+                                {{end}}
+                            </div>
+                        {{ end }}
+
+
+                    </div>
+                </div>
+
+            </div>
+        </div>
+        {{ end }}
+    </div>
+
+    {{ template "toast" . }}
+    {{ template "ProjectModalAdd" . }}
+    {{ template "ProjectModalDel" . }}
+
+</div>
+
+
+</body>
+{{ template "pubjs" . }}
+<script>
+    $(document).ready(function(){
+        $('.selectpicker').selectpicker({
+            noneSelectedText : '请选择'
+        });
+    });
+</script>
+{{ template "end" . }}

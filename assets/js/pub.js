@@ -294,3 +294,149 @@ function UserCreate() {
         }
     })
 }
+
+function modifyUser(acc) {
+    $('#userModifyAcc').val(acc);
+    $('#modifyUserModal').modal('show');
+}
+
+function UserModify() {
+    const url = "/user/modify"
+
+    var param = {
+        "name": $("#userModifyName").val(),
+        "account": $('#userModifyAcc').val(),
+    }
+
+    AjaxPost(url, param, function (data){
+        console.log(data)
+        ToastShow(data.msg);
+        if (data.code === 0) {
+            setTimeout(function() {
+                location.reload();
+            }, 1000);
+        }
+    })
+}
+
+function resetPasswordUser(acc) {
+    $('#userResetPasswordAcc').val(acc);
+    $('#resetPasswordUserModal').modal('show');
+}
+
+function UserResetPassword() {
+    const url = "/user/reset/password"
+    var param = {
+        "password": $("#resetPassword").val(),
+        "password2": $("#resetPassword2").val(),
+        "account": $('#userResetPasswordAcc').val(),
+    }
+    AjaxPost(url, param, function (data){
+        console.log(data)
+        ToastShow(data.msg);
+        if (data.code === 0) {
+            setTimeout(function() {
+                location.reload();
+            }, 1000);
+        }
+    })
+}
+
+function disableUser(acc, isDisable) {
+    const url = "/mange/disable/user"
+    var param = {
+        "account": acc,
+        "isDisable": isDisable,
+    }
+    AjaxPost(url, param, function (data){
+        console.log(data)
+        ToastShow(data.msg);
+        if (data.code === 0) {
+            setTimeout(function() {
+                location.reload();
+            }, 1000);
+        }
+    })
+}
+
+function deleteUser(acc) {
+    const url = "/mange/delete/user"
+    var param = {
+        "account": acc,
+    }
+    AjaxPost(url, param, function (data){
+        console.log(data)
+        ToastShow(data.msg);
+        if (data.code === 0) {
+            setTimeout(function() {
+                location.reload();
+            }, 1000);
+        }
+    })
+}
+
+
+function teamWorkerProjectAdd(pid) {
+    var select = $('#userList')
+    console.log(select.val())
+    if (select.val() === null) {
+        return
+    }
+    const url = "/project/adduser"
+    var param = {
+        "pid": pid,
+        "accounts": select.val().join(","),
+    }
+    AjaxPost(url, param, function (data){
+        console.log(data)
+        if (data.code === 1) {
+            ToastShow(data.msg);
+        } else {
+            location.reload();
+        }
+
+    })
+
+}
+
+function teamWorkerProjectDel(account, pid) {
+    const url = "/project/deluser"
+    var param = {
+        "pid": pid,
+        "account": account,
+    }
+    AjaxPost(url, param, function (data){
+        console.log(data)
+        if (data.code === 1) {
+            ToastShow(data.msg);
+        } else {
+            location.reload();
+        }
+    })
+
+}
+
+function delProjectOpen() {
+    $('#delProjectModal').modal('show');
+}
+
+function delProject(name, id) {
+    if ($('#delProjectName').val() != name) {
+        ToastShow("项目名字错误");
+        return
+    }
+    const url = "/project/delete"
+    var param = {
+        "projectId": id,
+        "name": name,
+    }
+    AjaxPost(url, param, function (data){
+        console.log(data)
+        ToastShow(data.msg);
+        if (data.code === 0) {
+            setTimeout(function() {
+                window.location.href = "/home";
+            }, 1000);
+        }
+    })
+}

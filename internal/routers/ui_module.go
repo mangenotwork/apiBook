@@ -24,22 +24,31 @@ func ApiBookInfo() template.HTML {
 	return template.HTML(htmlTemplate)
 }
 
-func ProjectCard(pid, name, description string, private define.ProjectPrivateCode) template.HTML {
+func ProjectCard(pid, name, description string, isOperation int, private define.ProjectPrivateCode) template.HTML {
 	privateSpan := ""
+	edit := ""
+	if isOperation == 1 {
+		edit = `<a href="/project/index/` + pid + `" class="card-link">设置</a>`
+	}
+
 	if private == define.ProjectPrivate {
 		privateSpan = `<span class="badge text-bg-primary">私有</span>`
 	} else {
 		privateSpan = `<span class="badge text-bg-info">公有</span>`
 	}
 
+	//if private == define.ProjectPrivate && isOperation == 1 {
+	//	teamWorker = `<a onclick="teamWorkerProject('` + pid + `')" class="card-link">协作者</a>`
+	//}
+
 	htmlTemplate := `<div class="card mb-3 project">
             <div class="card-body">
                 <h5 class="card-title">` + name + `</h5>
                 <div class="plabel">` + privateSpan + `</div>
                 <p class="card-text">` + description + `</p>
-                <a href="/index/` + pid + `" class="card-link">打开文档</a>
-                <a onclick="addProject()" class="card-link">设置</a>
+                ` + edit + `
                 <a href="#" class="card-link">分享</a>
+				<a href="/index/` + pid + `" class="card-link">打开文档</a>
             </div>
         </div>`
 

@@ -222,6 +222,10 @@ func (dao *ProjectDao) DelUser(pid, userAcc, delAcc string) error {
 		return err
 	}
 
+	if data.CreateUserAcc == delAcc {
+		return fmt.Errorf("不能移除项目创建者")
+	}
+
 	err = db.DB.Delete(db.GetUserPrivateProjectTable(delAcc), data.ProjectId)
 	if err != nil {
 		log.Error(err)

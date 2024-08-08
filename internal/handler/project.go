@@ -8,6 +8,7 @@ import (
 	"apiBook/internal/entity"
 	"fmt"
 	"github.com/gin-gonic/gin"
+	"strings"
 )
 
 func ProjectList(c *gin.Context) {
@@ -124,40 +125,41 @@ func ProjectDelete(c *gin.Context) {
 }
 
 func ProjectUsers(c *gin.Context) {
-	ctx := ginHelper.NewGinCtx(c)
-	pid := ctx.Query("pid")
-	log.Info("pid = ", pid)
+	//ctx := ginHelper.NewGinCtx(c)
+	//pid := ctx.Query("pid")
+	//log.Info("pid = ", pid)
+	//
+	//userAcc := ctx.GetString("userAcc")
+	//if userAcc == "" {
+	//	ctx.AuthErrorOut()
+	//	return
+	//}
+	//
+	//userList, err := dao.NewProjectDao().GetUserList(pid, userAcc)
+	//if err != nil {
+	//	ctx.APIOutPutError(err, err.Error())
+	//	return
+	//}
+	//
+	//user, err := dao.NewUserDao().GetUsers(userList)
+	//if err != nil {
+	//	ctx.APIOutPutError(err, err.Error())
+	//	return
+	//}
+	//
+	//resp := &ProjectUsersResp{
+	//	List:      make([]*UserInfo, 0),
+	//	CreateAcc: createAcc,
+	//}
+	//
+	//for _, v := range user {
+	//	resp.List = append(resp.List, &UserInfo{
+	//		Name:    v.Name,
+	//		Account: v.Account,
+	//	})
+	//}
 
-	userAcc := ctx.GetString("userAcc")
-	if userAcc == "" {
-		ctx.AuthErrorOut()
-		return
-	}
-
-	userList, err := dao.NewProjectDao().GetUserList(pid, userAcc)
-	if err != nil {
-		ctx.APIOutPutError(err, err.Error())
-		return
-	}
-
-	user, err := dao.NewUserDao().GetUsers(userList)
-	if err != nil {
-		ctx.APIOutPutError(err, err.Error())
-		return
-	}
-
-	resp := &ProjectUsersResp{
-		List: make([]*UserInfo, 0),
-	}
-
-	for _, v := range user {
-		resp.List = append(resp.List, &UserInfo{
-			Name:    v.Name,
-			Account: v.Account,
-		})
-	}
-
-	ctx.APIOutPut(resp, "")
+	//ctx.APIOutPut(resp, "")
 	return
 }
 
@@ -176,10 +178,11 @@ func ProjectAddUser(c *gin.Context) {
 		return
 	}
 
-	err = dao.NewProjectDao().AddUser(param.PId, userAcc, param.Account)
-	if err != nil {
-		ctx.APIOutPutError(err, err.Error())
-		return
+	for _, v := range strings.Split(param.Accounts, ",") {
+		err = dao.NewProjectDao().AddUser(param.PId, userAcc, v)
+		if err != nil {
+			log.Error(err)
+		}
 	}
 
 	ctx.APIOutPut("添加协作者成功", "添加协作者成功")
@@ -188,7 +191,7 @@ func ProjectAddUser(c *gin.Context) {
 
 func ProjectDelUser(c *gin.Context) {
 	ctx := ginHelper.NewGinCtx(c)
-	param := &ProjectAddUserReq{}
+	param := &ProjectDelUserReq{}
 	err := ctx.GetPostArgs(&param)
 	if err != nil {
 		ctx.APIOutPutError(fmt.Errorf("参数错误"), "参数错误")
@@ -208,5 +211,41 @@ func ProjectDelUser(c *gin.Context) {
 	}
 
 	ctx.APIOutPut("删除协作者成功", "删除协作者成功")
+	return
+}
+
+func ProjectJoinList(c *gin.Context) {
+	ctx := ginHelper.NewGinCtx(c)
+
+	userAcc := ctx.GetString("userAcc")
+	if userAcc == "" {
+		ctx.AuthErrorOut()
+		return
+	}
+
+	userList := GetUserList()
+
+	pid := ctx.Query("pid")
+
+	projectUserList, err := dao.NewProjectDao().GetUserList(pid, userAcc)
+	if err != nil {
+		ctx.APIOutPutError(err, err.Error())
+		return
+	}
+
+	hasMap := make(map[string]struct{})
+	for _, v := range projectUserList {
+		hasMap[v] = struct{}{}
+	}
+
+	outList := make([]*UserInfo, 0)
+
+	for _, u := range userList {
+		if _, ok := hasMap[u.Account]; !ok {
+			outList = append(outList, u)
+		}
+	}
+
+	ctx.APIOutPut(outList, "")
 	return
 }

@@ -1,0 +1,68 @@
+{{ template "head" . }}
+<body>
+{{ template "header" . }}
+
+<div class="container-fluid" style="padding: 36px;">
+
+    <div class="row">
+        <div class="col-sm-4">
+            <h4 style="margin-bottom: 16px;">我的信息</h4>
+            <div class="card" style="margin-bottom: 48px;">
+                <div class="card-body">
+                    <ul>
+                        <li style="padding: 8px;"><span style="font-size: 16px;">账号:</span><span style="font-size: 21px;margin-left: 16px;"> {{ .userInfo.Account }}</span></li>
+                        <li style="padding: 8px;"><span style="font-size: 16px;">昵称: </span><span style="font-size: 21px;margin-left: 16px;"> {{ .userInfo.Name }}</span></li>
+                        <li style="padding: 8px;"><span style="font-size: 16px;">权限: </span><span style="font-size: 21px;margin-left: 16px;">
+                            {{ if eq 1 .userInfo.IsAdmin }}
+                                管理员
+                            {{ else }}
+                                无
+                            {{ end }}
+                        </span></li>
+                        <li style="padding: 8px;"><span style="font-size: 16px;">创建时间: </span><span style="font-size: 21px;margin-left: 16px;"> {{ Timestamp2Date .userInfo.CreateTime }}</span></li>
+                        <li style="padding: 8px;">操作：
+                            <div class="btn-group" role="group" aria-label="Basic outlined example" style="margin-left: 16px;">
+                                <button type="button" class="btn btn-outline-dark" onclick="modifyUser('')">修改昵称</button>
+                                <button type="button" class="btn btn-outline-dark" onclick="resetPasswordUser('')">重置密码</button>
+                            </div>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-sm-8" style="padding-left: 36px;">
+            <h4 style="margin-bottom: 16px;">我的项目</h4>
+            <div class="row">
+                <div class="col-2"><button type="button" class="btn btn-outline-secondary" onclick="addProject()">创建项目 {{ SVG "plus-lg" 18 18 }} </button></div>
+                <div class="input-group col-3" style="width: 360px;">
+                    <input type="text" class="form-control" placeholder="项目名称" aria-label="Recipient's username" aria-describedby="button-addon2">
+                    <button class="btn btn-outline-secondary" type="button" id="button-addon2">搜索</button>
+                </div>
+            </div>
+
+            <hr>
+            <br>
+            <div style="height: calc(100vh - 286px);overflow: auto;position: relative;">
+                {{ range .projectList }}
+                {{ ProjectCard .ProjectId .Name .Description .Private }}
+                {{ end }}
+            </div>
+        </div>
+    </div>
+
+    {{ template "toast" . }}
+    {{ template "ProjectModalAdd" . }}
+    {{ template "UserModalModify" . }}
+    {{ template "UserResetPasswordModify" . }}
+
+</div>
+
+</body>
+{{ template "pubjs" . }}
+<script>
+    $(document).ready(function(){
+
+    });
+</script>
+{{ template "end" . }}

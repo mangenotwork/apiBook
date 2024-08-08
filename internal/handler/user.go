@@ -2,7 +2,6 @@ package handler
 
 import (
 	"apiBook/common/conf"
-	"apiBook/common/db"
 	"apiBook/common/ginHelper"
 	"apiBook/common/log"
 	"apiBook/common/utils"
@@ -80,12 +79,27 @@ func Login(ctx *gin.Context) {
 	account := ctx.PostForm("account")
 	password := ctx.PostForm("password")
 
+	if account == "" || password == "" {
+		ctx.HTML(200, "err.html", gin.H{
+			"Title": conf.Conf.Default.App.Name,
+			"err":   "账号或密码为空",
+		})
+	}
+
 	user, err := dao.NewUserDao().Get(account)
 	if err != nil {
 		log.Error(err)
 		ctx.HTML(200, "err.html", gin.H{
 			"Title": conf.Conf.Default.App.Name,
-			"err":   "登录遇到错误",
+			"err":   "用户不存在",
+		})
+		return
+	}
+
+	if user.IsDisable == 1 {
+		ctx.HTML(200, "err.html", gin.H{
+			"Title": conf.Conf.Default.App.Name,
+			"err":   "用户被禁用",
 		})
 		return
 	}
@@ -105,13 +119,6 @@ func Login(ctx *gin.Context) {
 func Out(ctx *gin.Context) {
 	ctx.SetCookie("sign", "", 60*60*24*7, "/", "", false, true)
 	ctx.Redirect(http.StatusFound, "/")
-}
-
-func ClearData(ctx *gin.Context) {
-	for _, v := range db.Tables {
-		_ = db.DB.ClearTable(v)
-	}
-	ctx.String(http.StatusFound, "ok")
 }
 
 func GetUserInfo(c *gin.Context) {
@@ -150,7 +157,12 @@ func UserModify(c *gin.Context) {
 		return
 	}
 
-	err = dao.NewUserDao().Modify(userAcc, param.Name)
+	if dao.NewUserDao().IsAdmin(userAcc) && len(param.Account) > 0 && userAcc != param.Account {
+		err = dao.NewUserDao().Modify(param.Account, param.Name)
+	} else {
+		err = dao.NewUserDao().Modify(userAcc, param.Name)
+	}
+
 	if err != nil {
 		ctx.APIOutPutError(err, "修改用户信息失败")
 		return
@@ -180,7 +192,12 @@ func UserResetPassword(c *gin.Context) {
 		return
 	}
 
-	err = dao.NewUserDao().ResetPassword(userAcc, param.Password)
+	if dao.NewUserDao().IsAdmin(userAcc) && len(param.Account) > 0 && userAcc != param.Account {
+		err = dao.NewUserDao().ResetPassword(param.Account, param.Password)
+	} else {
+		err = dao.NewUserDao().ResetPassword(userAcc, param.Password)
+	}
+
 	if err != nil {
 		ctx.APIOutPutError(err, "修改密码失败")
 		return

@@ -1,0 +1,22 @@
+{{ define "ProjectModalDel" }}
+<div class="modal fade" id="delProjectModal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="delProjectModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-xl">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h1 class="modal-title fs-5" id="delProjectModalLabel">确认删除项目</h1>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body" style="padding: 56px;">
+                <div style="margin-bottom: 18px">{{ InputModule "text" "delProjectName" "" "name" "请输入项目名"}}</div>
+            </div>
+
+            <input type="text" id="userModifyAcc" style="display: none">
+
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">取消</button>
+                <button type="button" class="btn btn-primary" onclick="delProject('{{ .project.Name }}', '{{ .project.ProjectId }}')">提交</button>
+            </div>
+        </div>
+    </div>
+</div>
+{{ end }}

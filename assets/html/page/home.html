@@ -16,13 +16,12 @@
     <br>
     <div style="height: calc(100vh - 256px);overflow: auto;position: relative;">
         {{ range .projectList }}
-            {{ ProjectCard .ProjectId .Name .Description .Private }}
+            {{ ProjectCard .ProjectId .Name .Description .IsOperation .Private}}
         {{ end }}
     </div>
 
     {{ template "toast" . }}
-    {{ template "ProjectModalAdd" .}}
-
+    {{ template "ProjectModalAdd" . }}
 
 </div>
 
