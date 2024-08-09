@@ -25,6 +25,7 @@ func Routers() *gin.Engine {
 	Router.StaticFS("/js", http.Dir("./assets/js"))
 	Router.StaticFS("/css", http.Dir("./assets/css"))
 	Router.StaticFS("/images", http.Dir("./assets/images"))
+	Router.StaticFS("/fonts", http.Dir("./assets/fonts"))
 
 	Router.Delims("{{", "}}")
 	FuncMap()
@@ -134,7 +135,7 @@ func Page() {
 	Router.NoMethod(handler.NotFond)
 	page := Router.Group("")
 	page.Use(AuthPG())
-	page.GET("/index", handler.Index)
+	page.GET("/index/:pid", handler.Index)
 	page.GET("/home", handler.Home)
 	page.GET("/user/mange", handler.UserMange)
 	page.GET("/my", handler.My)

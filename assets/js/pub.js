@@ -241,7 +241,7 @@ function ToastShow(msg) {
 }
 
 function newAPIDoc() {
-    $('#apiDocModal').modal('show');
+    $('#apiDocAddModal').modal('show');
 }
 
 function addProject() {
@@ -439,4 +439,124 @@ function delProject(name, id) {
             }, 1000);
         }
     })
+}
+
+function openBodyMain(type) {
+    var bodyJson = $("#bodyJson");
+    var bodyFromData = $("#bodyFromData");
+    var bodyXwwwFrom = $("#bodyXwwwFrom");
+    var bodyXml = $("#bodyXml");
+    var bodyText = $("#bodyText");
+
+    var openBodyBtnJson = $("#openBodyBtn-json");
+    var openBodyBtnFromData = $("#openBodyBtn-from-data");
+    var openBodyBtnXWwwFormUrlencoded = $("#openBodyBtn-x-www-form-urlencoded");
+    var openBodyBtnXml = $("#openBodyBtn-xml")
+    var openBodyBtnPlain = $("#openBodyBtn-plain")
+
+    bodyJson.hide();
+    bodyFromData.hide();
+    bodyXwwwFrom.hide();
+    bodyXml.hide();
+    bodyText.hide();
+
+    openBodyBtnJson.removeClass('btn-light');
+    if (!openBodyBtnJson.hasClass('btn-dark')) {
+        openBodyBtnJson.addClass('btn-dark')
+    }
+
+    openBodyBtnFromData.removeClass('btn-light');
+    if (!openBodyBtnFromData.hasClass('btn-dark')) {
+        openBodyBtnFromData.addClass('btn-dark')
+    }
+
+    openBodyBtnXWwwFormUrlencoded.removeClass('btn-light');
+    if (!openBodyBtnXWwwFormUrlencoded.hasClass('btn-dark')) {
+        openBodyBtnXWwwFormUrlencoded.addClass('btn-dark')
+    }
+
+    openBodyBtnXml.removeClass('btn-light');
+    if (!openBodyBtnXml.hasClass('btn-dark')) {
+        openBodyBtnXml.addClass('btn-dark')
+    }
+
+    openBodyBtnPlain.removeClass('btn-light');
+    if (!openBodyBtnPlain.hasClass('btn-dark')) {
+        openBodyBtnPlain.addClass('btn-dark')
+    }
+
+    switch (type) {
+        case 'json':
+            bodyJson.show();
+            openBodyBtnJson.removeClass('btn-dark');
+            openBodyBtnJson.addClass('btn-light')
+            break
+        case 'from-data':
+            bodyFromData.show();
+            openBodyBtnFromData.removeClass('btn-dark');
+            openBodyBtnFromData.addClass('btn-light')
+            break
+        case 'x-www-form-urlencoded':
+            bodyXwwwFrom.show();
+            openBodyBtnXWwwFormUrlencoded.removeClass('btn-dark');
+            openBodyBtnXWwwFormUrlencoded.addClass('btn-light')
+            break
+        case 'xml':
+            bodyXml.show();
+            openBodyBtnXml.removeClass('btn-dark');
+            openBodyBtnXml.addClass('btn-light')
+            break
+        case 'plain':
+            bodyText.show();
+            openBodyBtnPlain.removeClass('btn-dark');
+            openBodyBtnPlain.addClass('btn-light')
+            break
+    }
+}
+
+function openRespMain(type) {
+    var respJson = $("#respJson")
+    var respXml = $("#respXml")
+    var respText = $("#respText")
+
+    var openRespBtnJson = $("#openRespBtn-json")
+    var openRespBtnXml = $("#openRespBtn-xml")
+    var openRespBtnPlain = $("#openRespBtn-plain")
+
+    respJson.hide();
+    respXml.hide();
+    respText.hide();
+
+    openRespBtnJson.removeClass('btn-light');
+    if (!openRespBtnJson.hasClass('btn-dark')) {
+        openRespBtnJson.addClass('btn-dark')
+    }
+
+    openRespBtnXml.removeClass('btn-light');
+    if (!openRespBtnXml.hasClass('btn-dark')) {
+        openRespBtnXml.addClass('btn-dark')
+    }
+
+    openRespBtnPlain.removeClass('btn-light');
+    if (!openRespBtnPlain.hasClass('btn-dark')) {
+        openRespBtnPlain.addClass('btn-dark')
+    }
+
+    switch (type) {
+        case 'json':
+            respJson.show();
+            openRespBtnJson.removeClass('btn-dark');
+            openRespBtnJson.addClass('btn-light')
+            break
+        case 'xml':
+            respXml.show();
+            openRespBtnXml.removeClass('btn-dark');
+            openRespBtnXml.addClass('btn-light')
+            break
+        case 'plain':
+            respText.show();
+            openRespBtnPlain.removeClass('btn-dark');
+            openRespBtnPlain.addClass('btn-light')
+            break
+    }
 }

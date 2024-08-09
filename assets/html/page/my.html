@@ -4,6 +4,13 @@
 
 <div class="container-fluid" style="padding: 36px;">
 
+    <nav aria-label="breadcrumb">
+        <ol class="breadcrumb">
+            <li class="breadcrumb-item"> > <a href="/home">首页</a></li>
+            <li class="breadcrumb-item active" aria-current="page">个人中心</li>
+        </ol>
+    </nav>
+
     <div class="row">
         <div class="col-sm-4">
             <h4 style="margin-bottom: 16px;">我的信息</h4>
@@ -45,7 +52,7 @@
             <br>
             <div style="height: calc(100vh - 286px);overflow: auto;position: relative;">
                 {{ range .projectList }}
-                {{ ProjectCard .ProjectId .Name .Description .Private }}
+                    {{ ProjectCard .ProjectId .Name .Description .IsOperation .Private}}
                 {{ end }}
             </div>
         </div>

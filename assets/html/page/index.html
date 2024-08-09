@@ -172,35 +172,17 @@
 
                   </div>
 
+<!--                  <div id="test-editor" >-->
+<!--                        <textarea style="display:none;">Markdown文档-->
+<!--                        </textarea>-->
+<!--                  </div>-->
+
               </div>
         </div>
 
         {{ template "toast" . }}
-        {{ template "ProjectModalAdd" .}}
-
-
-<!-- 创建接口文档 Modal -->
-<div class="modal fade" id="apiDocModal" tabindex="-1" aria-labelledby="apiDocModalLabel" aria-hidden="true">
-    <div class="modal-dialog modal-fullscreen">
-      <div class="modal-content">
-        <div class="modal-header bg-dark" style="color: #ffffff;">
-          <h1 class="modal-title fs-5" id="apiDocModalLabel">新建接口文档</h1>
-          <button class="btn" type="button" data-bs-dismiss="modal" aria-label="Close" style="color: #ffffff;">X</button>
-        </div>
-        <div class="modal-body">
-          ...
-        </div>
-        <div class="modal-footer">
-          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">取消</button>
-          <button type="button" class="btn btn-primary">保存</button>
-        </div>
-      </div>
-    </div>
-  </div>
-
-<!-- 文档排序 Modal -->
-
-<!-- 目录排序 Modal -->
+        {{ template "ProjectModalAdd" . }}
+        {{ template "ApiDocAddModal" . }}
 
     </main>
 
@@ -364,6 +346,37 @@
             $(this).parent().parent().append('<td style="padding-left: 16px;color: red;font-size:12px;"> /* '+zs[$(this).prop("id")]+' */</td>')
         }
        })
+
+
+
+        const containerAdd = document.getElementById("jsoneditorAdd")
+        const optionsAdd = {
+            mode: 'code',
+        }
+        const editorAdd = new JSONEditor(containerAdd, optionsAdd)
+
+
+
+        const containerAddResp = document.getElementById("jsoneditorAddResp")
+        const optionsAddResp = {
+            mode: 'code',
+        }
+        const editorAddResp = new JSONEditor(containerAddResp, optionsAddResp)
+
+
+
+        $('#apiDocAddModal').on('shown.bs.modal', function () {
+            editormd("test-editor", {
+                height: 320,
+                width: "100%",
+                path: '/js/lib/',
+                htmlDecode : "style,script,iframe|on*",
+                imageUpload : true,
+                imageFormats : ["jpg", "jpeg", "gif", "png", "bmp"],
+                imageUploadURL : "url"
+                // saveHTMLToTextarea : true
+            });
+        });
 
     });
 

@@ -34,6 +34,10 @@ func NotFond(ctx *gin.Context) {
 func Index(ctx *gin.Context) {
 	userAcc := ctx.GetString("userAcc")
 
+	pid := ctx.Param("pid")
+
+	log.Info("pid = ", pid)
+
 	isAdmin := 0
 	if dao.NewUserDao().IsAdmin(userAcc) {
 		isAdmin = 1
@@ -184,6 +188,25 @@ func My(ctx *gin.Context) {
 
 	projectList := dao.NewProjectDao().GetList(userAcc)
 
+	homeProjectList := make([]*HomeProjectItem, 0)
+	for _, v := range projectList {
+
+		item := &HomeProjectItem{
+			ProjectId:     v.ProjectId,
+			Name:          v.Name,
+			Description:   v.Description,
+			CreateUserAcc: v.CreateUserAcc,
+			CreateDate:    v.CreateDate,
+			Private:       v.Private,
+		}
+
+		if v.CreateUserAcc == userAcc {
+			item.IsOperation = 1
+		}
+
+		homeProjectList = append(homeProjectList, item)
+	}
+
 	ctx.HTML(
 		http.StatusOK,
 		"my.html",
@@ -191,7 +214,7 @@ func My(ctx *gin.Context) {
 			"userName":    ctx.GetString("userName"),
 			"isAdmin":     userInfo.IsAdmin, // 1是管理员
 			"userInfo":    userInfo,
-			"projectList": projectList,
+			"projectList": homeProjectList,
 		},
 	)
 	return
