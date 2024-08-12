@@ -10,42 +10,26 @@
     <main class="col-md-9 ms-sm-auto col-lg-10 px-md-4" style="background-color: #ffffff;">
         
         <div class="box" style="margin-top: 8px;border: 1px solid #D3D3D3; border-radius: 4px;">
-            <ul class="nav nav-tabs" style="width: 100%;height:54px;flex-direction: row;flex-wrap: nowrap;overflow-x: scroll;font-size: 11px;">
-                <li class="nav-item">
-                  <a class="nav-link active" aria-current="page" href="#" style="width: 200px;color: aliceblue;background-color: #4c4c4c;">[Get] xxxxxxxxxxxx <span style="float: right;cursor: pointer;">{{ SVG "x-square-fill" 16 16 }}</span></a>
+            <ul class="nav nav-tabs" id="docViewTable" style="width: 100%;height:54px;flex-direction: row;flex-wrap: nowrap;overflow-x: scroll;font-size: 11px;">
+                <li class="nav-item" >
+                <a class="nav-link docViewItem active" aria-current="page" href="#">[Get] xxxxxxxxxxxx <span class="docViewClose">{{ SVG "x-square-fill" 16 16 }}</span></a>
                 </li>
-                <li class="nav-item">
-                  <a class="nav-link active" href="#" style="width: 200px;">[Get] xxxxxxxxxxxx <span style="float: right;cursor: pointer;">{{ SVG "x-square-fill" 16 16 }}</span></a>
+                <li class="nav-item" >
+                    <a class="nav-link docViewItem" aria-current="page" href="#">[Get] xxxxxxxxxxxx <span class="docViewClose">{{ SVG "x-square-fill" 16 16 }}</span></a>
                 </li>
-                <li class="nav-item">
-                  <a class="nav-link active" href="#" style="width: 200px;">[Get] xxxxxxxxxxxx <span style="float: right;cursor: pointer;">{{ SVG "x-square-fill" 16 16 }}</span></a>
+                <li class="nav-item" >
+                    <a class="nav-link docViewItem" aria-current="page" href="#">[Get] xxxxxxxxxxxx <span class="docViewClose">{{ SVG "x-square-fill" 16 16 }}</span></a>
                 </li>
-                <li class="nav-item">
-                  <a class="nav-link active" href="#" style="width: 200px;">[Get] xxxxxxxxxxxx <span style="float: right;cursor: pointer;">{{ SVG "x-square-fill" 16 16 }}</span></a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link active" href="#" style="width: 200px;">[Get] xxxxxxxxxxxx <span style="float: right;cursor: pointer;">{{ SVG "x-square-fill" 16 16 }}</span></a>
-                  </li>
-                  <li class="nav-item">
-                    <a class="nav-link active" href="#" style="width: 200px;">[Get] xxxxxxxxxxxx <span style="float: right;cursor: pointer;">{{ SVG "x-square-fill" 16 16 }}</span></a>
-                  </li>
-                  <li class="nav-item">
-                    <a class="nav-link active" href="#" style="width: 200px;">[Get] xxxxxxxxxxxx <span style="float: right;cursor: pointer;">{{ SVG "x-square-fill" 16 16 }}</span></a>
-                  </li>
-                  <li class="nav-item">
-                    <a class="nav-link active" href="#" style="width: 200px;">[Get] xxxxxxxxxxxx <span style="float: right;cursor: pointer;">{{ SVG "x-square-fill" 16 16 }}</span></a>
-                  </li>
-                  <li class="nav-item">
-                    <a class="nav-link active" href="#" style="width: 200px;">[Get] xxxxxxxxxxxx <span style="float: right;cursor: pointer;">{{ SVG "x-square-fill" 16 16 }}</span></a>
-                  </li>
-              </ul>
+            </ul>
               <div id="doc" style="width: 100%; height: calc(100vh - 136px);background-color: #ffffff;overflow: auto;padding: 16px;position: relative;">
 
                 <div class="row">
-                    
+
                     <div class="col-10">
+
                       <div data-bs-spy="scroll" data-bs-target="#simple-list-example" data-bs-offset="0" data-bs-smooth-scroll="true" class="scrollspy-example" style="margin-top: .5rem;overflow: auto" tabindex="0">
-                        <div style="margin-bottom: 48px;margin-top: 36px;">
+
+                          <div style="margin-bottom: 48px;margin-top: 36px;">
                             <h4 id="simple-list-item-1" style="margin-bottom: 16px;">基本信息</h4>
                             <div class="card">
                                 <div class="card-body">
@@ -62,9 +46,8 @@
                                     </ul>
                                 </div>
                             </div>
-                        
+                          </div>
 
-                        </div>
                         <div style="margin-bottom: 48px;">
                             <h4 id="simple-list-item-2" style="margin-bottom: 36px;">接口说明</h4>
 
@@ -73,9 +56,8 @@
                                     <p>This is some placeholder content for the scrollspy page. Note that as you scroll down the page, the appropriate navigation link is highlighted. It's repeated throughout the component example. We keep adding some more example copy here to emphasize the scrolling and highlighting.This is some placeholder content for the scrollspy page. Note that as you scroll down the page, the appropriate navigation link is highlighted. It's repeated throughout the component example. We keep adding some more example copy here to emphasize the scrolling and highlighting.</p>
                                 </div>
                             </div>
-
-
                         </div>
+
                         <div style="margin-bottom: 48px;">
                             <h4 id="simple-list-item-3" style="margin-bottom: 36px;">请求Header</h4>
                             <table class="table table-bordered table-hover">
@@ -110,43 +92,40 @@
                         </div>
 
                         <div style="margin-bottom: 48px;">
-                        <h4 id="simple-list-item-4" style="margin-bottom: 36px;">请求参数</h4>
-                        <p>请求数据类型: json</p>
-                        <p>示例:</p>
-                          
-
+                            <h4 id="simple-list-item-4" style="margin-bottom: 36px;">请求参数</h4>
+                            <p>请求数据类型: json</p>
+                            <p>示例:</p>
                             <div id="jsoneditor" style="width: 100%;margin-bottom: 16px;"></div>
-
-                            <p>参数说明:</p>      
-                          <table class="table table-bordered table-light  table-hover">
-                              <thead>
-                              <tr>
-                                  <th scope="col">#</th>
-                                  <th scope="col">First</th>
-                                  <th scope="col">Last</th>
-                                  <th scope="col">Handle</th>
-                              </tr>
-                              </thead>
-                              <tbody>
-                              <tr>
-                                  <th scope="row">1</th>
-                                  <td>Mark</td>
-                                  <td>Otto</td>
-                                  <td>@mdo</td>
-                              </tr>
-                              <tr>
-                                  <th scope="row">2</th>
-                                  <td>Jacob</td>
-                                  <td>Thornton</td>
-                                  <td>@fat</td>
-                              </tr>
-                              <tr>
-                                  <th scope="row">3</th>
-                                  <td colspan="2">Larry the Bird</td>
-                                  <td>@twitter</td>
-                              </tr>
-                              </tbody>
-                          </table>
+                            <p>参数说明:</p>
+                              <table class="table table-bordered table-light  table-hover">
+                                  <thead>
+                                  <tr>
+                                      <th scope="col">#</th>
+                                      <th scope="col">First</th>
+                                      <th scope="col">Last</th>
+                                      <th scope="col">Handle</th>
+                                  </tr>
+                                  </thead>
+                                  <tbody>
+                                  <tr>
+                                      <th scope="row">1</th>
+                                      <td>Mark</td>
+                                      <td>Otto</td>
+                                      <td>@mdo</td>
+                                  </tr>
+                                  <tr>
+                                      <th scope="row">2</th>
+                                      <td>Jacob</td>
+                                      <td>Thornton</td>
+                                      <td>@fat</td>
+                                  </tr>
+                                  <tr>
+                                      <th scope="row">3</th>
+                                      <td colspan="2">Larry the Bird</td>
+                                      <td>@twitter</td>
+                                  </tr>
+                                  </tbody>
+                              </table>
                         </div>
 
                         <div style="margin-bottom: 48px;">
@@ -154,8 +133,10 @@
                             <p>This is some placeholder content for the scrollspy page. Note that as you scroll down the page, the appropriate navigation link is highlighted. It's repeated throughout the component example. We keep adding some more example copy here to emphasize the scrolling and highlighting.</p>
                         </div>
 
+                        <div style="margin-bottom: 48px;">
                             <h4 id="simple-list-item-6">Item 5</h4>
-                        <p>This is some placeholder content for the scrollspy page. Note that as you scroll down the page, the appropriate navigation link is highlighted. It's repeated throughout the component example. We keep adding some more example copy here to emphasize the scrolling and highlighting.This is some placeholder content for the scrollspy page. Note that as you scroll down the page, the appropriate navigation link is highlighted. It's repeated throughout the component example. We keep adding some more example copy here to emphasize the scrolling and highlighting.</p>
+                            <p>This is some placeholder content for the scrollspy page. Note that as you scroll down the page, the appropriate navigation link is highlighted. It's repeated throughout the component example. We keep adding some more example copy here to emphasize the scrolling and highlighting.This is some placeholder content for the scrollspy page. Note that as you scroll down the page, the appropriate navigation link is highlighted. It's repeated throughout the component example. We keep adding some more example copy here to emphasize the scrolling and highlighting.</p>
+                        </div>
                       </div>
                     </div>
 
@@ -168,14 +149,10 @@
                           <a class="p-1 rounded" style="color: #1a1d20;" href="#simple-list-item-5">响应成功</a>
                           <a class="p-1 rounded" style="color: #1a1d20;" href="#simple-list-item-6">响应失败</a>
                         </div>
-                      </div>
+                    </div>
 
                   </div>
 
-<!--                  <div id="test-editor" >-->
-<!--                        <textarea style="display:none;">Markdown文档-->
-<!--                        </textarea>-->
-<!--                  </div>-->
 
               </div>
         </div>
@@ -190,8 +167,13 @@
 </div>
 
 </body>
+
 {{ template "pubjs" . }}
 <script>
+
+    var editorAdd = {}
+    var editorAddResp = {}
+
     $(document).on('click', '.dir-open', function() {
         var open = $(this).attr('data-open');
         var dirid = $(this).attr('data-dirid');
@@ -213,7 +195,7 @@
     });
 
     $(document).on('mouseenter', '.hover-area', function() {
-        tooltipInit()
+        //tooltipInit()
         $(this).find('.action-btn').show();
         $(this).css({
             'height':'72px',
@@ -228,7 +210,7 @@
 
 
     $(document).on('mouseenter', '.dir', function() {
-        tooltipInit()
+        tippyInit();
         $(this).find('.dirop').show();
         $(this).css({
             'height':'72px',
@@ -242,7 +224,7 @@
 
 
     $(document).ready(function(){
-        tooltipInit()
+        tippyInit();
         $('#newSort').click(function(){
             var ulValue = $( '#wrap' ).children();
             console.log(ulValue)
@@ -340,7 +322,7 @@
         console.log(updatedJson)
         const paths = getJsonPaths(updatedJson);
         console.log(paths)
-        
+
        $(".jsoneditor-field").each(function() {
         if (zs[$(this).prop("id")]){
             $(this).parent().parent().append('<td style="padding-left: 16px;color: red;font-size:12px;"> /* '+zs[$(this).prop("id")]+' */</td>')
@@ -353,7 +335,7 @@
         const optionsAdd = {
             mode: 'code',
         }
-        const editorAdd = new JSONEditor(containerAdd, optionsAdd)
+        editorAdd = new JSONEditor(containerAdd, optionsAdd)
 
 
 
@@ -361,13 +343,13 @@
         const optionsAddResp = {
             mode: 'code',
         }
-        const editorAddResp = new JSONEditor(containerAddResp, optionsAddResp)
+        editorAddResp = new JSONEditor(containerAddResp, optionsAddResp)
 
 
 
         $('#apiDocAddModal').on('shown.bs.modal', function () {
             editormd("test-editor", {
-                height: 320,
+                height: 440,
                 width: "100%",
                 path: '/js/lib/',
                 htmlDecode : "style,script,iframe|on*",
@@ -571,9 +553,291 @@
         for (var i=0; i<headerField.length; i++) {
             console.log(headerField[i] + headerIsRequired[i] + headerVarType[i] + headerDescription[i] + headerExample[i])
         }
-
-
     }
+
+    function addReqTpl(field, fieldType, example) {
+        var fieldVal = ""
+        if (field !== "") {
+            fieldVal  = 'value="'+field+'"'
+        }
+
+        var stringTypeVal = '<option value="string">String</option>'
+        var numberTypeVal = '<option value="number">Number</option>'
+        var booleanTypeVal = '<option value="boolean">Boolean</option>'
+        var arrayTypeVal = '<option value="array">Array</option>'
+        var objectTypeVal = '<option value="object">Object</option>'
+
+
+        switch (fieldType){
+            case "string":
+                stringTypeVal = '<option value="string" selected>String</option>'
+                break
+            case "number":
+                numberTypeVal = '<option value="number" selected>Number</option>'
+                break
+            case "boolean":
+                booleanTypeVal = '<option value="boolean" selected>Boolean</option>'
+                break
+            case "array":
+                arrayTypeVal = '<option value="array" selected>Array</option>'
+                break
+            case "object":
+                objectTypeVal = '<option value="object" selected>Object</option>'
+                break
+        }
+
+        var reqExample = ""
+        if (example !== "") {
+            reqExample = 'value="'+example+'"'
+        }
+
+        var tpl = '<tr>\n' +
+            '                                <td style="width: 20%;">\n' +
+            '                                    <input class="form-control form-control-sm reqField" type="text" placeholder="字段" '+ fieldVal +' style="font-size: 11px;">\n' +
+            '                                </td>\n' +
+            '                                <td style="width: 25%;">\n' +
+            '                                    <input class="form-control form-control-sm reqDescription" type="text" placeholder="描述" style="font-size: 11px;">\n' +
+            '                                </td>\n' +
+            '                                <td style="width: 10%">\n' +
+            '                                    <select class="form-select form-select-sm reqVarType" style="font-size: 11px;">\n' +
+            '                                        <option value="">类型</option>\n' + stringTypeVal + numberTypeVal + booleanTypeVal + arrayTypeVal + objectTypeVal +
+            '                                    </select>\n' +
+            '                                </td>\n' +
+            '                                <td style="width: 20%;">'+
+            '                                   <input class="form-control form-control-sm reqExample" type="text" placeholder="示例" '+ reqExample +' style="font-size: 11px;">'+
+            '                                </td>'+
+            '                                <td style="width: 10%;">\n' +
+            '                                    <select class="form-select form-select-sm reqIsRequired" style="font-size: 11px;">\n' +
+            '                                        <option value="1">不为空</option>\n' +
+            '                                        <option value="0">可为空</option>\n' +
+            '                                    </select>\n' +
+            '                                </td>\n' +
+            '                                <td style="width: 10%;">\n' +
+            '                                    <div class="btn-group btn-group-sm" role="group">\n' +
+            '                                        <a type="button" class="btn btn-outline-dark btn-sm addReq" data-bs-toggle="tooltip" data-bs-title="增加行">{{ SVG "plus-lg" 14 14 }}</a>\n' +
+            '                                        <a type="button" class="btn btn-outline-dark btn-sm removeReq" data-bs-toggle="tooltip" data-bs-title="删除当前行">{{ SVG "trash-fill" 14 14 }}</a>\n' +
+            '                                    </div>\n' +
+            '                                </td>\n' +
+            '                            </tr>';
+
+        return tpl
+    }
+
+    function jsonToBodyInfo() {
+        var jsonInfo = editorAdd.get();
+        // console.log(jsonInfo)
+        // var jsonInfoObj = JSON.parse(jsonInfo);
+
+        var reqField = $('.reqField').map(function() {
+            return $(this).val();
+        }).get();
+
+        var reqVarType = $('.reqVarType').map(function() {
+            return $(this).val();
+        }).get();
+
+        var reqExample =  $('.reqExample').map(function() {
+            return $(this).val();
+        }).get();
+
+        for (var key in jsonInfo) {
+            var keyType = typeof jsonInfo[key]
+            if (keyType === "object") {
+                keyType = isArrayOrObject(jsonInfo[key])
+            }
+            var flag = false
+            for (var has in reqField) {
+                if (reqField[has] === key) {
+                    if (reqVarType[has] !== keyType) {
+                        $('.reqVarType:eq('+has+')').val(keyType);
+                    }
+                    if (reqExample[has] !== jsonInfo[key]) {
+                        $('.reqExample:eq('+has+')').val(jsonInfo[key]);
+                    }
+                    flag = true
+                }
+            }
+            if (!flag && reqField[0] === "") {
+                $(".reqField").first().val(key);
+                $(".reqVarType").first().val(keyType);
+                $(".reqExample").first().val(jsonInfo[key]);
+            } else if (!flag) {
+                $("#setReqTable").append(addReqTpl(key, keyType, jsonInfo[key]));
+            }
+        }
+    }
+
+    $(document).on('click', '.addReq', function() {
+        $("#setReqTable").append(addReqTpl("", "", ""));
+    });
+
+    $(document).on('click', '.removeReq', function(event) {
+        var target = event.target;
+        var index = $(target).parents("tr").index();
+        $('#setReqTable tr:eq('+index+')').remove();
+    });
+
+    function addRespTpl(field, fieldType, example) {
+        var fieldVal = ""
+        if (field !== "") {
+            fieldVal  = 'value="'+field+'"'
+        }
+
+        var stringTypeVal = '<option value="string">String</option>'
+        var numberTypeVal = '<option value="number">Number</option>'
+        var booleanTypeVal = '<option value="boolean">Boolean</option>'
+        var arrayTypeVal = '<option value="array">Array</option>'
+        var objectTypeVal = '<option value="object">Object</option>'
+
+
+        switch (fieldType){
+            case "string":
+                stringTypeVal = '<option value="string" selected>String</option>'
+                break
+            case "number":
+                numberTypeVal = '<option value="number" selected>Number</option>'
+                break
+            case "boolean":
+                booleanTypeVal = '<option value="boolean" selected>Boolean</option>'
+                break
+            case "array":
+                arrayTypeVal = '<option value="array" selected>Array</option>'
+                break
+            case "object":
+                objectTypeVal = '<option value="object" selected>Object</option>'
+                break
+        }
+
+        var reqExample = ""
+        if (example !== "") {
+            reqExample = 'value="'+example+'"'
+        }
+
+        var tpl = '<tr>\n' +
+            '                                <td style="width: 20%;">\n' +
+            '                                    <input class="form-control form-control-sm respField" type="text" placeholder="字段" '+ fieldVal +' style="font-size: 11px;">\n' +
+            '                                </td>\n' +
+            '                                <td style="width: 20%;">\n' +
+            '                                    <input class="form-control form-control-sm respDescription" type="text" placeholder="描述" style="font-size: 11px;">\n' +
+            '                                </td>\n' +
+            '                                <td style="width: 10%">\n' +
+            '                                    <select class="form-select form-select-sm respVarType" style="font-size: 11px;">\n' +
+            '                                        <option value="">类型</option>\n' + stringTypeVal + numberTypeVal + booleanTypeVal + arrayTypeVal + objectTypeVal +
+            '                                    </select>\n' +
+            '                                </td>\n' +
+            '                                <td style="width: 20%">\n' +
+            '                                    <input class="form-control form-control-sm respExample" type="text" placeholder="返回值" '+ reqExample +' style="font-size: 11px;">\n' +
+            '                                </td>\n' +
+            '                                <td style="width: 10%;">\n' +
+            '                                    <div class="btn-group btn-group-sm" role="group">\n' +
+            '                                        <a type="button" class="btn btn-outline-dark btn-sm addResp" data-bs-toggle="tooltip" data-bs-title="增加行">{{ SVG "plus-lg" 14 14 }}</a>\n' +
+            '                                        <a type="button" class="btn btn-outline-dark btn-sm removeResp" data-bs-toggle="tooltip" data-bs-title="删除当前行">{{ SVG "trash-fill" 14 14 }}</a>\n' +
+            '                                    </div>\n' +
+            '                                </td>\n' +
+            '                            </tr>'
+
+        return tpl
+    }
+
+    function jsonToRespInfo() {
+        var jsonInfo = editorAddResp.get();
+        var reqField = $('.respField').map(function() {
+            return $(this).val();
+        }).get();
+
+        var reqVarType = $('.respVarType').map(function() {
+            return $(this).val();
+        }).get();
+
+        var reqExample =  $('.respExample').map(function() {
+            return $(this).val();
+        }).get();
+
+        for (var key in jsonInfo) {
+            var keyType = typeof jsonInfo[key]
+            if (keyType === "object") {
+                keyType = isArrayOrObject(jsonInfo[key])
+            }
+            var flag = false
+            for (var has in reqField) {
+                if (reqField[has] === key) {
+                    if (reqVarType[has] !== keyType) {
+                        $('.respVarType:eq('+has+')').val(keyType);
+                    }
+                    if (reqExample[has] !== jsonInfo[key]) {
+                        $('.respExample:eq('+has+')').val(jsonInfo[key]);
+                    }
+                    flag = true
+                }
+            }
+            if (!flag && reqField[0] === "") {
+                $(".respField").first().val(key);
+                $(".respVarType").first().val(keyType);
+                $(".respExample").first().val(jsonInfo[key]);
+            } else if (!flag) {
+                $("#setRespTable").append(addRespTpl(key, keyType, jsonInfo[key]));
+            }
+        }
+    }
+
+    $(document).on('click', '.addResp', function (){
+        $("#setRespTable").append(addRespTpl("", "", ""));
+    });
+
+    $(document).on('click', '.removeResp', function(event) {
+        var target = event.target;
+        var index = $(target).parents("tr").index();
+        $('#setRespTable tr:eq('+index+')').remove();
+    })
+
+    $(document).on('click', '.docli', function(event) {
+        var docId = $(this).prop('id');
+        console.log(docId);
+
+        var docViewTable =  $("#docViewTable")
+        docViewTable.find('a').each(function() {
+            $(this).removeClass("active")
+        });
+
+        var tpl = '<li class="nav-item" >\n' +
+            '                  <a class="nav-link docViewItem active" aria-current="page" href="#">[Get] xxxxxxxxxxxx <span class="docViewClose">{{ SVG "x-square-fill" 16 16 }}</span></a>\n' +
+            '                </li>'
+
+        $("#docViewTable").append(tpl);
+
+        //const left = $('#docViewTable').width();
+        $('#docViewTable').scrollLeft(9999);
+    })
+
+    $(document).on('click', '.docViewItem', function (event){
+        var docViewTable =  $("#docViewTable")
+        docViewTable.find('a').each(function() {
+            $(this).removeClass("active")
+        });
+
+        $(this).addClass("active")
+
+    })
+
+    $(document).on('click', '.docViewClose', function (event){
+        event.stopPropagation();
+        var target = event.target;
+        var index = $(target).parents("li").index();
+        var now = $('#docViewTable li:eq('+index+')')
+        console.log(now.find("a").hasClass("active"))
+        if(now.find("a").hasClass("active")) {
+            if (index>0) {
+                var i = index-1
+                $('#docViewTable li:eq('+i+')').find("a").addClass("active")
+            }else {
+                var i = index+1
+                $('#docViewTable li:eq('+i+')').find("a").addClass("active")
+            }
+        }
+        now.remove();
+    })
+
+
 
 </script>
 {{ template "end" . }}

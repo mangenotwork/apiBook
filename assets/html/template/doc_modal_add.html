@@ -7,289 +7,244 @@
                 <button class="btn" type="button" data-bs-dismiss="modal" aria-label="Close" style="color: #ffffff;">X</button>
             </div>
             <div class="modal-body">
-                <div style="width: 80%;margin-left: 10%;margin-right: 10%;padding: 36px;">
 
-                    <!-- 基础信息 -->
-                    <div style="margin-bottom: 32px;">
-                        <div class="mb-3">
-                            <input type="text" class="form-control" id="addDocName" placeholder="接口文档名">
+                <div class="row">
+
+                  <div class="col-10">
+
+                      <div data-bs-spy="scroll" data-bs-target="#add-list-example" data-bs-offset="0" data-bs-smooth-scroll="true" class="scrollspy-add" tabindex="0" >
+
+                          <div style="width: 80%;margin-left: 20%;">
+
+                              <!-- 基础信息 -->
+                              <div style="margin-bottom: 32px;">
+                                  <div class="mb-3">
+                                      <input type="text" class="form-control" id="addDocName" placeholder="接口文档名">
+                                  </div>
+
+                                  <div class="input-group mb-3">
+
+                                      <select class="form-select" id="addDocMethod">
+                                          <option value="GET">GET</option>
+                                          <option value="POST">POST</option>
+                                          <option value="PUT">PUT</option>
+                                          <option value="HEAD">HEAD</option>
+                                          <option value="OPTIONS">OPTIONS</option>
+                                          <option value="DELETE">DELETE</option>
+                                      </select>
+
+                                      <input type="text" class="form-control" id="addDocUrl" aria-label="Text input with dropdown button"  style="width: 80%;">
+                                  </div>
+                              </div>
+
+                              <!-- 接口说明文档 -->
+                              <hr>
+                              <div style="margin-bottom: 36px;">
+                                  <h5 id="add-list-item-1">接口说明文档</h5>
+                                  <div id="test-editor" >
+                                      <textarea style="display:none;"></textarea>
+                                  </div>
+                              </div>
+
+                              <!-- header -->
+                              <hr>
+                              <div style="margin-bottom: 36px;">
+                                  <h5 id="add-list-item-2">header</h5>
+                                  <button type="button" class="btn btn-primary"
+                                          style="--bs-btn-padding-y: .25rem; --bs-btn-padding-x: .5rem; --bs-btn-font-size: .75rem;margin-top: 2px; margin-bottom: 8px;">
+                                      导入全局Header
+                                  </button>
+                                  <table class="table table-hover table-bordered" id="setHeaderTable">
+                                      <tr>
+                                          <td style="width: 10%;">
+                                              <select class="form-select form-select-sm addDocHeaderIsRequired" style="font-size: 11px;">
+                                                  <option value="1">必填</option>
+                                                  <option value="0">非必填</option>
+                                              </select>
+                                          </td>
+                                          <td style="width: 20%;">
+                                              <input class="form-control form-control-sm addDocHeaderField" type="text" placeholder="字段" style="font-size: 11px;">
+                                          </td>
+                                          <td style="width: 20%;">
+                                              <input class="form-control form-control-sm addDocHeaderDescription" type="text" placeholder="描述" style="font-size: 11px;">
+                                          </td>
+                                          <td style="width: 10%;">
+                                              <select class="form-select form-select-sm addDocHeaderVarType" style="font-size: 11px;">
+                                                  <option value="">类型</option>
+                                                  <option value="String">String</option>
+                                                  <option value="Number">Number</option>
+                                                  <option value="Integer">Integer</option>
+                                                  <option value="Float">Float</option>
+                                                  <option value="Double">Double</option>
+                                                  <option value="Bool">Bool</option>
+                                                  <option value="Array">Array</option>
+                                                  <option value="Object">Object</option>
+                                              </select>
+                                          </td>
+                                          <td style="width: 20%">
+                                              <input class="form-control form-control-sm addDocHeaderExample" type="text" placeholder="示例" style="font-size: 11px;">
+                                          </td>
+                                          <td style="width: 10%;">
+                                              <div class="btn-group btn-group-sm" role="group">
+                                                  <a type="button" class="btn btn-outline-dark btn-sm headerAdd" data-bs-toggle="tooltip" data-bs-title="增加行" >{{ SVG "plus-lg" 14 14 }}</a>
+                                              </div>
+                                          </td>
+                                      </tr>
+                                  </table>
+                              </div>
+
+                              <!-- 请求示例 -->
+
+                              <div style="margin-bottom: 36px;">
+                                  <h5 id="add-list-item-3">请求示例</h5>
+                                  <div id="setBodyTable">
+                                      <div style="width: 100%; margin-top: 4px; margin-bottom: 8px;">
+                                          <button type="button" class="btn btn-sm btn-light" id="openBodyBtn-json" style="font-size: 9px;margin-right: 2px;" onclick="openBodyMain('json')">application/json</button>
+                                          <button type="button" class="btn btn-sm btn-dark" id="openBodyBtn-from-data" style="font-size: 9px;margin-right: 2px;" onclick="openBodyMain('from-data')">multipart/from-data</button>
+                                          <button type="button" class="btn btn-sm btn-dark" id="openBodyBtn-x-www-form-urlencoded" style="font-size: 9px;margin-right: 2px;" onclick="openBodyMain('x-www-form-urlencoded')">application/x-www-form-urlencoded</button>
+                                          <button type="button" class="btn btn-sm btn-dark" id="openBodyBtn-xml" style="font-size: 9px;margin-right: 2px;" onclick="openBodyMain('xml')">application/xml</button>
+                                          <button type="button" class="btn btn-sm btn-dark" id="openBodyBtn-plain" style="font-size: 9px;margin-right: 2px;" onclick="openBodyMain('plain')">text/plain</button>
+                                      </div>
+                                      <div id="bodyJson">
+                                          <div id="jsoneditorAdd" style="width: 100%;height: 440px;margin-bottom: 2px;"></div><br>
+                                          <button type="button" class="btn btn-primary"
+                                                  style="--bs-btn-padding-y: .25rem; --bs-btn-padding-x: .5rem; --bs-btn-font-size: .75rem;margin-top: 2px;" onclick="jsonToBodyInfo()">
+                                              映射到请求参数说明
+                                          </button>
+                                      </div>
+                                      <div id="bodyFromData" style="display:none;">在请求参数中编辑
+                                      </div>
+                                      <div id="bodyXwwwFrom" style="display:none;">在请求参数中编辑
+                                      </div>
+                                      <div id="bodyXml" style="display:none;">
+                                          <textarea class="form-control" rows="5" style="height: 440px;"></textarea>
+                                      </div>
+                                      <div id="bodyText" style="display:none;">
+                                          <textarea class="form-control" rows="5" style="height: 440px;"></textarea>
+                                      </div>
+                                  </div>
+                              </div>
+
+                              <!-- 请求参数说明 -->
+                              <div style="margin-bottom: 66px;">
+                                  <h5 id="add-list-item-4">请求参数说明</h5>
+                                  <table class="table table-hover table-bordered" id="setReqTable">
+                                      <tr>
+                                          <td style="width: 20%;">
+                                              <input class="form-control form-control-sm reqField" type="text" placeholder="字段" style="font-size: 11px;">
+                                          </td>
+                                          <td style="width: 20%;">
+                                              <input class="form-control form-control-sm reqDescription" type="text" placeholder="描述" style="font-size: 11px;">
+                                          </td>
+                                          <td style="width: 10%">
+                                              <select class="form-select form-select-sm reqVarType" style="font-size: 11px;">
+                                                  <option value="">类型</option>
+                                                  <option value="string">String</option>
+                                                  <option value="number">Number</option>
+                                                  <option value="boolean">Boolean</option>
+                                                  <option value="array">Array</option>
+                                                  <option value="object">Object</option>
+                                                  <option value="file">File</option>
+                                              </select>
+                                          </td>
+                                          <td style="width: 20%;">
+                                              <input class="form-control form-control-sm reqExample" type="text" placeholder="示例" style="font-size: 11px;">
+                                          </td>
+                                          <td style="width: 10%;">
+                                              <select class="form-select form-select-sm reqIsRequired" style="font-size: 11px;">
+                                                  <option value="1">不为空</option>
+                                                  <option value="0">可为空</option>
+                                              </select>
+                                          </td>
+                                          <td style="width: 10%;">
+                                              <div class="btn-group btn-group-sm" role="group">
+                                                  <a type="button" class="btn btn-outline-dark btn-sm addReq" data-bs-toggle="tooltip" data-bs-title="增加行">{{ SVG "plus-lg" 14 14 }}</a>
+                                              </div>
+                                          </td>
+                                      </tr>
+                                  </table>
+                              </div>
+
+                              <!-- 响应示例 -->
+                              <hr>
+                              <div style="margin-bottom: 36px;">
+                                  <h5 id="add-list-item-5">响应示例</h5>
+                                  <div id="respBodyTable">
+                                      <div style="width: 100%; margin-top: 4px; margin-bottom: 8px;">
+                                          <button type="button" class="btn btn-sm btn-light" id="openRespBtn-json" style="font-size: 9px;margin-right: 2px;" onclick="openRespMain('json')">application/json</button>
+                                          <button type="button" class="btn btn-sm btn-dark" id="openRespBtn-xml" style="font-size: 9px;margin-right: 2px;" onclick="openRespMain('xml')">application/xml</button>
+                                          <button type="button" class="btn btn-sm btn-dark" id="openRespBtn-plain" style="font-size: 9px;margin-right: 2px;" onclick="openRespMain('plain')">text/plain html</button>
+                                      </div>
+                                      <div id="respJson">
+                                          <div id="jsoneditorAddResp" style="width: 100%;height: 440px;margin-bottom: 2px;"></div><br>
+                                          <button type="button" class="btn btn-primary"
+                                                  style="--bs-btn-padding-y: .25rem; --bs-btn-padding-x: .5rem; --bs-btn-font-size: .75rem;margin-top: 2px;" onclick="jsonToRespInfo()">
+                                              映射到响应参数说明
+                                          </button>
+                                      </div>
+                                      <div id="respXml" style="display:none;">
+                                          <textarea class="form-control" rows="5" style="height: 440px;"></textarea>
+                                      </div>
+                                      <div id="respText" style="display:none;">
+                                          <textarea class="form-control" rows="5" style="height: 440px;"></textarea>
+                                      </div>
+                                  </div>
+                              </div>
+
+                              <!-- 响应参数说明 -->
+                              <div style="margin-bottom: 36px;">
+                                  <h5 id="add-list-item-6">响应参数说明</h5>
+                                  <table class="table table-hover table-bordered" id="setRespTable">
+                                      <tr>
+                                          <td style="width: 20%;">
+                                              <input class="form-control form-control-sm respField" type="text" placeholder="字段" style="font-size: 11px;">
+                                          </td>
+                                          <td style="width: 20%;">
+                                              <input class="form-control form-control-sm respDescription" type="text" placeholder="描述" style="font-size: 11px;">
+                                          </td>
+                                          <td style="width: 10%">
+                                              <select class="form-select form-select-sm respVarType" style="font-size: 11px;">
+                                                  <option value="">类型</option>
+                                                  <option value="string">String</option>
+                                                  <option value="number">Number</option>
+                                                  <option value="boolean">Boolean</option>
+                                                  <option value="array">Array</option>
+                                                  <option value="object">Object</option>
+                                                  <option value="file">File</option>
+                                              </select>
+                                          </td>
+                                          <td style="width: 20%">
+                                              <input class="form-control form-control-sm respExample" type="text" placeholder="返回值" style="font-size: 11px;">
+                                          </td>
+                                          <td style="width: 10%;">
+                                              <div class="btn-group btn-group-sm" role="group">
+                                                  <a type="button" class="btn btn-outline-dark btn-sm addResp" data-bs-toggle="tooltip" data-bs-title="增加行">{{ SVG "plus-lg" 14 14 }}</a>
+                                                  <a type="button" class="btn btn-outline-dark btn-sm removeResp" data-bs-toggle="tooltip" data-bs-title="删除当前行">{{ SVG "trash-fill" 14 14 }}</a>
+                                              </div>
+                                          </td>
+                                      </tr>
+                                  </table>
+                              </div>
+                          </div>
+
+                      </div>
+
+                  </div>
+
+                    <div class="col-2">
+                        <div id="add-list-example" class="d-flex flex-column gap-2 simple-list-example-scrollspy text-center">
+                            <a class="p-1 rounded" style="color: #1a1d20;" href="#add-list-item-1">接口说明文档</a>
+                            <a class="p-1 rounded" style="color: #1a1d20;" href="#add-list-item-2">Header</a>
+                            <a class="p-1 rounded" style="color: #1a1d20;" href="#add-list-item-3">请求示例</a>
+                            <a class="p-1 rounded" style="color: #1a1d20;" href="#add-list-item-4">请求参数说明</a>
+                            <a class="p-1 rounded" style="color: #1a1d20;" href="#add-list-item-5">响应示例</a>
+                            <a class="p-1 rounded" style="color: #1a1d20;" href="#add-list-item-6">响应参数说明</a>
                         </div>
-
-                        <div class="input-group mb-3">
-
-                            <select class="form-select" id="addDocMethod">
-                                <option value="GET">GET</option>
-                                <option value="POST">POST</option>
-                                <option value="PUT">PUT</option>
-                                <option value="HEAD">HEAD</option>
-                                <option value="OPTIONS">OPTIONS</option>
-                                <option value="DELETE">DELETE</option>
-                            </select>
-
-                            <input type="text" class="form-control" id="addDocUrl" aria-label="Text input with dropdown button"  style="width: 80%;">
-                        </div>
-                    </div>
-
-                    <!-- 接口说明文档 -->
-                    <hr>
-                    <div style="margin-bottom: 36px;">
-                        <h5>接口说明文档</h5>
-                        <div id="test-editor" >
-                            <textarea style="display:none;"></textarea>
-                        </div>
-                    </div>
-
-                    <!-- header -->
-                    <hr>
-                    <div style="margin-bottom: 36px;">
-                        <h5>header</h5>
-                        <button type="button" class="btn btn-primary"
-                                style="--bs-btn-padding-y: .25rem; --bs-btn-padding-x: .5rem; --bs-btn-font-size: .75rem;margin-top: 2px; margin-bottom: 8px;">
-                            导入全局Header
-                        </button>
-                        <table class="table table-hover table-bordered" id="setHeaderTable">
-                            <tr>
-                                <td style="width: 10%;">
-                                    <select class="form-select form-select-sm addDocHeaderIsRequired" style="font-size: 11px;">
-                                        <option value="1">必填</option>
-                                        <option value="0">非必填</option>
-                                    </select>
-                                </td>
-                                <td style="width: 20%;">
-                                    <input class="form-control form-control-sm addDocHeaderField" type="text" placeholder="字段" style="font-size: 11px;">
-                                </td>
-                                <td style="width: 20%;">
-                                    <input class="form-control form-control-sm addDocHeaderDescription" type="text" placeholder="描述" style="font-size: 11px;">
-                                </td>
-                                <td style="width: 10%;">
-                                    <select class="form-select form-select-sm addDocHeaderVarType" style="font-size: 11px;">
-                                        <option value="">类型</option>
-                                        <option value="String">String</option>
-                                        <option value="Number">Number</option>
-                                        <option value="Integer">Integer</option>
-                                        <option value="Float">Float</option>
-                                        <option value="Double">Double</option>
-                                        <option value="Bool">Bool</option>
-                                        <option value="Array">Array</option>
-                                        <option value="Object">Object</option>
-                                    </select>
-                                </td>
-                                <td style="width: 20%">
-                                    <input class="form-control form-control-sm addDocHeaderExample" type="text" placeholder="示例" style="font-size: 11px;">
-                                </td>
-                                <td style="width: 10%;">
-                                    <div class="btn-group btn-group-sm" role="group">
-                                        <a type="button" class="btn btn-outline-dark btn-sm headerAdd" data-bs-toggle="tooltip" data-bs-title="增加行" >{{ SVG "plus-lg" 14 14 }}</a>
-                                    </div>
-                                </td>
-                            </tr>
-                        </table>
-                    </div>
-
-                    <!-- 请求示例 -->
-
-                    <div style="margin-bottom: 36px;">
-                        <h5>请求示例</h5>
-                        <div id="setBodyTable">
-                            <div style="width: 100%; margin-top: 4px; margin-bottom: 8px;">
-                                <button type="button" class="btn btn-sm btn-light" id="openBodyBtn-json" style="font-size: 9px;margin-right: 2px;" onclick="openBodyMain('json')">application/json</button>
-                                <button type="button" class="btn btn-sm btn-dark" id="openBodyBtn-from-data" style="font-size: 9px;margin-right: 2px;" onclick="openBodyMain('from-data')">multipart/from-data</button>
-                                <button type="button" class="btn btn-sm btn-dark" id="openBodyBtn-x-www-form-urlencoded" style="font-size: 9px;margin-right: 2px;" onclick="openBodyMain('x-www-form-urlencoded')">application/x-www-form-urlencoded</button>
-                                <button type="button" class="btn btn-sm btn-dark" id="openBodyBtn-xml" style="font-size: 9px;margin-right: 2px;" onclick="openBodyMain('xml')">application/xml</button>
-                                <button type="button" class="btn btn-sm btn-dark" id="openBodyBtn-plain" style="font-size: 9px;margin-right: 2px;" onclick="openBodyMain('plain')">text/plain</button>
-                            </div>
-                            <div id="bodyJson">
-                                <div id="jsoneditorAdd" style="width: 100%;height: 360px;margin-bottom: 2px;"></div><br>
-                                <button type="button" class="btn btn-primary"
-                                        style="--bs-btn-padding-y: .25rem; --bs-btn-padding-x: .5rem; --bs-btn-font-size: .75rem;margin-top: 2px;">
-                                   映射到请求参数说明
-                                </button>
-                            </div>
-                            <div id="bodyFromData" style="display:none;">
-                                <table class="table table-hover table-bordered">
-                                    <tr>
-                                        <td style="width: 5%;">
-                                            <input class="form-check-input" type="checkbox" checked="checked">
-                                        </td>
-                                        <td style="width: 15%;">
-                                            <input class="form-control form-control-sm" type="text" placeholder="Key" style="font-size: 11px;">
-                                        </td>
-                                        <td style="width: 25%">
-                                            <div class="input-group">
-                                                <select class="form-select" style="width: 30%;font-size: 11px;">
-                                                    <option value="text">text</option>
-                                                    <option value="file">file</option>
-                                                </select>
-                                                <input type="text" class="form-control" style="width: 70%;font-size: 11px;">
-                                            </div>
-                                        </td>
-                                        <td style="width: 10%;">
-                                            <select class="form-select form-select-sm" style="font-size: 11px;">
-                                                <option selected>类型</option>
-                                                <option value="String">String</option>
-                                                <option value="Number">Number</option>
-                                                <option value="Integer">Integer</option>
-                                                <option value="Float">Float</option>
-                                                <option value="Double">Double</option>
-                                                <option value="Bool">Bool</option>
-                                                <option value="Array">Array</option>
-                                                <option value="Object">Object</option>
-                                            </select>
-                                        </td>
-                                        <td style="width: 10%;">
-                                            <select class="form-select form-select-sm" style="font-size: 11px;">
-                                                <option selected>必填</option>
-                                                <option value="0">必填</option>
-                                                <option value="1">非必填</option>
-                                            </select>
-                                        </td>
-                                        <td style="width: 15%;">
-                                            <input class="form-control form-control-sm" type="text" placeholder="描述" style="font-size: 11px;">
-                                        </td>
-                                        <td style="width: 10%;">
-                                            <div class="btn-group btn-group-sm" role="group">
-                                                <a type="button" class="btn btn-outline-dark btn-sm" data-bs-toggle="tooltip" data-bs-title="增加行" @click="">{{ SVG "plus-lg" 14 14 }}</a>
-                                                <a type="button" class="btn btn-outline-dark btn-sm" data-bs-toggle="tooltip" data-bs-title="删除当前行" @click="">{{ SVG "trash-fill" 14 14 }}</a></a>
-                                            </div>
-                                        </td>
-                                    </tr>
-                                </table>
-                            </div>
-                            <div id="bodyXwwwFrom" style="display:none;">
-                                <table class="table table-hover table-bordered">
-                                    <tr>
-                                        <td style="width: 5%;">
-                                            <input class="form-check-input" type="checkbox" checked="checked">
-                                        </td>
-                                        <td style="width: 15%;">
-                                            <input class="form-control form-control-sm" type="text" placeholder="Key" style="font-size: 11px;">
-                                        </td>
-                                        <td style="width: 25%">
-                                            <input class="form-control form-control-sm" type="text" placeholder="Value" style="font-size: 11px;">
-                                        </td>
-                                        <td style="width: 10%;">
-                                            <select class="form-select form-select-sm" style="font-size: 11px;">
-                                                <option selected>类型</option>
-                                                <option value="String">String</option>
-                                                <option value="Number">Number</option>
-                                                <option value="Integer">Integer</option>
-                                                <option value="Float">Float</option>
-                                                <option value="Double">Double</option>
-                                                <option value="Bool">Bool</option>
-                                                <option value="Array">Array</option>
-                                                <option value="Object">Object</option>
-                                            </select>
-                                        </td>
-                                        <td style="width: 10%;">
-                                            <select class="form-select form-select-sm" style="font-size: 11px;">
-                                                <option selected>必填</option>
-                                                <option value="0">必填</option>
-                                                <option value="1">非必填</option>
-                                            </select>
-                                        </td>
-                                        <td style="width: 15%;">
-                                            <input class="form-control form-control-sm" type="text" placeholder="描述" style="font-size: 11px;">
-                                        </td>
-                                        <td style="width: 10%;">
-                                            <div class="btn-group btn-group-sm" role="group">
-                                                <a type="button" class="btn btn-outline-dark btn-sm" data-bs-toggle="tooltip" data-bs-title="增加行" @click="">{{ SVG "plus-lg" 14 14 }}</a>
-                                                <a type="button" class="btn btn-outline-dark btn-sm" data-bs-toggle="tooltip" data-bs-title="删除当前行" @click="">{{ SVG "trash-fill" 14 14 }}</a>
-                                            </div>
-                                        </td>
-                                    </tr>
-                                </table>
-                            </div>
-                            <div id="bodyXml" style="display:none;">
-                                <textarea class="form-control" rows="5" style="height: 360px;"></textarea>
-                            </div>
-                            <div id="bodyText" style="display:none;">
-                                <textarea class="form-control" rows="5" style="height: 360px;"></textarea>
-                            </div>
-                        </div>
-                    </div>
-
-                    <!-- 请求参数说明 -->
-                    <div style="margin-bottom: 66px;">
-                        <h5>请求参数说明</h5>
-                        <table class="table table-hover table-bordered" id="setReqTable">
-                            <tr>
-                                <td style="width: 5%;">
-                                    <input class="form-check-input" type="checkbox" checked="checked">
-                                </td>
-                                <td style="width: 15%;">
-                                    <input class="form-control form-control-sm" type="text" placeholder="Key" style="font-size: 11px;">
-                                </td>
-                                <td style="width: 25%">
-                                    <input class="form-control form-control-sm" type="text" placeholder="Value" style="font-size: 11px;">
-                                </td>
-                                <td style="width: 15%;">
-                                    <input class="form-control form-control-sm" type="text" placeholder="描述" style="font-size: 11px;">
-                                </td>
-                                <td style="width: 10%;">
-                                    <div class="btn-group btn-group-sm" role="group">
-                                        <a type="button" class="btn btn-outline-dark btn-sm" data-bs-toggle="tooltip" data-bs-title="增加行" @click="">{{ SVG "plus-lg" 14 14 }}</a>
-                                        <a type="button" class="btn btn-outline-dark btn-sm" data-bs-toggle="tooltip" data-bs-title="删除当前行" @click="">{{ SVG "trash-fill" 14 14 }}</a>
-                                    </div>
-                                </td>
-                            </tr>
-                        </table>
-                    </div>
-
-                    <!-- 响应示例 -->
-                    <hr>
-                    <div style="margin-bottom: 36px;">
-                        <h5>响应示例</h5>
-                        <div id="respBodyTable">
-                            <div style="width: 100%; margin-top: 4px; margin-bottom: 8px;">
-                                <button type="button" class="btn btn-sm btn-light" id="openRespBtn-json" style="font-size: 9px;margin-right: 2px;" onclick="openRespMain('json')">application/json</button>
-                                <button type="button" class="btn btn-sm btn-dark" id="openRespBtn-xml" style="font-size: 9px;margin-right: 2px;" onclick="openRespMain('xml')">application/xml</button>
-                                <button type="button" class="btn btn-sm btn-dark" id="openRespBtn-plain" style="font-size: 9px;margin-right: 2px;" onclick="openRespMain('plain')">text/plain html</button>
-                            </div>
-                            <div id="respJson">
-                                <div id="jsoneditorAddResp" style="width: 100%;height: 360px;margin-bottom: 2px;"></div><br>
-                                <button type="button" class="btn btn-primary"
-                                        style="--bs-btn-padding-y: .25rem; --bs-btn-padding-x: .5rem; --bs-btn-font-size: .75rem;margin-top: 2px;">
-                                    映射到响应参数说明
-                                </button>
-                            </div>
-                            <div id="respXml" style="display:none;">
-                                <textarea class="form-control" rows="5" style="height: 360px;"></textarea>
-                            </div>
-                            <div id="respText" style="display:none;">
-                                <textarea class="form-control" rows="5" style="height: 360px;"></textarea>
-                            </div>
-                        </div>
-                    </div>
-
-                    <!-- 响应参数说明 -->
-                    <div style="margin-bottom: 36px;">
-                        <h5>响应参数说明</h5>
-                        <table class="table table-hover table-bordered" id="setRespTable">
-                            <tr>
-                                <td style="width: 5%;">
-                                    <input class="form-check-input" type="checkbox" checked="checked">
-                                </td>
-                                <td style="width: 15%;">
-                                    <input class="form-control form-control-sm" type="text" placeholder="Key" style="font-size: 11px;">
-                                </td>
-                                <td style="width: 25%">
-                                    <input class="form-control form-control-sm" type="text" placeholder="Value" style="font-size: 11px;">
-                                </td>
-                                <td style="width: 15%;">
-                                    <input class="form-control form-control-sm" type="text" placeholder="描述" style="font-size: 11px;">
-                                </td>
-                                <td style="width: 10%;">
-                                    <div class="btn-group btn-group-sm" role="group">
-                                        <a type="button" class="btn btn-outline-dark btn-sm" data-bs-toggle="tooltip" data-bs-title="增加行" @click="">{{ SVG "plus-lg" 14 14 }}</a>
-                                        <a type="button" class="btn btn-outline-dark btn-sm" data-bs-toggle="tooltip" data-bs-title="删除当前行" @click="">{{ SVG "trash-fill" 14 14 }}</a>
-                                    </div>
-                                </td>
-                            </tr>
-                        </table>
                     </div>
                 </div>
 
             </div>
+
             <div class="modal-footer">
                 <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">取消</button>
                 <button type="button" class="btn btn-primary" onclick="saveAddDoc()">保存</button>

@@ -161,13 +161,19 @@
 
 })( jQuery );
 
-
-function tooltipInit() {
-    var tooltipTriggerList = Array.prototype.slice.call(document.querySelectorAll('[data-bs-toggle="tooltip"]'))
-    var tooltipList = tooltipTriggerList.map(function (tooltipTriggerEl) {
-        return new bootstrap.Tooltip(tooltipTriggerEl)
-    })
+function isObject(obj) {
+    return obj === Object(obj);
 }
+
+function isArrayOrObject(data) {
+    if (Array.isArray(data)) {
+        return 'array';
+    } else if (isObject(data)) {
+        return 'object';
+    }
+    return 'other';
+}
+
 
 function getJsonPaths(json, currentPath = '') {
     let paths = [];

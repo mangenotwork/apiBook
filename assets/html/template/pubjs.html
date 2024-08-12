@@ -2,17 +2,47 @@
 <script type="text/javascript" src="/js/jquery.min.js?v={{ .TimeStamp }}"></script>
 <script type="text/javascript" src="/js/bootstrap.bundle.min.js?v={{ .TimeStamp }}"></script>
 <script type="text/javascript" src="/js/bootstrap-select.min.js?v={{ .TimeStamp }}"></script>
+<script type="text/javascript" src="/js/popper.min.js?v={{ .TimeStamp }}"></script>
+<script type="text/javascript" src="/js/tippy-bundle.umd.min.js?v={{ .TimeStamp }}"></script>
 <script type="text/javascript" src="/js/jsoneditor.js?v={{ .TimeStamp }}"></script>
 <script type="text/javascript" src="/js/editormd.min.js?v={{ .TimeStamp }}"></script>
 <script>
+
+    function tippyInit() {
+        tippy('.shareButton', {
+            content: '分享接口文档',
+        });
+        tippy('.changeButton', {
+            content: '切换项目',
+        });
+        tippy('.addDirButton', {
+            content: "新建目录",
+        });
+        tippy('.addDocButton', {
+            content: "新建文档",
+        });
+        tippy('.pConfButton', {
+            content: "项目设置",
+        });
+        tippy('.sortDirButton', {
+            content: "目录排序",
+        })
+        tippy('.sortDocButton', {
+            content: "文档排序",
+        })
+        tippy('.editDocButton', {
+            content: "编辑文档",
+        })
+    }
+
 
     const dirDev = function (dirid, name) {
         return '<div class="dir">\n' +
             '            <p class="dir-open" data-open="0" data-dirid="'+dirid+'"><span>{{ SVG "folder" 21 21 }}</span>'+name+'</p>\n' +
             '            <div class="btn-group btn-group-sm dirop" role="group" aria-label="Small button group">\n' +
-            '                <button type="button" class="btn btn-outline-dark" data-bs-toggle="tooltip" data-bs-custom-class="custom-tooltip" data-bs-placement="top" data-bs-title="目录排序">{{ SVG "arrow-down-up" 16 16 }}</button>\n' +
-            '                <button type="button" class="btn btn-outline-dark" data-bs-toggle="tooltip" data-bs-custom-class="custom-tooltip" data-bs-placement="top" data-bs-title="文档排序">{{ SVG "list-ol" 16 16 }}</button>\n' +
-            '                <button type="button" class="btn btn-outline-dark" data-bs-toggle="tooltip" data-bs-custom-class="custom-tooltip" data-bs-placement="top" data-bs-title="新建文档" onclick="newAPIDoc()">{{ SVG "plus-lg" 16 16 }}</button>\n' +
+            '                <button type="button" class="btn btn-outline-dark sortDirButton">{{ SVG "arrow-down-up" 16 16 }}</button>\n' +
+            '                <button type="button" class="btn btn-outline-dark sortDocButton">{{ SVG "list-ol" 16 16 }}</button>\n' +
+            '                <button type="button" class="btn btn-outline-dark addDocButton" onclick="newAPIDoc()">{{ SVG "plus-lg" 16 16 }}</button>\n' +
             '            </div>\n' +
             '        </div>' +
             '<ul id="'+dirid+'" class="dir-ul" >' +
@@ -44,9 +74,9 @@
         return '<li class="hover-area docli" id="'+id+'">\n' +
             '                <p>'+methodtxt+name+'</p>\n' +
             '                <div class="btn-group btn-group-sm action-btn docliop" role="group" aria-label="Small button group">\n' +
-            '                    <button type="button" class="btn btn-outline-dark" data-bs-toggle="tooltip" data-bs-custom-class="custom-tooltip" data-bs-placement="top" data-bs-title="移动">{{ SVG "arrows-move" 16 16 }}</button>\n' +
-            '                    <button type="button" class="btn btn-outline-dark" data-bs-toggle="tooltip" data-bs-custom-class="custom-tooltip" data-bs-placement="top" data-bs-title="编辑">{{ SVG "pencil-square" 16 16 }}</button>\n' +
-            '                    <button type="button" class="btn btn-outline-dark" data-bs-toggle="tooltip" data-bs-custom-class="custom-tooltip" data-bs-placement="top" data-bs-title="分享">{{ SVG "share-fill" 16 16 }}</button>\n' +
+            '                    <button type="button" class="btn btn-outline-dark sortDocButton">{{ SVG "arrows-move" 16 16 }}</button>\n' +
+            '                    <button type="button" class="btn btn-outline-dark editDocButton">{{ SVG "pencil-square" 16 16 }}</button>\n' +
+            '                    <button type="button" class="btn btn-outline-dark shareButton">{{ SVG "share-fill" 16 16 }}</button>\n' +
             '                </div>\n' +
             '            </li>'
     }
