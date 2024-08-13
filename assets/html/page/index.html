@@ -29,15 +29,20 @@
 
                       <div data-bs-spy="scroll" data-bs-target="#simple-list-example" data-bs-offset="0" data-bs-smooth-scroll="true" class="scrollspy-example" style="margin-top: .5rem;overflow: auto" tabindex="0">
 
-                          <div style="margin-bottom: 48px;margin-top: 36px;">
+                          <div style="margin-bottom: 52px;margin-top: 36px;">
                             <h4 id="simple-list-item-1" style="margin-bottom: 16px;">基本信息</h4>
                             <div class="card">
                                 <div class="card-body">
                                     <ul>
-                                        <li style="padding: 8px;"><span style="font-size: 16px;">接口名:</span><span style="font-size: 21px;margin-left: 16px;"> asdasdaasdasdsadasdasdas</span></li>
-                                        <li style="padding: 8px;"><span style="font-size: 16px;">接口Url: </span><span style="font-size: 21px;margin-left: 16px;"><span class="badge rounded-pill text-bg-success" style="margin-right: 8px;">GET</span> asdasdaasdasdsadasdasdas</span></li>
+                                        <li style="padding: 8px;"><span style="font-size: 16px;">接口名:</span><span id="api-name" style="font-size: 21px;margin-left: 16px;"></span></li>
+                                        <li style="padding: 8px;"><span style="font-size: 16px;">接口Url: </span>
+                                            <span style="font-size: 21px;margin-left: 16px;">
+                                                <span id="api-method" ><span class="badge rounded-pill text-bg-success" style="margin-right: 8px;">GET</span></span>
+                                                <span id="api-url">asdasdaasdasdsadasdasdas</span>
+                                            </span>
+                                        </li>
                                         <li style="padding: 8px;">操作： <div class="btn-group" role="group" aria-label="Basic outlined example" style="margin-left: 16px;">
-                                            <button type="button" class="btn btn-outline-dark" onclick="newAPIDoc()">编辑</button>
+                                            <button type="button" class="btn btn-outline-dark" onclick="newAPIDoc('')">编辑</button>
                                             <button type="button" class="btn btn-outline-dark">请求</button>
                                             <button type="button" class="btn btn-outline-dark">分享</button>
                                             <button type="button" class="btn btn-outline-dark">Mock</button>
@@ -48,95 +53,92 @@
                             </div>
                           </div>
 
-                        <div style="margin-bottom: 48px;">
+                        <div style="margin-bottom: 52px;">
                             <h4 id="simple-list-item-2" style="margin-bottom: 36px;">接口说明</h4>
 
                             <div class="card">
-                                <div class="card-body">
+                                <div class="card-body" id="api-description">
                                     <p>This is some placeholder content for the scrollspy page. Note that as you scroll down the page, the appropriate navigation link is highlighted. It's repeated throughout the component example. We keep adding some more example copy here to emphasize the scrolling and highlighting.This is some placeholder content for the scrollspy page. Note that as you scroll down the page, the appropriate navigation link is highlighted. It's repeated throughout the component example. We keep adding some more example copy here to emphasize the scrolling and highlighting.</p>
                                 </div>
                             </div>
                         </div>
-
-                        <div style="margin-bottom: 48px;">
+                        <div style="margin-bottom: 52px;">
                             <h4 id="simple-list-item-3" style="margin-bottom: 36px;">请求Header</h4>
                             <table class="table table-bordered table-hover">
                                 <thead>
                                 <tr>
-                                    <th scope="col">#</th>
-                                    <th scope="col">First</th>
-                                    <th scope="col">Last</th>
-                                    <th scope="col">Handle</th>
+                                    <th scope="col">字段</th>
+                                    <th scope="col">类型</th>
+                                    <th scope="col">是否必填</th>
+                                    <th scope="col">描述</th>
+                                    <th scope="col">示例</th>
                                 </tr>
                                 </thead>
-                                <tbody>
+                                <tbody id="api-reqHeader">
                                 <tr>
-                                    <th scope="row">1</th>
+                                    <td>Mark</td>
                                     <td>Mark</td>
                                     <td>Otto</td>
                                     <td>@mdo</td>
-                                </tr>
-                                <tr>
-                                    <th scope="row">2</th>
-                                    <td>Jacob</td>
-                                    <td>Thornton</td>
-                                    <td>@fat</td>
-                                </tr>
-                                <tr>
-                                    <th scope="row">3</th>
-                                    <td colspan="2">Larry the Bird</td>
-                                    <td>@twitter</td>
+                                    <td>@mdo</td>
                                 </tr>
                                 </tbody>
                             </table>
                         </div>
 
-                        <div style="margin-bottom: 48px;">
+                        <div style="margin-bottom: 52px;">
                             <h4 id="simple-list-item-4" style="margin-bottom: 36px;">请求参数</h4>
-                            <p>请求数据类型: json</p>
+                            <p>请求数据类型: <span id="api-reqType">json</span></p>
                             <p>示例:</p>
                             <div id="jsoneditor" style="width: 100%;margin-bottom: 16px;"></div>
                             <p>参数说明:</p>
                               <table class="table table-bordered table-light  table-hover">
                                   <thead>
                                   <tr>
-                                      <th scope="col">#</th>
-                                      <th scope="col">First</th>
-                                      <th scope="col">Last</th>
-                                      <th scope="col">Handle</th>
+                                      <th scope="col">字段</th>
+                                      <th scope="col">类型</th>
+                                      <th scope="col">是否为空</th>
+                                      <th scope="col">描述</th>
+                                      <th scope="col">示例</th>
                                   </tr>
                                   </thead>
-                                  <tbody>
-                                  <tr>
-                                      <th scope="row">1</th>
-                                      <td>Mark</td>
-                                      <td>Otto</td>
-                                      <td>@mdo</td>
-                                  </tr>
-                                  <tr>
-                                      <th scope="row">2</th>
-                                      <td>Jacob</td>
-                                      <td>Thornton</td>
-                                      <td>@fat</td>
-                                  </tr>
-                                  <tr>
-                                      <th scope="row">3</th>
-                                      <td colspan="2">Larry the Bird</td>
-                                      <td>@twitter</td>
-                                  </tr>
+                                  <tbody id="api-reqBodyInfo">
                                   </tbody>
                               </table>
                         </div>
 
-                        <div style="margin-bottom: 48px;">
-                            <h4 id="simple-list-item-5"  style="margin-bottom: 36px;">响应成功</h4>
-                            <p>This is some placeholder content for the scrollspy page. Note that as you scroll down the page, the appropriate navigation link is highlighted. It's repeated throughout the component example. We keep adding some more example copy here to emphasize the scrolling and highlighting.</p>
+                        <div style="margin-bottom: 52px;">
+                            <h4 id="simple-list-item-5"  style="margin-bottom: 36px;">响应</h4>
+                            <p>请求数据类型: <span id="api-respType">json</span></p>
+                            <p>示例:</p>
+                            <div id="jsoneditorResp" style="width: 100%;margin-bottom: 16px;"></div>
+                            <p>参数说明:</p>
+                            <table class="table table-bordered table-light  table-hover">
+                                <thead>
+                                <tr>
+                                    <th scope="col">字段</th>
+                                    <th scope="col">类型</th>
+                                    <th scope="col">描述</th>
+                                    <th scope="col">示例</th>
+                                </tr>
+                                </thead>
+                                <tbody id="api-respBodyInfo">
+                                </tbody>
+                            </table>
                         </div>
 
-                        <div style="margin-bottom: 48px;">
-                            <h4 id="simple-list-item-6">Item 5</h4>
-                            <p>This is some placeholder content for the scrollspy page. Note that as you scroll down the page, the appropriate navigation link is highlighted. It's repeated throughout the component example. We keep adding some more example copy here to emphasize the scrolling and highlighting.This is some placeholder content for the scrollspy page. Note that as you scroll down the page, the appropriate navigation link is highlighted. It's repeated throughout the component example. We keep adding some more example copy here to emphasize the scrolling and highlighting.</p>
-                        </div>
+                        <div style="margin-bottom: 52px;">
+                            <h4 id="simple-list-item-6">日志&镜像</h4>
+                            <ul class="list-group list-group-flush">
+                                <li class="list-group-item">admin 2024-08-13 11:11:11|  修改了文档 | 镜像: <a type="button" class="btn btn-link">sadhjsakdhkj</a> </li>
+                                <li class="list-group-item">admin 2024-08-13 11:11:11|  修改了文档 | 镜像: <a type="button" class="btn btn-link">sadhjsakdhkj</a> </li>
+                                <li class="list-group-item">admin 2024-08-13 11:11:11|  修改了文档 | 镜像: <a type="button" class="btn btn-link">sadhjsakdhkj</a> </li>
+                                <li class="list-group-item">admin 2024-08-13 11:11:11|  修改了文档 | 镜像: <a type="button" class="btn btn-link">sadhjsakdhkj</a> </li>
+                                <li class="list-group-item">admin 2024-08-13 11:11:11|  修改了文档 | 镜像: <a type="button" class="btn btn-link">sadhjsakdhkj</a> </li>
+                                <li class="list-group-item">admin 2024-08-13 11:11:11|  修改了文档 | 镜像: <a type="button" class="btn btn-link">sadhjsakdhkj</a> </li>
+                                <li class="list-group-item">admin 2024-08-13 11:11:11|  创建了文档 | 镜像: <a type="button" class="btn btn-link">sadhjsakdhkj</a> </li>
+                            </ul>
+                            </div>
                       </div>
                     </div>
 
@@ -146,8 +148,8 @@
                           <a class="p-1 rounded" style="color: #1a1d20;" href="#simple-list-item-2">接口说明</a>
                           <a class="p-1 rounded" style="color: #1a1d20;" href="#simple-list-item-3">请求Header</a>
                           <a class="p-1 rounded" style="color: #1a1d20;" href="#simple-list-item-4">请求Body</a>
-                          <a class="p-1 rounded" style="color: #1a1d20;" href="#simple-list-item-5">响应成功</a>
-                          <a class="p-1 rounded" style="color: #1a1d20;" href="#simple-list-item-6">响应失败</a>
+                          <a class="p-1 rounded" style="color: #1a1d20;" href="#simple-list-item-5">响应</a>
+                          <a class="p-1 rounded" style="color: #1a1d20;" href="#simple-list-item-6">日志&镜像</a>
                         </div>
                     </div>
 
@@ -160,6 +162,7 @@
         {{ template "toast" . }}
         {{ template "ProjectModalAdd" . }}
         {{ template "ApiDocAddModal" . }}
+        {{ template "DocAddDirModal" . }}
 
     </main>
 
@@ -176,6 +179,11 @@
 
     var projectId = "{{ .projectId }}"
     var dirId = ""
+
+    var editormdObj = {}
+
+    var reqType = "json"
+    var respType = "json"
 
     $(document).on('click', '.dir-open', function() {
         var open = $(this).attr('data-open');
@@ -240,48 +248,26 @@
             }
         });
 
-        // todo 获取项目目录
 
-        var apiDir = [
-            {
-                "dir":{ "dirid":"sadhisadhuij","name":"目录11111"},
-                "doc":[
-                    {"id":"456", "method": "get", "title": "1111111111"},
-                    {"id":"123", "method": "post", "title": "22222222222"}
-                ]
-            },
-            {
-                "dir":{ "dirid":"asdsad","name":"目录222222"},
-                "doc":[
-                    {"id":"332", "method": "delete", "title": "1111111111"},
-                    {"id":"223", "method": "put", "title": "22222222222"}
-                ]
-            },
-            {
-                "dir":{ "dirid":"asd333","name":"目录33333333"},
-                "doc":[
-                    {"id":"331", "method": "delete", "title": "1111111111"},
-                    {"id":"333", "method": "put", "title": "22222222222"},
-                    {"id":"333", "method": "put", "title": "22222222222"},
-                    {"id":"333", "method": "put", "title": "22222222222"}
-                ]
-            },
-        ]
-
-        for(var item in apiDir) {
-            if (apiDir.hasOwnProperty(item)){
-                var dirid = apiDir[item].dir.dirid;
-                var dirname = apiDir[item].dir.name;
-                var doc = apiDir[item].doc;
-                $("#wrap").append(dirDev(dirid, dirname))
-                for(var li in doc) {
-                    if (doc.hasOwnProperty(li)) {
-                        $("#"+dirid).append(docLi(doc[li].id, doc[li].method, doc[li].title))
+        AjaxGet("/document/dir/list?pid="+projectId, function(data){
+            if (data.code === 0 ) {
+                var apiDir = data.data
+                for(var item in apiDir) {
+                    if (apiDir.hasOwnProperty(item)){
+                        var dirId = apiDir[item].dir.dirId;
+                        var dirname = apiDir[item].dir.name;
+                        var doc = apiDir[item].doc;
+                        $("#wrap").append(dirDev(dirId, dirname))
+                        $("#addDocDir").append(addDocDirOption(dirId, dirname))
+                        for(var li in doc) {
+                            if (doc.hasOwnProperty(li)) {
+                                $("#"+dirId).append(docLi(doc[li].docId, doc[li].method, doc[li].title))
+                            }
+                        }
                     }
                 }
             }
-        }
-
+        });
 
         // create the editor
         const container = document.getElementById("jsoneditor")
@@ -353,7 +339,7 @@
 
 
         $('#apiDocAddModal').on('shown.bs.modal', function () {
-            editormd("test-editor", {
+            editormdObj = editormd("test-editor", {
                 height: 440,
                 width: "100%",
                 path: '/js/lib/',
@@ -434,36 +420,43 @@
                 bodyJson.show();
                 openBodyBtnJson.removeClass('btn-dark');
                 openBodyBtnJson.addClass('btn-light')
+                reqType = "json"
                 break
             case 'from-data':
                 bodyFromData.show();
                 openBodyBtnFromData.removeClass('btn-dark');
                 openBodyBtnFromData.addClass('btn-light')
+                reqType = "from-data"
                 break
             case 'x-www-form-urlencoded':
                 bodyXwwwFrom.show();
                 openBodyBtnXWwwFormUrlencoded.removeClass('btn-dark');
                 openBodyBtnXWwwFormUrlencoded.addClass('btn-light')
+                reqType = "x-www-form-urlencoded"
                 break
             case 'xml':
                 bodyXml.show();
                 openBodyBtnXml.removeClass('btn-dark');
                 openBodyBtnXml.addClass('btn-light')
+                reqType = "xml"
                 break
             case 'plain':
                 bodyText.show();
                 openBodyBtnPlain.removeClass('btn-dark');
                 openBodyBtnPlain.addClass('btn-light')
+                reqType = "text"
                 break
             case 'go':
                 bodyGo.show();
                 openBodyBtnGo.removeClass('btn-dark');
                 openBodyBtnGo.addClass('btn-light')
+                reqType = "json"
                 break
             case 'ts':
                 bodyTs.show();
                 openBodyBtnTs.removeClass('btn-dark');
                 openBodyBtnTs.addClass('btn-light')
+                reqType = "json"
                 break
         }
     }
@@ -517,26 +510,31 @@
                 respJson.show();
                 openRespBtnJson.removeClass('btn-dark');
                 openRespBtnJson.addClass('btn-light')
+                respType = "json"
                 break
             case 'xml':
                 respXml.show();
                 openRespBtnXml.removeClass('btn-dark');
                 openRespBtnXml.addClass('btn-light')
+                respType = "xml"
                 break
             case 'plain':
                 respText.show();
                 openRespBtnPlain.removeClass('btn-dark');
                 openRespBtnPlain.addClass('btn-light')
+                respType = "text"
                 break
             case 'go':
                 respGo.show();
                 openRespBtnGo.removeClass('btn-dark');
                 openRespBtnGo.addClass('btn-light')
+                respType = "json"
                 break
             case 'ts':
                 respTs.show();
                 openRespBtnTs.removeClass('btn-dark');
                 openRespBtnTs.addClass('btn-light')
+                respType = "json"
                 break
         }
     }
@@ -591,6 +589,10 @@
 
 
     function saveAddDoc() {
+        var reqHeader = []
+        var reqBodyInfo = []
+        var respInfo = []
+
         var headerField = $('.addDocHeaderField').map(function() {
             return $(this).val();
         }).get();
@@ -606,30 +608,119 @@
         var headerExample = $('.addDocHeaderExample').map(function() {
             return $(this).val();
         }).get();
-
         for (var i=0; i<headerField.length; i++) {
             console.log(headerField[i] + headerIsRequired[i] + headerVarType[i] + headerDescription[i] + headerExample[i])
+            reqHeader.push({
+                "field":  headerField[i],     // 字段
+                "varType":  headerVarType[i],   // 类型
+                "description": headerDescription[i], // 描述
+                "example": headerExample[i],    // 示例
+                "isRequired":  Number(headerIsRequired[i]), // 是否必填 1:必填
+                "sort": i,        // 排序
+            })
+        }
+
+        var reqField = $('.reqField').map(function() {
+            return $(this).val();
+        }).get();
+
+        var reqDescription = $('.reqDescription').map(function() {
+            return $(this).val();
+        }).get();
+
+        var reqVarType = $('.reqVarType').map(function() {
+            return $(this).val();
+        }).get();
+
+        var reqExample = $('.reqExample').map(function() {
+            return $(this).val();
+        }).get();
+
+        var reqIsRequired = $('.reqIsRequired').map(function() {
+            return $(this).val();
+        }).get();
+
+        for (var i=0; i<reqField.length; i++) {
+            console.log(reqField[i] + reqDescription[i] + reqVarType[i] + reqExample[i] + reqIsRequired[i])
+            reqBodyInfo.push({
+                "field": reqField[i],
+                "varType":  reqVarType[i],    // 类型
+                "description": reqDescription[i], // 描述
+                "example":  reqExample[i],   // 示例
+                "isRequired":  Number(reqIsRequired[i]), // 是否必填 1:必填
+                "sort": i,        // 排序
+            })
+        }
+
+        var respField = $('.respField').map(function() {
+            return $(this).val();
+        }).get();
+
+        var respDescription = $('.respDescription').map(function() {
+            return $(this).val();
+        }).get();
+
+        var respVarType = $('.respVarType').map(function() {
+            return $(this).val();
+        }).get();
+
+        var respExample = $('.respExample').map(function() {
+            return $(this).val();
+        }).get();
+
+        for (var i=0; i<respField.length; i++) {
+            console.log(respField[i] + respDescription[i] + respVarType[i] + respExample[i])
+            respInfo.push({
+                "field":  respField[i],   // 字段
+                "varType":   respVarType[i],  // 类型
+                "description":  respDescription[i], // 描述
+                "example":     respExample[i],  // 示例
+                "sort": i,       // 排序
+            })
         }
 
         var param = {
-            "projectId": "",
-            "dirId": "",
+            "projectId": projectId,
+            "dirId": $("#addDocDir").val(),
             "content": {
-                "docId": "文档id",
-                "projectId": "项目id",
-                "name": "接口名",
-                "url": "接口url",
-                "method": "请求类型",
-                "description": "接口说明  md文本格式",
-                "reqHeader": [],      // 请求头 []*ReqHeaderItem
-                "reqType": "",                  // 请求类型
-                "reqBodyJson": "",              // 请求参数 - json
-                "reqBodyText": "",               // 请求参数 - text
-                "reqBodyXml": "",     // 请求参数 - xml
-                "reqBodyInfo": [],              // 请求参数说明   []*BodyInfoItem
-                "resp": [],                // 请求响应   []*RespItem
+                "projectId": projectId,
+
+                "name": $("#addDocName").val(),
+                "url": $("#addDocUrl").val(),
+                "method": $("#addDocMethod").val(),
+                "description": editormdObj.getPreviewedHTML(),
+                "reqHeader": reqHeader,      // 请求头 []*ReqHeaderItem
+                "reqType": reqType,                  // 请求类型
+                "reqBodyJson": JSON.stringify(editorAdd.get()),              // 请求参数 - json
+                "reqBodyText": $("#bodyText").val(),               // 请求参数 - text
+                "reqBodyXml": $("#bodyXml").val(),     // 请求参数 - xml
+                "reqBodyInfo": reqBodyInfo,              // 请求参数说明   []*BodyInfoItem
+                "respType": respType,
+                "resp": [{
+                    "tag": "成功",      // 默认 成功
+                    "respType": respType, // 响应类型
+                    "respBodyJson" : $("#respJson").val(),                // 请求响应 - json
+                    "respBodyXml" : $("#respXml").val(),            // 请求响应 - xml
+                    "respBodyText" : $("#respText").val(),                 // 请求响应 - text
+                    "respBodyInfo": respInfo, // 响应参数说明
+                }],
             }
         }
+
+
+        console.log("参数")
+        console.log(param)
+
+        AjaxPost("/document/create", param, function (data){
+            console.log(data)
+            ToastShow(data.msg);
+            if (data.code === 0) {
+                setTimeout(function() {
+                    location.reload();
+                }, 1000);
+            }
+        });
+
 
     }
 
@@ -740,12 +831,17 @@
                     flag = true
                 }
             }
+            var field = key
+            if (parentKey !== "") {
+                field = parentKey+"."+key
+            }
+
             if (!flag && reqField[0] === "") {
-                $(".reqField").first().val(parentKey+"."+key);
+                $(".reqField").first().val(field);
                 $(".reqVarType").first().val(keyType);
                 $(".reqExample").first().val(jsonInfo[key]);
             } else if (!flag) {
-                $("#setReqTable").append(addReqTpl(parentKey+"."+key, keyType, jsonInfo[key]));
+                $("#setReqTable").append(addReqTpl(field, keyType, jsonInfo[key]));
             }
 
             if (keyType === "object") {
@@ -755,6 +851,17 @@
                     parentKey = parentKey + "."+key
                 }
                 jsonToBodyInfoItem(jsonInfo[key], parentKey)
+            }
+
+            if (keyType === "array") {
+                if (isArrayOrObject(jsonInfo[key][0]) === "object") {
+                    if(parentKey === "") {
+                        parentKey = key
+                    } else {
+                        parentKey = parentKey + "."+key
+                    }
+                    jsonToBodyInfoItem(jsonInfo[key][0], parentKey)
+                }
             }
         }
     }
@@ -876,12 +983,18 @@
                     flag = true
                 }
             }
+
+            var field = key
+            if (parentKey !== "") {
+                field = parentKey+"."+key
+            }
+
             if (!flag && reqField[0] === "") {
-                $(".respField").first().val(parentKey+"."+key);
+                $(".respField").first().val(field);
                 $(".respVarType").first().val(keyType);
                 $(".respExample").first().val(jsonInfo[key]);
             } else if (!flag) {
-                $("#setRespTable").append(addRespTpl(parentKey+"."+key, keyType, jsonInfo[key]));
+                $("#setRespTable").append(addRespTpl(field, keyType, jsonInfo[key]));
             }
 
             if (keyType === "object") {
@@ -891,6 +1004,17 @@
                     parentKey = parentKey + "."+key
                 }
                 jsonToRespInfoItem(jsonInfo[key], parentKey)
+            }
+
+            if (keyType === "array") {
+                if (isArrayOrObject(jsonInfo[key][0]) === "object") {
+                    if(parentKey === "") {
+                        parentKey = key
+                    } else {
+                        parentKey = parentKey + "."+key
+                    }
+                    jsonToBodyInfoItem(jsonInfo[key][0], parentKey)
+                }
             }
         }
     }
@@ -913,6 +1037,18 @@
     $(document).on('click', '.docli', function(event) {
         var docId = $(this).prop('id');
         console.log(docId);
+
+        // 获取文档
+        var param = {
+            "pid": projectId,
+            "docId": docId,
+        }
+        AjaxPost("/document/item", param, function(data){
+            console.log(data)
+            if (data.code === 0 ) {
+                loadApiDoc(data.data)
+            }
+        })
 
         var docViewTable =  $("#docViewTable")
         docViewTable.find('a').each(function() {
@@ -957,7 +1093,61 @@
         now.remove();
     })
 
+    function openAddDocDir() {
+        $('#docAddDirModal').modal('show');
+    }
 
+    function addDocDir() {
+        const url = "/document/dir/create"
+        var param = {
+            "pid": projectId,
+            "dirName": $("#docAddDirName").val()
+        }
+        AjaxPost(url, param, function (data){
+            console.log(data)
+
+            ToastShow(data.msg);
+
+            if (data.code === 0) {
+                setTimeout(function() {
+                    location.reload();
+                }, 1000);
+            }
+
+        })
+    }
+
+    function loadApiDoc(apiDoc) {
+        var apiName = $("#api-name")
+        var apiMethod = $("#api-method")
+        var apiUrl = $("#api-url")
+        var apiDescription = $("#api-description")
+        var apiReqHeader = $("#api-reqHeader")
+        var apiReqType = $("#api-reqType")
+        var apiReqBodyInfo = $("#api-reqBodyInfo")
+        var apiRespType = $("#api-respType")
+        var apiRespBodyInfo = $("#api-respBodyInfo")
+
+        apiName.empty();
+        apiMethod.empty();
+        apiUrl.empty();
+        apiDescription.empty();
+        apiReqHeader.empty();
+        apiReqType.empty();
+        apiReqBodyInfo.empty();
+        apiRespType.empty();
+        apiRespBodyInfo.empty();
+
+        apiName.append(apiDoc.name);
+        apiMethod.append(apiDoc.method);
+        apiUrl.append(apiDoc.url);
+        apiDescription.html(apiDoc.description);
+        apiReqHeader.append(apiDoc.reqHeader);
+        apiReqType.append(apiDoc.reqType);
+        apiReqBodyInfo.append(apiDoc.reqBodyInfo);
+        apiRespType.append(apiDoc.respType);
+        apiRespBodyInfo.append(apiDoc.respBodyInfo);
+    }
 
 </script>
 {{ template "end" . }}

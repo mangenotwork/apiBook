@@ -109,3 +109,19 @@ type HomeProjectItem struct {
 	IsOperation   int                       `json:"isOperation"` // 1 可以操作
 	Private       define.ProjectPrivateCode `json:"private"`     // 1:公有(所有人可见)  2:私有
 }
+
+type DocumentDirListItem struct {
+	Dir *DirRespItem   `json:"dir"`
+	Doc []*DocRespItem `json:"doc"`
+}
+
+type DirRespItem struct {
+	DirId string `json:"dirId"`
+	Name  string `json:"name"`
+}
+
+type DocRespItem struct {
+	DocId  string `json:"docId"`
+	Method string `json:"method"`
+	Title  string `json:"title"`
+}

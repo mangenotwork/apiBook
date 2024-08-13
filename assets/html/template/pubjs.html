@@ -35,6 +35,18 @@
         })
     }
 
+    tippy('#openBodyBtn-go',{
+        content: "golang结构体转换参数说明",
+    });
+    tippy('#openBodyBtn-ts',{
+        content: "ts接口转换参数说明",
+    });
+    tippy('#openRespBtn-go',{
+        content: "golang结构体转换参数说明",
+    });
+    tippy('#openRespBtn-ts',{
+        content: "ts接口转换参数说明",
+    });
 
     const dirDev = function (dirid, name) {
         return '<div class="dir">\n' +
@@ -42,7 +54,7 @@
             '            <div class="btn-group btn-group-sm dirop" role="group" aria-label="Small button group">\n' +
             '                <button type="button" class="btn btn-outline-dark sortDirButton">{{ SVG "arrow-down-up" 16 16 }}</button>\n' +
             '                <button type="button" class="btn btn-outline-dark sortDocButton">{{ SVG "list-ol" 16 16 }}</button>\n' +
-            '                <button type="button" class="btn btn-outline-dark addDocButton" onclick="newAPIDoc()">{{ SVG "plus-lg" 16 16 }}</button>\n' +
+            '                <button type="button" class="btn btn-outline-dark addDocButton" onclick="newAPIDoc(\''+dirid+'\')">{{ SVG "plus-lg" 16 16 }}</button>\n' +
             '            </div>\n' +
             '        </div>' +
             '<ul id="'+dirid+'" class="dir-ul" >' +
@@ -52,22 +64,22 @@
     const docLi = function (id, method, name) {
         var methodtxt = ""
         switch (method) {
-            case "get":
+            case "GET":
                 methodtxt = '<span class="badge rounded-pill text-bg-success">GET</span>'
                 break;
-            case "delete":
+            case "DELETE":
                 methodtxt = '<span class="badge rounded-pill text-bg-danger">DELETE</span>'
                 break;
-            case "post":
+            case "POST":
                 methodtxt = '<span class="badge rounded-pill text-bg-info">POST</span>'
                 break;
-            case "head":
+            case "HEAD":
                 methodtxt = '<span class="badge rounded-pill text-bg-dark">HEAD</span>'
                 break;
-            case "put":
+            case "PUT":
                 methodtxt = '<span class="badge rounded-pill text-bg-secondary">PUT</span>'
                 break;
-            case "options":
+            case "OPTIONS":
                 methodtxt = '<span class="badge rounded-pill text-bg-light">OPTIONS</span>'
                 break;
         }
@@ -79,6 +91,10 @@
             '                    <button type="button" class="btn btn-outline-dark shareButton">{{ SVG "share-fill" 16 16 }}</button>\n' +
             '                </div>\n' +
             '            </li>'
+    }
+
+    const addDocDirOption = function (dirId, dirName) {
+        return '<option value="' + dirId + '">' + dirName + '</option>'
     }
 
 </script>

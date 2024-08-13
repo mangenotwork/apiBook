@@ -15,12 +15,13 @@ func NewDocDao() *DocDao {
 }
 
 func (dao *DocDao) Create(data *entity.Document, content *entity.DocumentContent) error {
-
+	log.Info(db.GetDocumentTable(data.ProjectId), data.DocId)
 	err := db.DB.Set(db.GetDocumentTable(data.ProjectId), data.DocId, data)
 	if err != nil {
 		return err
 	}
 
+	log.Info(db.GetDocumentContentTable(content.ProjectId), content.DocId)
 	err = db.DB.Set(db.GetDocumentContentTable(content.ProjectId), content.DocId, content)
 	if err != nil {
 		return err

@@ -2,11 +2,13 @@ package handler
 
 import (
 	"apiBook/common/ginHelper"
+	"apiBook/common/log"
 	"apiBook/common/utils"
 	"apiBook/internal/dao"
 	"apiBook/internal/entity"
 	"fmt"
 	"github.com/gin-gonic/gin"
+	"sort"
 )
 
 func DocumentDirList(c *gin.Context) {
@@ -20,13 +22,46 @@ func DocumentDirList(c *gin.Context) {
 		return
 	}
 
+	resp := make([]*DocumentDirListItem, 0)
+
 	data, err := dao.NewDirDao().GetAll(pid)
 	if err != nil {
 		ctx.APIOutPutError(err, err.Error())
 		return
 	}
 
-	ctx.APIOutPut(data, "")
+	sort.Slice(data, func(i, j int) bool {
+		if data[i].Sort < data[j].Sort {
+			return true
+		}
+		return false
+	})
+
+	for _, v := range data {
+		item := &DocumentDirListItem{
+			Dir: &DirRespItem{
+				DirId: v.DirId,
+				Name:  v.DirName,
+			},
+			Doc: make([]*DocRespItem, 0),
+		}
+		dirDocList, err := dao.NewDirDao().GetDocList(v.DirId)
+		if err != nil {
+			log.Error(err)
+		} else {
+			docList := dao.NewDocDao().GetDocList(pid, dirDocList)
+			for _, docItem := range docList {
+				item.Doc = append(item.Doc, &DocRespItem{
+					DocId:  docItem.DocId,
+					Method: docItem.Method,
+					Title:  docItem.Name,
+				})
+			}
+		}
+		resp = append(resp, item)
+	}
+
+	ctx.APIOutPut(resp, "")
 	return
 }
 
@@ -168,6 +203,7 @@ func DocumentCreate(c *gin.Context) {
 	param := &entity.DocumentParam{}
 	err := ctx.GetPostArgs(&param)
 	if err != nil {
+		log.Error(err)
 		ctx.APIOutPutError(fmt.Errorf("参数错误"), "参数错误")
 		return
 	}
@@ -180,14 +216,15 @@ func DocumentCreate(c *gin.Context) {
 
 	_, err = dao.NewProjectDao().Get(param.ProjectId, userAcc)
 	if err != nil {
+		log.Error("获取项目权限失败， err: ", err)
 		ctx.APIOutPutError(err, err.Error())
 		return
 	}
 
-	docId := utils.IDMd5()
+	param.Content.DocId = utils.IDMd5()
 
 	doc := &entity.Document{
-		DocId:     docId,
+		DocId:     param.Content.DocId,
 		DirId:     param.DirId,
 		ProjectId: param.ProjectId,
 		Name:      param.Content.Name,
@@ -197,17 +234,19 @@ func DocumentCreate(c *gin.Context) {
 
 	err = dao.NewDocDao().Create(doc, param.Content)
 	if err != nil {
+		log.Error("接口文档创建失败， err: ", err)
 		ctx.APIOutPutError(err, "接口文档创建失败")
 		return
 	}
 
 	dirItem := &entity.DocumentDirItem{
-		DocId: docId,
+		DocId: param.Content.DocId,
 		Sort:  0,
 	}
 
 	err = dao.NewDirDao().AddDoc(param.DirId, dirItem)
 	if err != nil {
+		log.Error("接口文档加入目录失败， err: ", err)
 		ctx.APIOutPutError(err, "接口文档创建失败")
 		return
 	}

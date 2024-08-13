@@ -161,6 +161,13 @@
 
 })( jQuery );
 
+
+document.addEventListener('keydown', function(event) {
+    if (event.ctrlKey && event.key === 's') {
+        event.preventDefault();
+    }
+});
+
 function isObject(obj) {
     return obj === Object(obj);
 }
@@ -249,7 +256,11 @@ function ToastShow(msg) {
     toast.show()
 }
 
-function newAPIDoc() {
+function newAPIDoc(id) {
+    if (id !== "") {
+        dirId = id
+        $('#addDocDir').val(dirId);
+    }
     $('#apiDocAddModal').modal('show');
 }
 

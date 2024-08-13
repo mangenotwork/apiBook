@@ -4,9 +4,9 @@ package entity
 // table 是 ProjectId
 // key 是 DirId
 type DocumentDir struct {
-	DirId   string // 目录id
-	DirName string // 目录名
-	Sort    int    // 目录排序值
+	DirId   string `json:"dirId"`   // 目录id
+	DirName string `json:"dirName"` // 目录名
+	Sort    int    `json:"sort"`    // 目录排序值
 }
 
 // DocumentDirItem 文档目录列表
