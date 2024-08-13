@@ -174,6 +174,9 @@ function isArrayOrObject(data) {
     return 'other';
 }
 
+function removeHtmlTags(htmlString) {
+    return htmlString.replace(/<[^>]*>?/gm, '');
+}
 
 function getJsonPaths(json, currentPath = '') {
     let paths = [];

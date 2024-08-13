@@ -17,7 +17,7 @@
                           <div style="width: 80%;margin-left: 20%;">
 
                               <!-- 基础信息 -->
-                              <div style="margin-bottom: 32px;">
+                              <div style="margin-bottom: 48px;">
                                   <div class="mb-3">
                                       <input type="text" class="form-control" id="addDocName" placeholder="接口文档名">
                                   </div>
@@ -34,6 +34,22 @@
                                       </select>
 
                                       <input type="text" class="form-control" id="addDocUrl" aria-label="Text input with dropdown button"  style="width: 80%;">
+                                  </div>
+                              </div>
+                              <div style="margin-bottom: 36px;margin-top: 36px;">
+                                  <div class="mb-3">
+                                      <div class="input-group">
+                                          <span class="input-group-text" id="basic-addon3">设置文档归属的目录</span>
+                                          <select class="form-select" id="addDocDir">
+                                              <option value="GET">默认</option>
+                                              <option value="POST">1</option>
+                                              <option value="PUT">2</option>
+                                              <option value="HEAD">3</option>
+                                              <option value="OPTIONS">4</option>
+                                              <option value="DELETE">5</option>
+                                          </select>
+                                      </div>
+                                      <div class="form-text">在设定上，只有一级目录，不支持多级目录。</div>
                                   </div>
                               </div>
 
@@ -99,11 +115,14 @@
                                   <h5 id="add-list-item-3">请求示例</h5>
                                   <div id="setBodyTable">
                                       <div style="width: 100%; margin-top: 4px; margin-bottom: 8px;">
-                                          <button type="button" class="btn btn-sm btn-light" id="openBodyBtn-json" style="font-size: 9px;margin-right: 2px;" onclick="openBodyMain('json')">application/json</button>
-                                          <button type="button" class="btn btn-sm btn-dark" id="openBodyBtn-from-data" style="font-size: 9px;margin-right: 2px;" onclick="openBodyMain('from-data')">multipart/from-data</button>
-                                          <button type="button" class="btn btn-sm btn-dark" id="openBodyBtn-x-www-form-urlencoded" style="font-size: 9px;margin-right: 2px;" onclick="openBodyMain('x-www-form-urlencoded')">application/x-www-form-urlencoded</button>
-                                          <button type="button" class="btn btn-sm btn-dark" id="openBodyBtn-xml" style="font-size: 9px;margin-right: 2px;" onclick="openBodyMain('xml')">application/xml</button>
-                                          <button type="button" class="btn btn-sm btn-dark" id="openBodyBtn-plain" style="font-size: 9px;margin-right: 2px;" onclick="openBodyMain('plain')">text/plain</button>
+                                          <button type="button" class="btn btn-sm btn-light openBRBtn" id="openBodyBtn-json" onclick="openBodyMain('json')">application/json</button>
+                                          <button type="button" class="btn btn-sm btn-dark openBRBtn" id="openBodyBtn-from-data" onclick="openBodyMain('from-data')">multipart/from-data</button>
+                                          <button type="button" class="btn btn-sm btn-dark openBRBtn" id="openBodyBtn-x-www-form-urlencoded" onclick="openBodyMain('x-www-form-urlencoded')">application/x-www-form-urlencoded</button>
+                                          <button type="button" class="btn btn-sm btn-dark openBRBtn" id="openBodyBtn-xml" onclick="openBodyMain('xml')">application/xml</button>
+                                          <button type="button" class="btn btn-sm btn-dark openBRBtn" id="openBodyBtn-plain" onclick="openBodyMain('plain')">text/plain</button>
+                                          <span style="margin-left: 28px;font-size: 12px;">| 工具：</span>
+                                          <button type="button" class="btn btn-sm btn-dark openBRBtn" id="openBodyBtn-go" onclick="openBodyMain('go')">go结构体转换参数说明</button>
+                                          <button type="button" class="btn btn-sm btn-dark openBRBtn" id="openBodyBtn-ts" onclick="openBodyMain('ts')">ts接口转换参数说明</button>
                                       </div>
                                       <div id="bodyJson">
                                           <div id="jsoneditorAdd" style="width: 100%;height: 440px;margin-bottom: 2px;"></div><br>
@@ -121,6 +140,12 @@
                                       </div>
                                       <div id="bodyText" style="display:none;">
                                           <textarea class="form-control" rows="5" style="height: 440px;"></textarea>
+                                      </div>
+                                      <div id="bodyGo" style="display:none;">
+                                          Todo ...
+                                      </div>
+                                      <div id="bodyTs" style="display:none;">
+                                          Todo ...
                                       </div>
                                   </div>
                               </div>
@@ -171,9 +196,12 @@
                                   <h5 id="add-list-item-5">响应示例</h5>
                                   <div id="respBodyTable">
                                       <div style="width: 100%; margin-top: 4px; margin-bottom: 8px;">
-                                          <button type="button" class="btn btn-sm btn-light" id="openRespBtn-json" style="font-size: 9px;margin-right: 2px;" onclick="openRespMain('json')">application/json</button>
-                                          <button type="button" class="btn btn-sm btn-dark" id="openRespBtn-xml" style="font-size: 9px;margin-right: 2px;" onclick="openRespMain('xml')">application/xml</button>
-                                          <button type="button" class="btn btn-sm btn-dark" id="openRespBtn-plain" style="font-size: 9px;margin-right: 2px;" onclick="openRespMain('plain')">text/plain html</button>
+                                          <button type="button" class="btn btn-sm btn-light openBRBtn" id="openRespBtn-json" onclick="openRespMain('json')">application/json</button>
+                                          <button type="button" class="btn btn-sm btn-dark openBRBtn" id="openRespBtn-xml" onclick="openRespMain('xml')">application/xml</button>
+                                          <button type="button" class="btn btn-sm btn-dark openBRBtn" id="openRespBtn-plain" onclick="openRespMain('plain')">text/plain html</button>
+                                          <span style="margin-left: 28px;font-size: 12px;">| 工具：</span>
+                                          <button type="button" class="btn btn-sm btn-dark openBRBtn" id="openRespBtn-go" onclick="openRespMain('go')">go结构体转换参数说明</button>
+                                          <button type="button" class="btn btn-sm btn-dark openBRBtn" id="openRespBtn-ts" onclick="openRespMain('ts')">ts接口转换参数说明</button>
                                       </div>
                                       <div id="respJson">
                                           <div id="jsoneditorAddResp" style="width: 100%;height: 440px;margin-bottom: 2px;"></div><br>
@@ -187,6 +215,12 @@
                                       </div>
                                       <div id="respText" style="display:none;">
                                           <textarea class="form-control" rows="5" style="height: 440px;"></textarea>
+                                      </div>
+                                      <div id="respGo" style="display:none;">
+                                          Todo ...
+                                      </div>
+                                      <div id="respTs" style="display:none;">
+                                          Todo ...
                                       </div>
                                   </div>
                               </div>
@@ -219,7 +253,6 @@
                                           <td style="width: 10%;">
                                               <div class="btn-group btn-group-sm" role="group">
                                                   <a type="button" class="btn btn-outline-dark btn-sm addResp" data-bs-toggle="tooltip" data-bs-title="增加行">{{ SVG "plus-lg" 14 14 }}</a>
-                                                  <a type="button" class="btn btn-outline-dark btn-sm removeResp" data-bs-toggle="tooltip" data-bs-title="删除当前行">{{ SVG "trash-fill" 14 14 }}</a>
                                               </div>
                                           </td>
                                       </tr>

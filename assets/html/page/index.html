@@ -174,6 +174,9 @@
     var editorAdd = {}
     var editorAddResp = {}
 
+    var projectId = "{{ .projectId }}"
+    var dirId = ""
+
     $(document).on('click', '.dir-open', function() {
         var open = $(this).attr('data-open');
         var dirid = $(this).attr('data-dirid');
@@ -236,6 +239,8 @@
                 }
             }
         });
+
+        // todo 获取项目目录
 
         var apiDir = [
             {
@@ -370,18 +375,24 @@
         var bodyXwwwFrom = $("#bodyXwwwFrom");
         var bodyXml = $("#bodyXml");
         var bodyText = $("#bodyText");
+        var bodyGo = $("#bodyGo");
+        var bodyTs = $("#bodyTs");
 
         var openBodyBtnJson = $("#openBodyBtn-json");
         var openBodyBtnFromData = $("#openBodyBtn-from-data");
         var openBodyBtnXWwwFormUrlencoded = $("#openBodyBtn-x-www-form-urlencoded");
         var openBodyBtnXml = $("#openBodyBtn-xml")
         var openBodyBtnPlain = $("#openBodyBtn-plain")
+        var openBodyBtnGo = $("#openBodyBtn-go")
+        var openBodyBtnTs = $("#openBodyBtn-ts")
 
         bodyJson.hide();
         bodyFromData.hide();
         bodyXwwwFrom.hide();
         bodyXml.hide();
         bodyText.hide();
+        bodyGo.hide();
+        bodyTs.hide();
 
         openBodyBtnJson.removeClass('btn-light');
         if (!openBodyBtnJson.hasClass('btn-dark')) {
@@ -406,6 +417,16 @@
         openBodyBtnPlain.removeClass('btn-light');
         if (!openBodyBtnPlain.hasClass('btn-dark')) {
             openBodyBtnPlain.addClass('btn-dark')
+        }
+
+        openBodyBtnGo.removeClass('btn-light');
+        if (!openBodyBtnGo.hasClass('btn-dark')) {
+            openBodyBtnGo.addClass('btn-dark')
+        }
+
+        openBodyBtnTs.removeClass('btn-light');
+        if (!openBodyBtnTs.hasClass('btn-dark')) {
+            openBodyBtnTs.addClass('btn-dark')
         }
 
         switch (type) {
@@ -434,6 +455,16 @@
                 openBodyBtnPlain.removeClass('btn-dark');
                 openBodyBtnPlain.addClass('btn-light')
                 break
+            case 'go':
+                bodyGo.show();
+                openBodyBtnGo.removeClass('btn-dark');
+                openBodyBtnGo.addClass('btn-light')
+                break
+            case 'ts':
+                bodyTs.show();
+                openBodyBtnTs.removeClass('btn-dark');
+                openBodyBtnTs.addClass('btn-light')
+                break
         }
     }
 
@@ -441,14 +472,20 @@
         var respJson = $("#respJson")
         var respXml = $("#respXml")
         var respText = $("#respText")
+        var respGo = $("#respGo");
+        var respTs = $("#respTs");
 
         var openRespBtnJson = $("#openRespBtn-json")
         var openRespBtnXml = $("#openRespBtn-xml")
         var openRespBtnPlain = $("#openRespBtn-plain")
+        var openRespBtnGo = $("#openRespBtn-go")
+        var openRespBtnTs = $("#openRespBtn-ts")
 
         respJson.hide();
         respXml.hide();
         respText.hide();
+        respGo.hide();
+        respTs.hide();
 
         openRespBtnJson.removeClass('btn-light');
         if (!openRespBtnJson.hasClass('btn-dark')) {
@@ -463,6 +500,16 @@
         openRespBtnPlain.removeClass('btn-light');
         if (!openRespBtnPlain.hasClass('btn-dark')) {
             openRespBtnPlain.addClass('btn-dark')
+        }
+
+        openRespBtnGo.removeClass('btn-light');
+        if (!openRespBtnGo.hasClass('btn-dark')) {
+            openRespBtnGo.addClass('btn-dark')
+        }
+
+        openRespBtnTs.removeClass('btn-light');
+        if (!openRespBtnTs.hasClass('btn-dark')) {
+            openRespBtnTs.addClass('btn-dark')
         }
 
         switch (type) {
@@ -480,6 +527,16 @@
                 respText.show();
                 openRespBtnPlain.removeClass('btn-dark');
                 openRespBtnPlain.addClass('btn-light')
+                break
+            case 'go':
+                respGo.show();
+                openRespBtnGo.removeClass('btn-dark');
+                openRespBtnGo.addClass('btn-light')
+                break
+            case 'ts':
+                respTs.show();
+                openRespBtnTs.removeClass('btn-dark');
+                openRespBtnTs.addClass('btn-light')
                 break
         }
     }
@@ -553,6 +610,27 @@
         for (var i=0; i<headerField.length; i++) {
             console.log(headerField[i] + headerIsRequired[i] + headerVarType[i] + headerDescription[i] + headerExample[i])
         }
+
+        var param = {
+            "projectId": "",
+            "dirId": "",
+            "content": {
+                "docId": "文档id",
+                "projectId": "项目id",
+                "name": "接口名",
+                "url": "接口url",
+                "method": "请求类型",
+                "description": "接口说明  md文本格式",
+                "reqHeader": [],      // 请求头 []*ReqHeaderItem
+                "reqType": "",                  // 请求类型
+                "reqBodyJson": "",              // 请求参数 - json
+                "reqBodyText": "",               // 请求参数 - text
+                "reqBodyXml": "",     // 请求参数 - xml
+                "reqBodyInfo": [],              // 请求参数说明   []*BodyInfoItem
+                "resp": [],                // 请求响应   []*RespItem
+            }
+        }
+
     }
 
     function addReqTpl(field, fieldType, example) {
@@ -587,6 +665,9 @@
         }
 
         var reqExample = ""
+        if (fieldType === "string") {
+            example = removeHtmlTags(example)
+        }
         if (example !== "") {
             reqExample = 'value="'+example+'"'
         }
@@ -623,10 +704,8 @@
         return tpl
     }
 
-    function jsonToBodyInfo() {
-        var jsonInfo = editorAdd.get();
-        // console.log(jsonInfo)
-        // var jsonInfoObj = JSON.parse(jsonInfo);
+    function jsonToBodyInfoItem(jsonObj, parentKey) {
+        var jsonInfo = jsonObj
 
         var reqField = $('.reqField').map(function() {
             return $(this).val();
@@ -641,9 +720,13 @@
         }).get();
 
         for (var key in jsonInfo) {
+
             var keyType = typeof jsonInfo[key]
             if (keyType === "object") {
                 keyType = isArrayOrObject(jsonInfo[key])
+            }
+            if (keyType === "string" && jsonInfo[key].length > 188) {
+                jsonInfo[key] = jsonInfo[key].substring(0,188)+"..."
             }
             var flag = false
             for (var has in reqField) {
@@ -658,13 +741,28 @@
                 }
             }
             if (!flag && reqField[0] === "") {
-                $(".reqField").first().val(key);
+                $(".reqField").first().val(parentKey+"."+key);
                 $(".reqVarType").first().val(keyType);
                 $(".reqExample").first().val(jsonInfo[key]);
             } else if (!flag) {
-                $("#setReqTable").append(addReqTpl(key, keyType, jsonInfo[key]));
+                $("#setReqTable").append(addReqTpl(parentKey+"."+key, keyType, jsonInfo[key]));
+            }
+
+            if (keyType === "object") {
+                if(parentKey === "") {
+                    parentKey = key
+                } else {
+                    parentKey = parentKey + "."+key
+                }
+                jsonToBodyInfoItem(jsonInfo[key], parentKey)
             }
         }
+    }
+
+    function jsonToBodyInfo() {
+        var jsonInfo = editorAdd.get();
+
+        jsonToBodyInfoItem(jsonInfo, "")
     }
 
     $(document).on('click', '.addReq', function() {
@@ -709,6 +807,9 @@
         }
 
         var reqExample = ""
+        if (fieldType === "string") {
+            example = removeHtmlTags(example)
+        }
         if (example !== "") {
             reqExample = 'value="'+example+'"'
         }
@@ -739,8 +840,9 @@
         return tpl
     }
 
-    function jsonToRespInfo() {
-        var jsonInfo = editorAddResp.get();
+    function jsonToRespInfoItem(jsonObj, parentKey) {
+        var jsonInfo = jsonObj
+
         var reqField = $('.respField').map(function() {
             return $(this).val();
         }).get();
@@ -754,9 +856,13 @@
         }).get();
 
         for (var key in jsonInfo) {
+            console.log(key+ "  -> "+ jsonInfo[key])
             var keyType = typeof jsonInfo[key]
             if (keyType === "object") {
                 keyType = isArrayOrObject(jsonInfo[key])
+            }
+            if (keyType === "string" && jsonInfo[key].length > 188) {
+                jsonInfo[key] = jsonInfo[key].substring(0,188)+"..."
             }
             var flag = false
             for (var has in reqField) {
@@ -771,13 +877,27 @@
                 }
             }
             if (!flag && reqField[0] === "") {
-                $(".respField").first().val(key);
+                $(".respField").first().val(parentKey+"."+key);
                 $(".respVarType").first().val(keyType);
                 $(".respExample").first().val(jsonInfo[key]);
             } else if (!flag) {
-                $("#setRespTable").append(addRespTpl(key, keyType, jsonInfo[key]));
+                $("#setRespTable").append(addRespTpl(parentKey+"."+key, keyType, jsonInfo[key]));
+            }
+
+            if (keyType === "object") {
+                if(parentKey === "") {
+                    parentKey = key
+                } else {
+                    parentKey = parentKey + "."+key
+                }
+                jsonToRespInfoItem(jsonInfo[key], parentKey)
             }
         }
+    }
+
+    function jsonToRespInfo() {
+        var jsonInfo = editorAddResp.get();
+        jsonToRespInfoItem(jsonInfo, "")
     }
 
     $(document).on('click', '.addResp', function (){
@@ -800,8 +920,8 @@
         });
 
         var tpl = '<li class="nav-item" >\n' +
-            '                  <a class="nav-link docViewItem active" aria-current="page" href="#">[Get] xxxxxxxxxxxx <span class="docViewClose">{{ SVG "x-square-fill" 16 16 }}</span></a>\n' +
-            '                </li>'
+            '<a class="nav-link docViewItem active" aria-current="page" href="#">[Get] xxxxxxxxxxxx <span class="docViewClose">{{ SVG "x-square-fill" 16 16 }}</span></a>\n' +
+            '</li>'
 
         $("#docViewTable").append(tpl);
 

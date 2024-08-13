@@ -47,9 +47,10 @@ func Index(ctx *gin.Context) {
 		http.StatusOK,
 		"index.html",
 		ginH(gin.H{
-			"nav":      "index",
-			"isAdmin":  isAdmin, // 1是管理员
-			"userName": ctx.GetString("userName"),
+			"nav":       "index",
+			"isAdmin":   isAdmin, // 1是管理员
+			"userName":  ctx.GetString("userName"),
+			"projectId": pid,
 		}),
 	)
 	return
