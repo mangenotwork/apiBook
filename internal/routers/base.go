@@ -171,6 +171,7 @@ func Document() {
 	document.POST("/delete", handler.DocumentDelete)        // 删除文档
 	document.POST("/changeDir", handler.DocumentChangeDir)  // 文档切换目录
 	document.POST("/sort", handler.DocumentSort)            // 排序文档
+	document.POST("/doc/list", handler.DocumentDocList)     // 获取指定多个文档的基础信息
 }
 
 func User() {

@@ -125,3 +125,8 @@ type DocRespItem struct {
 	Method string `json:"method"`
 	Title  string `json:"title"`
 }
+
+type DocumentDocListReq struct {
+	PId     string   `json:"pid"`
+	DocList []string `json:"docList"`
+}

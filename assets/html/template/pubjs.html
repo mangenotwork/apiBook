@@ -49,15 +49,24 @@
     });
 
     const dirDev = function (dirid, name) {
+        var isOpen = 'style="display: none;"'
+        var dirIcon = '{{ SVG "folder" 21 21 }}'
+        var open = 0
+        if (localStorage.getItem(dirOpenKey+dirid) === "1") {
+            isOpen = 'style="display: inline;"'
+            dirIcon = '{{ SVG "folder2-open" 21 21 }}'
+            open = 1
+        }
+
         return '<div class="dir">\n' +
-            '            <p class="dir-open" data-open="0" data-dirid="'+dirid+'"><span>{{ SVG "folder" 21 21 }}</span>'+name+'</p>\n' +
+            '            <p class="dir-open" data-open="'+open+'" data-dirid="'+dirid+'"><span>'+dirIcon+'</span>'+name+'</p>\n' +
             '            <div class="btn-group btn-group-sm dirop" role="group" aria-label="Small button group">\n' +
             '                <button type="button" class="btn btn-outline-dark sortDirButton">{{ SVG "arrow-down-up" 16 16 }}</button>\n' +
             '                <button type="button" class="btn btn-outline-dark sortDocButton">{{ SVG "list-ol" 16 16 }}</button>\n' +
             '                <button type="button" class="btn btn-outline-dark addDocButton" onclick="newAPIDoc(\''+dirid+'\')">{{ SVG "plus-lg" 16 16 }}</button>\n' +
             '            </div>\n' +
             '        </div>' +
-            '<ul id="'+dirid+'" class="dir-ul" >' +
+            '<ul id="'+dirid+'" '+isOpen+'>' +
             '</ul>'
     }
 

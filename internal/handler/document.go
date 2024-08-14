@@ -382,3 +382,17 @@ func DocumentChangeDir(c *gin.Context) {
 func DocumentSort(c *gin.Context) {
 	// todo...
 }
+
+func DocumentDocList(c *gin.Context) {
+	ctx := ginHelper.NewGinCtx(c)
+	param := &DocumentDocListReq{}
+	err := ctx.GetPostArgs(&param)
+	if err != nil {
+		ctx.APIOutPutError(fmt.Errorf("参数错误"), "参数错误")
+		return
+	}
+
+	resp := dao.NewDocDao().GetDocListByIds(param.PId, param.DocList)
+	ctx.APIOutPut(resp, "")
+	return
+}

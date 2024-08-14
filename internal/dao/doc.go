@@ -59,6 +59,23 @@ func (dao *DocDao) GetDocList(pid string, list []*entity.DocumentDirItem) []*ent
 	return result
 }
 
+func (dao *DocDao) GetDocListByIds(pid string, list []string) []*entity.Document {
+	result := make([]*entity.Document, 0)
+
+	for _, v := range list {
+
+		data, err := dao.GetDocument(pid, v)
+		if err != nil {
+			log.Error(err)
+			continue
+		}
+
+		result = append(result, data)
+	}
+
+	return result
+}
+
 func (dao *DocDao) Modify(content *entity.DocumentContent) error {
 	oldDoc, err := dao.GetDocument(content.ProjectId, content.DocId)
 	if err != nil {

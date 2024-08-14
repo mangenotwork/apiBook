@@ -1,3 +1,53 @@
+const dirOpenKey = "openDir-"
+const viewDoc = "viewDoc"
+const nowViewDoc = "nowViewDoc-"
+
+function viewDocAdd(docId) {
+    var listStr = localStorage.getItem(viewDoc)
+    var list = [];
+    if (listStr !== null) {
+        list = listStr.split(",")
+    } else {
+        list.push(docId)
+        localStorage.setItem(viewDoc, list.join(","))
+        return
+    }
+    var has = false
+    for(var i=0; i<list.length; i++) {
+        if (list[i] === docId) {
+            has = true
+        }
+    }
+    if (!has) {
+        list.push(docId)
+        localStorage.setItem(viewDoc, list.join(","))
+    }
+}
+
+function viewDocGet()  {
+    var listStr = localStorage.getItem(viewDoc)
+    var list = [];
+    if (listStr !== null) {
+        list = listStr.split(",")
+    }
+    return list
+}
+
+function viewDocDel(docId) {
+    var listStr = localStorage.getItem(viewDoc)
+    var list = [];
+    if (listStr !== null) {
+        list = listStr.split(",")
+    }
+    console.log(docId)
+    console.log(list)
+    var newList = list.filter(function (value) {
+        return value !== docId;
+    });
+    console.log(newList)
+    localStorage.setItem(viewDoc, newList.join(","))
+}
+
 ;(function( $ ){
     /**
      * Author: https://github.com/Barrior
@@ -239,6 +289,22 @@ function AjaxPost(url, param, func) {
         data: JSON.stringify(param),
         dataType: 'json',
         async: true,
+        success: function(data){
+            func(data);
+        },
+        error: function(xhr,textStatus) {
+            console.log(xhr, textStatus);
+        }
+    });
+}
+
+function AjaxPostNotAsync(url, param, func) {
+    $.ajax({
+        type: "post",
+        url: url,
+        data: JSON.stringify(param),
+        dataType: 'json',
+        async: false,
         success: function(data){
             func(data);
         },
