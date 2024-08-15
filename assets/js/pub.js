@@ -48,6 +48,29 @@ function viewDocDel(docId) {
     localStorage.setItem(viewDoc, newList.join(","))
 }
 
+async function copyContent (content) {
+    // 复制结果
+    let copyResult = true
+    // 设置想要复制的文本内容
+    const text = content || '复制内容为空哦~';
+    // 判断是否支持clipboard方式
+    if (!!window.navigator.clipboard) {
+        // 利用clipboard将文本写入剪贴板（这是一个异步promise）
+        await window.navigator.clipboard.writeText(text).then((res) => {
+            console.log('复制成功');
+        }).catch((err) => {
+            console.log('复制失败--采取第二种复制方案', err);
+            // clipboard方式复制失败 则采用document.execCommand()方式进行尝试
+            copyResult =  copyContent2(text)
+        })
+    } else {
+        // 不支持clipboard方式 则采用document.execCommand()方式
+        copyResult =  copyContent2(text)
+    }
+    // 返回复制操作的最终结果
+    return copyResult;
+}
+
 ;(function( $ ){
     /**
      * Author: https://github.com/Barrior

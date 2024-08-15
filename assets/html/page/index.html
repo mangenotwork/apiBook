@@ -33,8 +33,8 @@
                                         <li style="padding: 8px;"><span style="font-size: 16px;">接口名:</span><span id="api-name" style="font-size: 21px;margin-left: 16px;"></span></li>
                                         <li style="padding: 8px;"><span style="font-size: 16px;">接口Url: </span>
                                             <span style="font-size: 21px;margin-left: 16px;">
-                                                <span id="api-method" ><span class="badge rounded-pill text-bg-success" style="margin-right: 8px;">GET</span></span>
-                                                <span id="api-url">asdasdaasdasdsadasdasdas</span>
+                                                <span id="api-method"></span>
+                                                <span id="api-url"></span>
                                             </span>
                                         </li>
                                         <li style="padding: 8px;">操作： <div class="btn-group" role="group" aria-label="Basic outlined example" style="margin-left: 16px;">
@@ -53,9 +53,7 @@
                             <h4 id="simple-list-item-2" style="margin-bottom: 36px;">接口说明</h4>
 
                             <div class="card">
-                                <div class="card-body" id="api-description">
-                                    <p>This is some placeholder content for the scrollspy page. Note that as you scroll down the page, the appropriate navigation link is highlighted. It's repeated throughout the component example. We keep adding some more example copy here to emphasize the scrolling and highlighting.This is some placeholder content for the scrollspy page. Note that as you scroll down the page, the appropriate navigation link is highlighted. It's repeated throughout the component example. We keep adding some more example copy here to emphasize the scrolling and highlighting.</p>
-                                </div>
+                                <div class="card-body" id="api-description"></div>
                             </div>
                         </div>
                         <div style="margin-bottom: 52px;">
@@ -71,13 +69,6 @@
                                 </tr>
                                 </thead>
                                 <tbody id="api-reqHeader">
-                                <tr>
-                                    <td>Mark</td>
-                                    <td>Mark</td>
-                                    <td>Otto</td>
-                                    <td>@mdo</td>
-                                    <td>@mdo</td>
-                                </tr>
                                 </tbody>
                             </table>
                         </div>
@@ -86,16 +77,34 @@
                             <h4 id="simple-list-item-4" style="margin-bottom: 36px;">请求参数</h4>
                             <p>请求数据类型: <span id="api-reqType">json</span></p>
                             <p>示例:</p>
-                            <div id="jsoneditor" style="width: 100%;margin-bottom: 16px;"></div>
+                            <div id="jsoneditorDiv" style="display: none;">
+                                <button type="button" class="btn btn-dark closeReqZsText"
+                                        style="--bs-btn-padding-y: .25rem; --bs-btn-padding-x: .5rem; --bs-btn-font-size: .75rem;margin-top: 2px;" onclick="closeReqZsText()">
+                                    关闭注释
+                                </button>
+                                <button type="button" class="btn btn-dark openReqZsText"
+                                        style="--bs-btn-padding-y: .25rem; --bs-btn-padding-x: .5rem; --bs-btn-font-size: .75rem;margin-top: 2px; display: none;" onclick="openReqZsText()">
+                                    开启注释
+                                </button>
+                                <button type="button" class="btn btn-dark"
+                                        style="--bs-btn-padding-y: .25rem; --bs-btn-padding-x: .5rem; --bs-btn-font-size: .75rem;margin-top: 2px;" onclick="copyReqJson()">
+                                    复制
+                                </button>
+                                <a type="button" class="btn btn-dark"
+                                        style="--bs-btn-padding-y: .25rem; --bs-btn-padding-x: .5rem; --bs-btn-font-size: .75rem;margin-top: 2px;" href="https://www.zhaozhongtian.top/code-json" target="_blank">
+                                    在线json工具
+                                </a>
+                                <div id="jsoneditor" style="width: 100%;margin-bottom: 16px;margin-top: 8px;"></div>
+                            </div>
                             <p>参数说明:</p>
-                              <table class="table table-bordered table-light  table-hover">
+                              <table class="table table-bordered table-hover" style="table-layout:fixed;display:table;">
                                   <thead>
                                   <tr>
-                                      <th scope="col">字段</th>
-                                      <th scope="col">类型</th>
-                                      <th scope="col">是否为空</th>
-                                      <th scope="col">描述</th>
-                                      <th scope="col">示例</th>
+                                      <th scope="col" style="width: 20%;">字段</th>
+                                      <th scope="col" style="width: 10%;">类型</th>
+                                      <th scope="col" style="width: 10%;">必填</th>
+                                      <th scope="col" style="width: 20%;">描述</th>
+                                      <th scope="col" style="width: 20%;">示例</th>
                                   </tr>
                                   </thead>
                                   <tbody id="api-reqBodyInfo">
@@ -107,15 +116,34 @@
                             <h4 id="simple-list-item-5"  style="margin-bottom: 36px;">响应</h4>
                             <p>请求数据类型: <span id="api-respType">json</span></p>
                             <p>示例:</p>
-                            <div id="jsoneditorResp" style="width: 100%;margin-bottom: 16px;"></div>
+                            <div id="jsoneditorRespDiv" style="display: none;">
+                                <button type="button" class="btn btn-dark closeRespZsText"
+                                        style="--bs-btn-padding-y: .25rem; --bs-btn-padding-x: .5rem; --bs-btn-font-size: .75rem;margin-top: 2px;" onclick="closeRespZsText()">
+                                    关闭注释
+                                </button>
+                                <button type="button" class="btn btn-dark openRespZsText"
+                                        style="--bs-btn-padding-y: .25rem; --bs-btn-padding-x: .5rem; --bs-btn-font-size: .75rem;margin-top: 2px; display: none;" onclick="openRespZsText()">
+                                    开启注释
+                                </button>
+                                <button type="button" class="btn btn-dark"
+                                        style="--bs-btn-padding-y: .25rem; --bs-btn-padding-x: .5rem; --bs-btn-font-size: .75rem;margin-top: 2px;" onclick="copyRespJson()">
+                                    复制
+                                </button>
+                                <a type="button" class="btn btn-dark"
+                                   style="--bs-btn-padding-y: .25rem; --bs-btn-padding-x: .5rem; --bs-btn-font-size: .75rem;margin-top: 2px;" href="https://www.zhaozhongtian.top/code-json" target="_blank">
+                                    在线json工具
+                                </a>
+                                <div id="jsoneditorResp" style="width: 100%;margin-bottom: 16px;margin-top: 8px;"></div>
+                            </div>
+
                             <p>参数说明:</p>
-                            <table class="table table-bordered table-light  table-hover">
+                            <table class="table table-bordered table-hover" style="table-layout:fixed;display:table;">
                                 <thead>
                                 <tr>
-                                    <th scope="col">字段</th>
-                                    <th scope="col">类型</th>
-                                    <th scope="col">描述</th>
-                                    <th scope="col">示例</th>
+                                    <th scope="col" style="width: 30%;">字段</th>
+                                    <th scope="col" style="width: 10%;">类型</th>
+                                    <th scope="col" style="width: 30%;">描述</th>
+                                    <th scope="col" style="width: 30%;">示例</th>
                                 </tr>
                                 </thead>
                                 <tbody id="api-respBodyInfo">
@@ -181,13 +209,26 @@
     var reqType = "json"
     var respType = "json"
 
+    var zs = {}
+    var zsresp = []
+
+    const container = document.getElementById("jsoneditor")
+    const options = {
+        mode: 'view',
+    }
+    var editor = new JSONEditor(container, options)
+
+    const containerResp = document.getElementById("jsoneditorResp")
+    const optionsResp = {
+        mode: 'view',
+    }
+    var editorResp = new JSONEditor(containerResp, optionsResp)
 
     $(document).on('click', '.dir-open', function() {
         var open = $(this).attr('data-open');
         var dirid = $(this).attr('data-dirid');
-
         $(this).find('span').empty();
-        if (open == 0) {
+        if (open === 0) {
             $(this).find('span').append('{{ SVG "folder2-open" 21 21 }}');
             $(this).attr('data-open', '1');
             $('#'+dirid).show();
@@ -205,14 +246,12 @@
     });
 
     $(document).on('mouseenter', '.hover-area', function() {
-        //tooltipInit()
         $(this).find('.action-btn').show();
         $(this).css({
             'height':'72px',
         })
     }).on('mouseleave', '.hover-area', function() {
         $(this).find('.action-btn').hide();
-        //$('.action-btn').fadeOut();
         $(this).css({
             'height':'38px',
         })
@@ -258,7 +297,6 @@
             }
         });
 
-
         AjaxGet("/document/dir/list?pid="+projectId, function(data){
             if (data.code === 0 ) {
                 var apiDir = data.data
@@ -293,7 +331,6 @@
         AjaxPost("/document/doc/list", param, function(data){
             if (data.code === 0 ) {
                 for(var i=0; i<data.data.length; i++) {
-                    //var activity = false
                     if(data.data[i].docId === localStorage.getItem(nowViewDoc+projectId)) {
                         NowDoc(data.data[i].docId)
                     } else {
@@ -303,75 +340,17 @@
             }
         })
 
-
-        // create the editor
-        const container = document.getElementById("jsoneditor")
-        const options = {
-            mode: 'view',
-        }
-        const editor = new JSONEditor(container, options)
-
-        // set json
-        const initialJson = {
-            "Array": [1, 2, 3],
-            "Boolean": true,
-            "Null": null,
-            "Number": 123,
-            "Object": {"a": "b", "c": "d"},
-            "String": "Hello World",
-            "axccc": {
-                "aa1":111,
-                "bb2":222,
-                "cccc": {
-                    "ccc":333,
-                    "vvv":{
-                        "eee":4333
-                    }
-                }
-            }
-        }
-        editor.set(initialJson)
-        editor.expandAll()
-
-        var zs = {
-            "jsonpath:Array":"adasdasdasd",
-            "jsonpath:Boolean": "dasdasdasd4456",
-            "jsonpath:Null": "78da79s8dasd4",
-            "jsonpath:Number": "sadhuiqwwb54f65s",
-            "jsonpath:Object": "as54das4uhbnnasd",
-            "jsonpath:String": "Hasdello234324 sda2Worsdadld",
-            "jsonpath:axccc,cccc,vvv,eee": "asdasd1111111111111111"
-        }
-
-        // get json
-        const updatedJson = editor.get()
-        console.log(updatedJson)
-        const paths = getJsonPaths(updatedJson);
-        console.log(paths)
-
-       $(".jsoneditor-field").each(function() {
-        if (zs[$(this).prop("id")]){
-            $(this).parent().parent().append('<td style="padding-left: 16px;color: red;font-size:12px;"> /* '+zs[$(this).prop("id")]+' */</td>')
-        }
-       })
-
-
-
         const containerAdd = document.getElementById("jsoneditorAdd")
         const optionsAdd = {
             mode: 'code',
         }
         editorAdd = new JSONEditor(containerAdd, optionsAdd)
 
-
-
         const containerAddResp = document.getElementById("jsoneditorAddResp")
         const optionsAddResp = {
             mode: 'code',
         }
         editorAddResp = new JSONEditor(containerAddResp, optionsAddResp)
-
-
 
         $('#apiDocAddModal').on('shown.bs.modal', function () {
             editormdObj = editormd("test-editor", {
@@ -386,10 +365,7 @@
             });
         });
 
-
-
     });
-
 
     function openBodyMain(type) {
         var bodyJson = $("#bodyJson");
@@ -575,56 +551,24 @@
         }
     }
 
-    $(document).on('click', '.headerAdd', function() {
-        var tpl = '<tr>\n' +
-            '                                <td style="width: 10%;">\n' +
-            '                                    <select class="form-select form-select-sm addDocHeaderIsRequired" style="font-size: 11px;">'+
-            '                                       <option value="1">必填</option>'+
-            '                                       <option value="0">非必填</option>'+
-            '                                   </select>'+
-            '                                </td>\n' +
-            '                                <td style="width: 20%;">\n' +
-            '                                    <input class="form-control form-control-sm addDocHeaderField" type="text" placeholder="字段" style="font-size: 11px;">\n' +
-            '                                </td>\n' +
-            '                                <td style="width: 20%;">\n' +
-            '                                    <input class="form-control form-control-sm addDocHeaderDescription" type="text" placeholder="描述" style="font-size: 11px;">\n' +
-            '                                </td>\n' +
-            '                                <td style="width: 10%;">\n' +
-            '                                    <select class="form-select form-select-sm addDocHeaderVarType" style="font-size: 11px;">\n' +
-            '                                        <option value="">类型</option>\n' +
-            '                                        <option value="String">String</option>\n' +
-            '                                        <option value="Number">Number</option>\n' +
-            '                                        <option value="Integer">Integer</option>\n' +
-            '                                        <option value="Float">Float</option>\n' +
-            '                                        <option value="Double">Double</option>\n' +
-            '                                        <option value="Bool">Bool</option>\n' +
-            '                                        <option value="Array">Array</option>\n' +
-            '                                        <option value="Object">Object</option>\n' +
-            '                                    </select>\n' +
-            '                                </td>\n' +
-            '                                <td style="width: 20%">\n' +
-            '                                    <input class="form-control form-control-sm addDocHeaderExample" type="text" placeholder="示例" style="font-size: 11px;">\n' +
-            '                                </td>\n' +
-            '                                <td style="width: 10%;">\n' +
-            '                                    <div class="btn-group btn-group-sm" role="group">\n' +
-            '                                        <a type="button" class="btn btn-outline-dark btn-sm headerAdd" data-bs-toggle="tooltip" data-bs-title="增加行">{{ SVG "plus-lg" 14 14 }}</a>\n' +
-            '                                        <a type="button" class="btn btn-outline-dark btn-sm headerRemove" data-bs-toggle="tooltip" data-bs-title="删除当前行">{{ SVG "trash-fill" 14 14 }}</a>\n' +
-            '                                    </div>\n' +
-            '                                </td>\n' +
-            '                            </tr>'
-
-        $("#setHeaderTable").append(tpl);
-    });
-
-
     $(document).on('click', '.headerRemove', function(event) {
         var target = event.target;
         var index = $(target).parents("tr").index();
         $('#setHeaderTable tr:eq('+index+')').remove();
     });
 
-
     function saveAddDoc() {
+
+        if($("#addDocName").val() === "") {
+            ToastShow("文档名不能为空!");
+            return
+        }
+
+        if($("#addDocUrl").val() === "") {
+            ToastShow("接口Url不能为空!");
+            return
+        }
+
         var reqHeader = []
         var reqBodyInfo = []
         var respInfo = []
@@ -712,12 +656,22 @@
             })
         }
 
+        var respBody = ""
+        if (respType === "json") {
+            respBody = JSON.stringify(editorAddResp.get())
+        }
+        if (respType === "xml") {
+            respBody = $("#respXml").val()
+        }
+        if (respType === "text") {
+            respBody = $("#respText").val()
+        }
+
         var param = {
             "projectId": projectId,
             "dirId": $("#addDocDir").val(),
             "content": {
                 "projectId": projectId,
-
                 "name": $("#addDocName").val(),
                 "url": $("#addDocUrl").val(),
                 "method": $("#addDocMethod").val(),
@@ -732,10 +686,8 @@
                 "resp": [{
                     "tag": "成功",      // 默认 成功
                     "respType": respType, // 响应类型
-                    "respBodyJson" : $("#respJson").val(),                // 请求响应 - json
-                    "respBodyXml" : $("#respXml").val(),            // 请求响应 - xml
-                    "respBodyText" : $("#respText").val(),                 // 请求响应 - text
-                    "respBodyInfo": respInfo, // 响应参数说明
+                    "respBody" : respBody,                // 请求响应 - json
+                    "respBodyInfo": reqBodyInfo,
                 }],
             }
         }
@@ -751,93 +703,20 @@
 
     }
 
-    function addReqTpl(field, fieldType, example) {
-        var fieldVal = ""
-        if (field !== "") {
-            fieldVal  = 'value="'+field+'"'
-        }
-
-        var stringTypeVal = '<option value="string">String</option>'
-        var numberTypeVal = '<option value="number">Number</option>'
-        var booleanTypeVal = '<option value="boolean">Boolean</option>'
-        var arrayTypeVal = '<option value="array">Array</option>'
-        var objectTypeVal = '<option value="object">Object</option>'
-
-
-        switch (fieldType){
-            case "string":
-                stringTypeVal = '<option value="string" selected>String</option>'
-                break
-            case "number":
-                numberTypeVal = '<option value="number" selected>Number</option>'
-                break
-            case "boolean":
-                booleanTypeVal = '<option value="boolean" selected>Boolean</option>'
-                break
-            case "array":
-                arrayTypeVal = '<option value="array" selected>Array</option>'
-                break
-            case "object":
-                objectTypeVal = '<option value="object" selected>Object</option>'
-                break
-        }
-
-        var reqExample = ""
-        if (fieldType === "string") {
-            example = removeHtmlTags(example)
-        }
-        if (example !== "") {
-            reqExample = 'value="'+example+'"'
-        }
-
-        var tpl = '<tr>\n' +
-            '                                <td style="width: 20%;">\n' +
-            '                                    <input class="form-control form-control-sm reqField" type="text" placeholder="字段" '+ fieldVal +' style="font-size: 11px;">\n' +
-            '                                </td>\n' +
-            '                                <td style="width: 25%;">\n' +
-            '                                    <input class="form-control form-control-sm reqDescription" type="text" placeholder="描述" style="font-size: 11px;">\n' +
-            '                                </td>\n' +
-            '                                <td style="width: 10%">\n' +
-            '                                    <select class="form-select form-select-sm reqVarType" style="font-size: 11px;">\n' +
-            '                                        <option value="">类型</option>\n' + stringTypeVal + numberTypeVal + booleanTypeVal + arrayTypeVal + objectTypeVal +
-            '                                    </select>\n' +
-            '                                </td>\n' +
-            '                                <td style="width: 20%;">'+
-            '                                   <input class="form-control form-control-sm reqExample" type="text" placeholder="示例" '+ reqExample +' style="font-size: 11px;">'+
-            '                                </td>'+
-            '                                <td style="width: 10%;">\n' +
-            '                                    <select class="form-select form-select-sm reqIsRequired" style="font-size: 11px;">\n' +
-            '                                        <option value="1">不为空</option>\n' +
-            '                                        <option value="0">可为空</option>\n' +
-            '                                    </select>\n' +
-            '                                </td>\n' +
-            '                                <td style="width: 10%;">\n' +
-            '                                    <div class="btn-group btn-group-sm" role="group">\n' +
-            '                                        <a type="button" class="btn btn-outline-dark btn-sm addReq" data-bs-toggle="tooltip" data-bs-title="增加行">{{ SVG "plus-lg" 14 14 }}</a>\n' +
-            '                                        <a type="button" class="btn btn-outline-dark btn-sm removeReq" data-bs-toggle="tooltip" data-bs-title="删除当前行">{{ SVG "trash-fill" 14 14 }}</a>\n' +
-            '                                    </div>\n' +
-            '                                </td>\n' +
-            '                            </tr>';
-
-        return tpl
-    }
-
     function jsonToBodyInfoItem(jsonObj, parentKey) {
         var jsonInfo = jsonObj
-
-        var reqField = $('.reqField').map(function() {
-            return $(this).val();
-        }).get();
-
-        var reqVarType = $('.reqVarType').map(function() {
-            return $(this).val();
-        }).get();
-
-        var reqExample =  $('.reqExample').map(function() {
-            return $(this).val();
-        }).get();
-
         for (var key in jsonInfo) {
+            var reqField = $('.reqField').map(function() {
+                return $(this).val();
+            }).get();
+
+            var reqVarType = $('.reqVarType').map(function() {
+                return $(this).val();
+            }).get();
+
+            var reqExample =  $('.reqExample').map(function() {
+                return $(this).val();
+            }).get();
 
             var keyType = typeof jsonInfo[key]
             if (keyType === "object") {
@@ -862,7 +741,6 @@
             if (parentKey !== "") {
                 field = parentKey+"."+key
             }
-
             if (!flag && reqField[0] === "") {
                 $(".reqField").first().val(field);
                 $(".reqVarType").first().val(keyType);
@@ -872,22 +750,24 @@
             }
 
             if (keyType === "object") {
-                if(parentKey === "") {
-                    parentKey = key
-                } else {
-                    parentKey = parentKey + "."+key
+                var newParentKey = parentKey
+                if (newParentKey === "") {
+                    newParentKey = key
+                }else {
+                    newParentKey = parentKey+ "."+key
                 }
-                jsonToBodyInfoItem(jsonInfo[key], parentKey)
+                jsonToBodyInfoItem(jsonInfo[key], newParentKey)
             }
 
             if (keyType === "array") {
                 if (isArrayOrObject(jsonInfo[key][0]) === "object") {
-                    if(parentKey === "") {
-                        parentKey = key
+                    var newParentKey = parentKey
+                    if (newParentKey === "") {
+                        newParentKey = key
                     } else {
-                        parentKey = parentKey + "."+key
+                        newParentKey = parentKey+ "."+key
                     }
-                    jsonToBodyInfoItem(jsonInfo[key][0], parentKey)
+                    jsonToBodyInfoItem(jsonInfo[key][0], newParentKey)
                 }
             }
         }
@@ -895,7 +775,7 @@
 
     function jsonToBodyInfo() {
         var jsonInfo = editorAdd.get();
-
+        console.log(jsonInfo)
         jsonToBodyInfoItem(jsonInfo, "")
     }
 
@@ -909,87 +789,23 @@
         $('#setReqTable tr:eq('+index+')').remove();
     });
 
-    function addRespTpl(field, fieldType, example) {
-        var fieldVal = ""
-        if (field !== "") {
-            fieldVal  = 'value="'+field+'"'
-        }
-
-        var stringTypeVal = '<option value="string">String</option>'
-        var numberTypeVal = '<option value="number">Number</option>'
-        var booleanTypeVal = '<option value="boolean">Boolean</option>'
-        var arrayTypeVal = '<option value="array">Array</option>'
-        var objectTypeVal = '<option value="object">Object</option>'
-
-
-        switch (fieldType){
-            case "string":
-                stringTypeVal = '<option value="string" selected>String</option>'
-                break
-            case "number":
-                numberTypeVal = '<option value="number" selected>Number</option>'
-                break
-            case "boolean":
-                booleanTypeVal = '<option value="boolean" selected>Boolean</option>'
-                break
-            case "array":
-                arrayTypeVal = '<option value="array" selected>Array</option>'
-                break
-            case "object":
-                objectTypeVal = '<option value="object" selected>Object</option>'
-                break
-        }
-
-        var reqExample = ""
-        if (fieldType === "string") {
-            example = removeHtmlTags(example)
-        }
-        if (example !== "") {
-            reqExample = 'value="'+example+'"'
-        }
-
-        var tpl = '<tr>\n' +
-            '                                <td style="width: 20%;">\n' +
-            '                                    <input class="form-control form-control-sm respField" type="text" placeholder="字段" '+ fieldVal +' style="font-size: 11px;">\n' +
-            '                                </td>\n' +
-            '                                <td style="width: 20%;">\n' +
-            '                                    <input class="form-control form-control-sm respDescription" type="text" placeholder="描述" style="font-size: 11px;">\n' +
-            '                                </td>\n' +
-            '                                <td style="width: 10%">\n' +
-            '                                    <select class="form-select form-select-sm respVarType" style="font-size: 11px;">\n' +
-            '                                        <option value="">类型</option>\n' + stringTypeVal + numberTypeVal + booleanTypeVal + arrayTypeVal + objectTypeVal +
-            '                                    </select>\n' +
-            '                                </td>\n' +
-            '                                <td style="width: 20%">\n' +
-            '                                    <input class="form-control form-control-sm respExample" type="text" placeholder="返回值" '+ reqExample +' style="font-size: 11px;">\n' +
-            '                                </td>\n' +
-            '                                <td style="width: 10%;">\n' +
-            '                                    <div class="btn-group btn-group-sm" role="group">\n' +
-            '                                        <a type="button" class="btn btn-outline-dark btn-sm addResp" data-bs-toggle="tooltip" data-bs-title="增加行">{{ SVG "plus-lg" 14 14 }}</a>\n' +
-            '                                        <a type="button" class="btn btn-outline-dark btn-sm removeResp" data-bs-toggle="tooltip" data-bs-title="删除当前行">{{ SVG "trash-fill" 14 14 }}</a>\n' +
-            '                                    </div>\n' +
-            '                                </td>\n' +
-            '                            </tr>'
-
-        return tpl
-    }
-
     function jsonToRespInfoItem(jsonObj, parentKey) {
         var jsonInfo = jsonObj
 
-        var reqField = $('.respField').map(function() {
-            return $(this).val();
-        }).get();
-
-        var reqVarType = $('.respVarType').map(function() {
-            return $(this).val();
-        }).get();
-
-        var reqExample =  $('.respExample').map(function() {
-            return $(this).val();
-        }).get();
-
         for (var key in jsonInfo) {
+
+            var reqField = $('.respField').map(function() {
+                return $(this).val();
+            }).get();
+
+            var reqVarType = $('.respVarType').map(function() {
+                return $(this).val();
+            }).get();
+
+            var reqExample =  $('.respExample').map(function() {
+                return $(this).val();
+            }).get();
+
             var keyType = typeof jsonInfo[key]
             if (keyType === "object") {
                 keyType = isArrayOrObject(jsonInfo[key])
@@ -1024,22 +840,24 @@
             }
 
             if (keyType === "object") {
-                if(parentKey === "") {
-                    parentKey = key
-                } else {
-                    parentKey = parentKey + "."+key
+                var newParentKey = parentKey
+                if (newParentKey === "") {
+                    newParentKey = key
+                }else {
+                    newParentKey = parentKey+ "."+key
                 }
-                jsonToRespInfoItem(jsonInfo[key], parentKey)
+                jsonToRespInfoItem(jsonInfo[key], newParentKey)
             }
 
             if (keyType === "array") {
                 if (isArrayOrObject(jsonInfo[key][0]) === "object") {
-                    if(parentKey === "") {
-                        parentKey = key
+                    var newParentKey = parentKey
+                    if (newParentKey === "") {
+                        newParentKey = key
                     } else {
-                        parentKey = parentKey + "."+key
+                        newParentKey = parentKey+ "."+key
                     }
-                    jsonToBodyInfoItem(jsonInfo[key][0], parentKey)
+                    jsonToBodyInfoItem(jsonInfo[key][0], newParentKey)
                 }
             }
         }
@@ -1074,14 +892,7 @@
             });
             isActiveStr = "active"
         }
-
-        var tpl = '<li class="nav-item" >\n' +
-            '<a class="nav-link docViewItem '+isActiveStr+'" data-docid="'+docId+'" aria-current="page" href="#">['+apiMethod+'] '+apiName+' <span class="docViewClose">{{ SVG "x-square-fill" 16 16 }}</span></a>\n' +
-            '</li>'
-
-        $("#docViewTable").append(tpl);
-
-        //const left = $('#docViewTable').width();
+        $("#docViewTable").append(docViewItemTpl(isActiveStr, docId, apiMethod, apiName));
         $('#docViewTable').scrollLeft(9999);
     }
 
@@ -1112,13 +923,9 @@
 
     $(document).on('click', '.docli', function(event) {
         var docId = $(this).prop('id');
-
         isShow(true)
-
         viewDocAdd(docId)
-
         NowDoc(docId)
-
     })
 
     $(document).on('click', '.docViewItem', function (event){
@@ -1176,15 +983,12 @@
             "dirName": $("#docAddDirName").val()
         }
         AjaxPost(url, param, function (data){
-
             ToastShow(data.msg);
-
             if (data.code === 0) {
                 setTimeout(function() {
                     location.reload();
                 }, 1000);
             }
-
         })
     }
 
@@ -1210,14 +1014,132 @@
         apiRespBodyInfo.empty();
 
         apiName.append(apiDoc.name);
-        apiMethod.append(apiDoc.method);
+
+        var methodStr = ""
+        switch (apiDoc.method) {
+            case "GET":methodStr = GETSpan;break;
+            case "DELETE":methodStr = DELETESpan;break;
+            case "POST":methodStr = POSTSpan;break;
+            case "HEAD":methodStr = HEADSpan;break;
+            case "PUT":methodStr = PUTSpan;break;
+            case "OPTIONS":methodStr = OPTIONSSpan;break;
+        }
+        apiMethod.append(methodStr);
+
         apiUrl.append(apiDoc.url);
         apiDescription.html(apiDoc.description);
-        apiReqHeader.append(apiDoc.reqHeader);
+
+        for(var i=0; i<apiDoc.reqHeader.length; i++) {
+            apiReqHeader.append(apiReqHeaderTpl(apiDoc.reqHeader[i].field, apiDoc.reqHeader[i].varType, apiDoc.reqHeader[i].isRequired,
+                apiDoc.reqHeader[i].description, apiDoc.reqHeader[i].example))
+        }
+
         apiReqType.append(apiDoc.reqType);
-        apiReqBodyInfo.append(apiDoc.reqBodyInfo);
-        apiRespType.append(apiDoc.respType);
-        apiRespBodyInfo.append(apiDoc.respBodyInfo);
+        for(var i=0; i<apiDoc.reqBodyInfo.length; i++) {
+            //console.log(apiDoc.reqBodyInfo[i])
+            zs["jsonpath:"+apiDoc.reqBodyInfo[i].field.replace(/\./g, ",")] = apiDoc.reqBodyInfo[i].description
+            apiReqBodyInfo.append(apiReqBodyInfoTpl(apiDoc.reqBodyInfo[i].field, apiDoc.reqBodyInfo[i].varType, apiDoc.reqBodyInfo[i].isRequired,
+                apiDoc.reqBodyInfo[i].description, apiDoc.reqBodyInfo[i].example, i))
+            if(apiDoc.reqBodyInfo[i].example.length > 20) {
+                tippy('.reqExampleTxt'+i, {
+                    content: apiDoc.reqBodyInfo[i].example
+                });
+            }
+            if(apiDoc.reqBodyInfo[i].description.length>20) {
+                tippy('.reqDescriptionTxt'+i, {
+                    content: apiDoc.reqBodyInfo[i].description
+                });
+            }
+        }
+
+        if (apiDoc.reqType === "json") {
+            $("#jsoneditorDiv").show();
+            const initialJson = JSON.parse(apiDoc.reqBodyJson)
+            editor.set(initialJson)
+            editor.expandAll()
+            const updatedJson = editor.get()
+            const paths = getJsonPaths(updatedJson);
+            $("#jsoneditor").find(".jsoneditor-field").each(function() {
+                if (zs[$(this).prop("id")]){
+                    $(this).parent().parent().append('<td class="zsReqText" style="padding-left: 16px;color: red;font-size:12px;"> /* '+zs[$(this).prop("id")]+' */</td>')
+                }
+            })
+        }
+
+        apiRespType.append(apiDoc.resp[0].respType);
+        if (apiDoc.resp[0].respBodyInfo != null) {
+            for(var i=0; i<apiDoc.resp[0].respBodyInfo.length; i++) {
+                zsresp["jsonpath:"+apiDoc.resp[0].respBodyInfo[i].field.replace(/\./g, ",")] = apiDoc.resp[0].respBodyInfo[i].description
+                apiRespBodyInfo.append(apiRespBodyInfoTpl(apiDoc.resp[0].respBodyInfo[i].field, apiDoc.resp[0].respBodyInfo[i].varType,
+                    apiDoc.resp[0].respBodyInfo[i].description, apiDoc.resp[0].respBodyInfo[i].example, i))
+                if(apiDoc.resp[0].respBodyInfo[i].example.length > 20) {
+                    tippy('.respExampleTxt'+i, {
+                        content: apiDoc.resp[0].respBodyInfo[i].example
+                    });
+                }
+                if(apiDoc.resp[0].respBodyInfo[i].description.length>20) {
+                    tippy('.respDescriptionTxt'+i, {
+                        content: apiDoc.resp[0].respBodyInfo[i].description
+                    });
+                }
+            }
+        }
+
+        if (apiDoc.resp[0].respType === "json" && apiDoc.resp[0].respBody !== "") {
+            $("#jsoneditorRespDiv").show();
+            const initialJson = JSON.parse(apiDoc.resp[0].respBody)
+            editorResp.set(initialJson)
+            editorResp.expandAll()
+            const updatedJson = editorResp.get()
+            const paths = getJsonPaths(updatedJson);
+            $("#jsoneditorResp").find(".jsoneditor-field").each(function() {
+                if (zsresp[$(this).prop("id")]){
+                    $(this).parent().parent().append('<td class="zsRespText" style="padding-left: 16px;color: red;font-size:12px;"> /* '+zsresp[$(this).prop("id")]+' */</td>')
+                }
+            })
+        }
+    }
+
+    function closeReqZsText() {
+        $(".zsReqText").remove();
+        $(".closeReqZsText").hide();
+        $(".openReqZsText").show();
+    }
+
+    function closeRespZsText() {
+        $(".zsRespText").remove();
+        $(".closeRespZsText").hide();
+        $(".openRespZsText").show();
+    }
+
+    function openReqZsText() {
+        $("#jsoneditor").find(".jsoneditor-field").each(function() {
+            if (zs[$(this).prop("id")]){
+                $(this).parent().parent().append('<td class="zsReqText" style="padding-left: 16px;color: red;font-size:12px;"> /* '+zs[$(this).prop("id")]+' */</td>')
+            }
+        })
+        $(".closeReqZsText").show();
+        $(".openReqZsText").hide();
+    }
+
+    function openRespZsText() {
+        $("#jsoneditorResp").find(".jsoneditor-field").each(function() {
+            if (zsresp[$(this).prop("id")]){
+                $(this).parent().parent().append('<td class="zsRespText" style="padding-left: 16px;color: red;font-size:12px;"> /* '+zsresp[$(this).prop("id")]+' */</td>')
+            }
+        })
+        $(".closeRespZsText").show();
+        $(".openRespZsText").hide();
+    }
+
+    function copyReqJson() {
+        var jsonObj =  editor.get()
+        copyContent(JSON.stringify(jsonObj))
+    }
+
+    function copyRespJson() {
+        var jsonObj =  editorResp.get()
+        copyContent(JSON.stringify(jsonObj))
     }
 
 </script>
