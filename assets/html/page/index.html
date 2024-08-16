@@ -152,6 +152,11 @@
                         </div>
 
                         <div style="margin-bottom: 52px;">
+                            <h4 id="simple-list-item-7">请求代码</h4>
+                            todo....
+                        </div>
+
+                        <div style="margin-bottom: 52px;">
                             <h4 id="simple-list-item-6">日志&镜像</h4>
                             <ul class="list-group list-group-flush">
                                 <li class="list-group-item">admin 2024-08-13 11:11:11|  修改了文档 | 镜像: <a type="button" class="btn btn-link">sadhjsakdhkj</a> </li>
@@ -173,6 +178,7 @@
                           <a class="p-1 rounded" style="color: #1a1d20;" href="#simple-list-item-3">请求Header</a>
                           <a class="p-1 rounded" style="color: #1a1d20;" href="#simple-list-item-4">请求Body</a>
                           <a class="p-1 rounded" style="color: #1a1d20;" href="#simple-list-item-5">响应</a>
+                          <a class="p-1 rounded" style="color: #1a1d20;" href="#simple-list-item-7">请求代码</a>
                           <a class="p-1 rounded" style="color: #1a1d20;" href="#simple-list-item-6">日志&镜像</a>
                         </div>
                     </div>
@@ -228,7 +234,7 @@
         var open = $(this).attr('data-open');
         var dirid = $(this).attr('data-dirid');
         $(this).find('span').empty();
-        if (open === 0) {
+        if (open === "0") {
             $(this).find('span').append('{{ SVG "folder2-open" 21 21 }}');
             $(this).attr('data-open', '1');
             $('#'+dirid).show();
@@ -880,6 +886,10 @@
                     $(this).removeClass("active")
                 });
                 $(".docViewItem[data-docid="+docId+"]").addClass("active")
+                var x = ($(".docViewItem[data-docid="+docId+"]").offset().left-docViewTable.width())+400
+                docViewTable.animate({
+                    scrollLeft: x,
+                }, 500);
                 return
             }
         }
@@ -933,8 +943,11 @@
         docViewTable.find('a').each(function() {
             $(this).removeClass("active")
         });
-
         $(this).addClass("active")
+        var x = ($(this).offset().left-docViewTable.width())+400
+        docViewTable.animate({
+            scrollLeft: x,
+        }, 500);
         var docId = $(this).attr("data-docid")
         localStorage.setItem(nowViewDoc+projectId, docId)
         NowDoc(docId)

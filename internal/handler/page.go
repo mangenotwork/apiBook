@@ -43,14 +43,24 @@ func Index(ctx *gin.Context) {
 		isAdmin = 1
 	}
 
+	project, err := dao.NewProjectDao().Get(pid, userAcc)
+	if err != nil {
+		ctx.HTML(200, "err.html", gin.H{
+			"Title": conf.Conf.Default.App.Name,
+			"err":   err.Error(),
+		})
+		return
+	}
+
 	ctx.HTML(
 		http.StatusOK,
 		"index.html",
 		ginH(gin.H{
-			"nav":       "index",
-			"isAdmin":   isAdmin, // 1是管理员
-			"userName":  ctx.GetString("userName"),
-			"projectId": pid,
+			"nav":         "index",
+			"isAdmin":     isAdmin, // 1是管理员
+			"userName":    ctx.GetString("userName"),
+			"projectId":   pid,
+			"projectName": project.Name,
 		}),
 	)
 	return

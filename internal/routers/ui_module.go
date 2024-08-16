@@ -41,7 +41,7 @@ func ProjectCard(pid, name, description string, isOperation int, private define.
 	//	teamWorker = `<a onclick="teamWorkerProject('` + pid + `')" class="card-link">协作者</a>`
 	//}
 
-	htmlTemplate := `<div class="card mb-3 project">
+	htmlTemplate := `<div class="card mb-3 project box">
             <div class="card-body">
                 <h5 class="card-title">` + name + `</h5>
                 <div class="plabel">` + privateSpan + `</div>
