@@ -127,6 +127,10 @@ func Home(ctx *gin.Context) {
 	homeProjectList := make([]*HomeProjectItem, 0)
 	for _, v := range projectList {
 
+		if v.ProjectId == "" {
+			continue
+		}
+
 		item := &HomeProjectItem{
 			ProjectId:     v.ProjectId,
 			Name:          v.Name,

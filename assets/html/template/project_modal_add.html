@@ -3,7 +3,7 @@
     <div class="modal-dialog modal-xl">
         <div class="modal-content">
             <div class="modal-header">
-                <h1 class="modal-title fs-5" id="addProjectModalLabel">新建项目</h1>
+                <h1 class="modal-title fs-5" id="addProjectModalLabel"></h1>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body" style="padding: 56px;">
@@ -24,10 +24,13 @@
                     <span style="color: #6c757d;font-size: 12px;">注意: 如设置为私有，添加协作人员在创建项目之后【项目设置】中操作。</span>
                 </div>
 
+                <input type="text" id="modifyProjectId" style="display: none">
+
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">取消</button>
-                <button type="button" class="btn btn-primary" onclick="ProjectCreate()">提交</button>
+                <button type="button" class="btn btn-primary" id="projectCreateSubmit" onclick="ProjectCreate()">提交</button>
+                <button type="button" class="btn btn-primary" id="projectModifySubmit" onclick="ProjectModify()" style="display: none;">提交</button>
             </div>
         </div>
     </div>

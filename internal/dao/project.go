@@ -3,6 +3,7 @@ package dao
 import (
 	"apiBook/common/db"
 	"apiBook/common/log"
+	"apiBook/common/utils"
 	"apiBook/internal/define"
 	"apiBook/internal/entity"
 	"fmt"
@@ -72,7 +73,13 @@ func (dao *ProjectDao) GetList(userAcc string) []*entity.Project {
 
 	pubKeyList = append(pubKeyList, uKeyList...)
 
+	pubKeyList = utils.SliceDeduplicate[string](pubKeyList)
+
 	for _, v := range pubKeyList {
+		if v == "" {
+			continue
+		}
+
 		projectData := &entity.Project{}
 		_ = db.DB.Get(db.ProjectTable, v, &projectData)
 		resp = append(resp, projectData)
@@ -129,11 +136,20 @@ func (dao *ProjectDao) Modify(newData *entity.Project, userAcc string) error {
 				return err
 			}
 
+			_ = db.DB.Delete(db.ProjectPublicTable, oldData.ProjectId)
+
 		} else {
 			err = db.DB.Set(db.ProjectPublicTable, oldData.ProjectId, 1)
 			if err != nil {
 				return err
 			}
+
+			allUser, _ := db.DB.AllKey(db.GetProjectPrivateUserTable(oldData.ProjectId))
+			for _, v := range allUser {
+				_ = db.DB.Delete(db.GetUserPrivateProjectTable(v), oldData.ProjectId)
+				_ = db.DB.Delete(db.GetProjectPrivateUserTable(oldData.ProjectId), v)
+			}
+
 		}
 		oldData.Private = newData.Private
 	}

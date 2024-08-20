@@ -353,14 +353,58 @@ function newAPIDoc(id) {
     $('#apiDocAddModal').modal('show');
 }
 
+function projectValueClear() {
+    $("#projectName").val("");
+    $("#projectPrivate").val(1);
+    $("#projectDescription").val("");
+}
+
 function addProject() {
+    $('#addProjectModalLabel').empty();
+    $('#addProjectModalLabel').text("创建项目")
+    $('#projectCreateSubmit').show();
+    $('#projectModifySubmit').hide();
+    projectValueClear()
     $('#addProjectModal').modal('show');
 }
 
-// 创建项目
 function ProjectCreate() {
     const url = "/project/create"
     var param = {
+        "name": $("#projectName").val(),
+        "description": $("#projectDescription").val(),
+        "private": Number($("#projectPrivate").val()),
+    }
+    AjaxPost(url, param, function (data){
+        console.log(data)
+        ToastShow(data.msg);
+        if (data.code === 0) {
+            setTimeout(function() {
+                location.reload();
+            }, 1000);
+        }
+    })
+}
+
+
+
+function modifyProject(pid, name, private, description) {
+    $('#addProjectModalLabel').empty();
+    $('#addProjectModalLabel').text("编辑项目");
+    $('#projectCreateSubmit').hide();
+    $('#projectModifySubmit').show();
+    projectValueClear()
+    $('#modifyProjectId').val(pid);
+    $("#projectName").val(name);
+    $("#projectPrivate").val(private);
+    $("#projectDescription").val(description);
+    $('#addProjectModal').modal('show');
+}
+
+function ProjectModify() {
+    const url = "/project/modify"
+    var param = {
+        "projectId": $('#modifyProjectId').val(),
         "name": $("#projectName").val(),
         "description": $("#projectDescription").val(),
         "private": Number($("#projectPrivate").val()),
