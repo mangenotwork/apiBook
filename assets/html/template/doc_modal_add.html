@@ -23,16 +23,7 @@
                                   </div>
 
                                   <div class="input-group mb-3">
-
-                                      <select class="form-select" id="addDocMethod">
-                                          <option value="GET">GET</option>
-                                          <option value="POST">POST</option>
-                                          <option value="PUT">PUT</option>
-                                          <option value="HEAD">HEAD</option>
-                                          <option value="OPTIONS">OPTIONS</option>
-                                          <option value="DELETE">DELETE</option>
-                                      </select>
-
+                                      {{ MethodSelect "addDocMethod"}}
                                       <input type="text" class="form-control" id="addDocUrl" aria-label="Text input with dropdown button"  style="width: 80%;">
                                   </div>
                               </div>
@@ -136,7 +127,11 @@
                                           <textarea class="form-control" rows="5" style="height: 440px;"></textarea>
                                       </div>
                                       <div id="bodyGo" style="display:none;">
-                                          Todo ...
+                                          <textarea class="form-control" rows="5" style="height: 440px;"></textarea>
+                                          <button type="button" class="btn btn-primary"
+                                                  style="--bs-btn-padding-y: .25rem; --bs-btn-padding-x: .5rem; --bs-btn-font-size: .75rem;margin-top: 2px;" onclick="goToReqInfo()">
+                                              映射到响应参数说明
+                                          </button>
                                       </div>
                                       <div id="bodyTs" style="display:none;">
                                           Todo ...
@@ -211,7 +206,11 @@
                                           <textarea class="form-control" rows="5" style="height: 440px;"></textarea>
                                       </div>
                                       <div id="respGo" style="display:none;">
-                                          Todo ...
+                                          <textarea class="form-control" rows="5" style="height: 440px;"></textarea>
+                                          <button type="button" class="btn btn-primary"
+                                                  style="--bs-btn-padding-y: .25rem; --bs-btn-padding-x: .5rem; --bs-btn-font-size: .75rem;margin-top: 2px;" onclick="goToRespInfo()">
+                                              映射到响应参数说明
+                                          </button>
                                       </div>
                                       <div id="respTs" style="display:none;">
                                           Todo ...

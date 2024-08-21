@@ -145,3 +145,17 @@ type DocumentDocListReq struct {
 	PId     string   `json:"pid"`
 	DocList []string `json:"docList"`
 }
+
+type CaseFuncGoReq struct {
+	Text string `json:"text"`
+}
+
+type ToolGoStructToFieldReq struct {
+	Text string `json:"text"`
+}
+
+type ToolGoStructToFieldItem struct {
+	Field       string `json:"field"`       // 字段
+	VarType     string `json:"varType"`     // 类型
+	Description string `json:"description"` // 描述
+}

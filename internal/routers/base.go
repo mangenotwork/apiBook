@@ -37,8 +37,11 @@ func Routers() *gin.Engine {
 	Document() // 文档
 	User()     // 用户相关
 	Admin()    // 管理员
+	Tool()     // 提供一些工具
 
 	Mock() // mock
+
+	CaseFunc() // case function
 
 	return Router
 }
@@ -116,6 +119,7 @@ func FuncMap() {
 		"ApiBookInfo":    ApiBookInfo,
 		"ProjectCard":    ProjectCard,
 		"Timestamp2Date": Timestamp2Date,
+		"MethodSelect":   MethodSelect,
 	})
 }
 
@@ -201,4 +205,14 @@ func Mock() {
 	mock := Router.Group("/mock")
 	mock.Use(AuthAPI())
 	// 新增mock
+}
+
+func Tool() {
+	caseFunc := Router.Group("/tool")
+	caseFunc.POST("/goStructToField", handler.ToolGoStructToField)
+}
+
+func CaseFunc() {
+	caseFunc := Router.Group("/case")
+	caseFunc.POST("/go", handler.CaseFuncGo)
 }

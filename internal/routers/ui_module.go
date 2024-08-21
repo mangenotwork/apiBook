@@ -54,3 +54,16 @@ func ProjectCard(pid, name, description string, isOperation int, private define.
 
 	return template.HTML(htmlTemplate)
 }
+
+func MethodSelect(id string) template.HTML {
+	htmlTemplate := `<select class="form-select" id="` + id + `">
+                        <option value="GET">GET</option>
+                        <option value="POST">POST</option>
+                        <option value="PUT">PUT</option>
+                        <option value="HEAD">HEAD</option>
+                        <option value="OPTIONS">OPTIONS</option>
+                        <option value="DELETE">DELETE</option>
+                     </select>`
+
+	return template.HTML(htmlTemplate)
+}

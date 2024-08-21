@@ -842,7 +842,7 @@
                 $(".respVarType").first().val(keyType);
                 $(".respExample").first().val(jsonInfo[key]);
             } else if (!flag) {
-                $("#setRespTable").append(addRespTpl(field, keyType, jsonInfo[key]));
+                $("#setRespTable").append(addRespTpl(field, keyType, jsonInfo[key], ""));
             }
 
             if (keyType === "object") {
@@ -863,7 +863,7 @@
                     } else {
                         newParentKey = parentKey+ "."+key
                     }
-                    jsonToBodyInfoItem(jsonInfo[key][0], newParentKey)
+                    jsonToRespInfoItem(jsonInfo[key][0], newParentKey)
                 }
             }
         }
@@ -907,7 +907,7 @@
     }
 
     $(document).on('click', '.addResp', function (){
-        $("#setRespTable").append(addRespTpl("", "", ""));
+        $("#setRespTable").append(addRespTpl("", "", "", ""));
     });
 
     $(document).on('click', '.removeResp', function(event) {
@@ -1154,6 +1154,62 @@
         var jsonObj =  editorResp.get()
         copyContent(JSON.stringify(jsonObj))
     }
+
+    function goToRespInfo() {
+        const url = "/tool/goStructToField"
+        var param = {
+            "text": $("#respGo textarea").val(),
+        }
+        AjaxPost(url, param, function (data){
+
+            delRespTpl();
+
+            for(var i=0; i<data.data.length; i++) {
+
+                var respField = $('.respField').map(function() {
+                    return $(this).val();
+                }).get();
+
+                if (respField[0] === "") {
+                    $(".respField").first().val(data.data[i].field);
+                    $(".respVarType").first().val(data.data[i].varType);
+                    $(".respDescription").first().val(data.data[i].description);
+                } else {
+                    $("#setRespTable").append(addRespTpl(data.data[i].field, data.data[i].varType, "", data.data[i].description));
+                }
+            }
+
+        })
+
+    }
+
+    function goToReqInfo() {
+        const url = "/tool/goStructToField"
+        var param = {
+            "text": $("#bodyGo textarea").val(),
+        }
+        AjaxPost(url, param, function (data){
+
+            delReqTpl();
+
+            for(var i=0; i<data.data.length; i++) {
+
+                var reqField = $('.reqField').map(function() {
+                    return $(this).val();
+                }).get();
+
+                if (reqField[0] === "") {
+                    $(".reqField").first().val(data.data[i].field);
+                    $(".reqVarType").first().val(data.data[i].varType);
+                    $(".reqDescription").first().val(data.data[i].description);
+                } else {
+                    $("#setReqTable").append(addReqTpl(data.data[i].field, data.data[i].varType, "", data.data[i].description));
+                }
+            }
+
+        })
+    }
+
 
 </script>
 {{ template "end" . }}

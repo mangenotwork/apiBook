@@ -181,10 +181,15 @@
         $("#setHeaderTable").append(tpl);
     });
 
-    function addReqTpl(field, fieldType, example) {
+    function addReqTpl(field, fieldType, example, description) {
         var fieldVal = ""
         if (field !== "") {
             fieldVal  = 'value="'+field+'"'
+        }
+
+        var descriptionVal = ""
+        if (description !== "") {
+            descriptionVal = 'value="'+description+'"'
         }
 
         var stringTypeVal = '<option value="string">String</option>'
@@ -225,7 +230,7 @@
             '                                    <input class="form-control form-control-sm reqField" type="text" placeholder="字段" '+ fieldVal +' style="font-size: 11px;">\n' +
             '                                </td>\n' +
             '                                <td style="width: 25%;">\n' +
-            '                                    <input class="form-control form-control-sm reqDescription" type="text" placeholder="描述" style="font-size: 11px;">\n' +
+            '                                    <input class="form-control form-control-sm reqDescription" type="text" placeholder="描述" '+ descriptionVal +' style="font-size: 11px;">\n' +
             '                                </td>\n' +
             '                                <td style="width: 10%">\n' +
             '                                    <select class="form-select form-select-sm reqVarType" style="font-size: 11px;">\n' +
@@ -252,11 +257,52 @@
         return tpl
     }
 
+    function delReqTpl() {
+        $("#setReqTable").empty();
+        $("#setReqTable").append('<tr>\n' +
+            '                                          <td style="width: 20%;">\n' +
+            '                                              <input class="form-control form-control-sm reqField" type="text" placeholder="字段" style="font-size: 11px;">\n' +
+            '                                          </td>\n' +
+            '                                          <td style="width: 20%;">\n' +
+            '                                              <input class="form-control form-control-sm reqDescription" type="text" placeholder="描述" style="font-size: 11px;">\n' +
+            '                                          </td>\n' +
+            '                                          <td style="width: 10%">\n' +
+            '                                              <select class="form-select form-select-sm reqVarType" style="font-size: 11px;">\n' +
+            '                                                  <option value="">类型</option>\n' +
+            '                                                  <option value="string">String</option>\n' +
+            '                                                  <option value="number">Number</option>\n' +
+            '                                                  <option value="boolean">Boolean</option>\n' +
+            '                                                  <option value="array">Array</option>\n' +
+            '                                                  <option value="object">Object</option>\n' +
+            '                                                  <option value="file">File</option>\n' +
+            '                                              </select>\n' +
+            '                                          </td>\n' +
+            '                                          <td style="width: 20%;">\n' +
+            '                                              <input class="form-control form-control-sm reqExample" type="text" placeholder="示例" style="font-size: 11px;">\n' +
+            '                                          </td>\n' +
+            '                                          <td style="width: 10%;">\n' +
+            '                                              <select class="form-select form-select-sm reqIsRequired" style="font-size: 11px;">\n' +
+            '                                                  <option value="1">不为空</option>\n' +
+            '                                                  <option value="0">可为空</option>\n' +
+            '                                              </select>\n' +
+            '                                          </td>\n' +
+            '                                          <td style="width: 10%;">\n' +
+            '                                              <div class="btn-group btn-group-sm" role="group">\n' +
+            '                                                  <a type="button" class="btn btn-outline-dark btn-sm addReq" data-bs-toggle="tooltip" data-bs-title="增加行">{{ SVG "plus-lg" 14 14 }}</a>\n' +
+            '                                              </div>\n' +
+            '                                          </td>\n' +
+            '                                      </tr>');
+    }
 
-    function addRespTpl(field, fieldType, example) {
+    function addRespTpl(field, fieldType, example, description) {
         var fieldVal = ""
         if (field !== "") {
             fieldVal  = 'value="'+field+'"'
+        }
+
+        var descriptionVal = ""
+        if (description !== "") {
+            descriptionVal = 'value="'+description+'"'
         }
 
         var stringTypeVal = '<option value="string">String</option>'
@@ -297,7 +343,7 @@
             '                                    <input class="form-control form-control-sm respField" type="text" placeholder="字段" '+ fieldVal +' style="font-size: 11px;">\n' +
             '                                </td>\n' +
             '                                <td style="width: 20%;">\n' +
-            '                                    <input class="form-control form-control-sm respDescription" type="text" placeholder="描述" style="font-size: 11px;">\n' +
+            '                                    <input class="form-control form-control-sm respDescription" type="text" placeholder="描述" '+ descriptionVal +' style="font-size: 11px;">\n' +
             '                                </td>\n' +
             '                                <td style="width: 10%">\n' +
             '                                    <select class="form-select form-select-sm respVarType" style="font-size: 11px;">\n' +
@@ -316,6 +362,37 @@
             '                            </tr>'
 
         return tpl
+    }
+
+    function delRespTpl() {
+        $("#setRespTable").empty();
+        $("#setRespTable").append('<tr>\n' +
+            '                                          <td style="width: 20%;">\n' +
+            '                                              <input class="form-control form-control-sm respField" type="text" placeholder="字段" style="font-size: 11px;">\n' +
+            '                                          </td>\n' +
+            '                                          <td style="width: 20%;">\n' +
+            '                                              <input class="form-control form-control-sm respDescription" type="text" placeholder="描述" style="font-size: 11px;">\n' +
+            '                                          </td>\n' +
+            '                                          <td style="width: 10%">\n' +
+            '                                              <select class="form-select form-select-sm respVarType" style="font-size: 11px;">\n' +
+            '                                                  <option value="">类型</option>\n' +
+            '                                                  <option value="string">String</option>\n' +
+            '                                                  <option value="number">Number</option>\n' +
+            '                                                  <option value="boolean">Boolean</option>\n' +
+            '                                                  <option value="array">Array</option>\n' +
+            '                                                  <option value="object">Object</option>\n' +
+            '                                                  <option value="file">File</option>\n' +
+            '                                              </select>\n' +
+            '                                          </td>\n' +
+            '                                          <td style="width: 20%">\n' +
+            '                                              <input class="form-control form-control-sm respExample" type="text" placeholder="返回值" style="font-size: 11px;">\n' +
+            '                                          </td>\n' +
+            '                                          <td style="width: 10%;">\n' +
+            '                                              <div class="btn-group btn-group-sm" role="group">\n' +
+            '                                                  <a type="button" class="btn btn-outline-dark btn-sm addResp" data-bs-toggle="tooltip" data-bs-title="增加行">{{ SVG "plus-lg" 14 14 }}</a>\n' +
+            '                                              </div>\n' +
+            '                                          </td>\n' +
+            '                                      </tr>')
     }
 
     function docViewItemTpl(isActiveStr, docId, apiMethod, apiName) {
