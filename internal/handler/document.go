@@ -282,7 +282,27 @@ func DocumentItem(c *gin.Context) {
 		return
 	}
 
-	ctx.APIOutPut(data, "")
+	resp := &DocumentItemResp{
+		Content:      data,
+		SnapshotList: make([]*SnapshotItem, 0),
+	}
+
+	snapshotList, err := dao.NewDocDao().GetDocumentSnapshotList(param.DocId)
+	if err != nil {
+		ctx.APIOutPutError(err, err.Error())
+		return
+	}
+
+	for _, v := range snapshotList {
+		resp.SnapshotList = append(resp.SnapshotList, &SnapshotItem{
+			SnapshotIdId: v.SnapshotIdId,
+			UserAcc:      v.UserAcc,
+			Operation:    v.Operation,
+			CreateTime:   v.CreateTime,
+		})
+	}
+
+	ctx.APIOutPut(resp, "")
 	return
 }
 

@@ -16,3 +16,18 @@ type ProjectProperty struct {
 	UserId    string `json:"userId"`
 	Property  string `json:"Property"` // 第1位查看权限  第2位编辑权限  第3位删除权限
 }
+
+type ProjectGlobalHeader struct {
+	ProjectId string           `json:"projectId"`
+	ReqHeader []*ReqHeaderItem `json:"reqHeader"` // 请求头
+}
+
+type ProjectGlobalCode struct {
+	ProjectId string            `json:"projectId"`
+	List      []*GlobalCodeItem `json:"list"`
+}
+
+type GlobalCodeItem struct {
+	CodeValue   string `json:"field"`       // 状态值
+	Description string `json:"description"` // 描述
+}

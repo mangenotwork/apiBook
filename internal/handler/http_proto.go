@@ -1,6 +1,9 @@
 package handler
 
-import "apiBook/internal/define"
+import (
+	"apiBook/internal/define"
+	"apiBook/internal/entity"
+)
 
 type ProjectUsersResp struct {
 	List      []*UserInfo `json:"list"`
@@ -85,6 +88,18 @@ type DocumentListReq struct {
 type DocumentItemParam struct {
 	PId   string `json:"pid"`
 	DocId string `json:"docId"`
+}
+
+type DocumentItemResp struct {
+	Content      *entity.DocumentContent `json:"content"`
+	SnapshotList []*SnapshotItem         `json:"snapshotList"`
+}
+
+type SnapshotItem struct {
+	SnapshotIdId string `json:"snapshotId"` // 快照id
+	UserAcc      string `json:"userAcc"`    // 操作者
+	Operation    string `json:"operation"`  // 操作日志，文本信息
+	CreateTime   int64  `json:"createTime"` // 创建时间
 }
 
 type DocumentDeleteReq struct {

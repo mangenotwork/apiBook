@@ -254,3 +254,31 @@ func (dao *ProjectDao) DelUser(pid, userAcc, delAcc string) error {
 
 	return nil
 }
+
+func (dao *ProjectDao) AddGlobalHeader(pid string, list []*entity.ReqHeaderItem) error {
+	err := db.DB.Set(db.GetGlobalHeader(), pid, &entity.ProjectGlobalHeader{
+		ProjectId: pid,
+		ReqHeader: list,
+	})
+	return err
+}
+
+func (dao *ProjectDao) GetGlobalHeader(pid string) ([]*entity.ReqHeaderItem, error) {
+	result := &entity.ProjectGlobalHeader{}
+	err := db.DB.Get(db.GetGlobalHeader(), pid, &result)
+	return result.ReqHeader, err
+}
+
+func (dao *ProjectDao) AddGlobalCode(pid string, list []*entity.GlobalCodeItem) error {
+	err := db.DB.Set(db.GetGlobalCode(), pid, &entity.ProjectGlobalCode{
+		ProjectId: pid,
+		List:      list,
+	})
+	return err
+}
+
+func (dao *ProjectDao) GetGlobalCode(pid string) ([]*entity.GlobalCodeItem, error) {
+	result := &entity.ProjectGlobalCode{}
+	err := db.DB.Get(db.GetGlobalCode(), pid, &result)
+	return result.List, err
+}

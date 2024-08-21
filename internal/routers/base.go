@@ -145,15 +145,19 @@ func Page() {
 func Project() {
 	project := Router.Group("/project")
 	project.Use(AuthAPI())
-	project.GET("/list", handler.ProjectList)          // 项目列表
-	project.GET("/item", handler.ProjectItem)          // 项目详情
-	project.POST("/create", handler.ProjectCreate)     // 创建项目
-	project.POST("/modify", handler.ProjectModify)     // 修改项目
-	project.POST("/delete", handler.ProjectDelete)     // 删除项目
-	project.GET("/users", handler.ProjectUsers)        // 项目协作人员列表
-	project.POST("/adduser", handler.ProjectAddUser)   // 项目添加协助人员
-	project.POST("/deluser", handler.ProjectDelUser)   // 项目移除协作者
-	project.GET("/join/list", handler.ProjectJoinList) // 可加入的用户列表
+	project.GET("/list", handler.ProjectList)             // 项目列表
+	project.GET("/item", handler.ProjectItem)             // 项目详情
+	project.POST("/create", handler.ProjectCreate)        // 创建项目
+	project.POST("/modify", handler.ProjectModify)        // 修改项目
+	project.POST("/delete", handler.ProjectDelete)        // 删除项目
+	project.GET("/users", handler.ProjectUsers)           // 项目协作人员列表
+	project.POST("/adduser", handler.ProjectAddUser)      // 项目添加协助人员
+	project.POST("/deluser", handler.ProjectDelUser)      // 项目移除协作者
+	project.GET("/join/list", handler.ProjectJoinList)    // 可加入的用户列表
+	project.POST("/header/add", handler.ProjectHeaderAdd) // 添加全局header
+	project.GET("/header/list", handler.ProjectHeaderGet) // 删除全局header
+	project.POST("/code/add", handler.ProjectCodeAdd)     // 添加全局code
+	project.GET("/code/list", handler.ProjectCodeGet)     // 删除全局code
 }
 
 func Document() {

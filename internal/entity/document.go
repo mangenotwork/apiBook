@@ -82,4 +82,13 @@ type RespItem struct {
 	RespBodyInfo []*BodyInfoItem    `json:"respBodyInfo"` // 响应参数说明
 }
 
-// todo  文档快照，修改就创建一个快照
+// DocumentSnapshot 文档快照
+// Table 是 DocId
+// Key 是 快照id SnapshotId
+type DocumentSnapshot struct {
+	SnapshotIdId    string           `json:"snapshotId"`      // 快照id
+	UserAcc         string           `json:"userAcc"`         // 操作者
+	Operation       string           `json:"operation"`       // 操作日志，文本信息
+	CreateTime      int64            `json:"createTime"`      // 创建时间
+	DocumentContent *DocumentContent `json:"documentContent"` // 文档快照
+}

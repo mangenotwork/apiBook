@@ -3,8 +3,12 @@ package dao
 import (
 	"apiBook/common/db"
 	"apiBook/common/log"
+	"apiBook/common/utils"
 	"apiBook/internal/define"
 	"apiBook/internal/entity"
+	"encoding/json"
+	"fmt"
+	"time"
 )
 
 type DocDao struct {
@@ -23,6 +27,11 @@ func (dao *DocDao) Create(data *entity.Document, content *entity.DocumentContent
 
 	log.Info(db.GetDocumentContentTable(content.ProjectId), content.DocId)
 	err = db.DB.Set(db.GetDocumentContentTable(content.ProjectId), content.DocId, content)
+	if err != nil {
+		return err
+	}
+
+	err = dao.AddDocumentSnapshot(content, "创建接口文档")
 	if err != nil {
 		return err
 	}
@@ -118,6 +127,11 @@ func (dao *DocDao) Modify(content *entity.DocumentContent) error {
 		return err
 	}
 
+	err = dao.AddDocumentSnapshot(content, "修改接口文档")
+	if err != nil {
+		return err
+	}
+
 	return nil
 }
 
@@ -169,4 +183,47 @@ func (dao *DocDao) ChangeDir(pid, dirId, dirIdNew, docId string) error {
 	}
 
 	return nil
+}
+
+func (dao *DocDao) AddDocumentSnapshot(content *entity.DocumentContent, logStr string) error {
+	snapshotId := fmt.Sprintf("%d%s", time.Now().Unix(), utils.NewShortCode())
+
+	data := &entity.DocumentSnapshot{
+		SnapshotIdId:    snapshotId,
+		UserAcc:         content.UserAcc,
+		Operation:       logStr,
+		CreateTime:      content.CreateTime,
+		DocumentContent: content,
+	}
+
+	err := db.DB.Set(db.GetDocumentSnapshotTable(content.DocId), snapshotId, data)
+	if err != nil {
+		return err
+	}
+
+	return nil
+}
+
+func (dao *DocDao) GetDocumentSnapshotList(docId string) ([]*entity.DocumentSnapshot, error) {
+
+	result := make([]*entity.DocumentSnapshot, 0)
+
+	err := db.DB.GetAll(db.GetDocumentSnapshotTable(docId), func(k, v []byte) {
+		item := &entity.DocumentSnapshot{}
+		err := json.Unmarshal(v, &item)
+
+		if err != nil {
+			log.Error(err)
+		} else {
+			result = append(result, item)
+		}
+	})
+
+	return result, err
+}
+
+func (dao *DocDao) GetDocumentSnapshotItem(docId, snapshotId string) (*entity.DocumentSnapshot, error) {
+	result := &entity.DocumentSnapshot{}
+	err := db.DB.Get(db.GetDocumentSnapshotTable(docId), snapshotId, &result)
+	return result, err
 }

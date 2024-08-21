@@ -249,3 +249,69 @@ func ProjectJoinList(c *gin.Context) {
 	ctx.APIOutPut(outList, "")
 	return
 }
+
+func ProjectHeaderAdd(c *gin.Context) {
+	ctx := ginHelper.NewGinCtx(c)
+	param := &entity.ProjectGlobalHeader{}
+	err := ctx.GetPostArgs(&param)
+	if err != nil {
+		ctx.APIOutPutError(fmt.Errorf("参数错误"), "参数错误")
+		return
+	}
+
+	err = dao.NewProjectDao().AddGlobalHeader(param.ProjectId, param.ReqHeader)
+	if err != nil {
+		ctx.APIOutPutError(err, err.Error())
+		return
+	}
+
+	ctx.APIOutPut("保存成功", "保存成功")
+	return
+}
+
+func ProjectHeaderGet(c *gin.Context) {
+	ctx := ginHelper.NewGinCtx(c)
+	pid := ctx.Query("pid")
+
+	headerList, err := dao.NewProjectDao().GetGlobalHeader(pid)
+	if err != nil {
+		ctx.APIOutPutError(err, err.Error())
+		return
+	}
+
+	ctx.APIOutPut(headerList, "")
+	return
+}
+
+func ProjectCodeAdd(c *gin.Context) {
+	ctx := ginHelper.NewGinCtx(c)
+	param := &entity.ProjectGlobalCode{}
+	err := ctx.GetPostArgs(&param)
+	if err != nil {
+		ctx.APIOutPutError(fmt.Errorf("参数错误"), "参数错误")
+		return
+	}
+
+	err = dao.NewProjectDao().AddGlobalCode(param.ProjectId, param.List)
+	if err != nil {
+		ctx.APIOutPutError(err, err.Error())
+		return
+	}
+
+	ctx.APIOutPut("保存成功", "保存成功")
+	return
+}
+
+func ProjectCodeGet(c *gin.Context) {
+	ctx := ginHelper.NewGinCtx(c)
+	pid := ctx.Query("pid")
+
+	codeList, err := dao.NewProjectDao().GetGlobalCode(pid)
+	if err != nil {
+		ctx.APIOutPutError(err, err.Error())
+		return
+	}
+
+	ctx.APIOutPut(codeList, "")
+	return
+}
