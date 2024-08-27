@@ -323,7 +323,7 @@
             }
         });
 
-        var viewDocList = viewDocGet()
+        var viewDocList = viewDocGet(projectId)
 
         var param = {
             "pid": projectId,
@@ -925,8 +925,8 @@
         AjaxPostNotAsync("/document/item", param, function(data){
             if (data.code === 0 ) {
                 localStorage.setItem(nowViewDoc+projectId, docId)
-                showViewDoc(data.data.method, data.data.name, docId, true)
-                loadApiDoc(data.data)
+                showViewDoc(data.data.content.method, data.data.content.name, docId, true)
+                loadApiDoc(data.data.content)
             }
         })
     }
@@ -934,7 +934,7 @@
     $(document).on('click', '.docli', function(event) {
         var docId = $(this).prop('id');
         isShow(true)
-        viewDocAdd(docId)
+        viewDocAdd(projectId, docId)
         NowDoc(docId)
     })
 
@@ -978,7 +978,7 @@
 
         var docId = now.find("a").attr("data-docid")
 
-        viewDocDel(docId)
+        viewDocDel(projectId, docId)
 
         if(localStorage.getItem(nowViewDoc+projectId) === "undefined") {
             isShow(false)
@@ -1006,6 +1006,9 @@
     }
 
     function loadApiDoc(apiDoc) {
+
+        console.log(apiDoc)
+
         var apiName = $("#api-name")
         var apiMethod = $("#api-method")
         var apiUrl = $("#api-url")
@@ -1042,26 +1045,31 @@
         apiUrl.append(apiDoc.url);
         apiDescription.html(apiDoc.description);
 
-        for(var i=0; i<apiDoc.reqHeader.length; i++) {
-            apiReqHeader.append(apiReqHeaderTpl(apiDoc.reqHeader[i].field, apiDoc.reqHeader[i].varType, apiDoc.reqHeader[i].isRequired,
-                apiDoc.reqHeader[i].description, apiDoc.reqHeader[i].example))
+        if ( apiDoc.reqHeader !== undefined ) {
+            for(var i=0; i<apiDoc.reqHeader.length; i++) {
+                apiReqHeader.append(apiReqHeaderTpl(apiDoc.reqHeader[i].field, apiDoc.reqHeader[i].varType, apiDoc.reqHeader[i].isRequired,
+                    apiDoc.reqHeader[i].description, apiDoc.reqHeader[i].example))
+            }
         }
 
         apiReqType.append(apiDoc.reqType);
-        for(var i=0; i<apiDoc.reqBodyInfo.length; i++) {
-            //console.log(apiDoc.reqBodyInfo[i])
-            zs["jsonpath:"+apiDoc.reqBodyInfo[i].field.replace(/\./g, ",")] = apiDoc.reqBodyInfo[i].description
-            apiReqBodyInfo.append(apiReqBodyInfoTpl(apiDoc.reqBodyInfo[i].field, apiDoc.reqBodyInfo[i].varType, apiDoc.reqBodyInfo[i].isRequired,
-                apiDoc.reqBodyInfo[i].description, apiDoc.reqBodyInfo[i].example, i))
-            if(apiDoc.reqBodyInfo[i].example.length > 20) {
-                tippy('.reqExampleTxt'+i, {
-                    content: apiDoc.reqBodyInfo[i].example
-                });
-            }
-            if(apiDoc.reqBodyInfo[i].description.length>20) {
-                tippy('.reqDescriptionTxt'+i, {
-                    content: apiDoc.reqBodyInfo[i].description
-                });
+
+        if ( apiDoc.reqBodyInfo !== undefined ) {
+            for (var i = 0; i < apiDoc.reqBodyInfo.length; i++) {
+                //console.log(apiDoc.reqBodyInfo[i])
+                zs["jsonpath:" + apiDoc.reqBodyInfo[i].field.replace(/\./g, ",")] = apiDoc.reqBodyInfo[i].description
+                apiReqBodyInfo.append(apiReqBodyInfoTpl(apiDoc.reqBodyInfo[i].field, apiDoc.reqBodyInfo[i].varType, apiDoc.reqBodyInfo[i].isRequired,
+                    apiDoc.reqBodyInfo[i].description, apiDoc.reqBodyInfo[i].example, i))
+                if (apiDoc.reqBodyInfo[i].example.length > 20) {
+                    tippy('.reqExampleTxt' + i, {
+                        content: apiDoc.reqBodyInfo[i].example
+                    });
+                }
+                if (apiDoc.reqBodyInfo[i].description.length > 20) {
+                    tippy('.reqDescriptionTxt' + i, {
+                        content: apiDoc.reqBodyInfo[i].description
+                    });
+                }
             }
         }
 
@@ -1079,38 +1087,43 @@
             })
         }
 
-        apiRespType.append(apiDoc.resp[0].respType);
-        if (apiDoc.resp[0].respBodyInfo != null) {
-            for(var i=0; i<apiDoc.resp[0].respBodyInfo.length; i++) {
-                zsresp["jsonpath:"+apiDoc.resp[0].respBodyInfo[i].field.replace(/\./g, ",")] = apiDoc.resp[0].respBodyInfo[i].description
-                apiRespBodyInfo.append(apiRespBodyInfoTpl(apiDoc.resp[0].respBodyInfo[i].field, apiDoc.resp[0].respBodyInfo[i].varType,
-                    apiDoc.resp[0].respBodyInfo[i].description, apiDoc.resp[0].respBodyInfo[i].example, i))
-                if(apiDoc.resp[0].respBodyInfo[i].example.length > 20) {
-                    tippy('.respExampleTxt'+i, {
-                        content: apiDoc.resp[0].respBodyInfo[i].example
-                    });
+        if ( apiDoc.resp !== undefined && apiDoc.resp.length > 0 ) {
+            apiRespType.append(apiDoc.resp[0].respType);
+            if (apiDoc.resp[0].respBodyInfo != null) {
+                for(var i=0; i<apiDoc.resp[0].respBodyInfo.length; i++) {
+                    zsresp["jsonpath:"+apiDoc.resp[0].respBodyInfo[i].field.replace(/\./g, ",")] = apiDoc.resp[0].respBodyInfo[i].description
+                    apiRespBodyInfo.append(apiRespBodyInfoTpl(apiDoc.resp[0].respBodyInfo[i].field, apiDoc.resp[0].respBodyInfo[i].varType,
+                        apiDoc.resp[0].respBodyInfo[i].description, apiDoc.resp[0].respBodyInfo[i].example, i))
+                    if(apiDoc.resp[0].respBodyInfo[i].example.length > 20) {
+                        tippy('.respExampleTxt'+i, {
+                            content: apiDoc.resp[0].respBodyInfo[i].example
+                        });
+                    }
+                    if(apiDoc.resp[0].respBodyInfo[i].description.length>20) {
+                        tippy('.respDescriptionTxt'+i, {
+                            content: apiDoc.resp[0].respBodyInfo[i].description
+                        });
+                    }
                 }
-                if(apiDoc.resp[0].respBodyInfo[i].description.length>20) {
-                    tippy('.respDescriptionTxt'+i, {
-                        content: apiDoc.resp[0].respBodyInfo[i].description
-                    });
-                }
+            }
+
+            if (apiDoc.resp[0].respType === "json" && apiDoc.resp[0].respBody !== "") {
+                $("#jsoneditorRespDiv").show();
+                const initialJson = JSON.parse(apiDoc.resp[0].respBody)
+                editorResp.set(initialJson)
+                editorResp.expandAll()
+                const updatedJson = editorResp.get()
+                const paths = getJsonPaths(updatedJson);
+                $("#jsoneditorResp").find(".jsoneditor-field").each(function() {
+                    if (zsresp[$(this).prop("id")]){
+                        $(this).parent().parent().append('<td class="zsRespText" style="padding-left: 16px;color: red;font-size:12px;"> /* '+zsresp[$(this).prop("id")]+' */</td>')
+                    }
+                })
             }
         }
 
-        if (apiDoc.resp[0].respType === "json" && apiDoc.resp[0].respBody !== "") {
-            $("#jsoneditorRespDiv").show();
-            const initialJson = JSON.parse(apiDoc.resp[0].respBody)
-            editorResp.set(initialJson)
-            editorResp.expandAll()
-            const updatedJson = editorResp.get()
-            const paths = getJsonPaths(updatedJson);
-            $("#jsoneditorResp").find(".jsoneditor-field").each(function() {
-                if (zsresp[$(this).prop("id")]){
-                    $(this).parent().parent().append('<td class="zsRespText" style="padding-left: 16px;color: red;font-size:12px;"> /* '+zsresp[$(this).prop("id")]+' */</td>')
-                }
-            })
-        }
+
+
     }
 
     function closeReqZsText() {
@@ -1209,6 +1222,7 @@
 
         })
     }
+
 
 
 </script>

@@ -46,9 +46,7 @@ func DocumentDirList(c *gin.Context) {
 			Doc: make([]*DocRespItem, 0),
 		}
 		dirDocList, err := dao.NewDirDao().GetDocList(v.DirId)
-		if err != nil {
-			log.Error(err)
-		} else {
+		if err == nil {
 			docList := dao.NewDocDao().GetDocList(pid, dirDocList)
 			for _, docItem := range docList {
 				item.Doc = append(item.Doc, &DocRespItem{
@@ -272,12 +270,14 @@ func DocumentItem(c *gin.Context) {
 
 	_, err = dao.NewProjectDao().Get(param.PId, userAcc)
 	if err != nil {
+		log.Error(err)
 		ctx.APIOutPutError(err, err.Error())
 		return
 	}
 
 	data, err := dao.NewDocDao().GetDocumentContent(param.PId, param.DocId)
 	if err != nil {
+		log.Error(err)
 		ctx.APIOutPutError(err, err.Error())
 		return
 	}
@@ -289,8 +289,7 @@ func DocumentItem(c *gin.Context) {
 
 	snapshotList, err := dao.NewDocDao().GetDocumentSnapshotList(param.DocId)
 	if err != nil {
-		ctx.APIOutPutError(err, err.Error())
-		return
+		log.Error(err)
 	}
 
 	for _, v := range snapshotList {

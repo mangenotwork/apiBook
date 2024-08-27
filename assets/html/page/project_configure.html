@@ -6,7 +6,7 @@
 
     <nav aria-label="breadcrumb">
         <ol class="breadcrumb">
-            <li class="breadcrumb-item"> > <a href="/home">首页</a></li>
+            <li class="breadcrumb-item" id="returnLink"> > <a href="/home">首页</a></li>
             <li class="breadcrumb-item active" aria-current="page">{{ .project.Name }}</li>
         </ol>
     </nav>
@@ -98,6 +98,18 @@
         $('.selectpicker').selectpicker({
             noneSelectedText : '请选择'
         });
+
+        const urlParams = new URLSearchParams(window.location.search);
+        var hasDoc = urlParams.get("doc");
+
+        console.log(hasDoc)
+
+        if (hasDoc !== null) {
+            $("#returnLink").empty();
+            $("#returnLink").append('> <a href="/index/'+hasDoc+'">接口文档</a>')
+        }
+
+
     });
 </script>
 {{ template "end" . }}

@@ -1,15 +1,19 @@
 const dirOpenKey = "openDir-"
-const viewDoc = "viewDoc"
+const viewDoc = "viewDoc-"
 const nowViewDoc = "nowViewDoc-"
 
-function viewDocAdd(docId) {
-    var listStr = localStorage.getItem(viewDoc)
+function viewDocKey(pid) {
+    return viewDoc+pid
+}
+
+function viewDocAdd(pid, docId) {
+    var listStr = localStorage.getItem(viewDocKey(pid))
     var list = [];
     if (listStr !== null) {
         list = listStr.split(",")
     } else {
         list.push(docId)
-        localStorage.setItem(viewDoc, list.join(","))
+        localStorage.setItem(viewDocKey(pid), list.join(","))
         return
     }
     var has = false
@@ -20,12 +24,12 @@ function viewDocAdd(docId) {
     }
     if (!has) {
         list.push(docId)
-        localStorage.setItem(viewDoc, list.join(","))
+        localStorage.setItem(viewDocKey(pid), list.join(","))
     }
 }
 
-function viewDocGet()  {
-    var listStr = localStorage.getItem(viewDoc)
+function viewDocGet(pid)  {
+    var listStr = localStorage.getItem(viewDocKey(pid))
     var list = [];
     if (listStr !== null) {
         list = listStr.split(",")
@@ -33,8 +37,8 @@ function viewDocGet()  {
     return list
 }
 
-function viewDocDel(docId) {
-    var listStr = localStorage.getItem(viewDoc)
+function viewDocDel(pid, docId) {
+    var listStr = localStorage.getItem(viewDocKey(pid))
     var list = [];
     if (listStr !== null) {
         list = listStr.split(",")
@@ -45,7 +49,7 @@ function viewDocDel(docId) {
         return value !== docId;
     });
     console.log(newList)
-    localStorage.setItem(viewDoc, newList.join(","))
+    localStorage.setItem(viewDocKey(pid), newList.join(","))
 }
 
 async function copyContent (content) {
@@ -594,3 +598,6 @@ function delProject(name, id) {
     })
 }
 
+function openPConf(projectId) {
+    window.location.href='/project/index/' + projectId + '?doc=' + projectId
+}

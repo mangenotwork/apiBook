@@ -23,9 +23,12 @@
                             项目
                         </a>
                         <ul class="dropdown-menu">
-                            <li><a class="dropdown-item" href="#">设置</a></li>
+                            <li><a class="dropdown-item" onclick="openPConf('{{ .projectId }}')">设置</a></li>
                             <li><a class="dropdown-item" href="#">分享</a></li>
-                            <li><a class="dropdown-item" href="#">添加成员</a></li>
+                            <li><a class="dropdown-item" href="#">创建目录</a></li>
+                            <li><a class="dropdown-item" href="#">创建文档</a></li>
+                            <li><a class="dropdown-item" href="#">全局header</a></li>
+                            <li><a class="dropdown-item" href="#">全局code</a></li>
                         </ul>
                     </li>
                     {{ end }}

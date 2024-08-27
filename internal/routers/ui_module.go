@@ -43,9 +43,9 @@ func ProjectCard(pid, name, description string, isOperation int, private define.
 
 	htmlTemplate := `<div class="card mb-3 project box">
             <div class="card-body">
-                <h5 class="card-title">` + name + `</h5>
+                <h5 class="card-title t1">` + name + `</h5>
                 <div class="plabel">` + privateSpan + `</div>
-                <p class="card-text">` + description + `</p>
+                <p class="card-text t2">` + description + `</p>
                 ` + edit + `
                 <a href="#" class="card-link">分享</a>
 				<a href="/index/` + pid + `" class="card-link">打开文档</a>

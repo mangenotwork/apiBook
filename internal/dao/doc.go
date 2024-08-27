@@ -72,7 +72,7 @@ func (dao *DocDao) GetDocListByIds(pid string, list []string) []*entity.Document
 	result := make([]*entity.Document, 0)
 
 	for _, v := range list {
-
+		log.Info(pid, v)
 		data, err := dao.GetDocument(pid, v)
 		if err != nil {
 			log.Error(err)
