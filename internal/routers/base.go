@@ -215,4 +215,5 @@ func Tool() {
 func CaseFunc() {
 	caseFunc := Router.Group("/case")
 	caseFunc.POST("/go", handler.CaseFuncGo)
+	caseFunc.GET("/fenci", handler.CaseFenCi)
 }

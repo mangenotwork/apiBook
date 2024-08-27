@@ -3,6 +3,7 @@ package main
 import (
 	"apiBook/common/conf"
 	"apiBook/common/db"
+	"apiBook/common/fenci"
 	"apiBook/common/log"
 	"apiBook/internal/define"
 	"apiBook/internal/routers"
@@ -26,6 +27,13 @@ func main() {
 	flag.Parse()
 	conf.InitConf(confPath)
 	db.Init()
+
+	// 初始化分词
+	fenci.Seg.SkipLog = true
+	err := fenci.Seg.LoadDict()
+	if err != nil {
+		log.Panic("初始化分词失败")
+	}
 
 	// 全局变量初始化
 	define.CsrfAuthKey, _ = conf.YamlGetString("csrfAuthKey")

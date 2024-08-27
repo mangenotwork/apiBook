@@ -1,6 +1,7 @@
 package handler
 
 import (
+	"apiBook/common/fenci"
 	"apiBook/common/ginHelper"
 	"apiBook/common/log"
 	"apiBook/common/utils"
@@ -121,4 +122,14 @@ func isHaveStr(regStr, rest string) bool {
 		return false
 	}
 	return isHave
+}
+
+func CaseFenCi(c *gin.Context) {
+	ctx := ginHelper.NewGinCtx(c)
+
+	str := ctx.Query("str")
+
+	data := fenci.TermExtract(str)
+
+	ctx.APIOutPut(data, "ok")
 }

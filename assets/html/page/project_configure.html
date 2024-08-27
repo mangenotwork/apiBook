@@ -17,7 +17,7 @@
             <div class="card" style="margin-bottom: 48px;">
                 <div class="card-body box">
                     <ul>
-                        <li style="padding: 8px;"><span style="font-size: 16px;">项目名: </span><span style="font-size: 21px;margin-left: 16px;">
+                        <li style="padding: 8px;"><span class="txt7">项目名: </span><span style="font-size: 21px;margin-left: 16px;">
                             {{ .project.Name }}
                             {{ if eq 1 .project.Private}}
                                 <span class="badge text-bg-info">公有</span>
@@ -25,9 +25,9 @@
                                 <span class="badge text-bg-primary">私有</span>
                             {{ end }}
                         </span></li>
-                        <li style="padding: 8px;"><span style="font-size: 16px;">项目简述: </span><span style="font-size: 21px;margin-left: 16px;">{{ .project.Description }}</span></li>
-                        <li style="padding: 8px;"><span style="font-size: 16px;">创建时间: </span><span style="font-size: 21px;margin-left: 16px;"> {{ .project.CreateDate }}</span></li>
-                        <li style="padding: 8px;">操作：
+                        <li style="padding: 8px;"><span class="txt7">项目简述: </span><span style="font-size: 21px;margin-left: 16px;">{{ .project.Description }}</span></li>
+                        <li style="padding: 8px;"><span class="txt7">创建时间: </span><span style="font-size: 21px;margin-left: 16px;"> {{ .project.CreateDate }}</span></li>
+                        <li style="padding: 8px;"><span class="txt7">操作：</span>
                             <div class="btn-group" role="group" aria-label="Basic outlined example" style="margin-left: 16px;">
                                 <button type="button" class="btn btn-outline-dark" onclick='modifyProject("{{ .project.ProjectId }}", "{{ .project.Name }}", "{{ .project.Private }}", "{{ .project.Description }}")'>修改</button>
                                 <button type="button" class="btn btn-outline-dark" onclick="delProjectOpen()">删除</button>
