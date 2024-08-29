@@ -18,6 +18,8 @@
 
                               <!-- 基础信息 -->
                               <div style="margin-bottom: 48px;padding-top: 16px;">
+                                  <input type="text" id="operateDocId" value="0" style="display: none">
+
                                   <div class="mb-3">
                                       <input type="text" class="form-control" id="addDocName" placeholder="接口文档名">
                                   </div>
@@ -273,7 +275,8 @@
 
             <div class="modal-footer">
                 <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">取消</button>
-                <button type="button" class="btn btn-primary" onclick="saveAddDoc()">保存</button>
+                <button type="button" class="btn btn-primary" id="saveAdd" onclick="saveAddDoc(0)">保存</button>
+                <button type="button" class="btn btn-primary" id="saveModify" onclick="saveAddDoc(2)" style="display: none">提交修改</button>
             </div>
         </div>
     </div>

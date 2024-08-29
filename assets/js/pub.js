@@ -354,6 +354,7 @@ function newAPIDoc(id) {
         dirId = id
         $('#addDocDir').val(dirId);
     }
+    clearDocEditor(0)
     $('#apiDocAddModal').modal('show');
 }
 

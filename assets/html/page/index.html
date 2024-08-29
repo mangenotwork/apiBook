@@ -29,6 +29,7 @@
                             <h4 id="simple-list-item-1" style="margin-bottom: 16px;">基本信息</h4>
                             <div class="card">
                                 <div class="card-body">
+                                    <span id="docIdContent" style="display: none;"></span>
                                     <ul>
                                         <li style="padding: 8px;"><span class="txt7">接口名:</span><span id="api-name" style="font-size: 21px;margin-left: 16px;"></span></li>
                                         <li style="padding: 8px;"><span class="txt7">接口Url: </span>
@@ -38,7 +39,7 @@
                                             </span>
                                         </li>
                                         <li style="padding: 8px;"><span class="txt7">操作： </span><div class="btn-group" role="group" aria-label="Basic outlined example" style="margin-left: 16px;">
-                                            <button type="button" class="btn btn-outline-dark" onclick="newAPIDoc('')">编辑</button>
+                                            <button type="button" class="btn btn-outline-dark" onclick="modifyDocContent()">编辑</button>
                                             <button type="button" class="btn btn-outline-dark">请求</button>
                                             <button type="button" class="btn btn-outline-dark">分享</button>
                                             <button type="button" class="btn btn-outline-dark">Mock</button>
@@ -210,7 +211,17 @@
     var projectId = "{{ .projectId }}"
     var dirId = ""
 
-    var editormdObj = {}
+    var editormdObj = editormd("test-editor", {
+        markdown: "",
+        height: 440,
+        width: "100%",
+        path: '/js/lib/',
+        htmlDecode : "style,script,iframe|on*",
+        imageUpload : true,
+        imageFormats : ["jpg", "jpeg", "gif", "png", "bmp"],
+        imageUploadURL : "url",
+        saveHTMLToTextarea : true,
+    });
 
     var reqType = "json"
     var respType = "json"
@@ -229,6 +240,19 @@
         mode: 'view',
     }
     var editorResp = new JSONEditor(containerResp, optionsResp)
+
+    const containerAdd = document.getElementById("jsoneditorAdd")
+    const optionsAdd = {
+        mode: 'code',
+    }
+    var editorAdd = new JSONEditor(containerAdd, optionsAdd)
+
+
+    const containerAddResp = document.getElementById("jsoneditorAddResp")
+    const optionsAddResp = {
+        mode: 'code',
+    }
+    var editorAddResp = new JSONEditor(containerAddResp, optionsAddResp)
 
     $(document).on('click', '.dir-open', function() {
         var open = $(this).attr('data-open');
@@ -346,29 +370,20 @@
             }
         })
 
-        const containerAdd = document.getElementById("jsoneditorAdd")
-        const optionsAdd = {
-            mode: 'code',
-        }
-        editorAdd = new JSONEditor(containerAdd, optionsAdd)
-
-        const containerAddResp = document.getElementById("jsoneditorAddResp")
-        const optionsAddResp = {
-            mode: 'code',
-        }
-        editorAddResp = new JSONEditor(containerAddResp, optionsAddResp)
-
         $('#apiDocAddModal').on('shown.bs.modal', function () {
+            console.log("apiDocAddModal shown.bs.modal")
             editormdObj = editormd("test-editor", {
+                markdown: "",
                 height: 440,
                 width: "100%",
                 path: '/js/lib/',
                 htmlDecode : "style,script,iframe|on*",
                 imageUpload : true,
                 imageFormats : ["jpg", "jpeg", "gif", "png", "bmp"],
-                imageUploadURL : "url"
-                // saveHTMLToTextarea : true
+                imageUploadURL : "url",
+                saveHTMLToTextarea : true,
             });
+
         });
 
     });
@@ -563,7 +578,7 @@
         $('#setHeaderTable tr:eq('+index+')').remove();
     });
 
-    function saveAddDoc() {
+    function saveAddDoc(submitType) {
 
         if($("#addDocName").val() === "") {
             ToastShow("文档名不能为空!");
@@ -673,15 +688,22 @@
             respBody = $("#respText").val()
         }
 
+        var docId = "";
+        if(submitType === 2) {
+            docId = $("#operateDocId").val()
+        }
+
         var param = {
             "projectId": projectId,
             "dirId": $("#addDocDir").val(),
             "content": {
+                "docId": docId,
                 "projectId": projectId,
                 "name": $("#addDocName").val(),
                 "url": $("#addDocUrl").val(),
                 "method": $("#addDocMethod").val(),
-                "description": editormdObj.getPreviewedHTML(),
+                "description": editormdObj.getMarkdown(),
+                "descriptionHtml": editormdObj.getPreviewedHTML(),
                 "reqHeader": reqHeader,      // 请求头 []*ReqHeaderItem
                 "reqType": reqType,                  // 请求类型
                 "reqBodyJson": JSON.stringify(editorAdd.get()),              // 请求参数 - json
@@ -698,14 +720,28 @@
             }
         }
 
-        AjaxPost("/document/create", param, function (data){
-            ToastShow(data.msg);
-            if (data.code === 0) {
-                setTimeout(function() {
-                    location.reload();
-                }, 1000);
-            }
-        });
+        if(submitType === 2) {
+            console.log("编辑文档提交")
+            console.log(param)
+            AjaxPost("/document/modify", param, function (data){
+                ToastShow(data.msg);
+                if (data.code === 0) {
+                    setTimeout(function() {
+                        location.reload();
+                    }, 1000);
+                }
+            });
+        }else {
+            AjaxPost("/document/create", param, function (data){
+                ToastShow(data.msg);
+                if (data.code === 0) {
+                    setTimeout(function() {
+                        location.reload();
+                    }, 1000);
+                }
+            });
+        }
+
 
     }
 
@@ -752,7 +788,7 @@
                 $(".reqVarType").first().val(keyType);
                 $(".reqExample").first().val(jsonInfo[key]);
             } else if (!flag) {
-                $("#setReqTable").append(addReqTpl(field, keyType, jsonInfo[key]));
+                $("#setReqTable").append(addReqTpl(field, keyType, jsonInfo[key], "", "1"));
             }
 
             if (keyType === "object") {
@@ -786,7 +822,7 @@
     }
 
     $(document).on('click', '.addReq', function() {
-        $("#setReqTable").append(addReqTpl("", "", ""));
+        $("#setReqTable").append(addReqTpl("", "", "", "", "1"));
     });
 
     $(document).on('click', '.removeReq', function(event) {
@@ -1009,6 +1045,8 @@
 
         console.log(apiDoc)
 
+
+        var docIdContent = $("#docIdContent")
         var apiName = $("#api-name")
         var apiMethod = $("#api-method")
         var apiUrl = $("#api-url")
@@ -1019,6 +1057,7 @@
         var apiRespType = $("#api-respType")
         var apiRespBodyInfo = $("#api-respBodyInfo")
 
+        docIdContent.empty();
         apiName.empty();
         apiMethod.empty();
         apiUrl.empty();
@@ -1029,6 +1068,7 @@
         apiRespType.empty();
         apiRespBodyInfo.empty();
 
+        docIdContent.append(apiDoc.docId);
         apiName.append(apiDoc.name);
 
         var methodStr = ""
@@ -1043,7 +1083,7 @@
         apiMethod.append(methodStr);
 
         apiUrl.append(apiDoc.url);
-        apiDescription.html(apiDoc.description);
+        apiDescription.html(apiDoc.descriptionHtml);
 
         if ( apiDoc.reqHeader !== undefined ) {
             for(var i=0; i<apiDoc.reqHeader.length; i++) {
@@ -1216,13 +1256,203 @@
                     $(".reqVarType").first().val(data.data[i].varType);
                     $(".reqDescription").first().val(data.data[i].description);
                 } else {
-                    $("#setReqTable").append(addReqTpl(data.data[i].field, data.data[i].varType, "", data.data[i].description));
+                    $("#setReqTable").append(addReqTpl(data.data[i].field, data.data[i].varType, "", data.data[i].description, "1"));
                 }
             }
 
         })
     }
 
+    function clearDocEditor(opType) {
+
+        $("#apiDocAddModalLabel").empty();
+        if(opType === 2) {
+            $("#apiDocAddModalLabel").append("编辑接口文档");
+            $("#saveAdd").hide();
+            $("#saveModify").show();
+        } else {
+            $("#apiDocAddModalLabel").append("新建接口文档");
+            $("#saveAdd").show();
+            $("#saveModify").hide();
+        }
+
+        $("#operateDocId").val("")
+        var addDocName = $("#addDocName");
+        var addDocUrl = $("#addDocUrl");
+        var addDocMethod = $("#addDocMethod");
+        var addDocDir = $("#addDocDir");
+        var setHeaderTable = $("#setHeaderTable");
+        var setReqTable = $("#setReqTable");
+        var setRespTable = $("#setRespTable");
+
+        addDocName.val("");
+        addDocUrl.val("");
+
+        var addDocMethodOption = $('#addDocMethod option').map(function(){
+            return $(this).val();
+        }).get();
+        if (addDocMethodOption.length > 0 ) {
+            addDocMethod.val(addDocMethodOption[0]);
+        }
+
+        var addDocDirOption = $('#addDocDir option').map(function(){
+            return $(this).val();
+        }).get();
+        if (addDocDirOption.length > 0 ) {
+            addDocDir.val(addDocDirOption[0]);
+        }
+
+        setHeaderTable.empty()
+        setHeaderTable.append(initHeaderAdd())
+
+        editorAdd.set({})
+
+        $("#bodyXml textarea").val()
+        $("#bodyText textarea").val()
+
+        setReqTable.empty()
+        setReqTable.append(initAddReqTpl())
+
+        editorAddResp.set({})
+
+        $("#respXml textarea").val()
+        $("#respText textarea").val()
+
+        setRespTable.empty()
+        setRespTable.append(initAddRespTpl())
+
+        editormdObj.clear();
+
+    }
+
+    function modifyDoc(docId) {
+        console.log(docId)
+        $("#addDocDir").val(docId)
+
+        // 获取文档
+        var param = {
+            "pid": projectId,
+            "docId": docId,
+        }
+        AjaxPostNotAsync("/document/item", param, function(data){
+            if (data.code === 0 ) {
+
+                clearDocEditor(2)
+
+                console.log(data.data.content)
+                $("#operateDocId").val(data.data.content.docId)
+
+                var addDocName = $("#addDocName");
+                var addDocUrl = $("#addDocUrl");
+                var addDocMethod = $("#addDocMethod");
+                var addDocDir = $("#addDocDir");
+                var addDocHeaderField = $('.addDocHeaderField');
+                var addDocHeaderIsRequired = $('.addDocHeaderIsRequired');
+                var addDocHeaderVarType = $('.addDocHeaderVarType');
+                var addDocHeaderDescription = $('.addDocHeaderDescription');
+                var addDocHeaderExample = $('.addDocHeaderExample');
+                var reqField = $('.reqField');
+                var reqDescription = $('.reqDescription');
+                var reqVarType = $('.reqVarType');
+                var reqExample = $('.reqExample');
+                var reqIsRequired = $('.reqIsRequired');
+                var respField = $('.respField');
+                var respDescription = $('.respDescription');
+                var respVarType = $('.respVarType');
+                var respExample = $('.respExample');
+
+                addDocName.val(data.data.content.name);
+                addDocUrl.val(data.data.content.url);
+                addDocMethod.val(data.data.content.method);
+                addDocDir.val(data.data.baseInfo.dirId);
+
+                editormdObj.appendMarkdown(data.data.content.description);
+
+                var reqHeader = data.data.content.reqHeader;
+                for( var i=0; i<reqHeader.length; i++ ){
+                    if (i===0) {
+                        addDocHeaderField.first().val(reqHeader[0].field);
+                        addDocHeaderIsRequired.first().val(reqHeader[0].isRequired);
+                        addDocHeaderVarType.first().val(reqHeader[0].varType);
+                        addDocHeaderDescription.first().val(reqHeader[0].description);
+                        addDocHeaderExample.first().val(reqHeader[0].example);
+                    } else {
+                        $("#setHeaderTable").append(headerAddTpl(reqHeader[i].field, reqHeader[i].isRequired, reqHeader[i].varType,
+                            reqHeader[0].description, reqHeader[0].example))
+                    }
+                }
+
+                switch (data.data.content.reqType) {
+                    case "json":
+                        editorAdd.set(JSON.parse(data.data.content.reqBodyJson))
+                        break
+                    case "xml":
+                        $("#bodyXml textarea").val(data.data.content.reqBodyXml)
+                        break
+                    case "plain":
+                        $("#bodyText textarea").val(data.data.content.reqBodyText)
+                }
+
+                var reqBodyInfo = data.data.content.reqBodyInfo;
+                for (var i=0; i<reqBodyInfo.length; i++) {
+                    if (i===0) {
+                        reqField.first().val(reqBodyInfo[0].field);
+                        reqDescription.first().val(reqBodyInfo[0].description);
+                        reqVarType.first().val(reqBodyInfo[0].varType);
+                        reqExample.first().val(reqBodyInfo[0].example);
+                        reqIsRequired.first().val(reqBodyInfo[0].isRequired);
+                    } else {
+                        $("#setReqTable").append(addReqTpl(reqBodyInfo[i].field, reqBodyInfo[i].varType, reqBodyInfo[i].example,
+                            reqBodyInfo[i].description, reqBodyInfo[i].isRequired));
+                    }
+                }
+
+                var respList = data.data.content.resp;
+                if (respList.length > 0 ) {
+                    var resp =  respList[0]
+                    switch (resp.reqType) {
+                        case "json":
+                            editorAddResp.set(JSON.parse(resp.respBody));
+                            break
+                        case "xml":
+                            $("#respXml textarea").val(resp.respBody);
+                            break
+                        case "plain":
+                            $("#respText textarea").val(resp.respBody);
+                            break
+                    }
+
+                    var respBody = resp.respBodyInfo;
+                    for (var i=0; i<respBody.length; i++) {
+                        if (i===0) {
+                            respField.first().val(respBody[0].field);
+                            respDescription.first().val(respBody[0].description);
+                            respVarType.first().val(respBody[0].varType);
+                            respExample.first().val(respBody[0].example);
+                        }else {
+                            $("#setRespTable").append(addRespTpl(respBody[i].field, respBody[i].varType, respBody[i].example,
+                                respBody[i].description))
+                        }
+                    }
+                }
+
+                $('#apiDocAddModal').modal('show');
+            }
+        })
+
+    }
+
+    function modifyDocContent() {
+        var docId = $("#docIdContent").text();
+        modifyDoc(docId)
+    }
+
+
+    $(document).on('click', '.editDocButton', function (event){
+        event.stopPropagation();
+        var docId = $(this).parents("li").attr("id");
+        modifyDoc(docId)
+    })
 
 
 </script>

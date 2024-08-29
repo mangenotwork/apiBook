@@ -93,6 +93,7 @@ type DocumentItemParam struct {
 type DocumentItemResp struct {
 	Content      *entity.DocumentContent `json:"content"`
 	SnapshotList []*SnapshotItem         `json:"snapshotList"`
+	BaseInfo     *entity.Document        `json:"baseInfo"`
 }
 
 type SnapshotItem struct {

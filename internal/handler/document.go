@@ -282,9 +282,17 @@ func DocumentItem(c *gin.Context) {
 		return
 	}
 
+	baseInfo, err := dao.NewDocDao().GetDocument(param.PId, param.DocId)
+	if err != nil {
+		log.Error(err)
+		ctx.APIOutPutError(err, err.Error())
+		return
+	}
+
 	resp := &DocumentItemResp{
 		Content:      data,
 		SnapshotList: make([]*SnapshotItem, 0),
+		BaseInfo:     baseInfo,
 	}
 
 	snapshotList, err := dao.NewDocDao().GetDocumentSnapshotList(param.DocId)
@@ -310,6 +318,7 @@ func DocumentModify(c *gin.Context) {
 	param := &entity.DocumentParam{}
 	err := ctx.GetPostArgs(&param)
 	if err != nil {
+		log.Error(err)
 		ctx.APIOutPutError(fmt.Errorf("参数错误"), "参数错误")
 		return
 	}

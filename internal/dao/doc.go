@@ -109,6 +109,7 @@ func (dao *DocDao) Modify(content *entity.DocumentContent) error {
 	oldDocContent.Url = content.Url
 	oldDocContent.Method = content.Method
 	oldDocContent.Description = content.Description
+	oldDocContent.DescriptionHtml = content.DescriptionHtml
 	oldDocContent.ReqHeader = content.ReqHeader
 	oldDocContent.ReqType = content.ReqType
 	oldDocContent.ReqBodyJson = content.ReqBodyJson

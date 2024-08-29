@@ -29,6 +29,7 @@ type DocumentContent struct {
 	Url                       string                    `json:"url"`                       // 接口url
 	Method                    string                    `json:"method"`                    // http 请求类型
 	Description               string                    `json:"description"`               // 接口说明  md文本格式
+	DescriptionHtml           string                    `json:"descriptionHtml"`           // 接口说明  html
 	ReqHeader                 []*ReqHeaderItem          `json:"reqHeader"`                 // 请求头
 	ReqType                   define.ReqTypeCode        `json:"reqType"`                   // 请求类型
 	ReqBodyJson               string                    `json:"reqBodyJson"`               // 请求参数 - json

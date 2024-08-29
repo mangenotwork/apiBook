@@ -146,6 +146,71 @@
             '</tr>'
     }
 
+    function fieldTypeOption(fieldType) {
+        var stringTypeVal = '<option value="string">String</option>'
+        var numberTypeVal = '<option value="number">Number</option>'
+        var booleanTypeVal = '<option value="boolean">Boolean</option>'
+        var arrayTypeVal = '<option value="array">Array</option>'
+        var objectTypeVal = '<option value="object">Object</option>'
+        switch (fieldType){
+            case "string":
+                stringTypeVal = '<option value="string" selected>String</option>'
+                break
+            case "number":
+                numberTypeVal = '<option value="number" selected>Number</option>'
+                break
+            case "boolean":
+                booleanTypeVal = '<option value="boolean" selected>Boolean</option>'
+                break
+            case "array":
+                arrayTypeVal = '<option value="array" selected>Array</option>'
+                break
+            case "object":
+                objectTypeVal = '<option value="object" selected>Object</option>'
+                break
+        }
+        return stringTypeVal+numberTypeVal+booleanTypeVal+arrayTypeVal+objectTypeVal
+    }
+
+    function initHeaderAdd() {
+        var tpl = '<tr>\n' +
+            '                                          <td style="width: 10%;">\n' +
+            '                                              <select class="form-select form-select-sm addDocHeaderIsRequired" style="font-size: 11px;">\n' +
+            '                                                  <option value="1">必填</option>\n' +
+            '                                                  <option value="0">非必填</option>\n' +
+            '                                              </select>\n' +
+            '                                          </td>\n' +
+            '                                          <td style="width: 20%;">\n' +
+            '                                              <input class="form-control form-control-sm addDocHeaderField" type="text" placeholder="字段" style="font-size: 11px;">\n' +
+            '                                          </td>\n' +
+            '                                          <td style="width: 20%;">\n' +
+            '                                              <input class="form-control form-control-sm addDocHeaderDescription" type="text" placeholder="描述" style="font-size: 11px;">\n' +
+            '                                          </td>\n' +
+            '                                          <td style="width: 10%;">\n' +
+            '                                              <select class="form-select form-select-sm addDocHeaderVarType" style="font-size: 11px;">\n' +
+            '                                                  <option value="">类型</option>\n' +
+            '                                                  <option value="String">String</option>\n' +
+            '                                                  <option value="Number">Number</option>\n' +
+            '                                                  <option value="Integer">Integer</option>\n' +
+            '                                                  <option value="Float">Float</option>\n' +
+            '                                                  <option value="Double">Double</option>\n' +
+            '                                                  <option value="Bool">Bool</option>\n' +
+            '                                                  <option value="Array">Array</option>\n' +
+            '                                                  <option value="Object">Object</option>\n' +
+            '                                              </select>\n' +
+            '                                          </td>\n' +
+            '                                          <td style="width: 20%">\n' +
+            '                                              <input class="form-control form-control-sm addDocHeaderExample" type="text" placeholder="示例" style="font-size: 11px;">\n' +
+            '                                          </td>\n' +
+            '                                          <td style="width: 10%;">\n' +
+            '                                              <div class="btn-group btn-group-sm" role="group">\n' +
+            '                                                  <a type="button" class="btn btn-outline-dark btn-sm headerAdd" data-bs-toggle="tooltip" data-bs-title="增加行" >{{ SVG "plus-lg" 14 14 }}</a>\n' +
+            '                                              </div>\n' +
+            '                                          </td>\n' +
+            '                                      </tr>'
+        return tpl
+    }
+
     $(document).on('click', '.headerAdd', function() {
         var tpl = '<tr>\n' +
             '                                <td style="width: 10%;">\n' +
@@ -187,7 +252,96 @@
         $("#setHeaderTable").append(tpl);
     });
 
-    function addReqTpl(field, fieldType, example, description) {
+    function headerAddTpl(field, isRequired, varType, description, example) {
+        var fieldVal = ""
+        if (field !== "") {
+            fieldVal  = 'value="'+field+'"'
+        }
+
+        var isRequiredVal = ""
+        if (isRequired !== "") {
+            isRequiredVal = 'value="'+isRequiredVal+'"'
+        }
+
+        var descriptionVal = ""
+        if (description !== "") {
+            descriptionVal = 'value="'+description+'"'
+        }
+
+        var exampleVal = ""
+        if (example !== "") {
+            exampleVal = 'value="'+example+'"'
+        }
+
+        var tpl = '<tr>\n' +
+            '                                <td style="width: 10%;">\n' +
+            '                                    <select class="form-select form-select-sm addDocHeaderIsRequired" '+isRequiredVal+' style="font-size: 11px;">'+
+            '                                       <option value="1">必填</option>'+
+            '                                       <option value="0">非必填</option>'+
+            '                                   </select>'+
+            '                                </td>\n' +
+            '                                <td style="width: 20%;">\n' +
+            '                                    <input class="form-control form-control-sm addDocHeaderField" type="text" '+fieldVal+' placeholder="字段" style="font-size: 11px;">\n' +
+            '                                </td>\n' +
+            '                                <td style="width: 20%;">\n' +
+            '                                    <input class="form-control form-control-sm addDocHeaderDescription" type="text" '+descriptionVal+' placeholder="描述" style="font-size: 11px;">\n' +
+            '                                </td>\n' +
+            '                                <td style="width: 10%;">\n' +
+            '                                    <select class="form-select form-select-sm addDocHeaderVarType" style="font-size: 11px;">\n' +
+            '                                        <option value="">类型</option>\n' +fieldTypeOption(varType) +
+            '                                    </select>\n' +
+            '                                </td>\n' +
+            '                                <td style="width: 20%">\n' +
+            '                                    <input class="form-control form-control-sm addDocHeaderExample" type="text" '+exampleVal+' placeholder="示例" style="font-size: 11px;">\n' +
+            '                                </td>\n' +
+            '                                <td style="width: 10%;">\n' +
+            '                                    <div class="btn-group btn-group-sm" role="group">\n' +
+            '                                        <a type="button" class="btn btn-outline-dark btn-sm headerAdd" data-bs-toggle="tooltip" data-bs-title="增加行">{{ SVG "plus-lg" 14 14 }}</a>\n' +
+            '                                        <a type="button" class="btn btn-outline-dark btn-sm headerRemove" data-bs-toggle="tooltip" data-bs-title="删除当前行">{{ SVG "trash-fill" 14 14 }}</a>\n' +
+            '                                    </div>\n' +
+            '                                </td>\n' +
+            '                            </tr>'
+        return tpl
+    }
+
+    function initAddReqTpl() {
+        var tpl = '<tr>\n' +
+            '                                          <td style="width: 20%;">\n' +
+            '                                              <input class="form-control form-control-sm reqField" type="text" placeholder="字段" style="font-size: 11px;">\n' +
+            '                                          </td>\n' +
+            '                                          <td style="width: 20%;">\n' +
+            '                                              <input class="form-control form-control-sm reqDescription" type="text" placeholder="描述" style="font-size: 11px;">\n' +
+            '                                          </td>\n' +
+            '                                          <td style="width: 10%">\n' +
+            '                                              <select class="form-select form-select-sm reqVarType" style="font-size: 11px;">\n' +
+            '                                                  <option value="">类型</option>\n' +
+            '                                                  <option value="string">String</option>\n' +
+            '                                                  <option value="number">Number</option>\n' +
+            '                                                  <option value="boolean">Boolean</option>\n' +
+            '                                                  <option value="array">Array</option>\n' +
+            '                                                  <option value="object">Object</option>\n' +
+            '                                                  <option value="file">File</option>\n' +
+            '                                              </select>\n' +
+            '                                          </td>\n' +
+            '                                          <td style="width: 20%;">\n' +
+            '                                              <input class="form-control form-control-sm reqExample" type="text" placeholder="示例" style="font-size: 11px;">\n' +
+            '                                          </td>\n' +
+            '                                          <td style="width: 10%;">\n' +
+            '                                              <select class="form-select form-select-sm reqIsRequired" style="font-size: 11px;">\n' +
+            '                                                  <option value="1">不为空</option>\n' +
+            '                                                  <option value="0">可为空</option>\n' +
+            '                                              </select>\n' +
+            '                                          </td>\n' +
+            '                                          <td style="width: 10%;">\n' +
+            '                                              <div class="btn-group btn-group-sm" role="group">\n' +
+            '                                                  <a type="button" class="btn btn-outline-dark btn-sm addReq" data-bs-toggle="tooltip" data-bs-title="增加行">{{ SVG "plus-lg" 14 14 }}</a>\n' +
+            '                                              </div>\n' +
+            '                                          </td>\n' +
+            '                                      </tr>'
+        return tpl
+    }
+
+    function addReqTpl(field, fieldType, example, description, reqIsRequired) {
         var fieldVal = ""
         if (field !== "") {
             fieldVal  = 'value="'+field+'"'
@@ -198,29 +352,9 @@
             descriptionVal = 'value="'+description+'"'
         }
 
-        var stringTypeVal = '<option value="string">String</option>'
-        var numberTypeVal = '<option value="number">Number</option>'
-        var booleanTypeVal = '<option value="boolean">Boolean</option>'
-        var arrayTypeVal = '<option value="array">Array</option>'
-        var objectTypeVal = '<option value="object">Object</option>'
-
-
-        switch (fieldType){
-            case "string":
-                stringTypeVal = '<option value="string" selected>String</option>'
-                break
-            case "number":
-                numberTypeVal = '<option value="number" selected>Number</option>'
-                break
-            case "boolean":
-                booleanTypeVal = '<option value="boolean" selected>Boolean</option>'
-                break
-            case "array":
-                arrayTypeVal = '<option value="array" selected>Array</option>'
-                break
-            case "object":
-                objectTypeVal = '<option value="object" selected>Object</option>'
-                break
+        var reqIsRequiredVal = ""
+        if (reqIsRequired !== "") {
+            reqIsRequiredVal = 'value="'+reqIsRequired+'"'
         }
 
         var reqExample = ""
@@ -240,14 +374,14 @@
             '                                </td>\n' +
             '                                <td style="width: 10%">\n' +
             '                                    <select class="form-select form-select-sm reqVarType" style="font-size: 11px;">\n' +
-            '                                        <option value="">类型</option>\n' + stringTypeVal + numberTypeVal + booleanTypeVal + arrayTypeVal + objectTypeVal +
+            '                                        <option value="">类型</option>\n' + fieldTypeOption(fieldType) +
             '                                    </select>\n' +
             '                                </td>\n' +
             '                                <td style="width: 20%;">'+
             '                                   <input class="form-control form-control-sm reqExample" type="text" placeholder="示例" '+ reqExample +' style="font-size: 11px;">'+
             '                                </td>'+
             '                                <td style="width: 10%;">\n' +
-            '                                    <select class="form-select form-select-sm reqIsRequired" style="font-size: 11px;">\n' +
+            '                                    <select class="form-select form-select-sm reqIsRequired" '+ reqIsRequiredVal +' style="font-size: 11px;">\n' +
             '                                        <option value="1">不为空</option>\n' +
             '                                        <option value="0">可为空</option>\n' +
             '                                    </select>\n' +
@@ -298,6 +432,37 @@
             '                                              </div>\n' +
             '                                          </td>\n' +
             '                                      </tr>');
+    }
+
+    function initAddRespTpl() {
+        var tpl = '<tr>\n' +
+            '                                          <td style="width: 20%;">\n' +
+            '                                              <input class="form-control form-control-sm respField" type="text" placeholder="字段" style="font-size: 11px;">\n' +
+            '                                          </td>\n' +
+            '                                          <td style="width: 20%;">\n' +
+            '                                              <input class="form-control form-control-sm respDescription" type="text" placeholder="描述" style="font-size: 11px;">\n' +
+            '                                          </td>\n' +
+            '                                          <td style="width: 10%">\n' +
+            '                                              <select class="form-select form-select-sm respVarType" style="font-size: 11px;">\n' +
+            '                                                  <option value="">类型</option>\n' +
+            '                                                  <option value="string">String</option>\n' +
+            '                                                  <option value="number">Number</option>\n' +
+            '                                                  <option value="boolean">Boolean</option>\n' +
+            '                                                  <option value="array">Array</option>\n' +
+            '                                                  <option value="object">Object</option>\n' +
+            '                                                  <option value="file">File</option>\n' +
+            '                                              </select>\n' +
+            '                                          </td>\n' +
+            '                                          <td style="width: 20%">\n' +
+            '                                              <input class="form-control form-control-sm respExample" type="text" placeholder="返回值" style="font-size: 11px;">\n' +
+            '                                          </td>\n' +
+            '                                          <td style="width: 10%;">\n' +
+            '                                              <div class="btn-group btn-group-sm" role="group">\n' +
+            '                                                  <a type="button" class="btn btn-outline-dark btn-sm addResp" data-bs-toggle="tooltip" data-bs-title="增加行">{{ SVG "plus-lg" 14 14 }}</a>\n' +
+            '                                              </div>\n' +
+            '                                          </td>\n' +
+            '                                      </tr>'
+        return tpl
     }
 
     function addRespTpl(field, fieldType, example, description) {
