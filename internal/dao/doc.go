@@ -31,7 +31,7 @@ func (dao *DocDao) Create(data *entity.Document, content *entity.DocumentContent
 		return err
 	}
 
-	err = dao.AddDocumentSnapshot(content, "创建接口文档")
+	err = dao.AddDocumentSnapshot(content, content.UserAcc, "创建接口文档")
 	if err != nil {
 		return err
 	}
@@ -85,7 +85,7 @@ func (dao *DocDao) GetDocListByIds(pid string, list []string) []*entity.Document
 	return result
 }
 
-func (dao *DocDao) Modify(content *entity.DocumentContent) error {
+func (dao *DocDao) Modify(content *entity.DocumentContent, userAcc string) error {
 	oldDoc, err := dao.GetDocument(content.ProjectId, content.DocId)
 	if err != nil {
 		return err
@@ -128,7 +128,8 @@ func (dao *DocDao) Modify(content *entity.DocumentContent) error {
 		return err
 	}
 
-	err = dao.AddDocumentSnapshot(content, "修改接口文档")
+	content.UserAcc = userAcc
+	err = dao.AddDocumentSnapshot(content, userAcc, "修改接口文档")
 	if err != nil {
 		return err
 	}
@@ -186,14 +187,14 @@ func (dao *DocDao) ChangeDir(pid, dirId, dirIdNew, docId string) error {
 	return nil
 }
 
-func (dao *DocDao) AddDocumentSnapshot(content *entity.DocumentContent, logStr string) error {
+func (dao *DocDao) AddDocumentSnapshot(content *entity.DocumentContent, userAcc, logStr string) error {
 	snapshotId := fmt.Sprintf("%d%s", time.Now().Unix(), utils.NewShortCode())
 
 	data := &entity.DocumentSnapshot{
 		SnapshotIdId:    snapshotId,
-		UserAcc:         content.UserAcc,
+		UserAcc:         userAcc,
 		Operation:       logStr,
-		CreateTime:      content.CreateTime,
+		CreateTime:      time.Now().Unix(),
 		DocumentContent: content,
 	}
 

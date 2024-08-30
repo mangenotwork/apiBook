@@ -9,6 +9,7 @@ import (
 	"fmt"
 	"github.com/gin-gonic/gin"
 	"sort"
+	"time"
 )
 
 func DocumentDirList(c *gin.Context) {
@@ -230,6 +231,9 @@ func DocumentCreate(c *gin.Context) {
 		Method:    param.Content.Method,
 	}
 
+	param.Content.UserAcc = userAcc
+	param.Content.CreateTime = time.Now().Unix()
+
 	err = dao.NewDocDao().Create(doc, param.Content)
 	if err != nil {
 		log.Error("接口文档创建失败， err: ", err)
@@ -302,12 +306,17 @@ func DocumentItem(c *gin.Context) {
 
 	for _, v := range snapshotList {
 		resp.SnapshotList = append(resp.SnapshotList, &SnapshotItem{
-			SnapshotIdId: v.SnapshotIdId,
-			UserAcc:      v.UserAcc,
-			Operation:    v.Operation,
-			CreateTime:   v.CreateTime,
+			SnapshotIdId:  v.SnapshotIdId,
+			UserAcc:       v.UserAcc,
+			Operation:     v.Operation,
+			CreateTime:    v.CreateTime,
+			CreateTimeStr: utils.Timestamp2Date(v.CreateTime),
 		})
 	}
+
+	sort.Slice(resp.SnapshotList, func(i, j int) bool {
+		return resp.SnapshotList[i].CreateTime > resp.SnapshotList[j].CreateTime
+	})
 
 	ctx.APIOutPut(resp, "")
 	return
@@ -335,7 +344,7 @@ func DocumentModify(c *gin.Context) {
 		return
 	}
 
-	err = dao.NewDocDao().Modify(param.Content)
+	err = dao.NewDocDao().Modify(param.Content, userAcc)
 	if err != nil {
 		ctx.APIOutPutError(err, "修改文档失败")
 		return
@@ -423,4 +432,24 @@ func DocumentDocList(c *gin.Context) {
 	resp := dao.NewDocDao().GetDocListByIds(param.PId, param.DocList)
 	ctx.APIOutPut(resp, "")
 	return
+}
+
+func DocumentSnapshotItem(c *gin.Context) {
+	ctx := ginHelper.NewGinCtx(c)
+	param := &DocumentSnapshotItemReq{}
+	err := ctx.GetPostArgs(&param)
+	if err != nil {
+		ctx.APIOutPutError(fmt.Errorf("参数错误"), "参数错误")
+		return
+	}
+
+	data, err := dao.NewDocDao().GetDocumentSnapshotItem(param.DocId, param.SnapshotId)
+	if err != nil {
+		ctx.APIOutPutError(err, "获取镜像信息失败")
+		return
+	}
+
+	ctx.APIOutPut(data, "")
+	return
+
 }

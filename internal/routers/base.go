@@ -167,19 +167,20 @@ func Project() {
 func Document() {
 	document := Router.Group("/document")
 	document.Use(AuthAPI())
-	document.GET("/dir/list", handler.DocumentDirList)      // 文档目录列表
-	document.POST("/dir/create", handler.DocumentDirCreate) // 创建文档目录
-	document.POST("/dir/delete", handler.DocumentDirDelete) // 删除文档目录
-	document.POST("/dir/modify", handler.DocumentDirModify) // 修改文档目录
-	document.POST("/dir/sort", handler.DocumentDirSort)     // 排序文档目录
-	document.POST("/list", handler.DocumentList)            // 文档列表
-	document.POST("/create", handler.DocumentCreate)        // 创建文档
-	document.POST("/item", handler.DocumentItem)            // 文档详情
-	document.POST("/modify", handler.DocumentModify)        // 修改文档
-	document.POST("/delete", handler.DocumentDelete)        // 删除文档
-	document.POST("/changeDir", handler.DocumentChangeDir)  // 文档切换目录
-	document.POST("/sort", handler.DocumentSort)            // 排序文档
-	document.POST("/doc/list", handler.DocumentDocList)     // 获取指定多个文档的基础信息
+	document.GET("/dir/list", handler.DocumentDirList)            // 文档目录列表
+	document.POST("/dir/create", handler.DocumentDirCreate)       // 创建文档目录
+	document.POST("/dir/delete", handler.DocumentDirDelete)       // 删除文档目录
+	document.POST("/dir/modify", handler.DocumentDirModify)       // 修改文档目录
+	document.POST("/dir/sort", handler.DocumentDirSort)           // 排序文档目录
+	document.POST("/list", handler.DocumentList)                  // 文档列表
+	document.POST("/create", handler.DocumentCreate)              // 创建文档
+	document.POST("/item", handler.DocumentItem)                  // 文档详情
+	document.POST("/modify", handler.DocumentModify)              // 修改文档
+	document.POST("/delete", handler.DocumentDelete)              // 删除文档
+	document.POST("/changeDir", handler.DocumentChangeDir)        // 文档切换目录
+	document.POST("/sort", handler.DocumentSort)                  // 排序文档
+	document.POST("/doc/list", handler.DocumentDocList)           // 获取指定多个文档的基础信息
+	document.POST("/snapshot/item", handler.DocumentSnapshotItem) // 获取文档镜像
 }
 
 func User() {

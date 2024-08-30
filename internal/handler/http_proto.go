@@ -97,10 +97,11 @@ type DocumentItemResp struct {
 }
 
 type SnapshotItem struct {
-	SnapshotIdId string `json:"snapshotId"` // 快照id
-	UserAcc      string `json:"userAcc"`    // 操作者
-	Operation    string `json:"operation"`  // 操作日志，文本信息
-	CreateTime   int64  `json:"createTime"` // 创建时间
+	SnapshotIdId  string `json:"snapshotId"` // 快照id
+	UserAcc       string `json:"userAcc"`    // 操作者
+	Operation     string `json:"operation"`  // 操作日志，文本信息
+	CreateTime    int64  `json:"createTime"` // 创建时间
+	CreateTimeStr string `json:"createTimeStr"`
 }
 
 type DocumentDeleteReq struct {
@@ -159,4 +160,9 @@ type ToolGoStructToFieldItem struct {
 	Field       string `json:"field"`       // 字段
 	VarType     string `json:"varType"`     // 类型
 	Description string `json:"description"` // 描述
+}
+
+type DocumentSnapshotItemReq struct {
+	DocId      string `json:"docId"`
+	SnapshotId string `json:"snapshotId"`
 }

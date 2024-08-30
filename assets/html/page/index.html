@@ -18,12 +18,19 @@
 
                     <div class="col-10">
 
-                        <div id="notDocMain" style="display: none">
-
+                        <div id="notDocMain" style="display: none;">
+                            <button type="button" class="btn btn-dark btn-lg" onclick="newAPIDoc('')">创建文档</button>
                         </div>
 
 
                       <div data-bs-spy="scroll" id="docMain" data-bs-target="#simple-list-example" data-bs-offset="0" data-bs-smooth-scroll="true" class="scrollspy-example" style="margin-top: .5rem;overflow: auto" tabindex="0">
+
+                          <nav aria-label="breadcrumb" id="docNav" style="display: none">
+                              <ol class="breadcrumb">
+                                  <li class="breadcrumb-item" id="returnLink"> <a href="javascript:void(0);" onclick="window.location.reload();">返回文档</a></li>
+                                  <li class="breadcrumb-item active" aria-current="page" id="docNavSnapshot">镜像:xxxxx</li>
+                              </ol>
+                          </nav>
 
                           <div style="margin-bottom: 52px;margin-top: 36px;">
                             <h4 id="simple-list-item-1" style="margin-bottom: 16px;">基本信息</h4>
@@ -159,8 +166,8 @@
 
                         <div style="margin-bottom: 52px;">
                             <h4 id="simple-list-item-6">日志&镜像</h4>
-                            <ul class="list-group list-group-flush">
-                                <li class="list-group-item">admin 2024-08-13 11:11:11|  修改了文档 | 镜像: <a type="button" class="btn btn-link">sadhjsakdhkj</a> </li>
+                            <ul class="list-group list-group-flush" id="snapshot">
+                                <li class="list-group-item" style="font-size: 12px;">admin 2024-08-13 11:11:11|  修改了文档 | 镜像: <a type="button" class="btn btn-link">sadhjsakdhkj</a> </li>
                                 <li class="list-group-item">admin 2024-08-13 11:11:11|  修改了文档 | 镜像: <a type="button" class="btn btn-link">sadhjsakdhkj</a> </li>
                                 <li class="list-group-item">admin 2024-08-13 11:11:11|  修改了文档 | 镜像: <a type="button" class="btn btn-link">sadhjsakdhkj</a> </li>
                                 <li class="list-group-item">admin 2024-08-13 11:11:11|  修改了文档 | 镜像: <a type="button" class="btn btn-link">sadhjsakdhkj</a> </li>
@@ -174,13 +181,13 @@
 
                     <div class="col-2" id="docMainML">
                         <div id="simple-list-example" class="d-flex flex-column gap-2 simple-list-example-scrollspy text-center">
-                          <a class="p-1 rounded" style="color: #1a1d20;" href="#simple-list-item-1">基本信息</a>
-                          <a class="p-1 rounded" style="color: #1a1d20;" href="#simple-list-item-2">接口说明</a>
-                          <a class="p-1 rounded" style="color: #1a1d20;" href="#simple-list-item-3">请求Header</a>
-                          <a class="p-1 rounded" style="color: #1a1d20;" href="#simple-list-item-4">请求Body</a>
-                          <a class="p-1 rounded" style="color: #1a1d20;" href="#simple-list-item-5">响应</a>
-                          <a class="p-1 rounded" style="color: #1a1d20;" href="#simple-list-item-7">请求代码</a>
-                          <a class="p-1 rounded" style="color: #1a1d20;" href="#simple-list-item-6">日志&镜像</a>
+                          <a class="p-1 rounded" style="color: #1a1d20;text-decoration: none;" href="#simple-list-item-1">基本信息</a>
+                          <a class="p-1 rounded" style="color: #1a1d20;text-decoration: none;" href="#simple-list-item-2">接口说明</a>
+                          <a class="p-1 rounded" style="color: #1a1d20;text-decoration: none;" href="#simple-list-item-3">请求Header</a>
+                          <a class="p-1 rounded" style="color: #1a1d20;text-decoration: none;" href="#simple-list-item-4">请求Body</a>
+                          <a class="p-1 rounded" style="color: #1a1d20;text-decoration: none;" href="#simple-list-item-5">响应</a>
+                          <a class="p-1 rounded" style="color: #1a1d20;text-decoration: none;" href="#simple-list-item-7">请求代码</a>
+                          <a class="p-1 rounded" style="color: #1a1d20;text-decoration: none;" href="#simple-list-item-6">日志&镜像</a>
                         </div>
                     </div>
 
@@ -962,7 +969,7 @@
             if (data.code === 0 ) {
                 localStorage.setItem(nowViewDoc+projectId, docId)
                 showViewDoc(data.data.content.method, data.data.content.name, docId, true)
-                loadApiDoc(data.data.content)
+                loadApiDoc(data.data.content, data.data.snapshotList)
             }
         })
     }
@@ -1041,7 +1048,7 @@
         })
     }
 
-    function loadApiDoc(apiDoc) {
+    function loadApiDoc(apiDoc, snapshotList) {
 
         console.log(apiDoc)
 
@@ -1160,6 +1167,17 @@
                     }
                 })
             }
+
+            var snapshot = $("#snapshot");
+            snapshot.empty()
+            if (snapshotList != null) {
+                for (var i=0; i< snapshotList.length; i++) {
+                    snapshot.append('<li class="list-group-item" style="font-size: 12px;">'+ snapshotList[i].userAcc+ ' - ' + snapshotList[i].createTimeStr+
+                        ' - ' + snapshotList[i].operation + ' | 镜像: <a type="button" class="btn btn-link" ' +
+                        'onclick="openSnapshot(\''+apiDoc.docId+'\',\''+snapshotList[i].snapshotId+'\')">' + snapshotList[i].snapshotId +'</a> </li>')
+                }
+            }
+
         }
 
 
@@ -1454,6 +1472,26 @@
         modifyDoc(docId)
     })
 
+    function openSnapshot(snapshotDocId, snapshotId) {
+        var param = {
+            "docId": snapshotDocId,
+            "snapshotId": snapshotId,
+        }
+        AjaxPostNotAsync("/document/snapshot/item", param, function(data){
+            if (data.code === 0 ) {
+                console.log(data.data)
+
+                $("#docNavSnapshot").empty();
+                $("#docNavSnapshot").append("镜像:"+data.data.snapshotId);
+                $("#docNav").show();
+
+                loadApiDoc(data.data.documentContent, null)
+
+                $("#docMain").animate({scrollTop:0}, 500)
+
+            }
+        })
+    }
 
 </script>
 {{ template "end" . }}
