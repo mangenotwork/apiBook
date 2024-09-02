@@ -10,9 +10,9 @@
 <!--        <button type="button" class="btn btn-dark changeButton">{{ SVG "arrow-left-right" 16 16 }}</button>-->
         <button type="button" class="btn btn-dark addDirButton" onclick="openAddDocDir()">{{ SVG "folder-plust" 16 16 }}</button>
         <button type="button" class="btn btn-dark addDocButton" onclick="newAPIDoc('')">{{ SVG "plus-lg" 16 16 }}</button>
-        <button type="button" class="btn btn-dark pConfButton" onclick="openPConf('{{ .projectId }}')">{{ SVG "gear-fill" 16 16 }}</button>
-        <button type="button" class="btn btn-dark globalCodeButton" style="font-size: 11px;">code</button>
-        <button type="button" class="btn btn-dark globalHeaderButton" style="font-size: 11px;">header</button>
+<!--        <button type="button" class="btn btn-dark pConfButton" onclick="openPConf('{{ .projectId }}')">{{ SVG "gear-fill" 16 16 }}</button>-->
+        <button type="button" class="btn btn-dark globalCodeButton" onclick="openGlobalCodeModal()" style="font-size: 11px;">code</button>
+        <button type="button" class="btn btn-dark globalHeaderButton" onclick="openGlobalHeaderModal()" style="font-size: 11px;">header</button>
     </div>
 
     <div style="height: 56px;padding-top: 8px;margin-bottom: 16px;">

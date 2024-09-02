@@ -581,6 +581,155 @@
     const OPTIONSSpan = '<span class="badge rounded-pill text-bg-light">OPTIONS</span>'
 
 
+    function initGlobalCodeTpl() {
+        var tpl = '<tr>\n' +
+            '                        <td style="width: 20%;">\n' +
+            '                            <input class="form-control form-control-sm globalCodeKey" type="text" placeholder="状态值" style="font-size: 11px;">\n' +
+            '                        </td>\n' +
+            '                        <td style="width: 20%">\n' +
+            '                            <input class="form-control form-control-sm globalCodeDescription" type="text" placeholder="描述" style="font-size: 11px;">\n' +
+            '                        </td>\n' +
+            '                        <td style="width: 10%;">\n' +
+            '                            <div class="btn-group btn-group-sm" role="group">\n' +
+            '                                <a type="button" class="btn btn-outline-dark btn-sm globalCodeAdd" data-bs-toggle="tooltip" data-bs-title="增加行" >{{ SVG "plus-lg" 14 14 }}</a>\n' +
+            '                            </div>\n' +
+            '                        </td>\n' +
+            '                    </tr>'
+        return tpl
+    }
+
+    function addGlobalCodeTpl(codeKey, codeDescription) {
+        var codeKeyVal = ""
+        var codeDescriptionVal = ""
+
+        if (codeKey !== "") {
+            codeKeyVal  = 'value="'+codeKey+'"'
+        }
+
+        if (codeDescription !== "") {
+            codeDescriptionVal = 'value="'+codeDescription+'"'
+        }
+
+        var tpl = '<tr>\n' +
+            '                        <td style="width: 20%;">\n' +
+            '                            <input class="form-control form-control-sm globalCodeKey" type="text" '+codeKeyVal+' placeholder="状态值" style="font-size: 11px;">\n' +
+            '                        </td>\n' +
+            '                        <td style="width: 20%">\n' +
+            '                            <input class="form-control form-control-sm globalCodeDescription" type="text" '+codeDescriptionVal+' placeholder="描述" style="font-size: 11px;">\n' +
+            '                        </td>\n' +
+            '                        <td style="width: 10%;">\n' +
+            '                            <div class="btn-group btn-group-sm" role="group">\n' +
+            '                                <a type="button" class="btn btn-outline-dark btn-sm globalCodeAdd" data-bs-toggle="tooltip" data-bs-title="增加行" >{{ SVG "plus-lg" 14 14 }}</a>\n' +
+            '                                <a type="button" class="btn btn-outline-dark btn-sm globalCodeRemove" data-bs-toggle="tooltip" data-bs-title="删除当前行">{{ SVG "trash-fill" 14 14 }}</a>\n' +
+            '                            </div>\n' +
+            '                        </td>\n' +
+            '                    </tr>'
+        return tpl
+    }
+
+    function initGlobalHeaderAddTpl() {
+        var tpl = '<tr>\n' +
+            '                        <td style="width: 10%;">\n' +
+            '                            <select class="form-select form-select-sm globalHeaderIsRequired" style="font-size: 11px;">\n' +
+            '                                <option value="1">必填</option>\n' +
+            '                                <option value="0">非必填</option>\n' +
+            '                            </select>\n' +
+            '                        </td>\n' +
+            '                        <td style="width: 20%;">\n' +
+            '                            <input class="form-control form-control-sm globalHeaderField" type="text" placeholder="字段" style="font-size: 11px;">\n' +
+            '                        </td>\n' +
+            '                        <td style="width: 20%;">\n' +
+            '                            <input class="form-control form-control-sm globalHeaderDescription" type="text" placeholder="描述" style="font-size: 11px;">\n' +
+            '                        </td>\n' +
+            '                        <td style="width: 10%;">\n' +
+            '                            <select class="form-select form-select-sm globalHeaderVarType" style="font-size: 11px;">\n' +
+            '                                <option value="">类型</option>\n' +
+            '                                <option value="String">String</option>\n' +
+            '                                <option value="Number">Number</option>\n' +
+            '                                <option value="Integer">Integer</option>\n' +
+            '                                <option value="Float">Float</option>\n' +
+            '                                <option value="Double">Double</option>\n' +
+            '                                <option value="Bool">Bool</option>\n' +
+            '                                <option value="Array">Array</option>\n' +
+            '                                <option value="Object">Object</option>\n' +
+            '                            </select>\n' +
+            '                        </td>\n' +
+            '                        <td style="width: 20%">\n' +
+            '                            <input class="form-control form-control-sm globalHeaderExample" type="text" placeholder="示例" style="font-size: 11px;">\n' +
+            '                        </td>\n' +
+            '                        <td style="width: 10%;">\n' +
+            '                            <div class="btn-group btn-group-sm" role="group">\n' +
+            '                                <a type="button" class="btn btn-outline-dark btn-sm globalHeaderAdd" data-bs-toggle="tooltip" data-bs-title="增加行" >{{ SVG "plus-lg" 14 14 }}</a>\n' +
+            '                            </div>\n' +
+            '                        </td>\n' +
+            '                    </tr>'
+        return tpl
+    }
+
+    function addGlobalHeaderAddTpl(isRequired, field, description, varType, example) {
+        var globalHeaderIsRequiredVal = ""
+        var globalHeaderFieldVal = ""
+        var globalHeaderDescriptionVal = ""
+        var globalHeaderVarTypeVal = ""
+        var globalHeaderExampleVal = ""
+
+        if (isRequired !== "") {
+            globalHeaderIsRequiredVal  = 'value="'+isRequired+'"'
+        }
+        if (field !== "") {
+            globalHeaderFieldVal  = 'value="'+field+'"'
+        }
+        if (description !== "") {
+            globalHeaderDescriptionVal  = 'value="'+description+'"'
+        }
+        if (varType !== "") {
+            globalHeaderVarTypeVal  = 'value="'+varType+'"'
+        }
+        if (example !== "") {
+            globalHeaderExampleVal  = 'value="'+example+'"'
+        }
+
+        var tpl = '<tr>\n' +
+            '                        <td style="width: 10%;">\n' +
+            '                            <select class="form-select form-select-sm globalHeaderIsRequired" '+globalHeaderIsRequiredVal+' style="font-size: 11px;">\n' +
+            '                                <option value="1">必填</option>\n' +
+            '                                <option value="0">非必填</option>\n' +
+            '                            </select>\n' +
+            '                        </td>\n' +
+            '                        <td style="width: 20%;">\n' +
+            '                            <input class="form-control form-control-sm globalHeaderField" type="text" '+globalHeaderFieldVal+' placeholder="字段" style="font-size: 11px;">\n' +
+            '                        </td>\n' +
+            '                        <td style="width: 20%;">\n' +
+            '                            <input class="form-control form-control-sm globalHeaderDescription" type="text" '+globalHeaderDescriptionVal+' placeholder="描述" style="font-size: 11px;">\n' +
+            '                        </td>\n' +
+            '                        <td style="width: 10%;">\n' +
+            '                            <select class="form-select form-select-sm globalHeaderVarType" '+globalHeaderVarTypeVal+' style="font-size: 11px;">\n' +
+            '                                <option value="">类型</option>\n' +
+            '                                <option value="String">String</option>\n' +
+            '                                <option value="Number">Number</option>\n' +
+            '                                <option value="Integer">Integer</option>\n' +
+            '                                <option value="Float">Float</option>\n' +
+            '                                <option value="Double">Double</option>\n' +
+            '                                <option value="Bool">Bool</option>\n' +
+            '                                <option value="Array">Array</option>\n' +
+            '                                <option value="Object">Object</option>\n' +
+            '                            </select>\n' +
+            '                        </td>\n' +
+            '                        <td style="width: 20%">\n' +
+            '                            <input class="form-control form-control-sm globalHeaderExample" type="text" '+globalHeaderExampleVal+' placeholder="示例" style="font-size: 11px;">\n' +
+            '                        </td>\n' +
+            '                        <td style="width: 10%;">\n' +
+            '                            <div class="btn-group btn-group-sm" role="group">\n' +
+            '                                <a type="button" class="btn btn-outline-dark btn-sm globalHeaderAdd" data-bs-toggle="tooltip" data-bs-title="增加行" >{{ SVG "plus-lg" 14 14 }}</a>\n' +
+            '                                <a type="button" class="btn btn-outline-dark btn-sm globalHeaderRemove" data-bs-toggle="tooltip" data-bs-title="删除当前行">{{ SVG "trash-fill" 14 14 }}</a>\n' +
+            '                            </div>\n' +
+            '                        </td>\n' +
+            '                    </tr>'
+        return tpl
+
+    }
+
+
 </script>
 <script type="text/javascript" src="/js/pub.js?v={{ .TimeStamp }}"></script>
 {{ end }}

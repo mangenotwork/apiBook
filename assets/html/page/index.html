@@ -201,6 +201,8 @@
         {{ template "ProjectModalAdd" . }}
         {{ template "ApiDocAddModal" . }}
         {{ template "DocAddDirModal" . }}
+        {{ template "GlobalCodeModal" . }}
+        {{ template "GlobalHeaderModal" . }}
 
     </main>
 
@@ -1491,6 +1493,156 @@
 
             }
         })
+    }
+
+    function openGlobalCodeModal() {
+        AjaxGetNotAsync("/project/code/list?pid="+projectId, function (data){
+            console.log(data)
+            if (data.code === 0) {
+                $("#globalCodeTable").empty();
+                $('#globalCodeTable').append(initGlobalCodeTpl());
+
+                for(var i=0; i<data.data.length; i++) {
+                    if (i===0) {
+                        $(".globalCodeKey").first().val(data.data[0].field);
+                        $(".globalCodeDescription").first().val(data.data[0].description);
+                    } else {
+                        $("#globalCodeTable").append(addGlobalCodeTpl(data.data[i].field, data.data[i].description));
+                    }
+                }
+
+                $('#globalCodeModal').modal('show');
+            }else {
+                ToastShow(data.msg);
+            }
+
+        });
+
+    }
+
+    function openGlobalHeaderModal() {
+        AjaxGetNotAsync("/project/header/list?pid="+projectId, function (data){
+            console.log(data)
+            if (data.code === 0) {
+                $("#globalHeaderTable").empty();
+                $('#globalHeaderTable').append(initGlobalHeaderAddTpl());
+
+                for(var i=0; i<data.data.length; i++) {
+                    if (i===0) {
+                        $(".globalHeaderIsRequired").first().val(data.data[0].isRequired);
+                        $(".globalHeaderField").first().val(data.data[0].field);
+                        $(".globalHeaderDescription").first().val(data.data[0].description);
+                        $(".globalHeaderVarType").first().val(data.data[0].varType);
+                        $(".globalHeaderExample").first().val(data.data[0].example);
+                    } else {
+                        $("#globalHeaderTable").append(addGlobalHeaderAddTpl(data.data[i].isRequired, data.data[i].field, data.data[i].description,
+                            data.data[i].varType, data.data[i].example));
+                    }
+                }
+
+                $('#globalHeaderModal').modal('show');
+            } else {
+                ToastShow(data.msg);
+            }
+        })
+
+    }
+
+    $(document).on('click', '.globalCodeAdd', function (){
+        $("#globalCodeTable").append(addGlobalCodeTpl("", ""))
+    });
+
+    $(document).on('click', '.globalCodeRemove', function(event) {
+        var target = event.target;
+        var index = $(target).parents("tr").index();
+        $('#globalCodeTable tr:eq('+index+')').remove();
+    })
+
+    $(document).on('click', '.globalHeaderAdd', function (){
+        $("#globalHeaderTable").append(addGlobalHeaderAddTpl("", "", "", "", ""))
+    });
+
+    $(document).on('click', '.globalHeaderRemove',  function(event) {
+        var target = event.target;
+        var index = $(target).parents("tr").index();
+        $('#globalHeaderTable tr:eq('+index+')').remove();
+    })
+
+    function globalCodeSubmit() {
+
+        var globalCodeKey = $('.globalCodeKey').map(function() {
+            return $(this).val();
+        }).get();
+        var globalCodeDescription = $('.globalCodeDescription').map(function() {
+            return $(this).val();
+        }).get();
+
+        var list = []
+
+        for (var i=0; i<globalCodeKey.length; i++) {
+            list.push({
+                "field":  globalCodeKey[i],     // 字段
+                "description": globalCodeDescription[i], // 描述
+            })
+        }
+
+        var param = {
+            "projectId": projectId,
+            "list": list,
+        }
+
+        AjaxPost("/project/code/add", param, function (data) {
+            ToastShow(data.msg);
+            if (data.code === 0 ) {
+                console.log(data.data)
+                $('#globalCodeModal').modal('hide');
+            }
+        });
+
+    }
+
+    function globalHeaderSubmit() {
+        var globalHeaderIsRequired = $('.globalHeaderIsRequired').map(function() {
+            return $(this).val();
+        }).get();
+        var globalHeaderField = $('.globalHeaderField').map(function() {
+            return $(this).val();
+        }).get();
+        var globalHeaderDescription = $('.globalHeaderDescription').map(function() {
+            return $(this).val();
+        }).get();
+        var globalHeaderVarType = $('.globalHeaderVarType').map(function() {
+            return $(this).val();
+        }).get();
+        var globalHeaderExample = $('.globalHeaderExample').map(function() {
+            return $(this).val();
+        }).get();
+
+        var list = []
+
+        for (var i=0; i<globalHeaderField.length; i++) {
+            list.push({
+                "field" : globalHeaderField[i],
+                "varType" : globalHeaderVarType[i],
+                "description" : globalHeaderDescription[i],
+                "example" : globalHeaderExample[i],
+                "isRequired" : Number(globalHeaderIsRequired[i]),
+            })
+        }
+
+        var param = {
+            "projectId" : projectId,
+            "reqHeader" : list,
+        }
+
+        AjaxPost("/project/header/add", param, function (data) {
+            ToastShow(data.msg);
+            if (data.code === 0 ) {
+                console.log(data.data)
+                $('#globalHeaderModal').modal('hide');
+            }
+        });
+
     }
 
 </script>

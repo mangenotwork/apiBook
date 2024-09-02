@@ -161,7 +161,7 @@ func Project() {
 	project.POST("/header/add", handler.ProjectHeaderAdd) // 添加全局header
 	project.GET("/header/list", handler.ProjectHeaderGet) // 删除全局header
 	project.POST("/code/add", handler.ProjectCodeAdd)     // 添加全局code
-	project.GET("/code/list", handler.ProjectCodeGet)     // 删除全局code
+	project.GET("/code/list", handler.ProjectCodeGet)     // 获取全局code
 }
 
 func Document() {

@@ -1,0 +1,35 @@
+{{ define "GlobalCodeModal" }}
+<div class="modal fade" id="globalCodeModal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="globalCodeModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-xl">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h1 class="modal-title fs-5" id="globalCodeModalLabel">全局Code</h1>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body" style="padding: 56px;">
+
+                <table class="table table-hover table-bordered" id="globalCodeTable">
+                    <tr>
+                        <td style="width: 20%;">
+                            <input class="form-control form-control-sm globalCodeKey" type="text" placeholder="状态值" style="font-size: 11px;">
+                        </td>
+                        <td style="width: 20%">
+                            <input class="form-control form-control-sm globalCodeDescription" type="text" placeholder="描述" style="font-size: 11px;">
+                        </td>
+                        <td style="width: 10%;">
+                            <div class="btn-group btn-group-sm" role="group">
+                                <a type="button" class="btn btn-outline-dark btn-sm globalCodeAdd" data-bs-toggle="tooltip" data-bs-title="增加行" >{{ SVG "plus-lg" 14 14 }}</a>
+                            </div>
+                        </td>
+                    </tr>
+                </table>
+
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">取消</button>
+                <button type="button" class="btn btn-primary" onclick="globalCodeSubmit()">提交</button>
+            </div>
+        </div>
+    </div>
+</div>
+{{ end }}

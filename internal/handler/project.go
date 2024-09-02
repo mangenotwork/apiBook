@@ -275,8 +275,8 @@ func ProjectHeaderGet(c *gin.Context) {
 
 	headerList, err := dao.NewProjectDao().GetGlobalHeader(pid)
 	if err != nil {
-		ctx.APIOutPutError(err, err.Error())
-		return
+		log.Error(err)
+		headerList = make([]*entity.ReqHeaderItem, 0)
 	}
 
 	ctx.APIOutPut(headerList, "")
@@ -308,8 +308,8 @@ func ProjectCodeGet(c *gin.Context) {
 
 	codeList, err := dao.NewProjectDao().GetGlobalCode(pid)
 	if err != nil {
-		ctx.APIOutPutError(err, err.Error())
-		return
+		log.Error(err)
+		codeList = make([]*entity.GlobalCodeItem, 0)
 	}
 
 	ctx.APIOutPut(codeList, "")
