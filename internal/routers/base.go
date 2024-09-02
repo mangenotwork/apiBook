@@ -144,6 +144,7 @@ func Page() {
 	page.GET("/user/mange", handler.UserMange)
 	page.GET("/my", handler.My)
 	page.GET("/project/index/:pid", handler.ProjectIndex)
+	page.GET("/browse/:hashKey", handler.Browse)
 }
 
 func Project() {

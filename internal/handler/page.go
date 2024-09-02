@@ -321,3 +321,51 @@ func ProjectIndex(ctx *gin.Context) {
 	return
 
 }
+
+func Browse(ctx *gin.Context) {
+	// todo 1.先判断key是否被分享并获取分享信息
+	// todo 2.判断是否需要输入浏览key
+	// todo 3.加载项目或文档数据
+
+	userAcc := ctx.GetString("userAcc")
+
+	pid := "e35b9d3a53f7b067"
+
+	log.Info("pid = ", pid)
+
+	isAdmin := 0
+	if dao.NewUserDao().IsAdmin(userAcc) {
+		isAdmin = 1
+	}
+
+	project, err := dao.NewProjectDao().Get(pid, userAcc)
+	if err != nil {
+		ctx.HTML(200, "err.html", gin.H{
+			"Title": conf.Conf.Default.App.Name,
+			"err":   err.Error(),
+		})
+		return
+	}
+
+	ctx.HTML(
+		http.StatusOK,
+		"share_project.html",
+		ginH(gin.H{
+			"nav":         "index",
+			"isAdmin":     isAdmin, // 1是管理员
+			"userName":    ctx.GetString("userName"),
+			"projectId":   pid,
+			"projectName": project.Name,
+		}),
+	)
+	return
+}
+
+// 分享数据
+// 创建分享时间
+// 有效期  -1 永久  天
+// 是否设置key
+// 分享类型  项目  文档
+// 分享值
+//
+// 分享阅读数据  待定

@@ -1,202 +1,197 @@
 {{ template "head" . }}
 <body>
-{{ template "header" . }}
 
 <div class="container-fluid">
     <div class="row">
-    {{ template "api_dir" . }}
-    <main class="col-md-9 ms-sm-auto col-lg-10 px-md-4" style="background-color: #ffffff;">
-        
-        <div class="box" style="margin-top: 8px;border: 1px solid #D3D3D3; border-radius: 4px;">
-            <ul class="nav nav-tabs" id="docViewTable" style="width: 100%;height:54px;flex-direction: row;flex-wrap: nowrap;overflow-x: scroll;font-size: 11px;">
-            </ul>
-              <div id="doc" style="width: 100%; height: calc(100vh - 136px);background-color: #ffffff;overflow: auto;padding: 16px;position: relative;">
+        {{ template "api_dir_browse" . }}
+        <main class="col-md-9 ms-sm-auto col-lg-10 px-md-4" style="background-color: #ffffff;">
 
-                <div class="row">
+            <div class="box" style="margin-top: 26px;border: 1px solid #D3D3D3; border-radius: 4px;">
+                <ul class="nav nav-tabs" id="docViewTable" style="width: 100%;height:54px;flex-direction: row;flex-wrap: nowrap;overflow-x: scroll;font-size: 11px;">
+                </ul>
+                <div id="doc" style="width: 100%; height: calc(100vh - 96px);background-color: #ffffff;overflow: auto;padding: 16px;position: relative;">
 
-                    <div class="col-10">
+                    <div class="row">
 
-                        <div id="notDocMain" style="display: none;">
-                            <button type="button" class="btn btn-dark btn-lg" onclick="newAPIDoc('')">创建文档</button>
-                        </div>
+                        <div class="col-10">
+
+                            <div id="notDocMain" style="display: none;">
+
+                            </div>
 
 
-                      <div data-bs-spy="scroll" id="docMain" data-bs-target="#simple-list-example" data-bs-offset="0" data-bs-smooth-scroll="true"
-                           class="scrollspy-example" style="margin-top: .5rem;overflow: auto; padding-left: 22px;" tabindex="0">
+                            <div data-bs-spy="scroll" id="docMain" data-bs-target="#simple-list-example" data-bs-offset="0" data-bs-smooth-scroll="true" class="scrollspy-example" style="margin-top: .5rem;overflow: auto; padding-left: 22px;" tabindex="0">
 
-                          <nav aria-label="breadcrumb" id="docNav" style="display: none">
-                              <ol class="breadcrumb">
-                                  <li class="breadcrumb-item" id="returnLink"> <a href="javascript:void(0);" onclick="window.location.reload();">返回文档</a></li>
-                                  <li class="breadcrumb-item active" aria-current="page" id="docNavSnapshot">镜像:xxxxx</li>
-                              </ol>
-                          </nav>
+                                <nav aria-label="breadcrumb" id="docNav" style="display: none">
+                                    <ol class="breadcrumb">
+                                        <li class="breadcrumb-item" id="returnLink"> <a href="javascript:void(0);" onclick="window.location.reload();">返回文档</a></li>
+                                        <li class="breadcrumb-item active" aria-current="page" id="docNavSnapshot">镜像:xxxxx</li>
+                                    </ol>
+                                </nav>
 
-                          <div style="margin-bottom: 52px;margin-top: 16px;">
-                            <h4 id="simple-list-item-1" style="margin-bottom: 16px;">基本信息</h4>
-                            <div class="card">
-                                <div class="card-body">
-                                    <span id="docIdContent" style="display: none;"></span>
-                                    <ul style="padding: 0;">
-                                        <li style="padding: 8px;"><span class="txt7">接口名:</span><span id="api-name" style="font-size: 21px;margin-left: 16px;"></span></li>
-                                        <li style="padding: 8px;"><span class="txt7">接口Url: </span>
-                                            <span style="font-size: 21px;margin-left: 16px;">
-                                                <span id="api-method"></span>
-                                                <span id="api-url"></span>
-                                            </span>
-                                        </li>
-                                        <li style="padding: 8px;"><span class="txt7">操作： </span><div class="btn-group" role="group" aria-label="Basic outlined example" style="margin-left: 16px;">
-                                            <button type="button" class="btn btn-outline-dark" onclick="modifyDocContent()">编辑</button>
-                                            <button type="button" class="btn btn-outline-dark">请求</button>
-                                            <button type="button" class="btn btn-outline-dark">分享</button>
-                                            <button type="button" class="btn btn-outline-dark">Mock</button>
-                                            <a type="button" class="btn btn-outline-dark" href="https://www.zhaozhongtian.top" target="_blank">在线工具</a>
-                                          </div></li>
-                                    </ul>
+                                <div style="margin-bottom: 52px;margin-top: 16px;">
+                                    <h4 id="simple-list-item-1" style="margin-bottom: 16px;">基本信息</h4>
+                                    <div class="card">
+                                        <div class="card-body">
+                                            <span id="docIdContent" style="display: none;"></span>
+                                            <ul style="padding: 0;">
+                                                <li style="padding: 8px;"><span class="txt7">接口名:</span><span id="api-name" style="font-size: 18px;margin-left: 16px;"></span></li>
+                                                <li style="padding: 8px;"><span class="txt7">接口Url: </span>
+                                                    <span style="font-size: 18px;margin-left: 16px;">
+                                                        <span id="api-method"></span>
+                                                        <span id="api-url"></span>
+                                                    </span>
+                                                </li>
+                                                <li style="padding: 8px;"><span class="txt7">操作： </span><div class="btn-group" role="group" aria-label="Basic outlined example" style="margin-left: 16px;">
+                                                    <button type="button" class="btn btn-outline-dark">请求</button>
+                                                    <button type="button" class="btn btn-outline-dark">Mock</button>
+                                                    <a type="button" class="btn btn-outline-dark" href="https://www.zhaozhongtian.top" target="_blank">在线工具</a>
+                                                </div></li>
+                                            </ul>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div style="margin-bottom: 52px;">
+                                    <h4 id="simple-list-item-2" style="margin-bottom: 36px;">接口说明</h4>
+
+                                    <div class="card">
+                                        <div class="card-body" id="api-description"></div>
+                                    </div>
+                                </div>
+                                <div style="margin-bottom: 52px;">
+                                    <h4 id="simple-list-item-3" style="margin-bottom: 36px;">请求Header</h4>
+                                    <table class="table table-bordered table-hover table-striped" style="border-radius: 10px!important;">
+                                        <thead>
+                                        <tr>
+                                            <th scope="col" class="docth" style="width: 20%;">字段</th>
+                                            <th scope="col" class="docth" style="width: 5%;">类型</th>
+                                            <th scope="col" class="docth" style="width: 5%;">必填</th>
+                                            <th scope="col" class="docth" style="width: 20%;">描述</th>
+                                            <th scope="col" class="docth" style="width: 20%;">示例</th>
+                                        </tr>
+                                        </thead>
+                                        <tbody id="api-reqHeader">
+                                        </tbody>
+                                    </table>
+                                </div>
+
+                                <div style="margin-bottom: 52px;">
+                                    <h4 id="simple-list-item-4" style="margin-bottom: 36px;">请求参数</h4>
+                                    <p>请求数据类型: <span id="api-reqType">json</span></p>
+                                    <p>示例:</p>
+                                    <div id="jsoneditorDiv" style="display: none;">
+                                        <button type="button" class="btn btn-dark closeReqZsText"
+                                                style="--bs-btn-padding-y: .25rem; --bs-btn-padding-x: .5rem; --bs-btn-font-size: .75rem;margin-top: 2px;" onclick="closeReqZsText()">
+                                            关闭注释
+                                        </button>
+                                        <button type="button" class="btn btn-dark openReqZsText"
+                                                style="--bs-btn-padding-y: .25rem; --bs-btn-padding-x: .5rem; --bs-btn-font-size: .75rem;margin-top: 2px; display: none;" onclick="openReqZsText()">
+                                            开启注释
+                                        </button>
+                                        <button type="button" class="btn btn-dark"
+                                                style="--bs-btn-padding-y: .25rem; --bs-btn-padding-x: .5rem; --bs-btn-font-size: .75rem;margin-top: 2px;" onclick="copyReqJson()">
+                                            复制
+                                        </button>
+                                        <a type="button" class="btn btn-dark"
+                                           style="--bs-btn-padding-y: .25rem; --bs-btn-padding-x: .5rem; --bs-btn-font-size: .75rem;margin-top: 2px;" href="https://www.zhaozhongtian.top/code-json" target="_blank">
+                                            在线json工具
+                                        </a>
+                                        <div id="jsoneditor" style="width: 100%;margin-bottom: 16px;margin-top: 8px;"></div>
+                                    </div>
+                                    <p>参数说明:</p>
+                                    <table class="table table-bordered table-hover table-striped" style="table-layout:fixed;display:table;">
+                                        <thead>
+                                        <tr>
+                                            <th scope="col" class="docth" style="width: 20%;">字段</th>
+                                            <th scope="col" class="docth" style="width: 5%;">类型</th>
+                                            <th scope="col" class="docth" style="width: 5%;">必填</th>
+                                            <th scope="col" class="docth" style="width: 20%;">描述</th>
+                                            <th scope="col" class="docth" style="width: 20%;">示例</th>
+                                        </tr>
+                                        </thead>
+                                        <tbody id="api-reqBodyInfo">
+                                        </tbody>
+                                    </table>
+                                </div>
+
+                                <div style="margin-bottom: 52px;">
+                                    <h4 id="simple-list-item-5"  style="margin-bottom: 36px;">响应</h4>
+                                    <p>请求数据类型: <span id="api-respType">json</span></p>
+                                    <p>示例:</p>
+                                    <div id="jsoneditorRespDiv" style="display: none;">
+                                        <button type="button" class="btn btn-dark closeRespZsText"
+                                                style="--bs-btn-padding-y: .25rem; --bs-btn-padding-x: .5rem; --bs-btn-font-size: .75rem;margin-top: 2px;" onclick="closeRespZsText()">
+                                            关闭注释
+                                        </button>
+                                        <button type="button" class="btn btn-dark openRespZsText"
+                                                style="--bs-btn-padding-y: .25rem; --bs-btn-padding-x: .5rem; --bs-btn-font-size: .75rem;margin-top: 2px; display: none;" onclick="openRespZsText()">
+                                            开启注释
+                                        </button>
+                                        <button type="button" class="btn btn-dark"
+                                                style="--bs-btn-padding-y: .25rem; --bs-btn-padding-x: .5rem; --bs-btn-font-size: .75rem;margin-top: 2px;" onclick="copyRespJson()">
+                                            复制
+                                        </button>
+                                        <a type="button" class="btn btn-dark"
+                                           style="--bs-btn-padding-y: .25rem; --bs-btn-padding-x: .5rem; --bs-btn-font-size: .75rem;margin-top: 2px;" href="https://www.zhaozhongtian.top/code-json" target="_blank">
+                                            在线json工具
+                                        </a>
+                                        <div id="jsoneditorResp" style="width: 100%;margin-bottom: 16px;margin-top: 8px;"></div>
+                                    </div>
+
+                                    <p>参数说明:</p>
+                                    <table class="table table-bordered table-hover table-striped" style="table-layout:fixed;display:table;">
+                                        <thead>
+                                        <tr>
+                                            <th scope="col" class="docth" style="width: 20%;">字段</th>
+                                            <th scope="col" class="docth" style="width: 5%;">类型</th>
+                                            <th scope="col" class="docth" style="width: 20%;">描述</th>
+                                            <th scope="col" class="docth" style="width: 20%;">示例</th>
+                                        </tr>
+                                        </thead>
+                                        <tbody id="api-respBodyInfo">
+                                        </tbody>
+                                    </table>
+                                </div>
+
+                                <div style="margin-bottom: 52px;">
+                                    <h4 id="simple-list-item-7">请求代码</h4>
+                                    todo....
+                                </div>
+
+                                <div style="margin-bottom: 52px;">
+                                    <h4 id="simple-list-item-6">日志&镜像</h4>
+                                    <ul class="list-group list-group-flush" id="snapshot"></ul>
                                 </div>
                             </div>
-                          </div>
+                        </div>
 
-                        <div style="margin-bottom: 52px;">
-                            <h4 id="simple-list-item-2" style="margin-bottom: 36px;">接口说明</h4>
-
-                            <div class="card">
-                                <div class="card-body" id="api-description"></div>
+                        <div class="col-2" id="docMainML">
+                            <div id="simple-list-example" class="d-flex flex-column gap-2 simple-list-example-scrollspy text-center">
+                                <a class="p-1 rounded" style="color: #1a1d20;text-decoration: none;" href="#simple-list-item-1">基本信息</a>
+                                <a class="p-1 rounded" style="color: #1a1d20;text-decoration: none;" href="#simple-list-item-2">接口说明</a>
+                                <a class="p-1 rounded" style="color: #1a1d20;text-decoration: none;" href="#simple-list-item-3">请求Header</a>
+                                <a class="p-1 rounded" style="color: #1a1d20;text-decoration: none;" href="#simple-list-item-4">请求Body</a>
+                                <a class="p-1 rounded" style="color: #1a1d20;text-decoration: none;" href="#simple-list-item-5">响应</a>
+                                <a class="p-1 rounded" style="color: #1a1d20;text-decoration: none;" href="#simple-list-item-7">请求代码</a>
+                                <a class="p-1 rounded" style="color: #1a1d20;text-decoration: none;" href="#simple-list-item-6">日志&镜像</a>
                             </div>
                         </div>
-                        <div style="margin-bottom: 52px;">
-                            <h4 id="simple-list-item-3" style="margin-bottom: 36px;">请求Header</h4>
-                            <table class="table table-bordered table-hover table-striped">
-                                <thead>
-                                <tr>
-                                    <th scope="col" class="docth" style="width: 20%;">字段</th>
-                                    <th scope="col" class="docth" style="width: 5%;">类型</th>
-                                    <th scope="col" class="docth" style="width: 5%;">必填</th>
-                                    <th scope="col" class="docth" style="width: 20%;">描述</th>
-                                    <th scope="col" class="docth" style="width: 20%;">示例</th>
-                                </tr>
-                                </thead>
-                                <tbody id="api-reqHeader">
-                                </tbody>
-                            </table>
-                        </div>
 
-                        <div style="margin-bottom: 52px;">
-                            <h4 id="simple-list-item-4" style="margin-bottom: 36px;">请求参数</h4>
-                            <p>请求数据类型: <span id="api-reqType">json</span></p>
-                            <p>示例:</p>
-                            <div id="jsoneditorDiv" style="display: none;">
-                                <button type="button" class="btn btn-dark closeReqZsText"
-                                        style="--bs-btn-padding-y: .25rem; --bs-btn-padding-x: .5rem; --bs-btn-font-size: .75rem;margin-top: 2px;" onclick="closeReqZsText()">
-                                    关闭注释
-                                </button>
-                                <button type="button" class="btn btn-dark openReqZsText"
-                                        style="--bs-btn-padding-y: .25rem; --bs-btn-padding-x: .5rem; --bs-btn-font-size: .75rem;margin-top: 2px; display: none;" onclick="openReqZsText()">
-                                    开启注释
-                                </button>
-                                <button type="button" class="btn btn-dark"
-                                        style="--bs-btn-padding-y: .25rem; --bs-btn-padding-x: .5rem; --bs-btn-font-size: .75rem;margin-top: 2px;" onclick="copyReqJson()">
-                                    复制
-                                </button>
-                                <a type="button" class="btn btn-dark"
-                                        style="--bs-btn-padding-y: .25rem; --bs-btn-padding-x: .5rem; --bs-btn-font-size: .75rem;margin-top: 2px;" href="https://www.zhaozhongtian.top/code-json" target="_blank">
-                                    在线json工具
-                                </a>
-                                <div id="jsoneditor" style="width: 100%;margin-bottom: 16px;margin-top: 8px;"></div>
-                            </div>
-                            <p>参数说明:</p>
-                              <table class="table table-bordered table-hover table-striped" style="table-layout:fixed;display:table;">
-                                  <thead>
-                                  <tr>
-                                      <th scope="col" class="docth" style="width: 20%;">字段</th>
-                                      <th scope="col" class="docth" style="width: 5%;">类型</th>
-                                      <th scope="col" class="docth" style="width: 5%;">必填</th>
-                                      <th scope="col" class="docth" style="width: 20%;">描述</th>
-                                      <th scope="col" class="docth" style="width: 20%;">示例</th>
-                                  </tr>
-                                  </thead>
-                                  <tbody id="api-reqBodyInfo">
-                                  </tbody>
-                              </table>
-                        </div>
-
-                        <div style="margin-bottom: 52px;">
-                            <h4 id="simple-list-item-5"  style="margin-bottom: 36px;">响应</h4>
-                            <p>请求数据类型: <span id="api-respType">json</span></p>
-                            <p>示例:</p>
-                            <div id="jsoneditorRespDiv" style="display: none;">
-                                <button type="button" class="btn btn-dark closeRespZsText"
-                                        style="--bs-btn-padding-y: .25rem; --bs-btn-padding-x: .5rem; --bs-btn-font-size: .75rem;margin-top: 2px;" onclick="closeRespZsText()">
-                                    关闭注释
-                                </button>
-                                <button type="button" class="btn btn-dark openRespZsText"
-                                        style="--bs-btn-padding-y: .25rem; --bs-btn-padding-x: .5rem; --bs-btn-font-size: .75rem;margin-top: 2px; display: none;" onclick="openRespZsText()">
-                                    开启注释
-                                </button>
-                                <button type="button" class="btn btn-dark"
-                                        style="--bs-btn-padding-y: .25rem; --bs-btn-padding-x: .5rem; --bs-btn-font-size: .75rem;margin-top: 2px;" onclick="copyRespJson()">
-                                    复制
-                                </button>
-                                <a type="button" class="btn btn-dark"
-                                   style="--bs-btn-padding-y: .25rem; --bs-btn-padding-x: .5rem; --bs-btn-font-size: .75rem;margin-top: 2px;" href="https://www.zhaozhongtian.top/code-json" target="_blank">
-                                    在线json工具
-                                </a>
-                                <div id="jsoneditorResp" style="width: 100%;margin-bottom: 16px;margin-top: 8px;"></div>
-                            </div>
-
-                            <p>参数说明:</p>
-                            <table class="table table-bordered table-hover table-striped" style="table-layout:fixed;display:table;">
-                                <thead>
-                                <tr>
-                                    <th scope="col" class="docth" style="width: 20%;">字段</th>
-                                    <th scope="col" class="docth" style="width: 5%;">类型</th>
-                                    <th scope="col" class="docth" style="width: 20%;">描述</th>
-                                    <th scope="col" class="docth" style="width: 20%;">示例</th>
-                                </tr>
-                                </thead>
-                                <tbody id="api-respBodyInfo">
-                                </tbody>
-                            </table>
-                        </div>
-
-                        <div style="margin-bottom: 52px;">
-                            <h4 id="simple-list-item-7">请求代码</h4>
-                            todo....
-                        </div>
-
-                        <div style="margin-bottom: 52px;">
-                            <h4 id="simple-list-item-6">日志&镜像</h4>
-                            <ul class="list-group list-group-flush" id="snapshot">
-                            </ul>
-                            </div>
-                      </div>
                     </div>
 
-                    <div class="col-2" id="docMainML">
-                        <div id="simple-list-example" class="d-flex flex-column gap-2 simple-list-example-scrollspy text-center">
-                          <a class="p-1 rounded" style="color: #1a1d20;text-decoration: none;" href="#simple-list-item-1">基本信息</a>
-                          <a class="p-1 rounded" style="color: #1a1d20;text-decoration: none;" href="#simple-list-item-2">接口说明</a>
-                          <a class="p-1 rounded" style="color: #1a1d20;text-decoration: none;" href="#simple-list-item-3">请求Header</a>
-                          <a class="p-1 rounded" style="color: #1a1d20;text-decoration: none;" href="#simple-list-item-4">请求Body</a>
-                          <a class="p-1 rounded" style="color: #1a1d20;text-decoration: none;" href="#simple-list-item-5">响应</a>
-                          <a class="p-1 rounded" style="color: #1a1d20;text-decoration: none;" href="#simple-list-item-7">请求代码</a>
-                          <a class="p-1 rounded" style="color: #1a1d20;text-decoration: none;" href="#simple-list-item-6">日志&镜像</a>
-                        </div>
-                    </div>
 
-                  </div>
+                </div>
+            </div>
 
+            {{ template "toast" . }}
+            {{ template "ProjectModalAdd" . }}
+            {{ template "ApiDocAddModal" . }}
+            {{ template "DocAddDirModal" . }}
+            {{ template "GlobalCodeModal" . }}
+            {{ template "GlobalHeaderModal" . }}
 
-              </div>
-        </div>
-
-        {{ template "toast" . }}
-        {{ template "ProjectModalAdd" . }}
-        {{ template "ApiDocAddModal" . }}
-        {{ template "DocAddDirModal" . }}
-        {{ template "GlobalCodeModal" . }}
-        {{ template "GlobalHeaderModal" . }}
-
-    </main>
+        </main>
 
     </div>
 </div>
@@ -279,12 +274,12 @@
     $(document).on('mouseenter', '.hover-area', function() {
         $(this).find('.action-btn').show();
         $(this).css({
-            'height':'72px',
+            'height':'42px',
         })
     }).on('mouseleave', '.hover-area', function() {
         $(this).find('.action-btn').hide();
         $(this).css({
-            'height':'38px',
+            'height':'42px',
         })
     });
 
@@ -293,7 +288,7 @@
         tippyInit();
         $(this).find('.dirop').show();
         $(this).css({
-            'height':'72px',
+            'height':'42px',
         })
     }).on('mouseleave', '.dir', function() {
         $(this).find('.dirop').hide();
@@ -312,6 +307,38 @@
             $("#docMainML").hide();
             $("#notDocMain").show();
         }
+    }
+
+    const dir2Dev = function (dirid, name) {
+        var isOpen = 'style="display: none;"'
+        var dirIcon = '{{ SVG "folder" 21 21 }}'
+        var open = 0
+        if (localStorage.getItem(dirOpenKey+dirid) === "1") {
+            isOpen = 'style="display: inline;"'
+            dirIcon = '{{ SVG "folder2-open" 21 21 }}'
+            open = 1
+        }
+
+        return '<div class="dir">\n' +
+            '            <p class="dir-open" data-open="'+open+'" data-dirid="'+dirid+'"><span style="margin-right: 8px;">'+dirIcon+'</span>'+name+'</p>\n' +
+            '        </div>' +
+            '<ul id="'+dirid+'" '+isOpen+'>' +
+            '</ul>'
+    }
+
+    const doc2Li = function (id, method, name) {
+        var methodtxt = ""
+        switch (method) {
+            case "GET":methodtxt = GETSpan;break;
+            case "DELETE":methodtxt = DELETESpan;break;
+            case "POST":methodtxt = POSTSpan;break;
+            case "HEAD":methodtxt = HEADSpan;break;
+            case "PUT":methodtxt = PUTSpan;break;
+            case "OPTIONS":methodtxt = OPTIONSSpan;break;
+        }
+        return '<li class="hover-area docli" id="'+id+'" style="height: 42px;">\n' +
+            '                <p>'+methodtxt+name+'</p>\n' +
+            '            </li>'
     }
 
     $(document).ready(function(){
@@ -336,11 +363,11 @@
                         var dirId = apiDir[item].dir.dirId;
                         var dirname = apiDir[item].dir.name;
                         var doc = apiDir[item].doc;
-                        $("#wrap").append(dirDev(dirId, dirname))
+                        $("#wrap").append(dir2Dev(dirId, dirname))
                         $("#addDocDir").append(addDocDirOption(dirId, dirname))
                         for(var li in doc) {
                             if (doc.hasOwnProperty(li)) {
-                                $("#"+dirId).append(docLi(doc[li].docId, doc[li].method, doc[li].title))
+                                $("#"+dirId).append(doc2Li(doc[li].docId, doc[li].method, doc[li].title))
                             }
                         }
                     }
@@ -1559,39 +1586,6 @@
         var index = $(target).parents("tr").index();
         $('#globalHeaderTable tr:eq('+index+')').remove();
     })
-
-    function globalCodeSubmit() {
-
-        var globalCodeKey = $('.globalCodeKey').map(function() {
-            return $(this).val();
-        }).get();
-        var globalCodeDescription = $('.globalCodeDescription').map(function() {
-            return $(this).val();
-        }).get();
-
-        var list = []
-
-        for (var i=0; i<globalCodeKey.length; i++) {
-            list.push({
-                "field":  globalCodeKey[i],     // 字段
-                "description": globalCodeDescription[i], // 描述
-            })
-        }
-
-        var param = {
-            "projectId": projectId,
-            "list": list,
-        }
-
-        AjaxPost("/project/code/add", param, function (data) {
-            ToastShow(data.msg);
-            if (data.code === 0 ) {
-                console.log(data.data)
-                $('#globalCodeModal').modal('hide');
-            }
-        });
-
-    }
 
     function globalHeaderSubmit() {
         var globalHeaderIsRequired = $('.globalHeaderIsRequired').map(function() {
