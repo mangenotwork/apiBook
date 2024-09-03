@@ -185,11 +185,8 @@
             </div>
 
             {{ template "toast" . }}
-            {{ template "ProjectModalAdd" . }}
-            {{ template "ApiDocAddModal" . }}
-            {{ template "DocAddDirModal" . }}
-            {{ template "GlobalCodeModal" . }}
-            {{ template "GlobalHeaderModal" . }}
+            {{ template "GlobalCodeModalView" . }}
+            {{ template "GlobalHeaderModalView" . }}
 
         </main>
 
@@ -201,23 +198,8 @@
 {{ template "pubjs" . }}
 <script>
 
-    var editorAdd = {}
-    var editorAddResp = {}
-
     var projectId = "{{ .projectId }}"
     var dirId = ""
-
-    var editormdObj = editormd("test-editor", {
-        markdown: "",
-        height: 440,
-        width: "100%",
-        path: '/js/lib/',
-        htmlDecode : "style,script,iframe|on*",
-        imageUpload : true,
-        imageFormats : ["jpg", "jpeg", "gif", "png", "bmp"],
-        imageUploadURL : "url",
-        saveHTMLToTextarea : true,
-    });
 
     var reqType = "json"
     var respType = "json"
@@ -236,19 +218,6 @@
         mode: 'view',
     }
     var editorResp = new JSONEditor(containerResp, optionsResp)
-
-    const containerAdd = document.getElementById("jsoneditorAdd")
-    const optionsAdd = {
-        mode: 'code',
-    }
-    var editorAdd = new JSONEditor(containerAdd, optionsAdd)
-
-
-    const containerAddResp = document.getElementById("jsoneditorAddResp")
-    const optionsAddResp = {
-        mode: 'code',
-    }
-    var editorAddResp = new JSONEditor(containerAddResp, optionsAddResp)
 
     $(document).on('click', '.dir-open', function() {
         var open = $(this).attr('data-open');
@@ -397,22 +366,6 @@
                 }
             }
         })
-
-        $('#apiDocAddModal').on('shown.bs.modal', function () {
-            console.log("apiDocAddModal shown.bs.modal")
-            editormdObj = editormd("test-editor", {
-                markdown: "",
-                height: 440,
-                width: "100%",
-                path: '/js/lib/',
-                htmlDecode : "style,script,iframe|on*",
-                imageUpload : true,
-                imageFormats : ["jpg", "jpeg", "gif", "png", "bmp"],
-                imageUploadURL : "url",
-                saveHTMLToTextarea : true,
-            });
-
-        });
 
     });
 
@@ -605,173 +558,6 @@
         var index = $(target).parents("tr").index();
         $('#setHeaderTable tr:eq('+index+')').remove();
     });
-
-    function saveAddDoc(submitType) {
-
-        if($("#addDocName").val() === "") {
-            ToastShow("文档名不能为空!");
-            return
-        }
-
-        if($("#addDocUrl").val() === "") {
-            ToastShow("接口Url不能为空!");
-            return
-        }
-
-        var reqHeader = []
-        var reqBodyInfo = []
-        var respInfo = []
-
-        var headerField = $('.addDocHeaderField').map(function() {
-            return $(this).val();
-        }).get();
-        var headerIsRequired = $('.addDocHeaderIsRequired').map(function() {
-            return $(this).val();
-        }).get();
-        var headerVarType = $('.addDocHeaderVarType').map(function() {
-            return $(this).val();
-        }).get();
-        var headerDescription = $('.addDocHeaderDescription').map(function() {
-            return $(this).val();
-        }).get();
-        var headerExample = $('.addDocHeaderExample').map(function() {
-            return $(this).val();
-        }).get();
-        for (var i=0; i<headerField.length; i++) {
-            reqHeader.push({
-                "field":  headerField[i],     // 字段
-                "varType":  headerVarType[i],   // 类型
-                "description": headerDescription[i], // 描述
-                "example": headerExample[i],    // 示例
-                "isRequired":  Number(headerIsRequired[i]), // 是否必填 1:必填
-                "sort": i,        // 排序
-            })
-        }
-
-        var reqField = $('.reqField').map(function() {
-            return $(this).val();
-        }).get();
-
-        var reqDescription = $('.reqDescription').map(function() {
-            return $(this).val();
-        }).get();
-
-        var reqVarType = $('.reqVarType').map(function() {
-            return $(this).val();
-        }).get();
-
-        var reqExample = $('.reqExample').map(function() {
-            return $(this).val();
-        }).get();
-
-        var reqIsRequired = $('.reqIsRequired').map(function() {
-            return $(this).val();
-        }).get();
-
-        for (var i=0; i<reqField.length; i++) {
-            reqBodyInfo.push({
-                "field": reqField[i],
-                "varType":  reqVarType[i],    // 类型
-                "description": reqDescription[i], // 描述
-                "example":  reqExample[i],   // 示例
-                "isRequired":  Number(reqIsRequired[i]), // 是否必填 1:必填
-                "sort": i,        // 排序
-            })
-        }
-
-        var respField = $('.respField').map(function() {
-            return $(this).val();
-        }).get();
-
-        var respDescription = $('.respDescription').map(function() {
-            return $(this).val();
-        }).get();
-
-        var respVarType = $('.respVarType').map(function() {
-            return $(this).val();
-        }).get();
-
-        var respExample = $('.respExample').map(function() {
-            return $(this).val();
-        }).get();
-
-        for (var i=0; i<respField.length; i++) {
-            respInfo.push({
-                "field":  respField[i],   // 字段
-                "varType":   respVarType[i],  // 类型
-                "description":  respDescription[i], // 描述
-                "example":     respExample[i],  // 示例
-                "sort": i,       // 排序
-            })
-        }
-
-        var respBody = ""
-        if (respType === "json") {
-            respBody = JSON.stringify(editorAddResp.get())
-        }
-        if (respType === "xml") {
-            respBody = $("#respXml").val()
-        }
-        if (respType === "text") {
-            respBody = $("#respText").val()
-        }
-
-        var docId = "";
-        if(submitType === 2) {
-            docId = $("#operateDocId").val()
-        }
-
-        var param = {
-            "projectId": projectId,
-            "dirId": $("#addDocDir").val(),
-            "content": {
-                "docId": docId,
-                "projectId": projectId,
-                "name": $("#addDocName").val(),
-                "url": $("#addDocUrl").val(),
-                "method": $("#addDocMethod").val(),
-                "description": editormdObj.getMarkdown(),
-                "descriptionHtml": editormdObj.getPreviewedHTML(),
-                "reqHeader": reqHeader,      // 请求头 []*ReqHeaderItem
-                "reqType": reqType,                  // 请求类型
-                "reqBodyJson": JSON.stringify(editorAdd.get()),              // 请求参数 - json
-                "reqBodyText": $("#bodyText").val(),               // 请求参数 - text
-                "reqBodyXml": $("#bodyXml").val(),     // 请求参数 - xml
-                "reqBodyInfo": reqBodyInfo,              // 请求参数说明   []*BodyInfoItem
-                "respType": respType,
-                "resp": [{
-                    "tag": "成功",      // 默认 成功
-                    "respType": respType, // 响应类型
-                    "respBody" : respBody,                // 请求响应 - json
-                    "respBodyInfo": reqBodyInfo,
-                }],
-            }
-        }
-
-        if(submitType === 2) {
-            console.log("编辑文档提交")
-            console.log(param)
-            AjaxPost("/document/modify", param, function (data){
-                ToastShow(data.msg);
-                if (data.code === 0) {
-                    setTimeout(function() {
-                        location.reload();
-                    }, 1000);
-                }
-            });
-        }else {
-            AjaxPost("/document/create", param, function (data){
-                ToastShow(data.msg);
-                if (data.code === 0) {
-                    setTimeout(function() {
-                        location.reload();
-                    }, 1000);
-                }
-            });
-        }
-
-
-    }
 
     function jsonToBodyInfoItem(jsonObj, parentKey) {
         var jsonInfo = jsonObj
@@ -1070,10 +856,6 @@
     }
 
     function loadApiDoc(apiDoc, snapshotList) {
-
-        console.log(apiDoc)
-
-
         var docIdContent = $("#docIdContent")
         var apiName = $("#api-name")
         var apiMethod = $("#api-method")
@@ -1198,11 +980,7 @@
                         'onclick="openSnapshot(\''+apiDoc.docId+'\',\''+snapshotList[i].snapshotId+'\')">' + snapshotList[i].snapshotId +'</a> </li>')
                 }
             }
-
         }
-
-
-
     }
 
     function closeReqZsText() {
@@ -1302,197 +1080,6 @@
         })
     }
 
-    function clearDocEditor(opType) {
-
-        $("#apiDocAddModalLabel").empty();
-        if(opType === 2) {
-            $("#apiDocAddModalLabel").append("编辑接口文档");
-            $("#saveAdd").hide();
-            $("#saveModify").show();
-        } else {
-            $("#apiDocAddModalLabel").append("新建接口文档");
-            $("#saveAdd").show();
-            $("#saveModify").hide();
-        }
-
-        $("#operateDocId").val("")
-        var addDocName = $("#addDocName");
-        var addDocUrl = $("#addDocUrl");
-        var addDocMethod = $("#addDocMethod");
-        var addDocDir = $("#addDocDir");
-        var setHeaderTable = $("#setHeaderTable");
-        var setReqTable = $("#setReqTable");
-        var setRespTable = $("#setRespTable");
-
-        addDocName.val("");
-        addDocUrl.val("");
-
-        var addDocMethodOption = $('#addDocMethod option').map(function(){
-            return $(this).val();
-        }).get();
-        if (addDocMethodOption.length > 0 ) {
-            addDocMethod.val(addDocMethodOption[0]);
-        }
-
-        var addDocDirOption = $('#addDocDir option').map(function(){
-            return $(this).val();
-        }).get();
-        if (addDocDirOption.length > 0 ) {
-            addDocDir.val(addDocDirOption[0]);
-        }
-
-        setHeaderTable.empty()
-        setHeaderTable.append(initHeaderAdd())
-
-        editorAdd.set({})
-
-        $("#bodyXml textarea").val()
-        $("#bodyText textarea").val()
-
-        setReqTable.empty()
-        setReqTable.append(initAddReqTpl())
-
-        editorAddResp.set({})
-
-        $("#respXml textarea").val()
-        $("#respText textarea").val()
-
-        setRespTable.empty()
-        setRespTable.append(initAddRespTpl())
-
-        editormdObj.clear();
-
-    }
-
-    function modifyDoc(docId) {
-        console.log(docId)
-        $("#addDocDir").val(docId)
-
-        // 获取文档
-        var param = {
-            "pid": projectId,
-            "docId": docId,
-        }
-        AjaxPostNotAsync("/document/item", param, function(data){
-            if (data.code === 0 ) {
-
-                clearDocEditor(2)
-
-                console.log(data.data.content)
-                $("#operateDocId").val(data.data.content.docId)
-
-                var addDocName = $("#addDocName");
-                var addDocUrl = $("#addDocUrl");
-                var addDocMethod = $("#addDocMethod");
-                var addDocDir = $("#addDocDir");
-                var addDocHeaderField = $('.addDocHeaderField');
-                var addDocHeaderIsRequired = $('.addDocHeaderIsRequired');
-                var addDocHeaderVarType = $('.addDocHeaderVarType');
-                var addDocHeaderDescription = $('.addDocHeaderDescription');
-                var addDocHeaderExample = $('.addDocHeaderExample');
-                var reqField = $('.reqField');
-                var reqDescription = $('.reqDescription');
-                var reqVarType = $('.reqVarType');
-                var reqExample = $('.reqExample');
-                var reqIsRequired = $('.reqIsRequired');
-                var respField = $('.respField');
-                var respDescription = $('.respDescription');
-                var respVarType = $('.respVarType');
-                var respExample = $('.respExample');
-
-                addDocName.val(data.data.content.name);
-                addDocUrl.val(data.data.content.url);
-                addDocMethod.val(data.data.content.method);
-                addDocDir.val(data.data.baseInfo.dirId);
-
-                editormdObj.appendMarkdown(data.data.content.description);
-
-                var reqHeader = data.data.content.reqHeader;
-                for( var i=0; i<reqHeader.length; i++ ){
-                    if (i===0) {
-                        addDocHeaderField.first().val(reqHeader[0].field);
-                        addDocHeaderIsRequired.first().val(reqHeader[0].isRequired);
-                        addDocHeaderVarType.first().val(reqHeader[0].varType);
-                        addDocHeaderDescription.first().val(reqHeader[0].description);
-                        addDocHeaderExample.first().val(reqHeader[0].example);
-                    } else {
-                        $("#setHeaderTable").append(headerAddTpl(reqHeader[i].field, reqHeader[i].isRequired, reqHeader[i].varType,
-                            reqHeader[0].description, reqHeader[0].example))
-                    }
-                }
-
-                switch (data.data.content.reqType) {
-                    case "json":
-                        editorAdd.set(JSON.parse(data.data.content.reqBodyJson))
-                        break
-                    case "xml":
-                        $("#bodyXml textarea").val(data.data.content.reqBodyXml)
-                        break
-                    case "plain":
-                        $("#bodyText textarea").val(data.data.content.reqBodyText)
-                }
-
-                var reqBodyInfo = data.data.content.reqBodyInfo;
-                for (var i=0; i<reqBodyInfo.length; i++) {
-                    if (i===0) {
-                        reqField.first().val(reqBodyInfo[0].field);
-                        reqDescription.first().val(reqBodyInfo[0].description);
-                        reqVarType.first().val(reqBodyInfo[0].varType);
-                        reqExample.first().val(reqBodyInfo[0].example);
-                        reqIsRequired.first().val(reqBodyInfo[0].isRequired);
-                    } else {
-                        $("#setReqTable").append(addReqTpl(reqBodyInfo[i].field, reqBodyInfo[i].varType, reqBodyInfo[i].example,
-                            reqBodyInfo[i].description, reqBodyInfo[i].isRequired));
-                    }
-                }
-
-                var respList = data.data.content.resp;
-                if (respList.length > 0 ) {
-                    var resp =  respList[0]
-                    switch (resp.reqType) {
-                        case "json":
-                            editorAddResp.set(JSON.parse(resp.respBody));
-                            break
-                        case "xml":
-                            $("#respXml textarea").val(resp.respBody);
-                            break
-                        case "plain":
-                            $("#respText textarea").val(resp.respBody);
-                            break
-                    }
-
-                    var respBody = resp.respBodyInfo;
-                    for (var i=0; i<respBody.length; i++) {
-                        if (i===0) {
-                            respField.first().val(respBody[0].field);
-                            respDescription.first().val(respBody[0].description);
-                            respVarType.first().val(respBody[0].varType);
-                            respExample.first().val(respBody[0].example);
-                        }else {
-                            $("#setRespTable").append(addRespTpl(respBody[i].field, respBody[i].varType, respBody[i].example,
-                                respBody[i].description))
-                        }
-                    }
-                }
-
-                $('#apiDocAddModal').modal('show');
-            }
-        })
-
-    }
-
-    function modifyDocContent() {
-        var docId = $("#docIdContent").text();
-        modifyDoc(docId)
-    }
-
-
-    $(document).on('click', '.editDocButton', function (event){
-        event.stopPropagation();
-        var docId = $(this).parents("li").attr("id");
-        modifyDoc(docId)
-    })
-
     function openSnapshot(snapshotDocId, snapshotId) {
         var param = {
             "docId": snapshotDocId,
@@ -1514,19 +1101,55 @@
         })
     }
 
+    function initGlobalCodeTplBrowse() {
+        var tpl = '<tr>\n' +
+            '                        <td style="width: 20%;">\n' +
+            '                            <input class="form-control form-control-sm globalCodeKey" type="text" placeholder="状态值" style="font-size: 11px;" disabled>\n' +
+            '                        </td>\n' +
+            '                        <td style="width: 20%">\n' +
+            '                            <input class="form-control form-control-sm globalCodeDescription" type="text" placeholder="描述" style="font-size: 11px;" disabled>\n' +
+            '                        </td>\n' +
+            '                    </tr>'
+        return tpl
+    }
+
+    function addGlobalCodeTplBrowse(codeKey, codeDescription) {
+        var codeKeyVal = ""
+        var codeDescriptionVal = ""
+
+        if (codeKey !== "") {
+            codeKeyVal  = 'value="'+codeKey+'"'
+        }
+
+        if (codeDescription !== "") {
+            codeDescriptionVal = 'value="'+codeDescription+'"'
+        }
+
+        var tpl = '<tr>\n' +
+            '                        <td style="width: 20%;">\n' +
+            '                            <input class="form-control form-control-sm globalCodeKey" type="text" '+codeKeyVal+' placeholder="状态值" style="font-size: 11px;" disabled>\n' +
+            '                        </td>\n' +
+            '                        <td style="width: 20%">\n' +
+            '                            <input class="form-control form-control-sm globalCodeDescription" type="text" '+codeDescriptionVal+' placeholder="描述" style="font-size: 11px;" disabled>\n' +
+            '                        </td>\n' +
+            '                    </tr>'
+        return tpl
+    }
+
+
     function openGlobalCodeModal() {
         AjaxGetNotAsync("/project/code/list?pid="+projectId, function (data){
             console.log(data)
             if (data.code === 0) {
                 $("#globalCodeTable").empty();
-                $('#globalCodeTable').append(initGlobalCodeTpl());
+                $('#globalCodeTable').append(initGlobalCodeTplBrowse());
 
                 for(var i=0; i<data.data.length; i++) {
                     if (i===0) {
                         $(".globalCodeKey").first().val(data.data[0].field);
                         $(".globalCodeDescription").first().val(data.data[0].description);
                     } else {
-                        $("#globalCodeTable").append(addGlobalCodeTpl(data.data[i].field, data.data[i].description));
+                        $("#globalCodeTable").append(addGlobalCodeTplBrowse(data.data[i].field, data.data[i].description));
                     }
                 }
 
@@ -1539,12 +1162,103 @@
 
     }
 
+    function initGlobalHeaderAddTplBrowse() {
+        var tpl = '<tr>\n' +
+            '                        <td style="width: 10%;">\n' +
+            '                            <select class="form-select form-select-sm globalHeaderIsRequired" style="font-size: 11px;" disabled>\n' +
+            '                                <option value="1">必填</option>\n' +
+            '                                <option value="0">非必填</option>\n' +
+            '                            </select>\n' +
+            '                        </td>\n' +
+            '                        <td style="width: 20%;">\n' +
+            '                            <input class="form-control form-control-sm globalHeaderField" type="text" placeholder="字段" style="font-size: 11px;" disabled>\n' +
+            '                        </td>\n' +
+            '                        <td style="width: 20%;">\n' +
+            '                            <input class="form-control form-control-sm globalHeaderDescription" type="text" placeholder="描述" style="font-size: 11px;" disabled>\n' +
+            '                        </td>\n' +
+            '                        <td style="width: 10%;">\n' +
+            '                            <select class="form-select form-select-sm globalHeaderVarType" style="font-size: 11px;" disabled>\n' +
+            '                                <option value="">类型</option>\n' +
+            '                                <option value="String">String</option>\n' +
+            '                                <option value="Number">Number</option>\n' +
+            '                                <option value="Integer">Integer</option>\n' +
+            '                                <option value="Float">Float</option>\n' +
+            '                                <option value="Double">Double</option>\n' +
+            '                                <option value="Bool">Bool</option>\n' +
+            '                                <option value="Array">Array</option>\n' +
+            '                                <option value="Object">Object</option>\n' +
+            '                            </select>\n' +
+            '                        </td>\n' +
+            '                        <td style="width: 20%">\n' +
+            '                            <input class="form-control form-control-sm globalHeaderExample" type="text" placeholder="示例" style="font-size: 11px;" disabled>\n' +
+            '                        </td>\n' +
+            '                    </tr>'
+        return tpl
+    }
+
+    function addGlobalHeaderAddTplBrowse(isRequired, field, description, varType, example) {
+        var globalHeaderIsRequiredVal = ""
+        var globalHeaderFieldVal = ""
+        var globalHeaderDescriptionVal = ""
+        var globalHeaderVarTypeVal = ""
+        var globalHeaderExampleVal = ""
+
+        if (isRequired !== "") {
+            globalHeaderIsRequiredVal  = 'value="'+isRequired+'"'
+        }
+        if (field !== "") {
+            globalHeaderFieldVal  = 'value="'+field+'"'
+        }
+        if (description !== "") {
+            globalHeaderDescriptionVal  = 'value="'+description+'"'
+        }
+        if (varType !== "") {
+            globalHeaderVarTypeVal  = 'value="'+varType+'"'
+        }
+        if (example !== "") {
+            globalHeaderExampleVal  = 'value="'+example+'"'
+        }
+
+        var tpl = '<tr>\n' +
+            '                        <td style="width: 10%;">\n' +
+            '                            <select class="form-select form-select-sm globalHeaderIsRequired" '+globalHeaderIsRequiredVal+' style="font-size: 11px;" disabled>\n' +
+            '                                <option value="1">必填</option>\n' +
+            '                                <option value="0">非必填</option>\n' +
+            '                            </select>\n' +
+            '                        </td>\n' +
+            '                        <td style="width: 20%;">\n' +
+            '                            <input class="form-control form-control-sm globalHeaderField" type="text" '+globalHeaderFieldVal+' placeholder="字段" style="font-size: 11px;" disabled>\n' +
+            '                        </td>\n' +
+            '                        <td style="width: 20%;">\n' +
+            '                            <input class="form-control form-control-sm globalHeaderDescription" type="text" '+globalHeaderDescriptionVal+' placeholder="描述" style="font-size: 11px;" disabled>\n' +
+            '                        </td>\n' +
+            '                        <td style="width: 10%;">\n' +
+            '                            <select class="form-select form-select-sm globalHeaderVarType" '+globalHeaderVarTypeVal+' style="font-size: 11px;" disabled>\n' +
+            '                                <option value="">类型</option>\n' +
+            '                                <option value="String">String</option>\n' +
+            '                                <option value="Number">Number</option>\n' +
+            '                                <option value="Integer">Integer</option>\n' +
+            '                                <option value="Float">Float</option>\n' +
+            '                                <option value="Double">Double</option>\n' +
+            '                                <option value="Bool">Bool</option>\n' +
+            '                                <option value="Array">Array</option>\n' +
+            '                                <option value="Object">Object</option>\n' +
+            '                            </select>\n' +
+            '                        </td>\n' +
+            '                        <td style="width: 20%">\n' +
+            '                            <input class="form-control form-control-sm globalHeaderExample" type="text" '+globalHeaderExampleVal+' placeholder="示例" style="font-size: 11px;" disabled>\n' +
+            '                        </td>\n' +
+            '                    </tr>'
+        return tpl
+
+    }
+
     function openGlobalHeaderModal() {
         AjaxGetNotAsync("/project/header/list?pid="+projectId, function (data){
             console.log(data)
             if (data.code === 0) {
                 $("#globalHeaderTable").empty();
-                $('#globalHeaderTable').append(initGlobalHeaderAddTpl());
+                $('#globalHeaderTable').append(initGlobalHeaderAddTplBrowse());
 
                 for(var i=0; i<data.data.length; i++) {
                     if (i===0) {
@@ -1554,7 +1268,7 @@
                         $(".globalHeaderVarType").first().val(data.data[0].varType);
                         $(".globalHeaderExample").first().val(data.data[0].example);
                     } else {
-                        $("#globalHeaderTable").append(addGlobalHeaderAddTpl(data.data[i].isRequired, data.data[i].field, data.data[i].description,
+                        $("#globalHeaderTable").append(addGlobalHeaderAddTplBrowse(data.data[i].isRequired, data.data[i].field, data.data[i].description,
                             data.data[i].varType, data.data[i].example));
                     }
                 }
@@ -1567,69 +1281,6 @@
 
     }
 
-    $(document).on('click', '.globalCodeAdd', function (){
-        $("#globalCodeTable").append(addGlobalCodeTpl("", ""))
-    });
-
-    $(document).on('click', '.globalCodeRemove', function(event) {
-        var target = event.target;
-        var index = $(target).parents("tr").index();
-        $('#globalCodeTable tr:eq('+index+')').remove();
-    })
-
-    $(document).on('click', '.globalHeaderAdd', function (){
-        $("#globalHeaderTable").append(addGlobalHeaderAddTpl("", "", "", "", ""))
-    });
-
-    $(document).on('click', '.globalHeaderRemove',  function(event) {
-        var target = event.target;
-        var index = $(target).parents("tr").index();
-        $('#globalHeaderTable tr:eq('+index+')').remove();
-    })
-
-    function globalHeaderSubmit() {
-        var globalHeaderIsRequired = $('.globalHeaderIsRequired').map(function() {
-            return $(this).val();
-        }).get();
-        var globalHeaderField = $('.globalHeaderField').map(function() {
-            return $(this).val();
-        }).get();
-        var globalHeaderDescription = $('.globalHeaderDescription').map(function() {
-            return $(this).val();
-        }).get();
-        var globalHeaderVarType = $('.globalHeaderVarType').map(function() {
-            return $(this).val();
-        }).get();
-        var globalHeaderExample = $('.globalHeaderExample').map(function() {
-            return $(this).val();
-        }).get();
-
-        var list = []
-
-        for (var i=0; i<globalHeaderField.length; i++) {
-            list.push({
-                "field" : globalHeaderField[i],
-                "varType" : globalHeaderVarType[i],
-                "description" : globalHeaderDescription[i],
-                "example" : globalHeaderExample[i],
-                "isRequired" : Number(globalHeaderIsRequired[i]),
-            })
-        }
-
-        var param = {
-            "projectId" : projectId,
-            "reqHeader" : list,
-        }
-
-        AjaxPost("/project/header/add", param, function (data) {
-            ToastShow(data.msg);
-            if (data.code === 0 ) {
-                console.log(data.data)
-                $('#globalHeaderModal').modal('hide');
-            }
-        });
-
-    }
 
 </script>
 {{ template "end" . }}

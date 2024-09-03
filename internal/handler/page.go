@@ -349,7 +349,8 @@ func Browse(ctx *gin.Context) {
 
 	ctx.HTML(
 		http.StatusOK,
-		"share_project.html",
+		//"share_project.html",
+		"share_doc.html",
 		ginH(gin.H{
 			"nav":         "index",
 			"isAdmin":     isAdmin, // 1是管理员

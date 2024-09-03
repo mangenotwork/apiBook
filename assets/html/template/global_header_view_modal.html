@@ -1,0 +1,50 @@
+{{ define "GlobalHeaderModalView" }}
+<div class="modal fade" id="globalHeaderModal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="globalHeaderModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-xl">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h1 class="modal-title fs-5" id="globalHeaderModalLabel">全局Header</h1>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body" style="padding: 56px;">
+                <p style="font-size: 12px; color: #7c7b7b;margin-bottom: 16px;">模拟请求接口时会自动携带全局Header</p>
+                <table class="table table-hover table-bordered" id="globalHeaderTable">
+                    <tr>
+                        <td style="width: 10%;">
+                            <select class="form-select form-select-sm globalHeaderIsRequired" style="font-size: 11px;">
+                                <option value="1">必填</option>
+                                <option value="0">非必填</option>
+                            </select>
+                        </td>
+                        <td style="width: 20%;">
+                            <input class="form-control form-control-sm globalHeaderField" type="text" placeholder="字段" style="font-size: 11px;">
+                        </td>
+                        <td style="width: 20%;">
+                            <input class="form-control form-control-sm globalHeaderDescription" type="text" placeholder="描述" style="font-size: 11px;">
+                        </td>
+                        <td style="width: 10%;">
+                            <select class="form-select form-select-sm globalHeaderVarType" style="font-size: 11px;">
+                                <option value="">类型</option>
+                                <option value="String">String</option>
+                                <option value="Number">Number</option>
+                                <option value="Integer">Integer</option>
+                                <option value="Float">Float</option>
+                                <option value="Double">Double</option>
+                                <option value="Bool">Bool</option>
+                                <option value="Array">Array</option>
+                                <option value="Object">Object</option>
+                            </select>
+                        </td>
+                        <td style="width: 20%">
+                            <input class="form-control form-control-sm globalHeaderExample" type="text" placeholder="示例" style="font-size: 11px;">
+                        </td>
+                    </tr>
+                </table>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">关闭</button>
+            </div>
+        </div>
+    </div>
+</div>
+{{ end }}
