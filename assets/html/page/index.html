@@ -195,6 +195,7 @@
         {{ template "DocAddDirModal" . }}
         {{ template "GlobalCodeModal" . }}
         {{ template "GlobalHeaderModal" . }}
+        {{ template "ShareModal" . }}
 
     </main>
 
@@ -1635,6 +1636,53 @@
             }
         });
 
+    }
+
+    function openShare(sType) {
+
+        var shareModalLabel = $("#shareModalLabel")
+        shareModalLabel.empty()
+
+        switch (sType) {
+            case 1:
+                shareModalLabel.append("分享项目")
+                break
+            case 2:
+                shareModalLabel.append("分享文档")
+                break
+        }
+
+        $('#shareModal').modal('show');
+    }
+
+    $('#shareExpiration').mousemove(function(){
+        var num = $("#shareExpiration").val()
+        var customRange2 = $("#shareExpiration2")
+        customRange2.empty()
+        if (num === "0") {
+            customRange2.append("永久")
+        } else {
+            customRange2.append(num+"天")
+        }
+    });
+
+    $('#shareIsPassword').change(function() {
+        var shareIsPassword2 = $('#shareIsPassword2')
+        shareIsPassword2.empty()
+        if(this.checked) {
+            var num = getRandomInt(100000, 999999)
+            shareIsPassword2.append(num)
+        }
+    });
+
+    // 生成一个0到1之间的随机小数
+    var randomNum = Math.random();
+
+    // 生成一个范围在[min, max]之间的随机整数
+    function getRandomInt(min, max) {
+        min = Math.ceil(min);
+        max = Math.floor(max);
+        return Math.floor(Math.random() * (max - min + 1)) + min;
     }
 
 </script>

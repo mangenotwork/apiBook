@@ -38,9 +38,8 @@ func Routers() *gin.Engine {
 	User()     // 用户相关
 	Admin()    // 管理员
 	Tool()     // 提供一些工具
-
-	Mock() // mock
-
+	Share()    // 分享
+	Mock()     // mock
 	CaseFunc() // case function
 
 	return Router
@@ -182,6 +181,14 @@ func Document() {
 	document.POST("/sort", handler.DocumentSort)                  // 排序文档
 	document.POST("/doc/list", handler.DocumentDocList)           // 获取指定多个文档的基础信息
 	document.POST("/snapshot/item", handler.DocumentSnapshotItem) // 获取文档镜像
+}
+
+func Share() {
+	share := Router.Group("/share")
+	share.POST("/create", handler.ShareCreate)                // 创建分享
+	share.GET("/info/project", handler.GetShareInfoProject)   // 获取项目当前的分享
+	share.GET("/info/document", handler.GetShareInfoDocument) // 获取文档当前的分享
+	// todo 通过分享拿数据，不验证用户信息，单要验证key信息，如果设置了分享密码还要验证分享密码信息
 }
 
 func User() {

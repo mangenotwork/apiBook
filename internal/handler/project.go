@@ -315,3 +315,7 @@ func ProjectCodeGet(c *gin.Context) {
 	ctx.APIOutPut(codeList, "")
 	return
 }
+
+func ProjectShare(c *gin.Context) {
+
+}

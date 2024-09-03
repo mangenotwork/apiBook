@@ -16,10 +16,13 @@ const (
 	DocumentSnapshotTable   = "snapshot:%s" // 文档快照, %s是文档id(DocId) Key是快照id
 	GlobalHeader            = "gheader"     // 全局header, Key是项目id(ProjectId)
 	GlobalCode              = "gcode"       // 全局code, Key是项目id(ProjectId)
+	ShareProjectTable       = "sp:%s"       // 项目的分享信息, %s是项目id(ProjectId), Key是分享Key
+	ShareDocumentTable      = "sd:%s"       // 文档分享信息, %是文档id(DocId), Key是分享Key
+	ShareDataTable          = "share"       // 分享数据, Key是分享Key
 )
 
 var Tables = []string{
-	UserTable, ProjectTable, ProjectPublicTable, ProjectNameTable,
+	UserTable, ProjectTable, ProjectPublicTable, ProjectNameTable, GlobalHeader, GlobalCode, ShareDataTable,
 }
 
 // GetUserTable 用户表  key是用户acc
@@ -85,4 +88,19 @@ func GetGlobalHeader() string {
 // GetGlobalCode 全局code, Key是项目id(ProjectId)
 func GetGlobalCode() string {
 	return GlobalCode
+}
+
+// GetShareProjectTable 项目的分享信息, %s是项目id(ProjectId), Key是分享Key
+func GetShareProjectTable(pid string) string {
+	return fmt.Sprintf(ShareProjectTable, pid)
+}
+
+// GetShareDocumentTable 文档分享信息, %是文档id(DocId), Key是分享Key
+func GetShareDocumentTable(docId string) string {
+	return fmt.Sprintf(ShareDocumentTable, docId)
+}
+
+// GetShareDataTable 分享数据, Key是分享Key
+func GetShareDataTable() string {
+	return ShareDataTable
 }

@@ -1,0 +1,54 @@
+{{ define "ShareModal" }}
+<div class="modal fade" id="shareModal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="shareModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-xl">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h1 class="modal-title fs-5" id="shareModalLabel">分享</h1>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body" style="padding: 56px;">
+
+                <div class="row">
+                    <div class="col">
+                        有效期:  <label for="shareExpiration" class="form-label" id="shareExpiration2">永久</label>
+                        <div class="col-sm-10">
+                            <input type="range" class="form-range" min="0" max="365" value="-1" id="shareExpiration">
+                        </div>
+                    </div>
+                    <div class="col">
+                        是否加密
+                        <div class="form-check form-switch" style="margin-top: 8px;">
+                            <input class="form-check-input" type="checkbox" role="switch" id="shareIsPassword">
+                            <label class="form-check-label" for="shareIsPassword" id="shareIsPassword2" style="margin-left: 36px;"></label>
+                        </div>
+                    </div>
+                </div>
+                <br>
+                <button type="button" class="btn btn-primary">生成分享链接</button>
+
+                <hr>
+
+                <div class="list-group">
+                    <div class="list-group-item list-group-item-action">
+                        <span style="margin-right: 16px;">http://127.0.0.1:17777/index/e35b9d3a53f7b067#</span> <span class="badge text-bg-dark">永久</span> <span class="badge text-bg-info">密码: 23134</span>
+                        <button type="button" class="btn btn-link" style="float: right;">复制</button>
+                        <button type="button" class="btn btn-link" style="float: right; color: red">删除</button>
+                    </div>
+                    <div class="list-group-item list-group-item-action">
+                        <span style="margin-right: 16px;">http://127.0.0.1:17777/index/e35b9d3a53f7b067#</span> <span class="badge text-bg-dark">剩余2天</span> <span class="badge text-bg-info">公开</span>
+                        <button type="button" class="btn btn-link" style="float: right;">复制</button>
+                        <button type="button" class="btn btn-link" style="float: right; color: red">删除</button>
+                    </div>
+                    <div class="list-group-item list-group-item-action">
+                        <span style="margin-right: 16px;">http://127.0.0.1:17777/index/e35b9d3a53f7b067#</span> <span class="badge text-bg-warning">过期失效</span> <span class="badge text-bg-info">公开</span>
+                        <button type="button" class="btn btn-link" style="float: right;">复制</button>
+                        <button type="button" class="btn btn-link" style="float: right; color: red">删除</button>
+                    </div>
+                </div>
+
+
+            </div>
+        </div>
+    </div>
+</div>
+{{ end }}
