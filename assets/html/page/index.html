@@ -1123,8 +1123,11 @@
             const updatedJson = editor.get()
             const paths = getJsonPaths(updatedJson);
             $("#jsoneditor").find(".jsoneditor-field").each(function() {
-                if (zs[$(this).prop("id")]){
-                    $(this).parent().parent().append('<td class="zsReqText" style="padding-left: 16px;color: red;font-size:12px;"> /* '+zs[$(this).prop("id")]+' */</td>')
+                var id = $(this).prop("id")
+                var regex = new RegExp("0,", "g");
+                id = id.replace(regex, "");
+                if (zs[id]){
+                    $(this).parent().parent().append('<td class="zsReqText zsText"> /* '+zs[id]+' */</td>')
                 }
             })
         }
@@ -1157,8 +1160,11 @@
                 const updatedJson = editorResp.get()
                 const paths = getJsonPaths(updatedJson);
                 $("#jsoneditorResp").find(".jsoneditor-field").each(function() {
-                    if (zsresp[$(this).prop("id")]){
-                        $(this).parent().parent().append('<td class="zsRespText" style="padding-left: 16px;color: red;font-size:12px;"> /* '+zsresp[$(this).prop("id")]+' */</td>')
+                    var id = $(this).prop("id")
+                    var regex = new RegExp("0,", "g");
+                    id = id.replace(regex, "");
+                    if (zsresp[id]){
+                        $(this).parent().parent().append('<td class="zsRespText zsText"> /* '+zsresp[id]+' */</td>')
                     }
                 })
             }
@@ -1193,8 +1199,11 @@
 
     function openReqZsText() {
         $("#jsoneditor").find(".jsoneditor-field").each(function() {
-            if (zs[$(this).prop("id")]){
-                $(this).parent().parent().append('<td class="zsReqText" style="padding-left: 16px;color: red;font-size:12px;"> /* '+zs[$(this).prop("id")]+' */</td>')
+            var id = $(this).prop("id")
+            var regex = new RegExp("0,", "g");
+            id = id.replace(regex, "");
+            if (zs[id]){
+                $(this).parent().parent().append('<td class="zsReqText zsText"> /* '+zs[id]+' */</td>')
             }
         })
         $(".closeReqZsText").show();
@@ -1203,8 +1212,11 @@
 
     function openRespZsText() {
         $("#jsoneditorResp").find(".jsoneditor-field").each(function() {
-            if (zsresp[$(this).prop("id")]){
-                $(this).parent().parent().append('<td class="zsRespText" style="padding-left: 16px;color: red;font-size:12px;"> /* '+zsresp[$(this).prop("id")]+' */</td>')
+            var id = $(this).prop("id")
+            var regex = new RegExp("0,", "g");
+            id = id.replace(regex, "");
+            if (zsresp[id]){
+                $(this).parent().parent().append('<td class="zsRespText zsText"> /* '+zsresp[id]+' */</td>')
             }
         })
         $(".closeRespZsText").show();
@@ -1684,6 +1696,41 @@
         max = Math.floor(max);
         return Math.floor(Math.random() * (max - min + 1)) + min;
     }
+
+    $('#addShareExpiration').click(function (){
+        console.log("addShareExpiration")
+        var shareExpiration = $("#shareExpiration")
+        var num = shareExpiration.val()
+        num = Number(num)
+        if (num < 365) {
+            num = num+1
+        }
+        shareExpiration.val(num)
+        var customRange2 = $("#shareExpiration2")
+        customRange2.empty()
+        if (num === "0" || num === 0) {
+            customRange2.append("永久")
+        } else {
+            customRange2.append(num+"天")
+        }
+    })
+
+    $('#cutShareExpiration').click(function (){
+        var shareExpiration = $("#shareExpiration")
+        var num = shareExpiration.val()
+        num = Number(num)
+        if (num > 0) {
+            num = num-1
+        }
+        shareExpiration.val(num)
+        var customRange2 = $("#shareExpiration2")
+        customRange2.empty()
+        if (num === "0" || num === 0) {
+            customRange2.append("永久")
+        } else {
+            customRange2.append(num+"天")
+        }
+    })
 
 </script>
 {{ template "end" . }}

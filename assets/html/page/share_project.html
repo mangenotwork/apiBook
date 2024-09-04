@@ -931,8 +931,11 @@
             const updatedJson = editor.get()
             const paths = getJsonPaths(updatedJson);
             $("#jsoneditor").find(".jsoneditor-field").each(function() {
-                if (zs[$(this).prop("id")]){
-                    $(this).parent().parent().append('<td class="zsReqText" style="padding-left: 16px;color: red;font-size:12px;"> /* '+zs[$(this).prop("id")]+' */</td>')
+                var id = $(this).prop("id")
+                var regex = new RegExp("0,", "g");
+                id = id.replace(regex, "");
+                if (zs[id]){
+                    $(this).parent().parent().append('<td class="zsReqText zsText"> /* '+zs[id]+' */</td>')
                 }
             })
         }
@@ -965,8 +968,11 @@
                 const updatedJson = editorResp.get()
                 const paths = getJsonPaths(updatedJson);
                 $("#jsoneditorResp").find(".jsoneditor-field").each(function() {
-                    if (zsresp[$(this).prop("id")]){
-                        $(this).parent().parent().append('<td class="zsRespText" style="padding-left: 16px;color: red;font-size:12px;"> /* '+zsresp[$(this).prop("id")]+' */</td>')
+                    var id = $(this).prop("id")
+                    var regex = new RegExp("0,", "g");
+                    id = id.replace(regex, "");
+                    if (zsresp[id]){
+                        $(this).parent().parent().append('<td class="zsRespText zsText"> /* '+zsresp[id]+' */</td>')
                     }
                 })
             }
@@ -997,8 +1003,11 @@
 
     function openReqZsText() {
         $("#jsoneditor").find(".jsoneditor-field").each(function() {
-            if (zs[$(this).prop("id")]){
-                $(this).parent().parent().append('<td class="zsReqText" style="padding-left: 16px;color: red;font-size:12px;"> /* '+zs[$(this).prop("id")]+' */</td>')
+            var id = $(this).prop("id")
+            var regex = new RegExp("0,", "g");
+            id = id.replace(regex, "");
+            if (zs[id]){
+                $(this).parent().parent().append('<td class="zsReqText zsText"> /* '+zs[id]+' */</td>')
             }
         })
         $(".closeReqZsText").show();
@@ -1007,8 +1016,11 @@
 
     function openRespZsText() {
         $("#jsoneditorResp").find(".jsoneditor-field").each(function() {
-            if (zsresp[$(this).prop("id")]){
-                $(this).parent().parent().append('<td class="zsRespText" style="padding-left: 16px;color: red;font-size:12px;"> /* '+zsresp[$(this).prop("id")]+' */</td>')
+            var id = $(this).prop("id")
+            var regex = new RegExp("0,", "g");
+            id = id.replace(regex, "");
+            if (zsresp[id]){
+                $(this).parent().parent().append('<td class="zsRespText zsText"> /* '+zsresp[id]+' */</td>')
             }
         })
         $(".closeRespZsText").show();

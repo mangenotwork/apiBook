@@ -5,10 +5,10 @@
     <div class="row">
         <main class="" style="background-color: #ffffff;">
 
-            <div class="box" style="margin-top: 26px;border: 1px solid #D3D3D3; border-radius: 4px;">
+            <div class="box" style="border: 1px solid #D3D3D3; border-radius: 4px;margin: 26px;">
 <!--                <ul class="nav nav-tabs" id="docViewTable" style="width: 100%;height:54px;flex-direction: row;flex-wrap: nowrap;overflow-x: scroll;font-size: 11px;">-->
 <!--                </ul>-->
-                <div id="doc" style="width: 100%; height: calc(100vh - 46px);background-color: #ffffff;overflow: auto;padding: 16px;position: relative;">
+                <div id="doc" style="width: 100%; height: calc(100vh - 56px);background-color: #ffffff;overflow: auto;padding: 16px;position: relative;">
 
                     <div class="row">
 
@@ -936,9 +936,12 @@
             editor.expandAll()
             const updatedJson = editor.get()
             const paths = getJsonPaths(updatedJson);
-            $("#jsoneditor").find(".jsoneditor-field").each(function() {
-                if (zs[$(this).prop("id")]){
-                    $(this).parent().parent().append('<td class="zsReqText" style="padding-left: 16px;color: red;font-size:12px;"> /* '+zs[$(this).prop("id")]+' */</td>')
+            $("#jsoneditor").find(".jsoneditor-field, .jsoneditor-values").each(function() {
+                var id = $(this).prop("id")
+                var regex = new RegExp("0,", "g");
+                id = id.replace(regex, "");
+                if (zs[id]){
+                    $(this).parent().parent().append('<td class="zsReqText zsText"> /* '+zs[id]+' */</td>')
                 }
             })
         }
@@ -970,9 +973,12 @@
                 editorResp.expandAll()
                 const updatedJson = editorResp.get()
                 const paths = getJsonPaths(updatedJson);
-                $("#jsoneditorResp").find(".jsoneditor-field").each(function() {
-                    if (zsresp[$(this).prop("id")]){
-                        $(this).parent().parent().append('<td class="zsRespText" style="padding-left: 16px;color: red;font-size:12px;"> /* '+zsresp[$(this).prop("id")]+' */</td>')
+                $("#jsoneditorResp").find(".jsoneditor-field, .jsoneditor-values").each(function() {
+                    var id = $(this).prop("id")
+                    var regex = new RegExp("0,", "g");
+                    id = id.replace(regex, "");
+                    if (zsresp[id]){
+                        $(this).parent().parent().append('<td class="zsRespText zsText"> /* '+zsresp[id]+' */</td>')
                     }
                 })
             }
@@ -1002,9 +1008,13 @@
     }
 
     function openReqZsText() {
-        $("#jsoneditor").find(".jsoneditor-field").each(function() {
-            if (zs[$(this).prop("id")]){
-                $(this).parent().parent().append('<td class="zsReqText" style="padding-left: 16px;color: red;font-size:12px;"> /* '+zs[$(this).prop("id")]+' */</td>')
+
+        $("#jsoneditor").find(".jsoneditor-field, .jsoneditor-values").each(function() {
+            var id = $(this).prop("id")
+            var regex = new RegExp("0,", "g");
+            id = id.replace(regex, "");
+            if (zs[id]){
+                $(this).parent().parent().append('<td class="zsReqText zsText"> /* '+zs[id]+' */</td>')
             }
         })
         $(".closeReqZsText").show();
@@ -1012,9 +1022,12 @@
     }
 
     function openRespZsText() {
-        $("#jsoneditorResp").find(".jsoneditor-field").each(function() {
-            if (zsresp[$(this).prop("id")]){
-                $(this).parent().parent().append('<td class="zsRespText" style="padding-left: 16px;color: red;font-size:12px;"> /* '+zsresp[$(this).prop("id")]+' */</td>')
+        $("#jsoneditorResp").find(".jsoneditor-field, .jsoneditor-values").each(function() {
+            var id = $(this).prop("id")
+            var regex = new RegExp("0,", "g");
+            id = id.replace(regex, "");
+            if (zsresp[id]){
+                $(this).parent().parent().append('<td class="zsRespText zsText"> /* '+zsresp[id]+' */</td>')
             }
         })
         $(".closeRespZsText").show();
