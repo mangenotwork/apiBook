@@ -188,6 +188,7 @@ func Share() {
 	share.POST("/create", handler.ShareCreate)                // 创建分享
 	share.GET("/info/project", handler.GetShareInfoProject)   // 获取项目当前的分享
 	share.GET("/info/document", handler.GetShareInfoDocument) // 获取文档当前的分享
+	share.GET("/del", handler.DeleteShare)                    // 删除分享
 	// todo 通过分享拿数据，不验证用户信息，单要验证key信息，如果设置了分享密码还要验证分享密码信息
 }
 

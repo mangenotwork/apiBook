@@ -21,6 +21,10 @@ func ShareCreate(c *gin.Context) {
 
 	param.Key = utils.NewShortCode()
 
+	if param.Expiration == 0 {
+		param.Expiration = -1
+	}
+
 	err = dao.NewShareDao().Create(param)
 	if err != nil {
 		log.Error(err)
@@ -28,7 +32,7 @@ func ShareCreate(c *gin.Context) {
 		return
 	}
 
-	ctx.APIOutPut(param.Key, "")
+	ctx.APIOutPut("创建成功", "创建成功")
 	return
 }
 
@@ -51,5 +55,20 @@ func GetShareInfoDocument(c *gin.Context) {
 		log.Error(err)
 	}
 	ctx.APIOutPut(data, "")
+	return
+}
+
+func DeleteShare(c *gin.Context) {
+	ctx := ginHelper.NewGinCtx(c)
+	key := ctx.Query("key")
+
+	info, err := dao.NewShareDao().Del(key)
+	if err != nil {
+		log.Error(err)
+		ctx.APIOutPutError(fmt.Errorf("删除分享失败"), "删除分享失败")
+		return
+	}
+
+	ctx.APIOutPut(info, "删除成功")
 	return
 }

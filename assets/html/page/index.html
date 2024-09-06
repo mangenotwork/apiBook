@@ -47,7 +47,7 @@
                                         <li style="padding: 8px;"><span class="txt7">操作： </span><div class="btn-group" role="group" aria-label="Basic outlined example" style="margin-left: 16px;">
                                             <button type="button" class="btn btn-outline-dark" onclick="modifyDocContent()">编辑</button>
                                             <button type="button" class="btn btn-outline-dark">请求</button>
-                                            <button type="button" class="btn btn-outline-dark">分享</button>
+                                            <button type="button" class="btn btn-outline-dark" onclick="openDocShare()">分享</button>
                                             <button type="button" class="btn btn-outline-dark">Mock</button>
                                             <a type="button" class="btn btn-outline-dark" href="https://www.zhaozhongtian.top" target="_blank">在线工具</a>
                                           </div></li>
@@ -1650,21 +1650,100 @@
 
     }
 
-    function openShare(sType) {
+    $(document).on('click', '.docShare', function (event){
+        event.stopPropagation();
+        var docId = $(this).data("docid");
+        openShare(2, docId)
+    });
+
+    function openDocShare() {
+        console.log("openDocShare")
+        var docId = localStorage.getItem(nowViewDoc+projectId)
+        console.log(docId)
+        if(docId !== "undefined") {
+            openShare(2, docId)
+        }
+    }
+
+    function openShare(sType, docId) {
 
         var shareModalLabel = $("#shareModalLabel")
         shareModalLabel.empty()
 
+        var projectShareBtn = $("#projectShareBtn")
+        var docShareBtn = $("#docShareBtn")
+
+        projectShareBtn.hide()
+        docShareBtn.hide()
+
         switch (sType) {
             case 1:
                 shareModalLabel.append("分享项目")
+                projectShareBtn.show()
                 break
             case 2:
                 shareModalLabel.append("分享文档")
+                $("#shareDocId").val(docId)
+                docShareBtn.show()
                 break
         }
 
+        shareListLoad(sType, docId)
+
         $('#shareModal').modal('show');
+    }
+
+    function shareListLoad(sType, docId) {
+
+        switch (sType) {
+            case 1:
+                AjaxGetNotAsync("/share/info/project?pid="+projectId, function (data) {
+                    console.log(data)
+                    if (data.code === 0) {
+                        shareListShow(data.data)
+                    }
+                })
+                break
+            case 2:
+                AjaxGetNotAsync("/share/info/document?docId="+docId, function (data) {
+                    console.log(data)
+                    if (data.code === 0) {
+                        shareListShow(data.data)
+                    }
+                })
+                break
+        }
+    }
+
+    function shareListShow(data) {
+        var shareList = $('#shareList')
+        shareList.empty()
+        const currentHost = window.location.host + "/browse/";
+        for (var i=0; i<data.length; i++ ) {
+
+            var expiration = ""
+            if (data[i].expiration === 0 ) {
+                expiration = "过期"
+            }else if (data[i].expiration === -1 ) {
+                expiration = "永久"
+            }else {
+                expiration = data[i].expiration+"天"
+            }
+
+            var password = ""
+            if (data[i].isPassword === 1) {
+                password = '<span class="badge text-bg-info">密码: '+data[i].passwordCode+'</span>'
+            }else {
+                password =  '<span class="badge text-bg-info">公开</span>'
+            }
+
+            shareList.append('<div class="list-group-item list-group-item-action">\n' +
+                '                        <span style="margin-right: 16px;">'+currentHost+data[i].key+'</span> '+
+                '<span class="badge text-bg-dark" style="margin-right: 8px;">'+expiration+'</span>'+ password +
+                '                        <button type="button" class="btn btn-link" style="float: right;" onclick="cpShare(\''+currentHost+data[i].key+'\')">复制</button>\n' +
+                '                        <button type="button" class="btn btn-link" style="float: right; color: red" onclick="delShare(\''+data[i].key+'\')">删除</button>\n' +
+                '                    </div>')
+        }
     }
 
     $('#shareExpiration').mousemove(function(){
@@ -1731,6 +1810,58 @@
             customRange2.append(num+"天")
         }
     })
+
+    function projectShare() {
+        createShare(1, projectId)
+    }
+
+    function docShare() {
+        var docId = $("#shareDocId").val()
+        createShare(2, docId)
+    }
+
+    function createShare(shareType, shareId) {
+
+        var isPassword = 0;
+        var passwordCode = $("#shareIsPassword2").text();
+        if (passwordCode !== "") {
+            isPassword = 1
+        }
+
+        var param = {
+            "shareType": shareType,
+            "shareId": shareId,
+            "expiration": Number($("#shareExpiration").val()),
+            "isPassword": isPassword,
+            "passwordCode": passwordCode,
+        }
+
+        AjaxPost("/share/create", param, function (data) {
+            ToastShow(data.msg);
+            if (data.code === 0 ) {
+                shareListLoad(shareType, shareId)
+                $("#shareExpiration").val(0);
+                $("#shareIsPassword").prop('checked', false);
+                $("#shareExpiration2").empty();
+                $("#shareExpiration2").append("永久");
+                $("#shareIsPassword2").empty();
+            }
+        });
+    }
+
+    function delShare(key) {
+        AjaxGetNotAsync("/share/del?key="+key, function (data) {
+            console.log(data)
+            if (data.code === 0) {
+                shareListLoad(data.data.shareType, data.data.shareId)
+            }
+        })
+    }
+
+    function cpShare(url) {
+        copyContent(url)
+        ToastShow("已复制到剪切板");
+    }
 
 </script>
 {{ template "end" . }}

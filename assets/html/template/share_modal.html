@@ -3,7 +3,7 @@
     <div class="modal-dialog modal-xl">
         <div class="modal-content">
             <div class="modal-header">
-                <h1 class="modal-title fs-5" id="shareModalLabel">分享</h1>
+                <h1 class="modal-title fs-5" id="shareModalLabel">项目分享</h1>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body" style="padding: 56px;">
@@ -24,13 +24,16 @@
                             <label class="form-check-label" for="shareIsPassword" id="shareIsPassword2" style="margin-left: 36px;"></label>
                         </div>
                     </div>
+
+                    <input type="text" id="shareDocId" style="display: none">
+
                 </div>
                 <br>
-                <button type="button" class="btn btn-primary">生成分享链接</button>
-
+                <button type="button" class="btn btn-primary" id="projectShareBtn" onclick="projectShare()">生成分享链接</button>
+                <button type="button" class="btn btn-primary" id="docShareBtn" onclick="docShare()">生成分享链接</button>
                 <hr>
 
-                <div class="list-group">
+                <div class="list-group" id="shareList">
                     <div class="list-group-item list-group-item-action">
                         <span style="margin-right: 16px;">http://127.0.0.1:17777/index/e35b9d3a53f7b067#</span> <span class="badge text-bg-dark">永久</span> <span class="badge text-bg-info">密码: 23134</span>
                         <button type="button" class="btn btn-link" style="float: right;">复制</button>
