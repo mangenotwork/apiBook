@@ -32,7 +32,7 @@
                           </nav>
 
                           <div style="margin-bottom: 52px;margin-top: 16px;">
-                            <h4 id="simple-list-item-1" style="margin-bottom: 16px;">基本信息</h4>
+                            <h4 class="with-vertical-bar" id="simple-list-item-1" style="margin-bottom: 36px;">基本信息</h4>
                             <div class="card">
                                 <div class="card-body">
                                     <span id="docIdContent" style="display: none;"></span>
@@ -57,14 +57,14 @@
                           </div>
 
                         <div style="margin-bottom: 52px;">
-                            <h4 id="simple-list-item-2" style="margin-bottom: 36px;">接口说明</h4>
+                            <h4 class="with-vertical-bar" id="simple-list-item-2" style="margin-bottom: 36px;">接口说明</h4>
 
                             <div class="card">
                                 <div class="card-body" id="api-description"></div>
                             </div>
                         </div>
                         <div style="margin-bottom: 52px;">
-                            <h4 id="simple-list-item-3" style="margin-bottom: 36px;">请求Header</h4>
+                            <h4 class="with-vertical-bar" id="simple-list-item-3" style="margin-bottom: 36px;">请求Header</h4>
                             <table class="table table-bordered table-hover table-striped">
                                 <thead>
                                 <tr>
@@ -81,7 +81,7 @@
                         </div>
 
                         <div style="margin-bottom: 52px;">
-                            <h4 id="simple-list-item-4" style="margin-bottom: 36px;">请求参数</h4>
+                            <h4 class="with-vertical-bar" id="simple-list-item-4" style="margin-bottom: 36px;">请求参数</h4>
                             <p>请求数据类型: <span id="api-reqType">json</span></p>
                             <p>示例:</p>
                             <div id="jsoneditorDiv" style="display: none;">
@@ -120,7 +120,7 @@
                         </div>
 
                         <div style="margin-bottom: 52px;">
-                            <h4 id="simple-list-item-5"  style="margin-bottom: 36px;">响应</h4>
+                            <h4 class="with-vertical-bar" id="simple-list-item-5"  style="margin-bottom: 36px;">响应</h4>
                             <p>请求数据类型: <span id="api-respType">json</span></p>
                             <p>示例:</p>
                             <div id="jsoneditorRespDiv" style="display: none;">
@@ -159,12 +159,12 @@
                         </div>
 
                         <div style="margin-bottom: 52px;">
-                            <h4 id="simple-list-item-7">请求代码</h4>
+                            <h4 class="with-vertical-bar" id="simple-list-item-7">请求代码</h4>
                             todo....
                         </div>
 
                         <div style="margin-bottom: 52px;">
-                            <h4 id="simple-list-item-6">日志&镜像</h4>
+                            <h4 class="with-vertical-bar" id="simple-list-item-6">日志&镜像</h4>
                             <ul class="list-group list-group-flush" id="snapshot">
                             </ul>
                             </div>
@@ -288,7 +288,6 @@
             'height':'38px',
         })
     });
-
 
     $(document).on('mouseenter', '.dir', function() {
         tippyInit();
@@ -1180,8 +1179,6 @@
             }
 
         }
-
-
 
     }
 

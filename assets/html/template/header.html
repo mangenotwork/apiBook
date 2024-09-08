@@ -10,11 +10,31 @@
                             开始
                         </a>
                         <ul class="dropdown-menu">
-                            <li><a class="dropdown-item" href="/home">首页</a></li>
-                            <li><a class="dropdown-item" onclick="addProject()">创建项目</a></li>
-                            <li><a class="dropdown-item" href="https://www.zhaozhongtian.top" target="_blank">在线工具</a></li>
+                            <li>
+                                <a class="dropdown-item" href="/home">
+                                    <span style="margin-right: 4px;position: relative;top: -2px;">{{ SVG "house" 18 18 }}</span>
+                                    <span>首页</span>
+                                </a>
+                            </li>
+                            <li>
+                                <a class="dropdown-item" onclick="addProject()">
+                                    <span style="margin-right: 4px;position: relative;top: -2px;">{{ SVG "plus-square" 18 18 }}</span>
+                                    <span>创建项目</span>
+                                </a>
+                            </li>
+                            <li>
+                                <a class="dropdown-item" href="https://www.zhaozhongtian.top" target="_blank">
+                                    <span style="margin-right: 4px;position: relative;top: -2px;">{{ SVG "window-sidebar" 18 18 }}</span>
+                                    <span>在线请求</span>
+                                </a>
+                            </li>
                             <li><hr class="dropdown-divider"></li>
-                            <li><a class="dropdown-item" href="#"  data-bs-toggle="offcanvas" data-bs-target="#offcanvasNavbarDark" aria-controls="offcanvasNavbarDark">设置</a></li>
+                            <li>
+                                <a class="dropdown-item" href="#"  data-bs-toggle="offcanvas" data-bs-target="#offcanvasNavbarDark" aria-controls="offcanvasNavbarDark">
+                                    <span style="margin-right: 4px;position: relative;top: -2px;">{{ SVG "gear" 18 18 }}</span>
+                                    <span>设置</span>
+                                </a>
+                            </li>
                         </ul>
                     </li>
                     {{ if eq .nav "index" }}
@@ -23,12 +43,42 @@
                             项目
                         </a>
                         <ul class="dropdown-menu">
-                            <li><a class="dropdown-item" onclick="openPConf('{{ .projectId }}')">设置</a></li>
-                            <li><a class="dropdown-item" href="#">分享</a></li>
-                            <li><a class="dropdown-item" href="#">创建目录</a></li>
-                            <li><a class="dropdown-item" href="#">创建文档</a></li>
-                            <li><a class="dropdown-item" href="#">全局header</a></li>
-                            <li><a class="dropdown-item" href="#">全局code</a></li>
+                            <li>
+                                <a class="dropdown-item" onclick="openPConf('{{ .projectId }}')">
+                                    <span style="margin-right: 4px;position: relative;top: -2px;">{{ SVG "gear" 18 18 }}</span>
+                                    <span>项目设置</span>
+                                </a>
+                            </li>
+                            <li>
+                                <a class="dropdown-item" href="#">
+                                    <span style="margin-right: 4px;position: relative;top: -2px;">{{ SVG "share-fill" 18 18 }}</span>
+                                    <span>分享项目</span>
+                                </a>
+                            </li>
+                            <li>
+                                <a class="dropdown-item" href="#">
+                                    <span style="margin-right: 4px;position: relative;top: -2px;">{{ SVG "folder-plust" 18 18 }}</span>
+                                    <span>创建目录</span>
+                                </a>
+                            </li>
+                            <li>
+                                <a class="dropdown-item" href="#">
+                                    <span style="margin-right: 4px;position: relative;top: -2px;">{{ SVG "plus-lg" 18 18 }}</span>
+                                    <span>创建文档</span>
+                                </a>
+                            </li>
+                            <li>
+                                <a class="dropdown-item" href="#">
+                                    <span style="margin-right: 4px;position: relative;top: -2px;">{{ SVG "file-text" 18 18 }}</span>
+                                    <span>全局header</span>
+                                </a>
+                            </li>
+                            <li>
+                                <a class="dropdown-item" href="#">
+                                    <span style="margin-right: 4px;position: relative;top: -2px;">{{ SVG "file-text" 18 18 }}</span>
+                                    <span>全局code</span>
+                                </a>
+                            </li>
                         </ul>
                     </li>
                     {{ end }}
