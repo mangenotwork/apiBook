@@ -24,8 +24,9 @@ func SetAdmin(ctx *gin.Context) {
 
 		if password != password2 {
 			ctx.HTML(200, "err.html", gin.H{
-				"Title": conf.Conf.Default.App.Name,
-				"err":   "两次密码不一致",
+				"Title":     conf.Conf.Default.App.Name,
+				"err":       "两次密码不一致",
+				"returnUrl": "/",
 			})
 			return
 		}
@@ -42,8 +43,9 @@ func SetAdmin(ctx *gin.Context) {
 		if err != nil {
 			log.Error(err)
 			ctx.HTML(200, "err.html", gin.H{
-				"Title": conf.Conf.Default.App.Name,
-				"err":   "创建用户失败",
+				"Title":     conf.Conf.Default.App.Name,
+				"err":       "创建用户失败",
+				"returnUrl": "/",
 			})
 			return
 		}
@@ -53,8 +55,9 @@ func SetAdmin(ctx *gin.Context) {
 	}
 
 	ctx.HTML(200, "err.html", gin.H{
-		"Title": conf.Conf.Default.App.Name,
-		"err":   "管理员已经存在",
+		"Title":     conf.Conf.Default.App.Name,
+		"err":       "管理员已经存在",
+		"returnUrl": "/",
 	})
 	return
 }
@@ -81,8 +84,9 @@ func Login(ctx *gin.Context) {
 
 	if account == "" || password == "" {
 		ctx.HTML(200, "err.html", gin.H{
-			"Title": conf.Conf.Default.App.Name,
-			"err":   "账号或密码为空",
+			"Title":     conf.Conf.Default.App.Name,
+			"err":       "账号或密码为空",
+			"returnUrl": "/",
 		})
 	}
 
@@ -90,16 +94,18 @@ func Login(ctx *gin.Context) {
 	if err != nil {
 		log.Error(err)
 		ctx.HTML(200, "err.html", gin.H{
-			"Title": conf.Conf.Default.App.Name,
-			"err":   "用户不存在",
+			"Title":     conf.Conf.Default.App.Name,
+			"err":       "用户不存在",
+			"returnUrl": "/",
 		})
 		return
 	}
 
 	if user.IsDisable == 1 {
 		ctx.HTML(200, "err.html", gin.H{
-			"Title": conf.Conf.Default.App.Name,
-			"err":   "用户被禁用",
+			"Title":     conf.Conf.Default.App.Name,
+			"err":       "用户被禁用",
+			"returnUrl": "/",
 		})
 		return
 	}
@@ -110,8 +116,9 @@ func Login(ctx *gin.Context) {
 	}
 
 	ctx.HTML(200, "err.html", gin.H{
-		"Title": conf.Conf.Default.App.Name,
-		"err":   "账号或密码错误",
+		"Title":     conf.Conf.Default.App.Name,
+		"err":       "账号或密码错误",
+		"returnUrl": "/",
 	})
 	return
 }

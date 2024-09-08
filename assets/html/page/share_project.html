@@ -197,7 +197,7 @@
 
 {{ template "pubjs" . }}
 <script>
-
+    var hashKey = "{{ .hashKey }}"
     var projectId = "{{ .projectId }}"
     var dirId = ""
 
@@ -324,7 +324,7 @@
             }
         });
 
-        AjaxGet("/document/dir/list?pid="+projectId, function(data){
+        AjaxGet("/share/document/dir/list?hashKey="+hashKey, function(data){
             if (data.code === 0 ) {
                 var apiDir = data.data
                 for(var item in apiDir) {
@@ -355,7 +355,7 @@
             isShow(false)
         }
 
-        AjaxPost("/document/doc/list", param, function(data){
+        AjaxPost("/share/document/doc/list?hashKey="+hashKey, param, function(data){
             if (data.code === 0 ) {
                 for(var i=0; i<data.data.length; i++) {
                     if(data.data[i].docId === localStorage.getItem(nowViewDoc+projectId)) {
@@ -772,7 +772,7 @@
             "pid": projectId,
             "docId": docId,
         }
-        AjaxPostNotAsync("/document/item", param, function(data){
+        AjaxPostNotAsync("/share/document/item?hashKey="+hashKey, param, function(data){
             if (data.code === 0 ) {
                 localStorage.setItem(nowViewDoc+projectId, docId)
                 showViewDoc(data.data.content.method, data.data.content.name, docId, true)
@@ -1097,7 +1097,7 @@
             "docId": snapshotDocId,
             "snapshotId": snapshotId,
         }
-        AjaxPostNotAsync("/document/snapshot/item", param, function(data){
+        AjaxPostNotAsync("/share/document/snapshot/item?hashKey="+hashKey, param, function(data){
             if (data.code === 0 ) {
                 console.log(data.data)
 
@@ -1150,7 +1150,7 @@
 
 
     function openGlobalCodeModal() {
-        AjaxGetNotAsync("/project/code/list?pid="+projectId, function (data){
+        AjaxGetNotAsync("/share/project/code/list?hashKey="+hashKey, function (data){
             console.log(data)
             if (data.code === 0) {
                 $("#globalCodeTable").empty();
@@ -1266,7 +1266,7 @@
     }
 
     function openGlobalHeaderModal() {
-        AjaxGetNotAsync("/project/header/list?pid="+projectId, function (data){
+        AjaxGetNotAsync("/share/project/header/list?hashKey="+hashKey, function (data){
             console.log(data)
             if (data.code === 0) {
                 $("#globalHeaderTable").empty();

@@ -85,6 +85,7 @@ func reqLog(ctx *gin.Context, startTime time.Time) {
 			clientIP,
 			reqMethod,
 			reqUri)
+
 	} else {
 		log.HttpInfoF(" %10v | %10s | %s:%d | %s ",
 			latencyTime,
@@ -93,6 +94,7 @@ func reqLog(ctx *gin.Context, startTime time.Time) {
 			statusCode,
 			reqUri)
 	}
+
 }
 
 func CSRFMiddleware() gin.HandlerFunc {
@@ -143,7 +145,6 @@ func Page() {
 	page.GET("/user/mange", handler.UserMange)
 	page.GET("/my", handler.My)
 	page.GET("/project/index/:pid", handler.ProjectIndex)
-	page.GET("/browse/:hashKey", handler.Browse)
 }
 
 func Project() {
@@ -159,7 +160,7 @@ func Project() {
 	project.POST("/deluser", handler.ProjectDelUser)      // 项目移除协作者
 	project.GET("/join/list", handler.ProjectJoinList)    // 可加入的用户列表
 	project.POST("/header/add", handler.ProjectHeaderAdd) // 添加全局header
-	project.GET("/header/list", handler.ProjectHeaderGet) // 删除全局header
+	project.GET("/header/list", handler.ProjectHeaderGet) // 获取全局header
 	project.POST("/code/add", handler.ProjectCodeAdd)     // 添加全局code
 	project.GET("/code/list", handler.ProjectCodeGet)     // 获取全局code
 }
@@ -184,12 +185,19 @@ func Document() {
 }
 
 func Share() {
+	Router.GET("/browse/:hashKey", handler.Browse) // 分享浏览页面
 	share := Router.Group("/share")
-	share.POST("/create", handler.ShareCreate)                // 创建分享
-	share.GET("/info/project", handler.GetShareInfoProject)   // 获取项目当前的分享
-	share.GET("/info/document", handler.GetShareInfoDocument) // 获取文档当前的分享
-	share.GET("/del", handler.DeleteShare)                    // 删除分享
-	// todo 通过分享拿数据，不验证用户信息，单要验证key信息，如果设置了分享密码还要验证分享密码信息
+	share.POST("/create", handler.ShareCreate)                               // 创建分享
+	share.GET("/info/project", handler.GetShareInfoProject)                  // 获取项目当前的分享
+	share.GET("/info/document", handler.GetShareInfoDocument)                // 获取文档当前的分享
+	share.GET("/del", handler.DeleteShare)                                   // 删除分享
+	share.GET("/document/dir/list", handler.ShareDocumentDirList)            // 文档目录列表
+	share.POST("/document/doc/list", handler.ShareDocumentDocList)           // 获取指定多个文档的基础信息
+	share.POST("/document/item", handler.ShareDocumentItem)                  // 文档详情
+	share.GET("/project/code/list", handler.ShareProjectCodeGet)             // 获取全局code
+	share.GET("/project/header/list", handler.ShareProjectHeaderGet)         // 获取全局header
+	share.POST("/document/snapshot/item", handler.ShareDocumentSnapshotItem) // 获取文档镜像
+	share.POST("/verify/:hashKey", handler.ShareVerify)                      // 分享验证
 }
 
 func User() {
@@ -199,6 +207,7 @@ func User() {
 	user.POST("/modify", handler.UserModify)                // 修改用户信息
 	user.POST("/reset/password", handler.UserResetPassword) // 重置用户密码
 	user.GET("/list", handler.UserList)                     // 获取所有用户列表
+
 }
 
 func Admin() {

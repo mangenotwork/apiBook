@@ -2,6 +2,7 @@ package handler
 
 import (
 	"apiBook/common/log"
+	"apiBook/internal/entity"
 	"fmt"
 	"html/template"
 	"net/http"
@@ -43,11 +44,12 @@ func Index(ctx *gin.Context) {
 		isAdmin = 1
 	}
 
-	project, err := dao.NewProjectDao().Get(pid, userAcc)
+	project, err := dao.NewProjectDao().Get(pid, userAcc, false)
 	if err != nil {
 		ctx.HTML(200, "err.html", gin.H{
-			"Title": conf.Conf.Default.App.Name,
-			"err":   err.Error(),
+			"Title":     conf.Conf.Default.App.Name,
+			"err":       err.Error(),
+			"returnUrl": "/",
 		})
 		return
 	}
@@ -72,7 +74,8 @@ func Err(ctx *gin.Context) {
 		http.StatusOK,
 		"err.html",
 		ginH(gin.H{
-			"err": msg,
+			"err":       msg,
+			"returnUrl": "/",
 		}),
 	)
 	return
@@ -172,8 +175,9 @@ func UserMange(ctx *gin.Context) {
 
 	if !dao.NewUserDao().IsAdmin(userAcc) {
 		ctx.HTML(200, "err.html", gin.H{
-			"Title": conf.Conf.Default.App.Name,
-			"err":   "对不起，你不是管理员无权限操作。",
+			"Title":     conf.Conf.Default.App.Name,
+			"err":       "对不起，你不是管理员无权限操作。",
+			"returnUrl": "/",
 		})
 		return
 	}
@@ -196,8 +200,9 @@ func My(ctx *gin.Context) {
 	userInfo, err := dao.NewUserDao().Get(userAcc)
 	if err != nil || userInfo == nil {
 		ctx.HTML(200, "err.html", gin.H{
-			"Title": conf.Conf.Default.App.Name,
-			"err":   "获取用户信息失败。",
+			"Title":     conf.Conf.Default.App.Name,
+			"err":       "获取用户信息失败。",
+			"returnUrl": "/",
 		})
 	}
 
@@ -243,18 +248,20 @@ func ProjectIndex(ctx *gin.Context) {
 	userInfo, err := dao.NewUserDao().Get(userAcc)
 	if err != nil || userInfo == nil {
 		ctx.HTML(200, "err.html", gin.H{
-			"Title": conf.Conf.Default.App.Name,
-			"err":   "获取用户信息失败。",
+			"Title":     conf.Conf.Default.App.Name,
+			"err":       "获取用户信息失败。",
+			"returnUrl": "/",
 		})
 	}
 
 	pid := ctx.Param("pid")
 
-	project, err := dao.NewProjectDao().Get(pid, userAcc)
+	project, err := dao.NewProjectDao().Get(pid, userAcc, false)
 	if err != nil {
 		ctx.HTML(200, "err.html", gin.H{
-			"Title": conf.Conf.Default.App.Name,
-			"err":   err.Error(),
+			"Title":     conf.Conf.Default.App.Name,
+			"err":       err.Error(),
+			"returnUrl": "/",
 		})
 		return
 	}
@@ -264,8 +271,9 @@ func ProjectIndex(ctx *gin.Context) {
 	user, err := dao.NewUserDao().GetUsers(userList)
 	if err != nil {
 		ctx.HTML(200, "err.html", gin.H{
-			"Title": conf.Conf.Default.App.Name,
-			"err":   err.Error(),
+			"Title":     conf.Conf.Default.App.Name,
+			"err":       err.Error(),
+			"returnUrl": "/",
 		})
 		return
 	}
@@ -323,41 +331,87 @@ func ProjectIndex(ctx *gin.Context) {
 }
 
 func Browse(ctx *gin.Context) {
-	// todo 1.先判断key是否被分享并获取分享信息
-	// todo 2.判断是否需要输入浏览key
-	// todo 3.加载项目或文档数据
+	hashKey := ctx.Param("hashKey")
 
-	userAcc := ctx.GetString("userAcc")
-
-	pid := "e35b9d3a53f7b067"
-
-	log.Info("pid = ", pid)
-
-	isAdmin := 0
-	if dao.NewUserDao().IsAdmin(userAcc) {
-		isAdmin = 1
-	}
-
-	project, err := dao.NewProjectDao().Get(pid, userAcc)
+	shareInfo, err := dao.NewShareDao().GetInfo(hashKey)
 	if err != nil {
 		ctx.HTML(200, "err.html", gin.H{
-			"Title": conf.Conf.Default.App.Name,
-			"err":   err.Error(),
+			"Title":     conf.Conf.Default.App.Name,
+			"err":       "未知页面",
+			"returnUrl": "/",
 		})
 		return
 	}
 
-	ctx.HTML(
-		http.StatusOK,
-		//"share_project.html",
-		"share_doc.html",
-		ginH(gin.H{
-			"nav":         "index",
-			"isAdmin":     isAdmin, // 1是管理员
-			"userName":    ctx.GetString("userName"),
-			"projectId":   pid,
-			"projectName": project.Name,
-		}),
-	)
+	log.Error(shareInfo)
+
+	if shareInfo.IsPassword == 1 {
+
+		browseSignKey, _ := ctx.Cookie("browseKey_" + shareInfo.Key)
+		browseSign, _ := ctx.Cookie("browseSign_" + shareInfo.Key)
+		if utils.GetMD5Encode(shareInfo.Key+shareInfo.PasswordCode+browseSignKey) == browseSign {
+			goto Step
+		}
+
+		ctx.HTML(200, "share_verify.html", gin.H{
+			"Title":   conf.Conf.Default.App.Name,
+			"hashKey": hashKey,
+		})
+		return
+	}
+
+Step:
+
+	browseShare(ctx, shareInfo)
 	return
+}
+
+func browseShare(ctx *gin.Context, shareInfo *entity.Share) {
+	pid := shareInfo.ProjectId
+
+	switch shareInfo.ShareType {
+
+	case 1:
+		project, err := dao.NewProjectDao().Get(pid, "", true)
+		if err != nil {
+			log.Error(err)
+			ctx.HTML(200, "err.html", gin.H{
+				"Title":     conf.Conf.Default.App.Name,
+				"err":       err.Error(),
+				"returnUrl": "/",
+			})
+			return
+		}
+
+		ctx.HTML(
+			http.StatusOK,
+			"share_project.html",
+			ginH(gin.H{
+				"nav":         "index",
+				"isAdmin":     0, // 1是管理员
+				"userName":    ctx.GetString("userName"),
+				"projectId":   pid,
+				"projectName": project.Name,
+				"hashKey":     shareInfo.Key,
+			}),
+		)
+		return
+
+	case 2:
+
+		ctx.HTML(
+			http.StatusOK,
+			"share_doc.html",
+			ginH(gin.H{
+				"nav":         "index",
+				"isAdmin":     0, // 1是管理员
+				"userName":    ctx.GetString("userName"),
+				"projectId":   pid,
+				"projectName": "",
+				"hashKey":     shareInfo.Key,
+				"docId":       shareInfo.ShareId,
+			}),
+		)
+		return
+	}
 }

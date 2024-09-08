@@ -203,7 +203,7 @@
 
 {{ template "pubjs" . }}
 <script>
-
+    var hashKey = "{{ .hashKey }}"
     var projectId = "{{ .projectId }}"
     var dirId = ""
 
@@ -330,25 +330,6 @@
             }
         });
 
-        AjaxGet("/document/dir/list?pid="+projectId, function(data){
-            if (data.code === 0 ) {
-                var apiDir = data.data
-                for(var item in apiDir) {
-                    if (apiDir.hasOwnProperty(item)){
-                        var dirId = apiDir[item].dir.dirId;
-                        var dirname = apiDir[item].dir.name;
-                        var doc = apiDir[item].doc;
-                        $("#wrap").append(dir2Dev(dirId, dirname))
-                        $("#addDocDir").append(addDocDirOption(dirId, dirname))
-                        for(var li in doc) {
-                            if (doc.hasOwnProperty(li)) {
-                                $("#"+dirId).append(doc2Li(doc[li].docId, doc[li].method, doc[li].title))
-                            }
-                        }
-                    }
-                }
-            }
-        });
 
         var viewDocList = viewDocGet(projectId)
 
@@ -361,17 +342,19 @@
             isShow(false)
         }
 
-        AjaxPost("/document/doc/list", param, function(data){
-            if (data.code === 0 ) {
-                for(var i=0; i<data.data.length; i++) {
-                    if(data.data[i].docId === localStorage.getItem(nowViewDoc+projectId)) {
-                        NowDoc(data.data[i].docId)
-                    } else {
-                        showViewDoc(data.data[i].method, data.data[i].name, data.data[i].docId, false)
-                    }
-                }
-            }
-        })
+        NowDoc('{{ .docId }}')
+
+        // AjaxPost("/share/document/doc/list?hashKey="+hashKey, param, function(data){
+        //     if (data.code === 0 ) {
+        //         for(var i=0; i<data.data.length; i++) {
+        //             if(data.data[i].docId === localStorage.getItem(nowViewDoc+projectId)) {
+        //                 NowDoc(data.data[i].docId)
+        //             } else {
+        //                 showViewDoc(data.data[i].method, data.data[i].name, data.data[i].docId, false)
+        //             }
+        //         }
+        //     }
+        // })
 
     });
 
@@ -778,7 +761,7 @@
             "pid": projectId,
             "docId": docId,
         }
-        AjaxPostNotAsync("/document/item", param, function(data){
+        AjaxPostNotAsync("/share/document/item?hashKey="+hashKey, param, function(data){
             if (data.code === 0 ) {
                 localStorage.setItem(nowViewDoc+projectId, docId)
                 showViewDoc(data.data.content.method, data.data.content.name, docId, true)
@@ -1157,7 +1140,7 @@
 
 
     function openGlobalCodeModal() {
-        AjaxGetNotAsync("/project/code/list?pid="+projectId, function (data){
+        AjaxGetNotAsync("/share/project/code/list?hashKey="+hashKey, function (data){
             console.log(data)
             if (data.code === 0) {
                 $("#globalCodeTable").empty();
@@ -1273,7 +1256,7 @@
     }
 
     function openGlobalHeaderModal() {
-        AjaxGetNotAsync("/project/header/list?pid="+projectId, function (data){
+        AjaxGetNotAsync("/share/project/header/list?hashKey="+hashKey, function (data){
             console.log(data)
             if (data.code === 0) {
                 $("#globalHeaderTable").empty();

@@ -1,6 +1,7 @@
 package handler
 
 import (
+	"apiBook/common/conf"
 	"apiBook/common/ginHelper"
 	"apiBook/common/log"
 	"apiBook/common/utils"
@@ -8,6 +9,8 @@ import (
 	"apiBook/internal/entity"
 	"fmt"
 	"github.com/gin-gonic/gin"
+	"net/http"
+	"sort"
 )
 
 func ShareCreate(c *gin.Context) {
@@ -70,5 +73,285 @@ func DeleteShare(c *gin.Context) {
 	}
 
 	ctx.APIOutPut(info, "删除成功")
+	return
+}
+
+func ShareDocumentDirList(c *gin.Context) {
+	ctx := ginHelper.NewGinCtx(c)
+
+	hashKey := ctx.Query("hashKey")
+
+	shareInfo, err := dao.NewShareDao().GetInfo(hashKey)
+	if err != nil {
+		log.Error(err)
+		ginHelper.AuthErrorOut(c)
+		return
+	}
+
+	if shareInfo.ShareType != 1 {
+		ginHelper.AuthErrorOut(c)
+		return
+	}
+
+	pid := shareInfo.ShareId
+
+	resp := make([]*DocumentDirListItem, 0)
+
+	data, err := dao.NewDirDao().GetAll(pid)
+	if err != nil {
+		ctx.APIOutPutError(err, err.Error())
+		return
+	}
+
+	sort.Slice(data, func(i, j int) bool {
+		if data[i].Sort < data[j].Sort {
+			return true
+		}
+		return false
+	})
+
+	for _, v := range data {
+		item := &DocumentDirListItem{
+			Dir: &DirRespItem{
+				DirId: v.DirId,
+				Name:  v.DirName,
+			},
+			Doc: make([]*DocRespItem, 0),
+		}
+		dirDocList, err := dao.NewDirDao().GetDocList(v.DirId)
+		if err == nil {
+			docList := dao.NewDocDao().GetDocList(pid, dirDocList)
+			for _, docItem := range docList {
+				item.Doc = append(item.Doc, &DocRespItem{
+					DocId:  docItem.DocId,
+					Method: docItem.Method,
+					Title:  docItem.Name,
+				})
+			}
+		}
+		resp = append(resp, item)
+	}
+
+	ctx.APIOutPut(resp, "")
+	return
+}
+
+func ShareDocumentDocList(c *gin.Context) {
+	ctx := ginHelper.NewGinCtx(c)
+
+	hashKey := ctx.Query("hashKey")
+	log.Info(hashKey)
+
+	shareInfo, err := dao.NewShareDao().GetInfo(hashKey)
+	if err != nil {
+		log.Error(err)
+		ginHelper.AuthErrorOut(c)
+		return
+	}
+
+	if shareInfo.ShareType != 1 {
+		ginHelper.AuthErrorOut(c)
+		return
+	}
+
+	param := &DocumentDocListReq{}
+	err = ctx.GetPostArgs(&param)
+	if err != nil {
+		log.Error(err)
+		ctx.APIOutPutError(fmt.Errorf("参数错误"), "参数错误")
+		return
+	}
+
+	resp := dao.NewDocDao().GetDocListByIds(param.PId, param.DocList)
+	ctx.APIOutPut(resp, "")
+	return
+}
+
+func ShareDocumentItem(c *gin.Context) {
+	ctx := ginHelper.NewGinCtx(c)
+
+	hashKey := ctx.Query("hashKey")
+	log.Info(hashKey)
+
+	_, err := dao.NewShareDao().GetInfo(hashKey)
+	if err != nil {
+		log.Error(err)
+		ginHelper.AuthErrorOut(c)
+		return
+	}
+
+	param := &DocumentItemParam{}
+	err = ctx.GetPostArgs(&param)
+	if err != nil {
+		log.Error(err)
+		ctx.APIOutPutError(fmt.Errorf("参数错误"), "参数错误")
+		return
+	}
+
+	_, err = dao.NewProjectDao().Get(param.PId, "", true)
+	if err != nil {
+		log.Error(err)
+		ctx.APIOutPutError(err, err.Error())
+		return
+	}
+
+	data, err := dao.NewDocDao().GetDocumentContent(param.PId, param.DocId)
+	if err != nil {
+		log.Error(err)
+		ctx.APIOutPutError(err, err.Error())
+		return
+	}
+
+	baseInfo, err := dao.NewDocDao().GetDocument(param.PId, param.DocId)
+	if err != nil {
+		log.Error(err)
+		ctx.APIOutPutError(err, err.Error())
+		return
+	}
+
+	resp := &DocumentItemResp{
+		Content:      data,
+		SnapshotList: make([]*SnapshotItem, 0),
+		BaseInfo:     baseInfo,
+	}
+
+	snapshotList, err := dao.NewDocDao().GetDocumentSnapshotList(param.DocId)
+	if err != nil {
+		log.Error(err)
+	}
+
+	for _, v := range snapshotList {
+		resp.SnapshotList = append(resp.SnapshotList, &SnapshotItem{
+			SnapshotIdId:  v.SnapshotIdId,
+			UserAcc:       v.UserAcc,
+			Operation:     v.Operation,
+			CreateTime:    v.CreateTime,
+			CreateTimeStr: utils.Timestamp2Date(v.CreateTime),
+		})
+	}
+
+	sort.Slice(resp.SnapshotList, func(i, j int) bool {
+		return resp.SnapshotList[i].CreateTime > resp.SnapshotList[j].CreateTime
+	})
+
+	ctx.APIOutPut(resp, "")
+	return
+}
+
+func ShareProjectCodeGet(c *gin.Context) {
+	ctx := ginHelper.NewGinCtx(c)
+
+	hashKey := ctx.Query("hashKey")
+	log.Info(hashKey)
+
+	shareInfo, err := dao.NewShareDao().GetInfo(hashKey)
+	if err != nil {
+		log.Error(err)
+		ginHelper.AuthErrorOut(c)
+		return
+	}
+
+	pid := shareInfo.ProjectId
+	log.Info(pid)
+
+	codeList, err := dao.NewProjectDao().GetGlobalCode(pid)
+	if err != nil {
+		log.Error(err)
+		codeList = make([]*entity.GlobalCodeItem, 0)
+	}
+
+	ctx.APIOutPut(codeList, "")
+	return
+}
+
+func ShareProjectHeaderGet(c *gin.Context) {
+	ctx := ginHelper.NewGinCtx(c)
+
+	hashKey := ctx.Query("hashKey")
+	log.Info(hashKey)
+
+	shareInfo, err := dao.NewShareDao().GetInfo(hashKey)
+	if err != nil {
+		log.Error(err)
+		ginHelper.AuthErrorOut(c)
+		return
+	}
+
+	pid := shareInfo.ProjectId
+
+	headerList, err := dao.NewProjectDao().GetGlobalHeader(pid)
+	if err != nil {
+		log.Error(err)
+		headerList = make([]*entity.ReqHeaderItem, 0)
+	}
+
+	ctx.APIOutPut(headerList, "")
+	return
+}
+
+func ShareDocumentSnapshotItem(c *gin.Context) {
+	ctx := ginHelper.NewGinCtx(c)
+
+	hashKey := ctx.Query("hashKey")
+	log.Info(hashKey)
+
+	_, err := dao.NewShareDao().GetInfo(hashKey)
+	if err != nil {
+		log.Error(err)
+		ginHelper.AuthErrorOut(c)
+		return
+	}
+
+	param := &DocumentSnapshotItemReq{}
+	err = ctx.GetPostArgs(&param)
+	if err != nil {
+		ctx.APIOutPutError(fmt.Errorf("参数错误"), "参数错误")
+		return
+	}
+
+	data, err := dao.NewDocDao().GetDocumentSnapshotItem(param.DocId, param.SnapshotId)
+	if err != nil {
+		ctx.APIOutPutError(err, "获取镜像信息失败")
+		return
+	}
+
+	ctx.APIOutPut(data, "")
+	return
+
+}
+
+func ShareVerify(ctx *gin.Context) {
+
+	hashKey := ctx.Param("hashKey")
+	log.Info(hashKey)
+
+	password := ctx.PostForm("password")
+
+	shareInfo, err := dao.NewShareDao().GetInfo(hashKey)
+	if err != nil {
+		ctx.HTML(200, "err.html", gin.H{
+			"Title":     conf.Conf.Default.App.Name,
+			"err":       "未知页面",
+			"returnUrl": "/",
+		})
+		return
+	}
+
+	if shareInfo.PasswordCode != password {
+		ctx.HTML(200, "err.html", gin.H{
+			"Title":     conf.Conf.Default.App.Name,
+			"err":       "阅读码错误",
+			"returnUrl": "/browse/" + shareInfo.Key,
+		})
+		return
+	}
+
+	browseSignKey := utils.IDMd5()
+	ctx.SetCookie("browseKey_"+shareInfo.Key, browseSignKey, 60*60*24*30, "/", "", false, true)
+
+	browseSign := utils.GetMD5Encode(shareInfo.Key + shareInfo.PasswordCode + browseSignKey)
+	ctx.SetCookie("browseSign_"+shareInfo.Key, browseSign, 60*60*24*30, "/", "", false, true)
+
+	ctx.Redirect(http.StatusFound, "/browse/"+shareInfo.Key)
 	return
 }

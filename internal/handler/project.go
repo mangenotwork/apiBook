@@ -27,7 +27,7 @@ func ProjectItem(c *gin.Context) {
 	userAcc := ctx.GetString("userAcc")
 	log.Info(userAcc)
 
-	resp, err := dao.NewProjectDao().Get(pid, userAcc)
+	resp, err := dao.NewProjectDao().Get(pid, userAcc, false)
 	if err != nil {
 		ctx.APIOutPutError(err, err.Error())
 		return
@@ -314,8 +314,4 @@ func ProjectCodeGet(c *gin.Context) {
 
 	ctx.APIOutPut(codeList, "")
 	return
-}
-
-func ProjectShare(c *gin.Context) {
-
 }

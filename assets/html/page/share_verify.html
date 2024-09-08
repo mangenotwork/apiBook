@@ -1,0 +1,19 @@
+{{ template "head" . }}
+<body class="bkf5">
+<main class="w-100">
+    <div class="row" style="margin: 0;">
+        {{ ApiBookInfo }}
+        <div class="col-sm-8 h100">
+            <div class="container h100 login-div">
+                <h3 style="margin-bottom: 32px;color: #7c7b7b">请输入阅读码</h3>
+                <form class=" text-center" action="/share/verify/{{ .hashKey }}" method="post">
+                    {{ .csrf }}
+                    <div style="margin-bottom: 16px">{{ InputModule "text" "password" "" "password" "阅读码"}}</div>
+                    <button class="w-100 btn btn-lg btn-dark" type="submit">进入</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</main>
+</body>
+{{ template "end" . }}

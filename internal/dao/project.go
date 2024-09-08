@@ -92,14 +92,14 @@ func (dao *ProjectDao) GetList(userAcc string) []*entity.Project {
 	return resp
 }
 
-func (dao *ProjectDao) Get(pid, userAcc string) (*entity.Project, error) {
+func (dao *ProjectDao) Get(pid, userAcc string, isShare bool) (*entity.Project, error) {
 	projectData := &entity.Project{}
 	err := db.DB.Get(db.ProjectTable, pid, &projectData)
 	if err != nil {
 		return projectData, err
 	}
 
-	if projectData.Private == define.ProjectPrivate {
+	if projectData.Private == define.ProjectPrivate && !isShare {
 		var has int = 0
 		_ = db.DB.Get(db.GetUserPrivateProjectTable(userAcc), pid, &has)
 		if has == 0 {
@@ -111,7 +111,7 @@ func (dao *ProjectDao) Get(pid, userAcc string) (*entity.Project, error) {
 }
 
 func (dao *ProjectDao) Modify(newData *entity.Project, userAcc string) error {
-	oldData, err := dao.Get(newData.ProjectId, userAcc)
+	oldData, err := dao.Get(newData.ProjectId, userAcc, false)
 	if err != nil {
 		log.Error(err)
 		return err
@@ -158,7 +158,7 @@ func (dao *ProjectDao) Modify(newData *entity.Project, userAcc string) error {
 }
 
 func (dao *ProjectDao) Delete(pid, userAcc string) error {
-	data, err := dao.Get(pid, userAcc)
+	data, err := dao.Get(pid, userAcc, false)
 	if err != nil {
 		log.Error(err)
 		return err
@@ -192,7 +192,7 @@ func (dao *ProjectDao) Delete(pid, userAcc string) error {
 func (dao *ProjectDao) GetUserList(pid, userAcc string) ([]string, error) {
 	resp := make([]string, 0)
 
-	data, err := dao.Get(pid, userAcc)
+	data, err := dao.Get(pid, userAcc, false)
 	if err != nil {
 		log.Error(err)
 		return resp, err
@@ -208,7 +208,7 @@ func (dao *ProjectDao) GetUserList(pid, userAcc string) ([]string, error) {
 }
 
 func (dao *ProjectDao) AddUser(pid, userAcc, addAcc string) error {
-	data, err := dao.Get(pid, userAcc)
+	data, err := dao.Get(pid, userAcc, false)
 	if err != nil {
 		log.Error(err)
 		return err
@@ -232,7 +232,7 @@ func (dao *ProjectDao) AddUser(pid, userAcc, addAcc string) error {
 }
 
 func (dao *ProjectDao) DelUser(pid, userAcc, delAcc string) error {
-	data, err := dao.Get(pid, userAcc)
+	data, err := dao.Get(pid, userAcc, false)
 	if err != nil {
 		log.Error(err)
 		return err

@@ -79,7 +79,7 @@ func DocumentDirCreate(c *gin.Context) {
 		return
 	}
 
-	_, err = dao.NewProjectDao().Get(param.PId, userAcc)
+	_, err = dao.NewProjectDao().Get(param.PId, userAcc, false)
 	if err != nil {
 		ctx.APIOutPutError(err, err.Error())
 		return
@@ -111,7 +111,7 @@ func DocumentDirDelete(c *gin.Context) {
 		return
 	}
 
-	_, err := dao.NewProjectDao().Get(param.PId, userAcc)
+	_, err := dao.NewProjectDao().Get(param.PId, userAcc, false)
 	if err != nil {
 		ctx.APIOutPutError(err, err.Error())
 		return
@@ -144,7 +144,7 @@ func DocumentDirModify(c *gin.Context) {
 		return
 	}
 
-	_, err = dao.NewProjectDao().Get(param.PId, userAcc)
+	_, err = dao.NewProjectDao().Get(param.PId, userAcc, false)
 	if err != nil {
 		ctx.APIOutPutError(err, err.Error())
 		return
@@ -179,7 +179,7 @@ func DocumentList(c *gin.Context) {
 		return
 	}
 
-	_, err = dao.NewProjectDao().Get(param.PId, userAcc)
+	_, err = dao.NewProjectDao().Get(param.PId, userAcc, false)
 	if err != nil {
 		ctx.APIOutPutError(err, err.Error())
 		return
@@ -213,7 +213,7 @@ func DocumentCreate(c *gin.Context) {
 		return
 	}
 
-	_, err = dao.NewProjectDao().Get(param.ProjectId, userAcc)
+	_, err = dao.NewProjectDao().Get(param.ProjectId, userAcc, false)
 	if err != nil {
 		log.Error("获取项目权限失败， err: ", err)
 		ctx.APIOutPutError(err, err.Error())
@@ -272,7 +272,7 @@ func DocumentItem(c *gin.Context) {
 		return
 	}
 
-	_, err = dao.NewProjectDao().Get(param.PId, userAcc)
+	_, err = dao.NewProjectDao().Get(param.PId, userAcc, false)
 	if err != nil {
 		log.Error(err)
 		ctx.APIOutPutError(err, err.Error())
@@ -338,7 +338,7 @@ func DocumentModify(c *gin.Context) {
 		return
 	}
 
-	_, err = dao.NewProjectDao().Get(param.ProjectId, userAcc)
+	_, err = dao.NewProjectDao().Get(param.ProjectId, userAcc, false)
 	if err != nil {
 		ctx.APIOutPutError(err, err.Error())
 		return
@@ -369,7 +369,7 @@ func DocumentDelete(c *gin.Context) {
 		return
 	}
 
-	_, err = dao.NewProjectDao().Get(param.PId, userAcc)
+	_, err = dao.NewProjectDao().Get(param.PId, userAcc, false)
 	if err != nil {
 		ctx.APIOutPutError(err, err.Error())
 		return
@@ -400,7 +400,7 @@ func DocumentChangeDir(c *gin.Context) {
 		return
 	}
 
-	_, err = dao.NewProjectDao().Get(param.PId, userAcc)
+	_, err = dao.NewProjectDao().Get(param.PId, userAcc, false)
 	if err != nil {
 		ctx.APIOutPutError(err, err.Error())
 		return
