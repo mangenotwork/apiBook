@@ -1,6 +1,7 @@
 package define
 
 import (
+	"apiBook/common/utils"
 	"fmt"
 	"time"
 )
@@ -53,4 +54,17 @@ func GetDirDefault(pid string) string {
 
 func GetDirRecycleBinKey(pid string) string {
 	return fmt.Sprintf(DirRecycleBinKey, pid)
+}
+
+const (
+	DirNameDefault    = "默认"
+	DirNameRecycleBin = "回收站"
+)
+
+const (
+	OperationLogCreateDoc = "创建接口文档"
+)
+
+func GetSnapshotId() string {
+	return fmt.Sprintf("%d%s", time.Now().Unix(), utils.NewShortCode())
 }

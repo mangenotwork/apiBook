@@ -43,10 +43,6 @@ func ProjectCard(pid, name, description string, isOperation int, private define.
 		privateSpan = `<span class="badge text-bg-info">公有</span>`
 	}
 
-	//if private == define.ProjectPrivate && isOperation == 1 {
-	//	teamWorker = `<a onclick="teamWorkerProject('` + pid + `')" class="card-link">协作者</a>`
-	//}
-
 	htmlTemplate := `<div class="card mb-3 project box">
             <div class="card-body">
                 <h5 class="card-title t1">` + name + `</h5>
@@ -70,6 +66,34 @@ func MethodSelect(id string) template.HTML {
                         <option value="OPTIONS">OPTIONS</option>
                         <option value="DELETE">DELETE</option>
                      </select>`
+
+	return template.HTML(htmlTemplate)
+}
+
+func DocNav() template.HTML {
+	htmlTemplate := `<nav aria-label="breadcrumb" id="docNav" style="display: none">
+                              <ol class="breadcrumb">
+                                  <li class="breadcrumb-item" id="returnLink"> <a href="javascript:void(0);" onclick="window.location.reload();">返回文档</a></li>
+                                  <li class="breadcrumb-item active" aria-current="page" id="docNavSnapshot"></li>
+                              </ol>
+                          </nav>`
+
+	return template.HTML(htmlTemplate)
+}
+
+func ToastTemplate() template.HTML {
+	htmlTemplate := `<div class="toast-container position-fixed p-3 top-50 start-50 translate-middle">
+    <div id="liveToast" class="toast" role="alert" aria-live="assertive" aria-atomic="true">
+        <div class="toast-header">
+            <strong class="me-auto">提示</strong>
+            <small></small>
+            <button type="button" class="btn-close" data-bs-dismiss="toast" aria-label="Close"></button>
+        </div>
+        <div class="toast-body">
+            <span id="liveToastMsg"></span>
+        </div>
+    </div>
+</div>`
 
 	return template.HTML(htmlTemplate)
 }

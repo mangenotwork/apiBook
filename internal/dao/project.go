@@ -6,7 +6,6 @@ import (
 	"apiBook/common/utils"
 	"apiBook/internal/define"
 	"apiBook/internal/entity"
-	"fmt"
 	"sort"
 )
 
@@ -18,7 +17,7 @@ func NewProjectDao() *ProjectDao {
 }
 
 func (dao *ProjectDao) HasName(name string) bool {
-	var result int = 0
+	var result = 0
 	_ = db.DB.Get(db.GetProjectNameTable(), name, &result)
 	if result > 0 {
 		return true
@@ -29,7 +28,7 @@ func (dao *ProjectDao) HasName(name string) bool {
 func (dao *ProjectDao) Create(data *entity.Project, userAcc string) error {
 
 	if dao.HasName(data.Name) {
-		return fmt.Errorf("项目名已存在")
+		return define.ProjectExistErr
 	}
 
 	if data.Private == define.ProjectPrivate {
@@ -100,10 +99,10 @@ func (dao *ProjectDao) Get(pid, userAcc string, isShare bool) (*entity.Project, 
 	}
 
 	if projectData.Private == define.ProjectPrivate && !isShare {
-		var has int = 0
+		var has = 0
 		_ = db.DB.Get(db.GetUserPrivateProjectTable(userAcc), pid, &has)
 		if has == 0 {
-			return projectData, fmt.Errorf("没有权限")
+			return projectData, define.NoPermission
 		}
 	}
 
@@ -118,7 +117,7 @@ func (dao *ProjectDao) Modify(newData *entity.Project, userAcc string) error {
 	}
 
 	if oldData.CreateUserAcc != userAcc {
-		return fmt.Errorf("您不是项目创建者，无权修改")
+		return define.NoPermission
 	}
 
 	oldData.Name = newData.Name
@@ -165,7 +164,7 @@ func (dao *ProjectDao) Delete(pid, userAcc string) error {
 	}
 
 	if data.CreateUserAcc != userAcc {
-		return fmt.Errorf("您不是项目创建者，无权修改")
+		return define.NoPermission
 	}
 
 	if data.Private == define.ProjectPrivate {
@@ -215,7 +214,7 @@ func (dao *ProjectDao) AddUser(pid, userAcc, addAcc string) error {
 	}
 
 	if data.Private == define.ProjectPublic {
-		return fmt.Errorf("公有项目无需添加协助者")
+		return define.ProjectPublicNotAddUser
 	}
 
 	err = db.DB.Set(db.GetUserPrivateProjectTable(addAcc), data.ProjectId, 1)
@@ -239,7 +238,7 @@ func (dao *ProjectDao) DelUser(pid, userAcc, delAcc string) error {
 	}
 
 	if data.CreateUserAcc == delAcc {
-		return fmt.Errorf("不能移除项目创建者")
+		return define.NotDelProjectOwner
 	}
 
 	err = db.DB.Delete(db.GetUserPrivateProjectTable(delAcc), data.ProjectId)

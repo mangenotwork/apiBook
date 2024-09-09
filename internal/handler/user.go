@@ -59,6 +59,7 @@ func SetAdmin(ctx *gin.Context) {
 		"err":       "管理员已经存在",
 		"returnUrl": "/",
 	})
+
 	return
 }
 
@@ -78,7 +79,6 @@ func setToken(ctx *gin.Context, userAcc string) {
 }
 
 func Login(ctx *gin.Context) {
-
 	account := ctx.PostForm("account")
 	password := ctx.PostForm("password")
 
@@ -221,9 +221,7 @@ func UserList(c *gin.Context) {
 }
 
 func GetUserList() []*UserInfo {
-
 	list := dao.NewUserDao().GetAllUser()
-
 	resp := make([]*UserInfo, 0)
 
 	for _, v := range list {
@@ -234,5 +232,6 @@ func GetUserList() []*UserInfo {
 			IsDisable:  v.IsDisable,
 		})
 	}
+
 	return resp
 }

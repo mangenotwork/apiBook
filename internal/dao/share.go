@@ -42,6 +42,7 @@ func (dao *ShareDao) GetShareProjectList(pid string) ([]*entity.Share, error) {
 	}
 
 	for _, v := range allKey {
+
 		item, err := dao.GetInfo(v)
 		if err != nil {
 			log.Error(err)
@@ -56,12 +57,14 @@ func (dao *ShareDao) GetShareProjectList(pid string) ([]*entity.Share, error) {
 
 func (dao *ShareDao) GetShareDocumentList(docId string) ([]*entity.Share, error) {
 	result := make([]*entity.Share, 0)
+
 	allKey, err := db.DB.AllKey(db.GetShareDocumentTable(docId))
 	if err != nil {
 		return result, err
 	}
 
 	for _, v := range allKey {
+
 		item, err := dao.GetInfo(v)
 		if err != nil {
 			log.Error(err)
@@ -75,10 +78,12 @@ func (dao *ShareDao) GetShareDocumentList(docId string) ([]*entity.Share, error)
 
 func (dao *ShareDao) GetInfo(key string) (*entity.Share, error) {
 	result := &entity.Share{}
+
 	err := db.DB.Get(db.GetShareDataTable(), key, &result)
 	if err != nil {
 		return result, err
 	}
+
 	return result, nil
 }
 

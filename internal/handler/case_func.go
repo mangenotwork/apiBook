@@ -6,7 +6,7 @@ import (
 	"apiBook/common/log"
 	"apiBook/common/utils"
 	"github.com/gin-gonic/gin"
-	"io/ioutil"
+	"io"
 	"regexp"
 	"strings"
 )
@@ -15,16 +15,7 @@ func CaseFuncGo(c *gin.Context) {
 
 	ctx := ginHelper.NewGinCtx(c)
 
-	//param := &CaseFuncGoReq{}
-	//err := ctx.GetPostArgs(&param)
-	//if err != nil {
-	//	ctx.APIOutPutError(fmt.Errorf("参数错误"), "参数错误")
-	//	return
-	//}
-	//
-	//log.Info("CaseFuncGoReq = ", param.Text)
-
-	body, err := ioutil.ReadAll(c.Request.Body)
+	body, err := io.ReadAll(c.Request.Body)
 	if err != nil {
 		log.Error(err)
 	}

@@ -3,7 +3,6 @@
 {{ template "header" . }}
 
 <div class="container-fluid" style="padding: 36px;">
-
     <div class="row">
         <div class="col-2"><button type="button" class="btn btn-outline-secondary" onclick="addProject()">创建项目 {{ SVG "plus-lg" 18 18 }} </button></div>
         <div class="input-group col-3" style="width: 360px;">
@@ -11,7 +10,6 @@
             <button class="btn btn-outline-secondary" type="button" id="button-addon2">搜索</button>
         </div>
     </div>
-
     <hr>
     <br>
     <div style="height: calc(100vh - 256px);overflow: auto;position: relative;">
@@ -19,17 +17,13 @@
             {{ ProjectCard .ProjectId .Name .Description .IsOperation .Private}}
         {{ end }}
     </div>
-
-    {{ template "toast" . }}
+    {{ ToastTemplate }}
     {{ template "ProjectModalAdd" . }}
-
 </div>
 
 </body>
 {{ template "pubjs" . }}
 <script>
-    $(document).ready(function(){
-
-    });
+    $(document).ready(function(){});
 </script>
 {{ template "end" . }}

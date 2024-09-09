@@ -43,38 +43,28 @@ function viewDocDel(pid, docId) {
     if (listStr !== null) {
         list = listStr.split(",")
     }
-    console.log(docId)
-    console.log(list)
     var newList = list.filter(function (value) {
         return value !== docId;
     });
-    console.log(newList)
     localStorage.setItem(viewDocKey(pid), newList.join(","))
 }
 
 async function copyContent (content) {
-    // 复制结果
     let copyResult = true
-    // 设置想要复制的文本内容
     const text = content || '复制内容为空哦~';
-    // 判断是否支持clipboard方式
     if (!!window.navigator.clipboard) {
-        // 利用clipboard将文本写入剪贴板（这是一个异步promise）
         await window.navigator.clipboard.writeText(text).then((res) => {
             console.log('复制成功');
         }).catch((err) => {
-            console.log('复制失败--采取第二种复制方案', err);
-            // clipboard方式复制失败 则采用document.execCommand()方式进行尝试
             copyResult =  copyContent2(text)
         })
     } else {
-        // 不支持clipboard方式 则采用document.execCommand()方式
         copyResult =  copyContent2(text)
     }
-    // 返回复制操作的最终结果
     return copyResult;
 }
 
+// 拖拽
 ;(function( $ ){
     /**
      * Author: https://github.com/Barrior
@@ -344,8 +334,9 @@ function AjaxPostNotAsync(url, param, func) {
 function ToastShow(msg) {
     const toastLiveExample = $('#liveToast')
     const toast = new bootstrap.Toast(toastLiveExample)
-    $("#liveToastMsg").empty(msg);
-    $("#liveToastMsg").append(msg);
+    var liveToastMsg = $("#liveToastMsg");
+    liveToastMsg.empty(msg);
+    liveToastMsg.append(msg);
     toast.show()
 }
 
@@ -381,7 +372,6 @@ function ProjectCreate() {
         "private": Number($("#projectPrivate").val()),
     }
     AjaxPost(url, param, function (data){
-        console.log(data)
         ToastShow(data.msg);
         if (data.code === 0) {
             setTimeout(function() {
@@ -390,8 +380,6 @@ function ProjectCreate() {
         }
     })
 }
-
-
 
 function modifyProject(pid, name, private, description) {
     $('#addProjectModalLabel').empty();
@@ -407,15 +395,13 @@ function modifyProject(pid, name, private, description) {
 }
 
 function ProjectModify() {
-    const url = "/project/modify"
     var param = {
         "projectId": $('#modifyProjectId').val(),
         "name": $("#projectName").val(),
         "description": $("#projectDescription").val(),
         "private": Number($("#projectPrivate").val()),
     }
-    AjaxPost(url, param, function (data){
-        console.log(data)
+    AjaxPost("/project/modify", param, function (data){
         ToastShow(data.msg);
         if (data.code === 0) {
             setTimeout(function() {
@@ -430,7 +416,6 @@ function addUser() {
 }
 
 function UserCreate() {
-    const url = "/mange/create/user"
     var isAdmin = 0
     if ($("#isAdmin").is(":checked")) {
         isAdmin = 1
@@ -442,7 +427,7 @@ function UserCreate() {
         "password2": $("#password2").val(),
         "isAdmin": isAdmin,
     }
-    AjaxPost(url, param, function (data){
+    AjaxPost("/mange/create/user", param, function (data){
         console.log(data)
         ToastShow(data.msg);
         if (data.code === 0) {
@@ -459,14 +444,12 @@ function modifyUser(acc) {
 }
 
 function UserModify() {
-    const url = "/user/modify"
-
     var param = {
         "name": $("#userModifyName").val(),
         "account": $('#userModifyAcc').val(),
     }
 
-    AjaxPost(url, param, function (data){
+    AjaxPost("/user/modify", param, function (data){
         console.log(data)
         ToastShow(data.msg);
         if (data.code === 0) {
@@ -483,13 +466,12 @@ function resetPasswordUser(acc) {
 }
 
 function UserResetPassword() {
-    const url = "/user/reset/password"
     var param = {
         "password": $("#resetPassword").val(),
         "password2": $("#resetPassword2").val(),
         "account": $('#userResetPasswordAcc').val(),
     }
-    AjaxPost(url, param, function (data){
+    AjaxPost("/user/reset/password", param, function (data){
         console.log(data)
         ToastShow(data.msg);
         if (data.code === 0) {
@@ -536,17 +518,14 @@ function deleteUser(acc) {
 
 function teamWorkerProjectAdd(pid) {
     var select = $('#userList')
-    console.log(select.val())
     if (select.val() === null) {
         return
     }
-    const url = "/project/adduser"
     var param = {
         "pid": pid,
         "accounts": select.val().join(","),
     }
-    AjaxPost(url, param, function (data){
-        console.log(data)
+    AjaxPost("/project/adduser", param, function (data){
         if (data.code === 1) {
             ToastShow(data.msg);
         } else {
@@ -554,24 +533,20 @@ function teamWorkerProjectAdd(pid) {
         }
 
     })
-
 }
 
 function teamWorkerProjectDel(account, pid) {
-    const url = "/project/deluser"
     var param = {
         "pid": pid,
         "account": account,
     }
-    AjaxPost(url, param, function (data){
-        console.log(data)
+    AjaxPost("/project/deluser", param, function (data){
         if (data.code === 1) {
             ToastShow(data.msg);
         } else {
             location.reload();
         }
     })
-
 }
 
 function delProjectOpen() {
@@ -583,12 +558,11 @@ function delProject(name, id) {
         ToastShow("项目名字错误");
         return
     }
-    const url = "/project/delete"
     var param = {
         "projectId": id,
         "name": name,
     }
-    AjaxPost(url, param, function (data){
+    AjaxPost("/project/delete", param, function (data){
         console.log(data)
         ToastShow(data.msg);
         if (data.code === 0) {

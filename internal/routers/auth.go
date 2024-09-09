@@ -13,11 +13,11 @@ import (
 // AuthPG 权限验证中间件
 func AuthPG() gin.HandlerFunc {
 	return func(c *gin.Context) {
-
 		token, _ := c.Cookie(define.UserToken)
 
 		j := utils.NewJWT(conf.Conf.Default.Jwt.Secret, conf.Conf.Default.Jwt.Expire)
 		if err := j.ParseToken(token); err == nil {
+
 			acc := j.GetString("userAcc")
 			c.Set("userAcc", acc)
 
@@ -30,7 +30,6 @@ func AuthPG() gin.HandlerFunc {
 			}
 
 			c.Set("userName", data.Name)
-
 			c.Next()
 			return
 		}
@@ -58,6 +57,5 @@ func AuthAPI() gin.HandlerFunc {
 		ginHelper.AuthErrorOut(c)
 		c.Abort()
 		return
-
 	}
 }

@@ -3,11 +3,9 @@ package dao
 import (
 	"apiBook/common/db"
 	"apiBook/common/log"
-	"apiBook/common/utils"
 	"apiBook/internal/define"
 	"apiBook/internal/entity"
 	"encoding/json"
-	"fmt"
 	"time"
 )
 
@@ -19,19 +17,17 @@ func NewDocDao() *DocDao {
 }
 
 func (dao *DocDao) Create(data *entity.Document, content *entity.DocumentContent) error {
-	log.Info(db.GetDocumentTable(data.ProjectId), data.DocId)
 	err := db.DB.Set(db.GetDocumentTable(data.ProjectId), data.DocId, data)
 	if err != nil {
 		return err
 	}
 
-	log.Info(db.GetDocumentContentTable(content.ProjectId), content.DocId)
 	err = db.DB.Set(db.GetDocumentContentTable(content.ProjectId), content.DocId, content)
 	if err != nil {
 		return err
 	}
 
-	err = dao.AddDocumentSnapshot(content, content.UserAcc, "创建接口文档")
+	err = dao.AddDocumentSnapshot(content, content.UserAcc, define.OperationLogCreateDoc)
 	if err != nil {
 		return err
 	}
@@ -72,7 +68,6 @@ func (dao *DocDao) GetDocListByIds(pid string, list []string) []*entity.Document
 	result := make([]*entity.Document, 0)
 
 	for _, v := range list {
-		log.Info(pid, v)
 		data, err := dao.GetDocument(pid, v)
 		if err != nil {
 			log.Error(err)
@@ -129,7 +124,7 @@ func (dao *DocDao) Modify(content *entity.DocumentContent, userAcc string) error
 	}
 
 	content.UserAcc = userAcc
-	err = dao.AddDocumentSnapshot(content, userAcc, "修改接口文档")
+	err = dao.AddDocumentSnapshot(content, userAcc, define.OperationLogCreateDoc)
 	if err != nil {
 		return err
 	}
@@ -188,7 +183,7 @@ func (dao *DocDao) ChangeDir(pid, dirId, dirIdNew, docId string) error {
 }
 
 func (dao *DocDao) AddDocumentSnapshot(content *entity.DocumentContent, userAcc, logStr string) error {
-	snapshotId := fmt.Sprintf("%d%s", time.Now().Unix(), utils.NewShortCode())
+	snapshotId := define.GetSnapshotId()
 
 	data := &entity.DocumentSnapshot{
 		SnapshotIdId:    snapshotId,
@@ -213,7 +208,6 @@ func (dao *DocDao) GetDocumentSnapshotList(docId string) ([]*entity.DocumentSnap
 	err := db.DB.GetAll(db.GetDocumentSnapshotTable(docId), func(k, v []byte) {
 		item := &entity.DocumentSnapshot{}
 		err := json.Unmarshal(v, &item)
-
 		if err != nil {
 			log.Error(err)
 		} else {

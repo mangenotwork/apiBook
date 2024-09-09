@@ -14,18 +14,15 @@ import (
 func ProjectList(c *gin.Context) {
 	ctx := ginHelper.NewGinCtx(c)
 	userAcc := ctx.GetString("userAcc")
-	log.Info(userAcc)
-
 	resp := dao.NewProjectDao().GetList(userAcc)
 	ctx.APIOutPut(resp, "")
+	return
 }
 
 func ProjectItem(c *gin.Context) {
 	ctx := ginHelper.NewGinCtx(c)
 	pid := ctx.Query("pid")
-	log.Info("pid = ", pid)
 	userAcc := ctx.GetString("userAcc")
-	log.Info(userAcc)
 
 	resp, err := dao.NewProjectDao().Get(pid, userAcc, false)
 	if err != nil {
@@ -33,9 +30,8 @@ func ProjectItem(c *gin.Context) {
 		return
 	}
 
-	// todo 私有化项目获取协作者信息
-
 	ctx.APIOutPut(resp, "")
+	return
 }
 
 func ProjectCreate(c *gin.Context) {
@@ -125,41 +121,41 @@ func ProjectDelete(c *gin.Context) {
 }
 
 func ProjectUsers(c *gin.Context) {
-	//ctx := ginHelper.NewGinCtx(c)
-	//pid := ctx.Query("pid")
-	//log.Info("pid = ", pid)
-	//
-	//userAcc := ctx.GetString("userAcc")
-	//if userAcc == "" {
-	//	ctx.AuthErrorOut()
-	//	return
-	//}
-	//
-	//userList, err := dao.NewProjectDao().GetUserList(pid, userAcc)
-	//if err != nil {
-	//	ctx.APIOutPutError(err, err.Error())
-	//	return
-	//}
-	//
-	//user, err := dao.NewUserDao().GetUsers(userList)
-	//if err != nil {
-	//	ctx.APIOutPutError(err, err.Error())
-	//	return
-	//}
-	//
-	//resp := &ProjectUsersResp{
-	//	List:      make([]*UserInfo, 0),
-	//	CreateAcc: createAcc,
-	//}
-	//
-	//for _, v := range user {
-	//	resp.List = append(resp.List, &UserInfo{
-	//		Name:    v.Name,
-	//		Account: v.Account,
-	//	})
-	//}
+	ctx := ginHelper.NewGinCtx(c)
+	pid := ctx.Query("pid")
+	log.Info("pid = ", pid)
 
-	//ctx.APIOutPut(resp, "")
+	userAcc := ctx.GetString("userAcc")
+	if userAcc == "" {
+		ctx.AuthErrorOut()
+		return
+	}
+
+	userList, err := dao.NewProjectDao().GetUserList(pid, userAcc)
+	if err != nil {
+		ctx.APIOutPutError(err, err.Error())
+		return
+	}
+
+	user, err := dao.NewUserDao().GetUsers(userList)
+	if err != nil {
+		ctx.APIOutPutError(err, err.Error())
+		return
+	}
+
+	resp := &ProjectUsersResp{
+		List:      make([]*UserInfo, 0),
+		CreateAcc: "",
+	}
+
+	for _, v := range user {
+		resp.List = append(resp.List, &UserInfo{
+			Name:    v.Name,
+			Account: v.Account,
+		})
+	}
+
+	ctx.APIOutPut(resp, "")
 	return
 }
 

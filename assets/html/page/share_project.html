@@ -18,14 +18,7 @@
                             </div>
 
                             <div data-bs-spy="scroll" id="docMain" data-bs-target="#simple-list-example" data-bs-offset="0" data-bs-smooth-scroll="true" class="scrollspy-example" style="margin-top: .5rem;overflow: auto; padding-left: 22px;" tabindex="0">
-
-                                <nav aria-label="breadcrumb" id="docNav" style="display: none">
-                                    <ol class="breadcrumb">
-                                        <li class="breadcrumb-item" id="returnLink"> <a href="javascript:void(0);" onclick="window.location.reload();">返回文档</a></li>
-                                        <li class="breadcrumb-item active" aria-current="page" id="docNavSnapshot">镜像:xxxxx</li>
-                                    </ol>
-                                </nav>
-
+                                {{ DocNav }}
                                 <div style="margin-bottom: 52px;margin-top: 16px;">
                                     <h4 class="with-vertical-bar" id="simple-list-item-1" style="margin-bottom: 16px;">基本信息</h4>
                                     <div class="card">
@@ -181,7 +174,7 @@
                 </div>
             </div>
 
-            {{ template "toast" . }}
+            {{ ToastTemplate }}
             {{ template "GlobalCodeModalView" . }}
             {{ template "GlobalHeaderModalView" . }}
 

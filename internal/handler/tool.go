@@ -11,7 +11,6 @@ import (
 )
 
 func ToolGoStructToField(c *gin.Context) {
-
 	ctx := ginHelper.NewGinCtx(c)
 
 	param := &ToolGoStructToFieldReq{}

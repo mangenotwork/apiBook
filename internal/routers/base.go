@@ -121,6 +121,8 @@ func FuncMap() {
 		"ProjectCard":    ProjectCard,
 		"Timestamp2Date": Timestamp2Date,
 		"MethodSelect":   MethodSelect,
+		"DocNav":         DocNav,
+		"ToastTemplate":  ToastTemplate,
 	})
 }
 

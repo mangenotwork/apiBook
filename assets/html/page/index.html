@@ -1,7 +1,6 @@
 {{ template "head" . }}
 <body>
 {{ template "header" . }}
-
 <div class="container-fluid">
     <div class="row">
     {{ template "api_dir" . }}
@@ -11,26 +10,14 @@
             <ul class="nav nav-tabs" id="docViewTable" style="width: 100%;height:54px;flex-direction: row;flex-wrap: nowrap;overflow-x: scroll;font-size: 11px;">
             </ul>
               <div id="doc" style="width: 100%; height: calc(100vh - 136px);background-color: #ffffff;overflow: auto;padding: 16px;position: relative;">
-
                 <div class="row">
-
                     <div class="col-10">
-
                         <div id="notDocMain" style="display: none;">
                             <button type="button" class="btn btn-dark btn-lg" onclick="newAPIDoc('')">创建文档</button>
                         </div>
-
-
                       <div data-bs-spy="scroll" id="docMain" data-bs-target="#simple-list-example" data-bs-offset="0" data-bs-smooth-scroll="true"
                            class="scrollspy-example" style="margin-top: .5rem;overflow: auto; padding-left: 22px;" tabindex="0">
-
-                          <nav aria-label="breadcrumb" id="docNav" style="display: none">
-                              <ol class="breadcrumb">
-                                  <li class="breadcrumb-item" id="returnLink"> <a href="javascript:void(0);" onclick="window.location.reload();">返回文档</a></li>
-                                  <li class="breadcrumb-item active" aria-current="page" id="docNavSnapshot">镜像:xxxxx</li>
-                              </ol>
-                          </nav>
-
+                          {{ DocNav }}
                           <div style="margin-bottom: 52px;margin-top: 16px;">
                             <h4 class="with-vertical-bar" id="simple-list-item-1" style="margin-bottom: 36px;">基本信息</h4>
                             <div class="card">
@@ -58,22 +45,22 @@
 
                         <div style="margin-bottom: 52px;">
                             <h4 class="with-vertical-bar" id="simple-list-item-2" style="margin-bottom: 36px;">接口说明</h4>
-
                             <div class="card">
                                 <div class="card-body" id="api-description"></div>
                             </div>
                         </div>
+
                         <div style="margin-bottom: 52px;">
                             <h4 class="with-vertical-bar" id="simple-list-item-3" style="margin-bottom: 36px;">请求Header</h4>
                             <table class="table table-bordered table-hover table-striped">
                                 <thead>
-                                <tr>
-                                    <th scope="col" class="docth" style="width: 20%;">字段</th>
-                                    <th scope="col" class="docth" style="width: 5%;">类型</th>
-                                    <th scope="col" class="docth" style="width: 5%;">必填</th>
-                                    <th scope="col" class="docth" style="width: 20%;">描述</th>
-                                    <th scope="col" class="docth" style="width: 20%;">示例</th>
-                                </tr>
+                                    <tr>
+                                        <th scope="col" class="docth" style="width: 20%;">字段</th>
+                                        <th scope="col" class="docth" style="width: 5%;">类型</th>
+                                        <th scope="col" class="docth" style="width: 5%;">必填</th>
+                                        <th scope="col" class="docth" style="width: 20%;">描述</th>
+                                        <th scope="col" class="docth" style="width: 20%;">示例</th>
+                                    </tr>
                                 </thead>
                                 <tbody id="api-reqHeader">
                                 </tbody>
@@ -189,7 +176,7 @@
               </div>
         </div>
 
-        {{ template "toast" . }}
+        {{ ToastTemplate }}
         {{ template "ProjectModalAdd" . }}
         {{ template "ApiDocAddModal" . }}
         {{ template "DocAddDirModal" . }}
@@ -303,14 +290,15 @@
     });
 
     function isShow(is) {
+        var docMain=$("#docMain"), docMainML=$("#docMainML"), notDocMain=$("#notDocMain");
         if (is) {
-            $("#docMain").show();
-            $("#docMainML").show();
-            $("#notDocMain").hide();
+            docMain.show();
+            docMainML.show();
+            notDocMain.hide();
         } else {
-            $("#docMain").hide();
-            $("#docMainML").hide();
-            $("#notDocMain").show();
+            docMain.hide();
+            docMainML.hide();
+            notDocMain.show();
         }
     }
 
@@ -722,8 +710,6 @@
         }
 
         if(submitType === 2) {
-            console.log("编辑文档提交")
-            console.log(param)
             AjaxPost("/document/modify", param, function (data){
                 ToastShow(data.msg);
                 if (data.code === 0) {
@@ -742,8 +728,6 @@
                 }
             });
         }
-
-
     }
 
     function jsonToBodyInfoItem(jsonObj, parentKey) {
@@ -818,7 +802,6 @@
 
     function jsonToBodyInfo() {
         var jsonInfo = editorAdd.get();
-        console.log(jsonInfo)
         jsonToBodyInfoItem(jsonInfo, "")
     }
 
@@ -954,7 +937,6 @@
     })
 
     function NowDoc(docId) {
-        // 获取文档
         var param = {
             "pid": projectId,
             "docId": docId,
@@ -1043,10 +1025,6 @@
     }
 
     function loadApiDoc(apiDoc, snapshotList) {
-
-        console.log(apiDoc)
-
-
         var docIdContent = $("#docIdContent")
         var apiName = $("#api-name")
         var apiMethod = $("#api-method")
@@ -1088,8 +1066,8 @@
 
         if ( apiDoc.reqHeader !== undefined ) {
             for(var i=0; i<apiDoc.reqHeader.length; i++) {
-                apiReqHeader.append(apiReqHeaderTpl(apiDoc.reqHeader[i].field, apiDoc.reqHeader[i].varType, apiDoc.reqHeader[i].isRequired,
-                    apiDoc.reqHeader[i].description, apiDoc.reqHeader[i].example))
+                var item = apiDoc.reqHeader[i];
+                apiReqHeader.append(apiReqHeaderTpl(item.field, item.varType, item.isRequired, item.description, item.example))
             }
         }
 
@@ -1097,18 +1075,20 @@
 
         if ( apiDoc.reqBodyInfo !== undefined ) {
             for (var i = 0; i < apiDoc.reqBodyInfo.length; i++) {
-                //console.log(apiDoc.reqBodyInfo[i])
-                zs["jsonpath:" + apiDoc.reqBodyInfo[i].field.replace(/\./g, ",")] = apiDoc.reqBodyInfo[i].description
-                apiReqBodyInfo.append(apiReqBodyInfoTpl(apiDoc.reqBodyInfo[i].field, apiDoc.reqBodyInfo[i].varType, apiDoc.reqBodyInfo[i].isRequired,
-                    apiDoc.reqBodyInfo[i].description, apiDoc.reqBodyInfo[i].example, i))
-                if (apiDoc.reqBodyInfo[i].example.length > 20) {
+                var item = apiDoc.reqBodyInfo[i];
+
+                zs["jsonpath:" + item.field.replace(/\./g, ",")] = item.description
+
+                apiReqBodyInfo.append(apiReqBodyInfoTpl(item.field, item.varType, item.isRequired, item.description, item.example, i))
+                if (item.example.length > 20) {
                     tippy('.reqExampleTxt' + i, {
                         content: apiDoc.reqBodyInfo[i].example
                     });
                 }
-                if (apiDoc.reqBodyInfo[i].description.length > 20) {
+
+                if (item.description.length > 20) {
                     tippy('.reqDescriptionTxt' + i, {
-                        content: apiDoc.reqBodyInfo[i].description
+                        content: item.description
                     });
                 }
             }
@@ -1135,18 +1115,14 @@
             apiRespType.append(apiDoc.resp[0].respType);
             if (apiDoc.resp[0].respBodyInfo != null) {
                 for(var i=0; i<apiDoc.resp[0].respBodyInfo.length; i++) {
-                    zsresp["jsonpath:"+apiDoc.resp[0].respBodyInfo[i].field.replace(/\./g, ",")] = apiDoc.resp[0].respBodyInfo[i].description
-                    apiRespBodyInfo.append(apiRespBodyInfoTpl(apiDoc.resp[0].respBodyInfo[i].field, apiDoc.resp[0].respBodyInfo[i].varType,
-                        apiDoc.resp[0].respBodyInfo[i].description, apiDoc.resp[0].respBodyInfo[i].example, i))
-                    if(apiDoc.resp[0].respBodyInfo[i].example.length > 20) {
-                        tippy('.respExampleTxt'+i, {
-                            content: apiDoc.resp[0].respBodyInfo[i].example
-                        });
+                    var item = apiDoc.resp[0].respBodyInfo[i];
+                    zsresp["jsonpath:"+item.field.replace(/\./g, ",")] = item.description
+                    apiRespBodyInfo.append(apiRespBodyInfoTpl(item.field, item.varType, item.description, item.example, i))
+                    if(item.example.length > 20) {
+                        tippy('.respExampleTxt'+i, { content: item.example });
                     }
-                    if(apiDoc.resp[0].respBodyInfo[i].description.length>20) {
-                        tippy('.respDescriptionTxt'+i, {
-                            content: apiDoc.resp[0].respBodyInfo[i].description
-                        });
+                    if(item.description.length>20) {
+                        tippy('.respDescriptionTxt'+i, { content: item.description });
                     }
                 }
             }
@@ -1172,12 +1148,12 @@
             snapshot.empty()
             if (snapshotList != null) {
                 for (var i=0; i< snapshotList.length; i++) {
-                    snapshot.append('<li class="list-group-item" style="font-size: 12px;">'+ snapshotList[i].userAcc+ ' - ' + snapshotList[i].createTimeStr+
-                        ' - ' + snapshotList[i].operation + ' | 镜像: <a type="button" class="btn btn-link" ' +
-                        'onclick="openSnapshot(\''+apiDoc.docId+'\',\''+snapshotList[i].snapshotId+'\')">' + snapshotList[i].snapshotId +'</a> </li>')
+                    var item = snapshotList[i];
+                    snapshot.append('<li class="list-group-item" style="font-size: 12px;">'+ item.userAcc+ ' - ' + item.createTimeStr+
+                        ' - ' + item.operation + ' | 镜像: <a type="button" class="btn btn-link" ' +
+                        'onclick="openSnapshot(\''+apiDoc.docId+'\',\''+item.snapshotId+'\')">' + item.snapshotId +'</a> </li>')
                 }
             }
-
         }
 
     }
@@ -1231,11 +1207,10 @@
     }
 
     function goToRespInfo() {
-        const url = "/tool/goStructToField"
         var param = {
             "text": $("#respGo textarea").val(),
         }
-        AjaxPost(url, param, function (data){
+        AjaxPost("/tool/goStructToField", param, function (data){
 
             delRespTpl();
 
@@ -1259,11 +1234,10 @@
     }
 
     function goToReqInfo() {
-        const url = "/tool/goStructToField"
         var param = {
             "text": $("#bodyGo textarea").val(),
         }
-        AjaxPost(url, param, function (data){
+        AjaxPost("/tool/goStructToField", param, function (data){
 
             delReqTpl();
 
@@ -1348,22 +1322,17 @@
     }
 
     function modifyDoc(docId) {
-        console.log(docId)
         $("#addDocDir").val(docId)
 
-        // 获取文档
         var param = {
             "pid": projectId,
             "docId": docId,
         }
         AjaxPostNotAsync("/document/item", param, function(data){
             if (data.code === 0 ) {
-
                 clearDocEditor(2)
 
-                console.log(data.data.content)
                 $("#operateDocId").val(data.data.content.docId)
-
                 var addDocName = $("#addDocName");
                 var addDocUrl = $("#addDocUrl");
                 var addDocMethod = $("#addDocMethod");
@@ -1469,7 +1438,6 @@
         modifyDoc(docId)
     }
 
-
     $(document).on('click', '.editDocButton', function (event){
         event.stopPropagation();
         var docId = $(this).parents("li").attr("id");
@@ -1483,16 +1451,11 @@
         }
         AjaxPostNotAsync("/document/snapshot/item", param, function(data){
             if (data.code === 0 ) {
-                console.log(data.data)
-
                 $("#docNavSnapshot").empty();
                 $("#docNavSnapshot").append("镜像:"+data.data.snapshotId);
                 $("#docNav").show();
-
                 loadApiDoc(data.data.documentContent, null)
-
                 $("#docMain").animate({scrollTop:0}, 500)
-
             }
         })
     }
@@ -1501,15 +1464,16 @@
         AjaxGetNotAsync("/project/code/list?pid="+projectId, function (data){
             console.log(data)
             if (data.code === 0) {
-                $("#globalCodeTable").empty();
-                $('#globalCodeTable').append(initGlobalCodeTpl());
+                var globalCodeTable = $("#globalCodeTable");
+                globalCodeTable.empty();
+                globalCodeTable.append(initGlobalCodeTpl());
 
                 for(var i=0; i<data.data.length; i++) {
                     if (i===0) {
                         $(".globalCodeKey").first().val(data.data[0].field);
                         $(".globalCodeDescription").first().val(data.data[0].description);
                     } else {
-                        $("#globalCodeTable").append(addGlobalCodeTpl(data.data[i].field, data.data[i].description));
+                        globalCodeTable.append(addGlobalCodeTpl(data.data[i].field, data.data[i].description));
                     }
                 }
 
@@ -1517,17 +1481,15 @@
             }else {
                 ToastShow(data.msg);
             }
-
         });
-
     }
 
     function openGlobalHeaderModal() {
         AjaxGetNotAsync("/project/header/list?pid="+projectId, function (data){
-            console.log(data)
             if (data.code === 0) {
-                $("#globalHeaderTable").empty();
-                $('#globalHeaderTable').append(initGlobalHeaderAddTpl());
+                var globalHeaderTable = $("#globalHeaderTable")
+                globalHeaderTable.empty();
+                globalHeaderTable.append(initGlobalHeaderAddTpl());
 
                 for(var i=0; i<data.data.length; i++) {
                     if (i===0) {
@@ -1537,7 +1499,7 @@
                         $(".globalHeaderVarType").first().val(data.data[0].varType);
                         $(".globalHeaderExample").first().val(data.data[0].example);
                     } else {
-                        $("#globalHeaderTable").append(addGlobalHeaderAddTpl(data.data[i].isRequired, data.data[i].field, data.data[i].description,
+                        globalHeaderTable.append(addGlobalHeaderAddTpl(data.data[i].isRequired, data.data[i].field, data.data[i].description,
                             data.data[i].varType, data.data[i].example));
                     }
                 }
@@ -1571,7 +1533,6 @@
     })
 
     function globalCodeSubmit() {
-
         var globalCodeKey = $('.globalCodeKey').map(function() {
             return $(this).val();
         }).get();
@@ -1596,11 +1557,9 @@
         AjaxPost("/project/code/add", param, function (data) {
             ToastShow(data.msg);
             if (data.code === 0 ) {
-                console.log(data.data)
                 $('#globalCodeModal').modal('hide');
             }
         });
-
     }
 
     function globalHeaderSubmit() {
@@ -1640,11 +1599,9 @@
         AjaxPost("/project/header/add", param, function (data) {
             ToastShow(data.msg);
             if (data.code === 0 ) {
-                console.log(data.data)
                 $('#globalHeaderModal').modal('hide');
             }
         });
-
     }
 
     $(document).on('click', '.docShare', function (event){
@@ -1663,7 +1620,6 @@
     }
 
     function openShare(sType, docId) {
-
         var shareModalLabel = $("#shareModalLabel")
         shareModalLabel.empty()
 
@@ -1691,7 +1647,6 @@
     }
 
     function shareListLoad(sType, docId) {
-
         switch (sType) {
             case 1:
                 AjaxGetNotAsync("/share/info/project?pid="+projectId, function (data) {
@@ -1818,7 +1773,6 @@
     }
 
     function createShare(shareType, shareId) {
-
         var isPassword = 0;
         var passwordCode = $("#shareIsPassword2").text();
         if (passwordCode !== "") {

@@ -34,10 +34,7 @@ func NotFond(ctx *gin.Context) {
 
 func Index(ctx *gin.Context) {
 	userAcc := ctx.GetString("userAcc")
-
 	pid := ctx.Param("pid")
-
-	log.Info("pid = ", pid)
 
 	isAdmin := 0
 	if dao.NewUserDao().IsAdmin(userAcc) {
@@ -82,7 +79,6 @@ func Err(ctx *gin.Context) {
 }
 
 func LoginPage(ctx *gin.Context) {
-
 	token, _ := ctx.Cookie(define.UserToken)
 	if token != "" {
 		j := utils.NewJWT(conf.Conf.Default.Jwt.Secret, conf.Conf.Default.Jwt.Expire)
@@ -165,8 +161,7 @@ func Home(ctx *gin.Context) {
 }
 
 func FormSetCSRF(r *http.Request) template.HTML {
-	fragment := fmt.Sprintf(`<input type="hidden" name="%s" value="%s">`,
-		define.CsrfName, csrf.Token(r))
+	fragment := fmt.Sprintf(`<input type="hidden" name="%s" value="%s">`, define.CsrfName, csrf.Token(r))
 	return template.HTML(fragment)
 }
 

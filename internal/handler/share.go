@@ -118,9 +118,11 @@ func ShareDocumentDirList(c *gin.Context) {
 			},
 			Doc: make([]*DocRespItem, 0),
 		}
+
 		dirDocList, err := dao.NewDirDao().GetDocList(v.DirId)
 		if err == nil {
 			docList := dao.NewDocDao().GetDocList(pid, dirDocList)
+
 			for _, docItem := range docList {
 				item.Doc = append(item.Doc, &DocRespItem{
 					DocId:  docItem.DocId,
@@ -128,7 +130,9 @@ func ShareDocumentDirList(c *gin.Context) {
 					Title:  docItem.Name,
 				})
 			}
+
 		}
+
 		resp = append(resp, item)
 	}
 
@@ -169,9 +173,7 @@ func ShareDocumentDocList(c *gin.Context) {
 
 func ShareDocumentItem(c *gin.Context) {
 	ctx := ginHelper.NewGinCtx(c)
-
 	hashKey := ctx.Query("hashKey")
-	log.Info(hashKey)
 
 	_, err := dao.NewShareDao().GetInfo(hashKey)
 	if err != nil {
@@ -240,9 +242,7 @@ func ShareDocumentItem(c *gin.Context) {
 
 func ShareProjectCodeGet(c *gin.Context) {
 	ctx := ginHelper.NewGinCtx(c)
-
 	hashKey := ctx.Query("hashKey")
-	log.Info(hashKey)
 
 	shareInfo, err := dao.NewShareDao().GetInfo(hashKey)
 	if err != nil {
@@ -252,7 +252,6 @@ func ShareProjectCodeGet(c *gin.Context) {
 	}
 
 	pid := shareInfo.ProjectId
-	log.Info(pid)
 
 	codeList, err := dao.NewProjectDao().GetGlobalCode(pid)
 	if err != nil {
@@ -266,9 +265,7 @@ func ShareProjectCodeGet(c *gin.Context) {
 
 func ShareProjectHeaderGet(c *gin.Context) {
 	ctx := ginHelper.NewGinCtx(c)
-
 	hashKey := ctx.Query("hashKey")
-	log.Info(hashKey)
 
 	shareInfo, err := dao.NewShareDao().GetInfo(hashKey)
 	if err != nil {
@@ -291,9 +288,7 @@ func ShareProjectHeaderGet(c *gin.Context) {
 
 func ShareDocumentSnapshotItem(c *gin.Context) {
 	ctx := ginHelper.NewGinCtx(c)
-
 	hashKey := ctx.Query("hashKey")
-	log.Info(hashKey)
 
 	_, err := dao.NewShareDao().GetInfo(hashKey)
 	if err != nil {
@@ -321,10 +316,7 @@ func ShareDocumentSnapshotItem(c *gin.Context) {
 }
 
 func ShareVerify(ctx *gin.Context) {
-
 	hashKey := ctx.Param("hashKey")
-	log.Info(hashKey)
-
 	password := ctx.PostForm("password")
 
 	shareInfo, err := dao.NewShareDao().GetInfo(hashKey)

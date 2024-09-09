@@ -7,7 +7,6 @@ import (
 	"apiBook/internal/entity"
 	"encoding/json"
 	"errors"
-	"fmt"
 )
 
 type DirDao struct {
@@ -25,6 +24,7 @@ func (dao *DirDao) Get(pid, dirId string) (*entity.DocumentDir, error) {
 
 func (dao *DirDao) GetAll(pid string) ([]*entity.DocumentDir, error) {
 	list := make([]*entity.DocumentDir, 0)
+
 	err := db.DB.GetAll(db.GetDocumentDirTable(pid), func(k, v []byte) {
 		data := &entity.DocumentDir{}
 		err := json.Unmarshal(v, &data)
@@ -35,6 +35,7 @@ func (dao *DirDao) GetAll(pid string) ([]*entity.DocumentDir, error) {
 			list = append(list, data)
 		}
 	})
+
 	if err != nil {
 		return list, err
 	}
@@ -51,6 +52,7 @@ func (dao *DirDao) GetDirNum(pid string) int {
 	if err != nil {
 		return 0
 	}
+
 	return len(list)
 }
 
@@ -73,13 +75,13 @@ func (dao *DirDao) HasName(pid, name string) (bool, error) {
 func (dao *DirDao) CreateInit(pid string) error {
 	dirDef := &entity.DocumentDir{
 		DirId:   define.GetDirDefault(pid),
-		DirName: "默认",
+		DirName: define.DirNameDefault,
 		Sort:    1,
 	}
 
 	dirRecycleBin := &entity.DocumentDir{
 		DirId:   define.GetDirRecycleBinKey(pid),
-		DirName: "回收站",
+		DirName: define.DirNameRecycleBin,
 		Sort:    2,
 	}
 
@@ -110,11 +112,10 @@ func (dao *DirDao) Create(pid string, data *entity.DocumentDir) error {
 		return nil
 	}
 
-	return fmt.Errorf("目录名已存在")
+	return define.DirNameExistErr
 }
 
 func (dao *DirDao) Delete(pid, dirId string) error {
-	// 将dir 下的doc 移动到 默认
 	docIdList, err := db.DB.AllKey(db.GetDocumentDirItemTable(dirId))
 	if err != nil {
 		return err
@@ -126,7 +127,6 @@ func (dao *DirDao) Delete(pid, dirId string) error {
 	}
 
 	for _, v := range docIdList {
-		// todo 待写入data
 		_ = db.DB.Set(db.GetDocumentDirItemTable(define.GetDirDefault(pid)), v, 1)
 	}
 
@@ -155,7 +155,7 @@ func (dao *DirDao) Modify(pid, dirId, dirName string) error {
 		return nil
 	}
 
-	return fmt.Errorf("目录名已存在")
+	return define.DirNameExistErr
 }
 
 func (dao *DirDao) GetDoc(dirId, docId string) (*entity.DocumentDirItem, error) {
@@ -166,6 +166,7 @@ func (dao *DirDao) GetDoc(dirId, docId string) (*entity.DocumentDirItem, error) 
 
 func (dao *DirDao) GetDocList(dirId string) ([]*entity.DocumentDirItem, error) {
 	result := make([]*entity.DocumentDirItem, 0)
+
 	err := db.DB.GetAll(db.GetDocumentDirItemTable(dirId), func(k, v []byte) {
 		item := &entity.DocumentDirItem{}
 		err := json.Unmarshal(v, &item)
@@ -175,7 +176,9 @@ func (dao *DirDao) GetDocList(dirId string) ([]*entity.DocumentDirItem, error) {
 		} else {
 			result = append(result, item)
 		}
+
 	})
+
 	if err != nil {
 		return result, err
 	}
