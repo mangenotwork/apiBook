@@ -87,7 +87,7 @@ func ProjectModify(c *gin.Context) {
 
 	err = dao.NewProjectDao().Modify(param, userAcc)
 	if err != nil {
-		ctx.APIOutPutError(err, "修改失败")
+		ctx.APIOutPutError(err, err.Error())
 		return
 	}
 

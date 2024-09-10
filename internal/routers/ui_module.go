@@ -49,7 +49,7 @@ func ProjectCard(pid, name, description string, isOperation int, private define.
                 <div class="plabel">` + privateSpan + `</div>
                 <p class="card-text t2">` + description + `</p>
                 ` + edit + `
-                <a href="#" class="card-link">分享</a>
+                <a href="#" class="card-link" onclick="openDocShare('` + pid + `')">分享</a>
 				<a href="/index/` + pid + `" class="card-link">打开文档</a>
             </div>
         </div>`

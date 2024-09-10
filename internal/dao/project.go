@@ -25,6 +25,28 @@ func (dao *ProjectDao) HasName(name string) bool {
 	return false
 }
 
+func (dao *ProjectDao) RefreshName(oldName, newName string) error {
+	err := dao.DeleteName(oldName)
+	if err != nil {
+		return err
+	}
+
+	err = db.DB.Set(db.GetProjectNameTable(), newName, 1)
+	if err != nil {
+		return err
+	}
+
+	return nil
+}
+
+func (dao *ProjectDao) DeleteName(name string) error {
+	err := db.DB.Delete(db.GetProjectNameTable(), name)
+	if err != nil {
+		return err
+	}
+	return nil
+}
+
 func (dao *ProjectDao) Create(data *entity.Project, userAcc string) error {
 
 	if dao.HasName(data.Name) {
@@ -110,6 +132,10 @@ func (dao *ProjectDao) Get(pid, userAcc string, isShare bool) (*entity.Project, 
 }
 
 func (dao *ProjectDao) Modify(newData *entity.Project, userAcc string) error {
+	if dao.HasName(newData.Name) {
+		return define.ProjectExistErr
+	}
+
 	oldData, err := dao.Get(newData.ProjectId, userAcc, false)
 	if err != nil {
 		log.Error(err)
@@ -118,6 +144,12 @@ func (dao *ProjectDao) Modify(newData *entity.Project, userAcc string) error {
 
 	if oldData.CreateUserAcc != userAcc {
 		return define.NoPermission
+	}
+
+	err = dao.RefreshName(oldData.Name, newData.Name)
+	if err != nil {
+		log.Error(err)
+		return err
 	}
 
 	oldData.Name = newData.Name
@@ -165,6 +197,12 @@ func (dao *ProjectDao) Delete(pid, userAcc string) error {
 
 	if data.CreateUserAcc != userAcc {
 		return define.NoPermission
+	}
+
+	err = dao.DeleteName(data.Name)
+	if err != nil {
+		log.Error(err)
+		return err
 	}
 
 	if data.Private == define.ProjectPrivate {
