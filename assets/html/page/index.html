@@ -18,20 +18,14 @@
                       <div data-bs-spy="scroll" id="docMain" data-bs-target="#simple-list-example" data-bs-offset="0" data-bs-smooth-scroll="true"
                            class="scrollspy-example" style="margin-top: .5rem;overflow: auto; padding-left: 22px;" tabindex="0">
                           {{ DocNav }}
-                          <div style="margin-bottom: 52px;margin-top: 16px;">
-                            <h4 class="with-vertical-bar" id="simple-list-item-1" style="margin-bottom: 36px;">基本信息</h4>
+                          <div class="mb52 mt16">
+                            <h4 class="with-vertical-bar mb36" id="simple-list-item-1">基本信息</h4>
                             <div class="card">
                                 <div class="card-body">
                                     <span id="docIdContent" style="display: none;"></span>
                                     <ul style="padding: 0;">
-                                        <li style="padding: 8px;"><span class="txt7">接口名:</span><span id="api-name" style="font-size: 21px;margin-left: 16px;"></span></li>
-                                        <li style="padding: 8px;"><span class="txt7">接口Url: </span>
-                                            <span style="font-size: 21px;margin-left: 16px;">
-                                                <span id="api-method"></span>
-                                                <span id="api-url"></span>
-                                            </span>
-                                        </li>
-                                        <li style="padding: 8px;"><span class="txt7">操作： </span><div class="btn-group" role="group" aria-label="Basic outlined example" style="margin-left: 16px;">
+                                        {{ DocMainBaseInfo }}
+                                        <li><span class="txt7">操作： </span><div class="btn-group" role="group" aria-label="Basic outlined example" style="margin-left: 16px;">
                                             <button type="button" class="btn btn-outline-dark" onclick="modifyDocContent()">编辑</button>
                                             <button type="button" class="btn btn-outline-dark">请求</button>
                                             <button type="button" class="btn btn-outline-dark" onclick="openDocShare()">分享</button>
@@ -43,15 +37,15 @@
                             </div>
                           </div>
 
-                        <div style="margin-bottom: 52px;">
+                        <div class="mb52">
                             <h4 class="with-vertical-bar" id="simple-list-item-2" style="margin-bottom: 36px;">接口说明</h4>
                             <div class="card">
                                 <div class="card-body" id="api-description"></div>
                             </div>
                         </div>
 
-                        <div style="margin-bottom: 52px;">
-                            <h4 class="with-vertical-bar" id="simple-list-item-3" style="margin-bottom: 36px;">请求Header</h4>
+                        <div class="mb52">
+                            <h4 class="with-vertical-bar mb36" id="simple-list-item-3">请求Header</h4>
                             <table class="table table-bordered table-hover table-striped">
                                 <thead>
                                     <tr>
@@ -67,30 +61,40 @@
                             </table>
                         </div>
 
-                        <div style="margin-bottom: 52px;">
-                            <h4 class="with-vertical-bar" id="simple-list-item-4" style="margin-bottom: 36px;">请求参数</h4>
-                            <p>请求数据类型: <span id="api-reqType">json</span></p>
-                            <p>示例:</p>
+                        <div class="mb52">
+                            <h4 class="with-vertical-bar mb36" id="simple-list-item-4">请求参数</h4>
+                            <p>
+                                <span class="txt7">请求数据类型: </span>
+                                <span id="api-reqType">json</span>
+                            </p>
+                            <p class="txt7">示例:</p>
                             <div id="jsoneditorDiv" style="display: none;">
-                                <button type="button" class="btn btn-dark closeReqZsText"
-                                        style="--bs-btn-padding-y: .25rem; --bs-btn-padding-x: .5rem; --bs-btn-font-size: .75rem;margin-top: 2px;" onclick="closeReqZsText()">
+                                <button type="button" class="btn btn-dark closeReqZsText toolBtn" onclick="closeReqZsText()">
                                     关闭注释
                                 </button>
-                                <button type="button" class="btn btn-dark openReqZsText"
-                                        style="--bs-btn-padding-y: .25rem; --bs-btn-padding-x: .5rem; --bs-btn-font-size: .75rem;margin-top: 2px; display: none;" onclick="openReqZsText()">
+                                <button type="button" class="btn btn-dark openReqZsText toolBtn" style="display: none;" onclick="openReqZsText()">
                                     开启注释
                                 </button>
-                                <button type="button" class="btn btn-dark"
-                                        style="--bs-btn-padding-y: .25rem; --bs-btn-padding-x: .5rem; --bs-btn-font-size: .75rem;margin-top: 2px;" onclick="copyReqJson()">
+                                <button type="button" class="btn btn-dark toolBtn" onclick="copyReqJson()">
                                     复制
                                 </button>
-                                <a type="button" class="btn btn-dark"
-                                        style="--bs-btn-padding-y: .25rem; --bs-btn-padding-x: .5rem; --bs-btn-font-size: .75rem;margin-top: 2px;" href="https://www.zhaozhongtian.top/code-json" target="_blank">
+                                <a type="button" class="btn btn-dark toolBtn" href="https://www.zhaozhongtian.top/code-json" target="_blank">
                                     在线json工具
                                 </a>
                                 <div id="jsoneditor" style="width: 100%;margin-bottom: 16px;margin-top: 8px;"></div>
                             </div>
-                            <p>参数说明:</p>
+
+                            <div id="reqXmlDiv" class="card" style="display: none; margin-bottom: 24px;">
+                                <div class="card-body">
+                                </div>
+                            </div>
+
+                            <div id="reqTxtDiv" class="card" style="display: none; margin-bottom: 24px;">
+                                <div class="card-body">
+                                </div>
+                            </div>
+
+                            <p class="txt7">参数说明:</p>
                               <table class="table table-bordered table-hover table-striped" style="table-layout:fixed;display:table;">
                                   <thead>
                                   <tr>
@@ -106,31 +110,40 @@
                               </table>
                         </div>
 
-                        <div style="margin-bottom: 52px;">
-                            <h4 class="with-vertical-bar" id="simple-list-item-5"  style="margin-bottom: 36px;">响应</h4>
-                            <p>请求数据类型: <span id="api-respType">json</span></p>
-                            <p>示例:</p>
+                        <div class="mb52">
+                            <h4 class="with-vertical-bar mb36" id="simple-list-item-5">响应</h4>
+                            <p>
+                                <span class="txt7">请求数据类型: </span>
+                                <span id="api-respType">json</span>
+                            </p>
+                            <p class="txt7">示例:</p>
                             <div id="jsoneditorRespDiv" style="display: none;">
-                                <button type="button" class="btn btn-dark closeRespZsText"
-                                        style="--bs-btn-padding-y: .25rem; --bs-btn-padding-x: .5rem; --bs-btn-font-size: .75rem;margin-top: 2px;" onclick="closeRespZsText()">
+                                <button type="button" class="btn btn-dark closeRespZsText toolBtn" onclick="closeRespZsText()">
                                     关闭注释
                                 </button>
-                                <button type="button" class="btn btn-dark openRespZsText"
-                                        style="--bs-btn-padding-y: .25rem; --bs-btn-padding-x: .5rem; --bs-btn-font-size: .75rem;margin-top: 2px; display: none;" onclick="openRespZsText()">
+                                <button type="button" class="btn btn-dark openRespZsText toolBtn" style="display: none;" onclick="openRespZsText()">
                                     开启注释
                                 </button>
-                                <button type="button" class="btn btn-dark"
-                                        style="--bs-btn-padding-y: .25rem; --bs-btn-padding-x: .5rem; --bs-btn-font-size: .75rem;margin-top: 2px;" onclick="copyRespJson()">
+                                <button type="button" class="btn btn-dark toolBtn" onclick="copyRespJson()">
                                     复制
                                 </button>
-                                <a type="button" class="btn btn-dark"
-                                   style="--bs-btn-padding-y: .25rem; --bs-btn-padding-x: .5rem; --bs-btn-font-size: .75rem;margin-top: 2px;" href="https://www.zhaozhongtian.top/code-json" target="_blank">
+                                <a type="button" class="btn btn-dark toolBtn" href="https://www.zhaozhongtian.top/code-json" target="_blank">
                                     在线json工具
                                 </a>
                                 <div id="jsoneditorResp" style="width: 100%;margin-bottom: 16px;margin-top: 8px;"></div>
                             </div>
 
-                            <p>参数说明:</p>
+                            <div id="respTxtDiv" class="card" style="display: none; margin-bottom: 24px;">
+                                <div class="card-body">
+                                </div>
+                            </div>
+
+                            <div id="respXmlDiv" class="card" style="display: none; margin-bottom: 24px;">
+                                <div class="card-body">
+                                </div>
+                            </div>
+
+                            <p class="txt7">参数说明:</p>
                             <table class="table table-bordered table-hover table-striped" style="table-layout:fixed;display:table;">
                                 <thead>
                                 <tr>
@@ -145,12 +158,12 @@
                             </table>
                         </div>
 
-                        <div style="margin-bottom: 52px;">
+                        <div class="mb52">
                             <h4 class="with-vertical-bar" id="simple-list-item-7">请求代码</h4>
                             todo....
                         </div>
 
-                        <div style="margin-bottom: 52px;">
+                        <div class="mb52">
                             <h4 class="with-vertical-bar" id="simple-list-item-6">日志&镜像</h4>
                             <ul class="list-group list-group-flush" id="snapshot">
                             </ul>
@@ -158,17 +171,7 @@
                       </div>
                     </div>
 
-                    <div class="col-2" id="docMainML">
-                        <div id="simple-list-example" class="d-flex flex-column gap-2 simple-list-example-scrollspy text-center">
-                          <a class="p-1 rounded" style="color: #1a1d20;text-decoration: none;" href="#simple-list-item-1">基本信息</a>
-                          <a class="p-1 rounded" style="color: #1a1d20;text-decoration: none;" href="#simple-list-item-2">接口说明</a>
-                          <a class="p-1 rounded" style="color: #1a1d20;text-decoration: none;" href="#simple-list-item-3">请求Header</a>
-                          <a class="p-1 rounded" style="color: #1a1d20;text-decoration: none;" href="#simple-list-item-4">请求Body</a>
-                          <a class="p-1 rounded" style="color: #1a1d20;text-decoration: none;" href="#simple-list-item-5">响应</a>
-                          <a class="p-1 rounded" style="color: #1a1d20;text-decoration: none;" href="#simple-list-item-7">请求代码</a>
-                          <a class="p-1 rounded" style="color: #1a1d20;text-decoration: none;" href="#simple-list-item-6">日志&镜像</a>
-                        </div>
-                    </div>
+                    {{ DocMainPoint }}
 
                   </div>
 
@@ -671,11 +674,13 @@
             respBody = JSON.stringify(editorAddResp.get())
         }
         if (respType === "xml") {
-            respBody = $("#respXml").val()
+            respBody = $("#respXml textarea").val()
         }
         if (respType === "text") {
-            respBody = $("#respText").val()
+            respBody = $("#respText textarea").val()
         }
+
+        console.log("respBody -> "+ respBody)
 
         var docId = "";
         if(submitType === 2) {
@@ -696,8 +701,8 @@
                 "reqHeader": reqHeader,      // 请求头 []*ReqHeaderItem
                 "reqType": reqType,                  // 请求类型
                 "reqBodyJson": JSON.stringify(editorAdd.get()),              // 请求参数 - json
-                "reqBodyText": $("#bodyText").val(),               // 请求参数 - text
-                "reqBodyXml": $("#bodyXml").val(),     // 请求参数 - xml
+                "reqBodyText": $("#bodyText textarea").val(),               // 请求参数 - text
+                "reqBodyXml": $("#bodyXml textarea").val(),     // 请求参数 - xml
                 "reqBodyInfo": reqBodyInfo,              // 请求参数说明   []*BodyInfoItem
                 "respType": respType,
                 "resp": [{
@@ -1111,8 +1116,19 @@
             })
         }
 
+        if (apiDoc.reqType === "xml") {
+            $("#reqXmlDiv").show();
+            $("#reqXmlDiv .card-body").append(apiDoc.reqBodyXml.replace(/\n/g, '<br>'));
+        }
+
+        if (apiDoc.reqType === "text") {
+            $("#reqTxtDiv").show();
+            $("#reqTxtDiv .card-body").append(apiDoc.reqBodyText.replace(/\n/g, '<br>'));
+        }
+
         if ( apiDoc.resp !== undefined && apiDoc.resp.length > 0 ) {
             apiRespType.append(apiDoc.resp[0].respType);
+
             if (apiDoc.resp[0].respBodyInfo != null) {
                 for(var i=0; i<apiDoc.resp[0].respBodyInfo.length; i++) {
                     var item = apiDoc.resp[0].respBodyInfo[i];
@@ -1142,6 +1158,16 @@
                         $(this).parent().parent().append('<td class="zsRespText zsText"> /* '+zsresp[id]+' */</td>')
                     }
                 })
+            }
+
+            if (apiDoc.resp[0].respType === "text" && apiDoc.resp[0].respBody !== "") {
+                $("#respTxtDiv").show();
+                $("#respTxtDiv .card-body").append(apiDoc.resp[0].respBody.replace(/\n/g, '<br>'));
+            }
+
+            if (apiDoc.resp[0].respType === "xml" && apiDoc.resp[0].respBody !== "") {
+                $("#respXmlDiv").show();
+                $("#respXmlDiv .card-body").append(apiDoc.resp[0].respBody.replace(/\n/g, '<br>'));
             }
 
             var snapshot = $("#snapshot");

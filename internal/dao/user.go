@@ -5,6 +5,7 @@ import (
 	"apiBook/common/log"
 	"apiBook/internal/entity"
 	"encoding/json"
+	"sort"
 )
 
 type UserDao struct {
@@ -87,6 +88,14 @@ func (dao *UserDao) GetAllUser() []*entity.User {
 	if err != nil {
 		log.Error(err)
 	}
+
+	sort.Slice(list, func(i, j int) bool {
+		if list[i].CreateTime > list[j].CreateTime {
+			return false
+		}
+		return true
+	})
+
 	return list
 }
 
@@ -112,4 +121,30 @@ func (dao *UserDao) DisableUser(acc string, isDisable int) error {
 	user.IsDisable = isDisable
 
 	return db.DB.Set(db.UserTable, acc, user)
+}
+
+func (dao *UserDao) HasUserAccount(acc string) bool {
+	userInfo, _ := dao.Get(acc)
+	if userInfo.Account != "" {
+		return true
+	}
+	return false
+}
+
+func (dao *UserDao) HasUserName(name string) (bool, error) {
+	has := false
+	err := db.DB.GetAll(db.UserTable, func(k, v []byte) {
+
+		item := &entity.User{}
+		err := json.Unmarshal(v, item)
+		if err != nil {
+			return
+		}
+
+		if name == item.Name {
+			has = true
+		}
+	})
+
+	return has, err
 }

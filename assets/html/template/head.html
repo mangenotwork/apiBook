@@ -251,9 +251,47 @@
             color: #fcfcfd!important;
         }
 
+        .with-vertical-bar {
+            color: #7d7d7d;
+        }
+
         .with-vertical-bar::before {
             content: "|";
             margin-right: 8px;
+        }
+
+        .ellipsis-cell {
+            white-space: nowrap; /* 不换行 */
+            overflow: hidden; /* 超出部分隐藏 */
+            text-overflow: ellipsis; /* 超出部分显示省略号 */
+        }
+
+        .mb52 {
+            margin-bottom: 52px;
+        }
+
+        .mb36 {
+            margin-bottom: 36px;
+        }
+
+        .mt16 {
+            margin-top: 16px;
+        }
+
+        .doc-point {
+            color: #1a1d20;text-decoration: none;
+        }
+
+        #api-name {
+            font-size: 21px;margin-left: 16px;
+        }
+
+        .card-body li {
+            padding: 8px;
+        }
+
+        .toolBtn {
+            --bs-btn-padding-y: .25rem; --bs-btn-padding-x: .5rem; --bs-btn-font-size: .75rem;margin-top: 2px;
         }
 
     </style>

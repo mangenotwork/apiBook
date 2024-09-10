@@ -2,6 +2,7 @@ package handler
 
 import (
 	"apiBook/common/ginHelper"
+	"apiBook/common/log"
 	"apiBook/internal/dao"
 	"apiBook/internal/entity"
 	"fmt"
@@ -50,6 +51,23 @@ func AdminCreateUser(c *gin.Context) {
 
 	if param.Password != param.Password2 {
 		ctx.APIOutPutError(nil, "两次密码不一致")
+		return
+	}
+
+	if dao.NewUserDao().HasUserAccount(param.Account) {
+		ctx.APIOutPutError(nil, "用户账号存在")
+		return
+	}
+
+	has, err := dao.NewUserDao().HasUserName(param.Name)
+	if err != nil {
+		log.Info(err)
+		ctx.APIOutPutError(nil, "创建用户失败")
+		return
+	}
+
+	if has {
+		ctx.APIOutPutError(nil, "用户名称存在")
 		return
 	}
 

@@ -115,14 +115,16 @@ func CSRFMiddleware() gin.HandlerFunc {
 
 func FuncMap() {
 	Router.SetFuncMap(template.FuncMap{
-		"SVG":            SvgHtml,
-		"InputModule":    Input,
-		"ApiBookInfo":    ApiBookInfo,
-		"ProjectCard":    ProjectCard,
-		"Timestamp2Date": Timestamp2Date,
-		"MethodSelect":   MethodSelect,
-		"DocNav":         DocNav,
-		"ToastTemplate":  ToastTemplate,
+		"SVG":             SvgHtml,
+		"InputModule":     Input,
+		"ApiBookInfo":     ApiBookInfo,
+		"ProjectCard":     ProjectCard,
+		"Timestamp2Date":  Timestamp2Date,
+		"MethodSelect":    MethodSelect,
+		"DocNav":          DocNav,
+		"ToastTemplate":   ToastTemplate,
+		"DocMainPoint":    DocMainPoint,
+		"DocMainBaseInfo": DocMainBaseInfo,
 	})
 }
 
@@ -209,7 +211,6 @@ func User() {
 	user.POST("/modify", handler.UserModify)                // 修改用户信息
 	user.POST("/reset/password", handler.UserResetPassword) // 重置用户密码
 	user.GET("/list", handler.UserList)                     // 获取所有用户列表
-
 }
 
 func Admin() {

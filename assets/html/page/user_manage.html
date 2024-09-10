@@ -28,10 +28,12 @@
             {{ range .userList }}
                 <div class="list-group-item list-group-item-action
                 {{ if eq 1 .IsDisable}} list-group-item-secondary {{end}}" style="height: 62px;">
-                    {{ .Name }} (账号: {{ .Account }})
+                    <b>{{ .Name }}</b> (账号: {{ .Account }})
                     {{ if eq 1 .IsAdmin }}
                     (管理员)
+                    ( 创建时间 : {{ Timestamp2Date .CreateTime }} )
                     {{ else }}
+                    ( 创建时间 : {{ Timestamp2Date .CreateTime }} )
                     <div class="btn-group" role="group" aria-label="Basic outlined example" style="float: right;">
                         <button type="button" class="btn btn-outline-dark" onclick="deleteUser('{{ .Account }}')">删除</button>
                         {{ if eq 1 .IsDisable }}

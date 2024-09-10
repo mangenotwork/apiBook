@@ -11,6 +11,7 @@ import (
 	"fmt"
 	"github.com/gin-gonic/gin"
 	"net/http"
+	"sort"
 	"time"
 )
 
@@ -232,6 +233,13 @@ func GetUserList() []*UserInfo {
 			IsDisable:  v.IsDisable,
 		})
 	}
+
+	sort.Slice(resp, func(i, j int) bool {
+		if resp[i].CreateTime > resp[j].CreateTime {
+			return false
+		}
+		return true
+	})
 
 	return resp
 }

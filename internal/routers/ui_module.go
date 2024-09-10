@@ -97,3 +97,31 @@ func ToastTemplate() template.HTML {
 
 	return template.HTML(htmlTemplate)
 }
+
+func DocMainPoint() template.HTML {
+	htmlTemplate := `<div class="col-2" id="docMainML">
+                        <div id="simple-list-example" class="d-flex flex-column gap-2 simple-list-example-scrollspy text-center">
+                          <a class="p-1 rounded doc-point" href="#simple-list-item-1">基本信息</a>
+                          <a class="p-1 rounded doc-point" href="#simple-list-item-2">接口说明</a>
+                          <a class="p-1 rounded doc-point" href="#simple-list-item-3">请求Header</a>
+                          <a class="p-1 rounded doc-point" href="#simple-list-item-4">请求Body</a>
+                          <a class="p-1 rounded doc-point" href="#simple-list-item-5">响应</a>
+                          <a class="p-1 rounded doc-point" href="#simple-list-item-7">请求代码</a>
+                          <a class="p-1 rounded doc-point" href="#simple-list-item-6">日志&镜像</a>
+                        </div>
+                    </div>`
+
+	return template.HTML(htmlTemplate)
+}
+
+func DocMainBaseInfo() template.HTML {
+	htmlTemplate := `<li><span class="txt7">接口名:</span><span id="api-name"></span></li>
+                                        <li><span class="txt7">接口Url: </span>
+                                            <span style="font-size: 21px;margin-left: 16px;">
+                                                <span id="api-method"></span>
+                                                <span id="api-url"></span>
+                                            </span>
+                                        </li>`
+
+	return template.HTML(htmlTemplate)
+}

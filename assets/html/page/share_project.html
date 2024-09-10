@@ -25,13 +25,7 @@
                                         <div class="card-body">
                                             <span id="docIdContent" style="display: none;"></span>
                                             <ul style="padding: 0;">
-                                                <li style="padding: 8px;"><span class="txt7">接口名:</span><span id="api-name" style="font-size: 18px;margin-left: 16px;"></span></li>
-                                                <li style="padding: 8px;"><span class="txt7">接口Url: </span>
-                                                    <span style="font-size: 18px;margin-left: 16px;">
-                                                        <span id="api-method"></span>
-                                                        <span id="api-url"></span>
-                                                    </span>
-                                                </li>
+                                                {{ DocMainBaseInfo }}
                                                 <li style="padding: 8px;"><span class="txt7">操作： </span><div class="btn-group" role="group" aria-label="Basic outlined example" style="margin-left: 16px;">
                                                     <button type="button" class="btn btn-outline-dark">请求</button>
                                                     <button type="button" class="btn btn-outline-dark">Mock</button>
@@ -89,6 +83,17 @@
                                         </a>
                                         <div id="jsoneditor" style="width: 100%;margin-bottom: 16px;margin-top: 8px;"></div>
                                     </div>
+
+                                    <div id="reqXmlDiv" class="card" style="display: none; margin-bottom: 24px;">
+                                        <div class="card-body">
+                                        </div>
+                                    </div>
+
+                                    <div id="reqTxtDiv" class="card" style="display: none; margin-bottom: 24px;">
+                                        <div class="card-body">
+                                        </div>
+                                    </div>
+
                                     <p>参数说明:</p>
                                     <table class="table table-bordered table-hover table-striped" style="table-layout:fixed;display:table;">
                                         <thead>
@@ -129,6 +134,16 @@
                                         <div id="jsoneditorResp" style="width: 100%;margin-bottom: 16px;margin-top: 8px;"></div>
                                     </div>
 
+                                    <div id="respTxtDiv" class="card" style="display: none; margin-bottom: 24px;">
+                                        <div class="card-body">
+                                        </div>
+                                    </div>
+
+                                    <div id="respXmlDiv" class="card" style="display: none; margin-bottom: 24px;">
+                                        <div class="card-body">
+                                        </div>
+                                    </div>
+
                                     <p>参数说明:</p>
                                     <table class="table table-bordered table-hover table-striped" style="table-layout:fixed;display:table;">
                                         <thead>
@@ -156,17 +171,7 @@
                             </div>
                         </div>
 
-                        <div class="col-2" id="docMainML">
-                            <div id="simple-list-example" class="d-flex flex-column gap-2 simple-list-example-scrollspy text-center">
-                                <a class="p-1 rounded" style="color: #1a1d20;text-decoration: none;" href="#simple-list-item-1">基本信息</a>
-                                <a class="p-1 rounded" style="color: #1a1d20;text-decoration: none;" href="#simple-list-item-2">接口说明</a>
-                                <a class="p-1 rounded" style="color: #1a1d20;text-decoration: none;" href="#simple-list-item-3">请求Header</a>
-                                <a class="p-1 rounded" style="color: #1a1d20;text-decoration: none;" href="#simple-list-item-4">请求Body</a>
-                                <a class="p-1 rounded" style="color: #1a1d20;text-decoration: none;" href="#simple-list-item-5">响应</a>
-                                <a class="p-1 rounded" style="color: #1a1d20;text-decoration: none;" href="#simple-list-item-7">请求代码</a>
-                                <a class="p-1 rounded" style="color: #1a1d20;text-decoration: none;" href="#simple-list-item-6">日志&镜像</a>
-                            </div>
-                        </div>
+                        {{ DocMainPoint }}
 
                     </div>
 
@@ -930,6 +935,16 @@
             })
         }
 
+        if (apiDoc.reqType === "xml") {
+            $("#reqXmlDiv").show();
+            $("#reqXmlDiv .card-body").append(apiDoc.reqBodyXml.replace(/\n/g, '<br>'));
+        }
+
+        if (apiDoc.reqType === "text") {
+            $("#reqTxtDiv").show();
+            $("#reqTxtDiv .card-body").append(apiDoc.reqBodyText.replace(/\n/g, '<br>'));
+        }
+
         if ( apiDoc.resp !== undefined && apiDoc.resp.length > 0 ) {
             apiRespType.append(apiDoc.resp[0].respType);
             if (apiDoc.resp[0].respBodyInfo != null) {
@@ -965,6 +980,16 @@
                         $(this).parent().parent().append('<td class="zsRespText zsText"> /* '+zsresp[id]+' */</td>')
                     }
                 })
+            }
+
+            if (apiDoc.resp[0].respType === "text" && apiDoc.resp[0].respBody !== "") {
+                $("#respTxtDiv").show();
+                $("#respTxtDiv .card-body").append(apiDoc.resp[0].respBody.replace(/\n/g, '<br>'));
+            }
+
+            if (apiDoc.resp[0].respType === "xml" && apiDoc.resp[0].respBody !== "") {
+                $("#respXmlDiv").show();
+                $("#respXmlDiv .card-body").append(apiDoc.resp[0].respBody.replace(/\n/g, '<br>'));
             }
 
             var snapshot = $("#snapshot");
