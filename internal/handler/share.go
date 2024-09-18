@@ -310,7 +310,31 @@ func ShareDocumentSnapshotItem(c *gin.Context) {
 		return
 	}
 
-	ctx.APIOutPut(data, "")
+	resp := &DocumentSnapshotItemResp{
+		Item:         data,
+		SnapshotList: make([]*SnapshotItem, 0),
+	}
+
+	snapshotList, err := dao.NewDocDao().GetDocumentSnapshotList(param.DocId)
+	if err != nil {
+		log.Error(err)
+	}
+
+	for _, v := range snapshotList {
+		resp.SnapshotList = append(resp.SnapshotList, &SnapshotItem{
+			SnapshotIdId:  v.SnapshotIdId,
+			UserAcc:       v.UserAcc,
+			Operation:     v.Operation,
+			CreateTime:    v.CreateTime,
+			CreateTimeStr: utils.Timestamp2Date(v.CreateTime),
+		})
+	}
+
+	sort.Slice(resp.SnapshotList, func(i, j int) bool {
+		return resp.SnapshotList[i].CreateTime > resp.SnapshotList[j].CreateTime
+	})
+
+	ctx.APIOutPut(resp, "")
 	return
 
 }

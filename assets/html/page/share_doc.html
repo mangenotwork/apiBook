@@ -163,8 +163,8 @@
                                     todo....
                                 </div>
 
-                                <div class="with-vertical-bar" style="margin-bottom: 52px;">
-                                    <h4 id="simple-list-item-6">日志&镜像</h4>
+                                <div style="margin-bottom: 52px;">
+                                    <h4 class="with-vertical-bar" id="simple-list-item-6">日志&镜像</h4>
                                     <ul class="list-group list-group-flush" id="snapshot"></ul>
                                 </div>
                             </div>
@@ -541,82 +541,6 @@
         $('#setHeaderTable tr:eq('+index+')').remove();
     });
 
-    function jsonToBodyInfoItem(jsonObj, parentKey) {
-        var jsonInfo = jsonObj
-        for (var key in jsonInfo) {
-            var reqField = $('.reqField').map(function() {
-                return $(this).val();
-            }).get();
-
-            var reqVarType = $('.reqVarType').map(function() {
-                return $(this).val();
-            }).get();
-
-            var reqExample =  $('.reqExample').map(function() {
-                return $(this).val();
-            }).get();
-
-            var keyType = typeof jsonInfo[key]
-            if (keyType === "object") {
-                keyType = isArrayOrObject(jsonInfo[key])
-            }
-            if (keyType === "string" && jsonInfo[key].length > 188) {
-                jsonInfo[key] = jsonInfo[key].substring(0,188)+"..."
-            }
-            var flag = false
-            for (var has in reqField) {
-                if (reqField[has] === key) {
-                    if (reqVarType[has] !== keyType) {
-                        $('.reqVarType:eq('+has+')').val(keyType);
-                    }
-                    if (reqExample[has] !== jsonInfo[key]) {
-                        $('.reqExample:eq('+has+')').val(jsonInfo[key]);
-                    }
-                    flag = true
-                }
-            }
-            var field = key
-            if (parentKey !== "") {
-                field = parentKey+"."+key
-            }
-            if (!flag && reqField[0] === "") {
-                $(".reqField").first().val(field);
-                $(".reqVarType").first().val(keyType);
-                $(".reqExample").first().val(jsonInfo[key]);
-            } else if (!flag) {
-                $("#setReqTable").append(addReqTpl(field, keyType, jsonInfo[key], "", "1"));
-            }
-
-            if (keyType === "object") {
-                var newParentKey = parentKey
-                if (newParentKey === "") {
-                    newParentKey = key
-                }else {
-                    newParentKey = parentKey+ "."+key
-                }
-                jsonToBodyInfoItem(jsonInfo[key], newParentKey)
-            }
-
-            if (keyType === "array") {
-                if (isArrayOrObject(jsonInfo[key][0]) === "object") {
-                    var newParentKey = parentKey
-                    if (newParentKey === "") {
-                        newParentKey = key
-                    } else {
-                        newParentKey = parentKey+ "."+key
-                    }
-                    jsonToBodyInfoItem(jsonInfo[key][0], newParentKey)
-                }
-            }
-        }
-    }
-
-    function jsonToBodyInfo() {
-        var jsonInfo = editorAdd.get();
-        console.log(jsonInfo)
-        jsonToBodyInfoItem(jsonInfo, "")
-    }
-
     $(document).on('click', '.addReq', function() {
         $("#setReqTable").append(addReqTpl("", "", "", "", "1"));
     });
@@ -837,160 +761,6 @@
         })
     }
 
-    function loadApiDoc(apiDoc, snapshotList) {
-        var docIdContent = $("#docIdContent")
-        var apiName = $("#api-name")
-        var apiMethod = $("#api-method")
-        var apiUrl = $("#api-url")
-        var apiDescription = $("#api-description")
-        var apiReqHeader = $("#api-reqHeader")
-        var apiReqType = $("#api-reqType")
-        var apiReqBodyInfo = $("#api-reqBodyInfo")
-        var apiRespType = $("#api-respType")
-        var apiRespBodyInfo = $("#api-respBodyInfo")
-
-        docIdContent.empty();
-        apiName.empty();
-        apiMethod.empty();
-        apiUrl.empty();
-        apiDescription.empty();
-        apiReqHeader.empty();
-        apiReqType.empty();
-        apiReqBodyInfo.empty();
-        apiRespType.empty();
-        apiRespBodyInfo.empty();
-
-        docIdContent.append(apiDoc.docId);
-        apiName.append(apiDoc.name);
-
-        var methodStr = ""
-        switch (apiDoc.method) {
-            case "GET":methodStr = GETSpan;break;
-            case "DELETE":methodStr = DELETESpan;break;
-            case "POST":methodStr = POSTSpan;break;
-            case "HEAD":methodStr = HEADSpan;break;
-            case "PUT":methodStr = PUTSpan;break;
-            case "OPTIONS":methodStr = OPTIONSSpan;break;
-        }
-        apiMethod.append(methodStr);
-
-        apiUrl.append(apiDoc.url);
-        apiDescription.html(apiDoc.descriptionHtml);
-
-        if ( apiDoc.reqHeader !== undefined ) {
-            for(var i=0; i<apiDoc.reqHeader.length; i++) {
-                apiReqHeader.append(apiReqHeaderTpl(apiDoc.reqHeader[i].field, apiDoc.reqHeader[i].varType, apiDoc.reqHeader[i].isRequired,
-                    apiDoc.reqHeader[i].description, apiDoc.reqHeader[i].example))
-            }
-        }
-
-        apiReqType.append(apiDoc.reqType);
-
-        if ( apiDoc.reqBodyInfo !== undefined ) {
-            for (var i = 0; i < apiDoc.reqBodyInfo.length; i++) {
-                //console.log(apiDoc.reqBodyInfo[i])
-                zs["jsonpath:" + apiDoc.reqBodyInfo[i].field.replace(/\./g, ",")] = apiDoc.reqBodyInfo[i].description
-                apiReqBodyInfo.append(apiReqBodyInfoTpl(apiDoc.reqBodyInfo[i].field, apiDoc.reqBodyInfo[i].varType, apiDoc.reqBodyInfo[i].isRequired,
-                    apiDoc.reqBodyInfo[i].description, apiDoc.reqBodyInfo[i].example, i))
-                if (apiDoc.reqBodyInfo[i].example.length > 20) {
-                    tippy('.reqExampleTxt' + i, {
-                        content: apiDoc.reqBodyInfo[i].example
-                    });
-                }
-                if (apiDoc.reqBodyInfo[i].description.length > 20) {
-                    tippy('.reqDescriptionTxt' + i, {
-                        content: apiDoc.reqBodyInfo[i].description
-                    });
-                }
-            }
-        }
-
-        if (apiDoc.reqType === "json") {
-            $("#jsoneditorDiv").show();
-            const initialJson = JSON.parse(apiDoc.reqBodyJson)
-            editor.set(initialJson)
-            editor.expandAll()
-            const updatedJson = editor.get()
-            const paths = getJsonPaths(updatedJson);
-            $("#jsoneditor").find(".jsoneditor-field, .jsoneditor-values").each(function() {
-                var id = $(this).prop("id")
-                var regex = new RegExp("0,", "g");
-                id = id.replace(regex, "");
-                if (zs[id]){
-                    $(this).parent().parent().append('<td class="zsReqText zsText"> /* '+zs[id]+' */</td>')
-                }
-            })
-        }
-
-        if (apiDoc.reqType === "xml") {
-            $("#reqXmlDiv").show();
-            $("#reqXmlDiv .card-body").append(apiDoc.reqBodyXml.replace(/\n/g, '<br>'));
-        }
-
-        if (apiDoc.reqType === "text") {
-            $("#reqTxtDiv").show();
-            $("#reqTxtDiv .card-body").append(apiDoc.reqBodyText.replace(/\n/g, '<br>'));
-        }
-
-        if ( apiDoc.resp !== undefined && apiDoc.resp.length > 0 ) {
-            apiRespType.append(apiDoc.resp[0].respType);
-            if (apiDoc.resp[0].respBodyInfo != null) {
-                for(var i=0; i<apiDoc.resp[0].respBodyInfo.length; i++) {
-                    zsresp["jsonpath:"+apiDoc.resp[0].respBodyInfo[i].field.replace(/\./g, ",")] = apiDoc.resp[0].respBodyInfo[i].description
-                    apiRespBodyInfo.append(apiRespBodyInfoTpl(apiDoc.resp[0].respBodyInfo[i].field, apiDoc.resp[0].respBodyInfo[i].varType,
-                        apiDoc.resp[0].respBodyInfo[i].description, apiDoc.resp[0].respBodyInfo[i].example, i))
-                    if(apiDoc.resp[0].respBodyInfo[i].example.length > 20) {
-                        tippy('.respExampleTxt'+i, {
-                            content: apiDoc.resp[0].respBodyInfo[i].example
-                        });
-                    }
-                    if(apiDoc.resp[0].respBodyInfo[i].description.length>20) {
-                        tippy('.respDescriptionTxt'+i, {
-                            content: apiDoc.resp[0].respBodyInfo[i].description
-                        });
-                    }
-                }
-            }
-
-            if (apiDoc.resp[0].respType === "json" && apiDoc.resp[0].respBody !== "") {
-                $("#jsoneditorRespDiv").show();
-                const initialJson = JSON.parse(apiDoc.resp[0].respBody)
-                editorResp.set(initialJson)
-                editorResp.expandAll()
-                const updatedJson = editorResp.get()
-                const paths = getJsonPaths(updatedJson);
-                $("#jsoneditorResp").find(".jsoneditor-field, .jsoneditor-values").each(function() {
-                    var id = $(this).prop("id")
-                    var regex = new RegExp("0,", "g");
-                    id = id.replace(regex, "");
-                    if (zsresp[id]){
-                        $(this).parent().parent().append('<td class="zsRespText zsText"> /* '+zsresp[id]+' */</td>')
-                    }
-                })
-            }
-
-            if (apiDoc.resp[0].respType === "text" && apiDoc.resp[0].respBody !== "") {
-                $("#respTxtDiv").show();
-                $("#respTxtDiv .card-body").append(apiDoc.resp[0].respBody.replace(/\n/g, '<br>'));
-            }
-
-            if (apiDoc.resp[0].respType === "xml" && apiDoc.resp[0].respBody !== "") {
-                $("#respXmlDiv").show();
-                $("#respXmlDiv .card-body").append(apiDoc.resp[0].respBody.replace(/\n/g, '<br>'));
-            }
-
-            var snapshot = $("#snapshot");
-            snapshot.empty()
-            if (snapshotList != null) {
-                for (var i=0; i< snapshotList.length; i++) {
-                    snapshot.append('<li class="list-group-item" style="font-size: 12px;">'+ snapshotList[i].userAcc+ ' - ' + snapshotList[i].createTimeStr+
-                        ' - ' + snapshotList[i].operation + ' | 镜像: <a type="button" class="btn btn-link" ' +
-                        'onclick="openSnapshot(\''+apiDoc.docId+'\',\''+snapshotList[i].snapshotId+'\')">' + snapshotList[i].snapshotId +'</a> </li>')
-                }
-            }
-        }
-    }
-
     function closeReqZsText() {
         $(".zsReqText").remove();
         $(".closeReqZsText").hide();
@@ -1100,18 +870,13 @@
             "docId": snapshotDocId,
             "snapshotId": snapshotId,
         }
-        AjaxPostNotAsync("/document/snapshot/item", param, function(data){
+        AjaxPostNotAsync("/share/document/snapshot/item?hashKey="+hashKey, param, function(data){
             if (data.code === 0 ) {
-                console.log(data.data)
-
                 $("#docNavSnapshot").empty();
-                $("#docNavSnapshot").append("镜像:"+data.data.snapshotId);
+                $("#docNavSnapshot").append("镜像:"+data.data.item.snapshotId);
                 $("#docNav").show();
-
-                loadApiDoc(data.data.documentContent, null)
-
-                $("#docMain").animate({scrollTop:0}, 500)
-
+                loadApiDoc(data.data.item.documentContent, data.data.snapshotList);
+                $("#docMain").animate({scrollTop:0}, 500);
             }
         })
     }
@@ -1298,4 +1063,5 @@
 
 
 </script>
+<script type="text/javascript" src="/js/doc.js?v={{ .TimeStamp }}"></script>
 {{ template "end" . }}

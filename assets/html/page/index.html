@@ -7,16 +7,14 @@
     <main class="col-md-9 ms-sm-auto col-lg-10 px-md-4" style="background-color: #ffffff;">
         
         <div class="box" style="margin-top: 8px;border: 1px solid #D3D3D3; border-radius: 4px;">
-            <ul class="nav nav-tabs" id="docViewTable" style="width: 100%;height:54px;flex-direction: row;flex-wrap: nowrap;overflow-x: scroll;font-size: 11px;">
-            </ul>
+            <ul class="nav nav-tabs" id="docViewTable" style="width: 100%;height:54px;flex-direction: row;flex-wrap: nowrap;overflow-x: scroll;font-size: 11px;"></ul>
               <div id="doc" style="width: 100%; height: calc(100vh - 136px);background-color: #ffffff;overflow: auto;padding: 16px;position: relative;">
                 <div class="row">
                     <div class="col-10">
                         <div id="notDocMain" style="display: none;">
                             <button type="button" class="btn btn-dark btn-lg" onclick="newAPIDoc('')">创建文档</button>
                         </div>
-                      <div data-bs-spy="scroll" id="docMain" data-bs-target="#simple-list-example" data-bs-offset="0" data-bs-smooth-scroll="true"
-                           class="scrollspy-example" style="margin-top: .5rem;overflow: auto; padding-left: 22px;" tabindex="0">
+                      <div data-bs-spy="scroll" id="docMain" data-bs-target="#simple-list-example" data-bs-offset="0" data-bs-smooth-scroll="true" class="scrollspy-example" style="margin-top: .5rem;overflow: auto; padding-left: 22px;" tabindex="0">
                           {{ DocNav }}
                           <div class="mb52 mt16">
                             <h4 class="with-vertical-bar mb36" id="simple-list-item-1">基本信息</h4>
@@ -56,8 +54,7 @@
                                         <th scope="col" class="docth" style="width: 20%;">示例</th>
                                     </tr>
                                 </thead>
-                                <tbody id="api-reqHeader">
-                                </tbody>
+                                <tbody id="api-reqHeader"></tbody>
                             </table>
                         </div>
 
@@ -69,31 +66,20 @@
                             </p>
                             <p class="txt7">示例:</p>
                             <div id="jsoneditorDiv" style="display: none;">
-                                <button type="button" class="btn btn-dark closeReqZsText toolBtn" onclick="closeReqZsText()">
-                                    关闭注释
-                                </button>
-                                <button type="button" class="btn btn-dark openReqZsText toolBtn" style="display: none;" onclick="openReqZsText()">
-                                    开启注释
-                                </button>
-                                <button type="button" class="btn btn-dark toolBtn" onclick="copyReqJson()">
-                                    复制
-                                </button>
-                                <a type="button" class="btn btn-dark toolBtn" href="https://www.zhaozhongtian.top/code-json" target="_blank">
-                                    在线json工具
-                                </a>
+                                <button type="button" class="btn btn-dark closeReqZsText toolBtn" onclick="closeReqZsText()">关闭注释</button>
+                                <button type="button" class="btn btn-dark openReqZsText toolBtn" style="display: none;" onclick="openReqZsText()">开启注释</button>
+                                <button type="button" class="btn btn-dark toolBtn" onclick="copyReqJson()">复制</button>
+                                <a type="button" class="btn btn-dark toolBtn" href="https://www.zhaozhongtian.top/code-json" target="_blank">在线json工具</a>
                                 <div id="jsoneditor" style="width: 100%;margin-bottom: 16px;margin-top: 8px;"></div>
                             </div>
-
                             <div id="reqXmlDiv" class="card" style="display: none; margin-bottom: 24px;">
                                 <div class="card-body">
                                 </div>
                             </div>
-
                             <div id="reqTxtDiv" class="card" style="display: none; margin-bottom: 24px;">
                                 <div class="card-body">
                                 </div>
                             </div>
-
                             <p class="txt7">参数说明:</p>
                               <table class="table table-bordered table-hover table-striped" style="table-layout:fixed;display:table;">
                                   <thead>
@@ -105,8 +91,7 @@
                                       <th scope="col" class="docth" style="width: 20%;">示例</th>
                                   </tr>
                                   </thead>
-                                  <tbody id="api-reqBodyInfo">
-                                  </tbody>
+                                  <tbody id="api-reqBodyInfo"></tbody>
                               </table>
                         </div>
 
@@ -118,31 +103,18 @@
                             </p>
                             <p class="txt7">示例:</p>
                             <div id="jsoneditorRespDiv" style="display: none;">
-                                <button type="button" class="btn btn-dark closeRespZsText toolBtn" onclick="closeRespZsText()">
-                                    关闭注释
-                                </button>
-                                <button type="button" class="btn btn-dark openRespZsText toolBtn" style="display: none;" onclick="openRespZsText()">
-                                    开启注释
-                                </button>
-                                <button type="button" class="btn btn-dark toolBtn" onclick="copyRespJson()">
-                                    复制
-                                </button>
-                                <a type="button" class="btn btn-dark toolBtn" href="https://www.zhaozhongtian.top/code-json" target="_blank">
-                                    在线json工具
-                                </a>
+                                <button type="button" class="btn btn-dark closeRespZsText toolBtn" onclick="closeRespZsText()">关闭注释</button>
+                                <button type="button" class="btn btn-dark openRespZsText toolBtn" style="display: none;" onclick="openRespZsText()">开启注释</button>
+                                <button type="button" class="btn btn-dark toolBtn" onclick="copyRespJson()">复制</button>
+                                <a type="button" class="btn btn-dark toolBtn" href="https://www.zhaozhongtian.top/code-json" target="_blank">在线json工具</a>
                                 <div id="jsoneditorResp" style="width: 100%;margin-bottom: 16px;margin-top: 8px;"></div>
                             </div>
-
                             <div id="respTxtDiv" class="card" style="display: none; margin-bottom: 24px;">
-                                <div class="card-body">
-                                </div>
+                                <div class="card-body"></div>
                             </div>
-
                             <div id="respXmlDiv" class="card" style="display: none; margin-bottom: 24px;">
-                                <div class="card-body">
-                                </div>
+                                <div class="card-body"></div>
                             </div>
-
                             <p class="txt7">参数说明:</p>
                             <table class="table table-bordered table-hover table-striped" style="table-layout:fixed;display:table;">
                                 <thead>
@@ -165,17 +137,12 @@
 
                         <div class="mb52">
                             <h4 class="with-vertical-bar" id="simple-list-item-6">日志&镜像</h4>
-                            <ul class="list-group list-group-flush" id="snapshot">
-                            </ul>
-                            </div>
+                            <ul class="list-group list-group-flush" id="snapshot"></ul>
+                        </div>
                       </div>
                     </div>
-
                     {{ DocMainPoint }}
-
                   </div>
-
-
               </div>
         </div>
 
@@ -197,11 +164,11 @@
 {{ template "pubjs" . }}
 <script>
 
-    var editorAdd = {}
-    var editorAddResp = {}
+    var editorAdd = {};
+    var editorAddResp = {};
 
-    var projectId = "{{ .projectId }}"
-    var dirId = ""
+    var projectId = "{{ .projectId }}";
+    var dirId = "";
 
     var editormdObj = editormd("test-editor", {
         markdown: "",
@@ -215,36 +182,36 @@
         saveHTMLToTextarea : true,
     });
 
-    var reqType = "json"
-    var respType = "json"
+    var reqType = "json";
+    var respType = "json";
 
-    var zs = {}
-    var zsresp = []
+    var zs = {};
+    var zsresp = [];
 
-    const container = document.getElementById("jsoneditor")
+    const container = document.getElementById("jsoneditor");
     const options = {
         mode: 'view',
-    }
-    var editor = new JSONEditor(container, options)
+    };
+    var editor = new JSONEditor(container, options);
 
-    const containerResp = document.getElementById("jsoneditorResp")
+    const containerResp = document.getElementById("jsoneditorResp");
     const optionsResp = {
         mode: 'view',
-    }
-    var editorResp = new JSONEditor(containerResp, optionsResp)
+    };
+    var editorResp = new JSONEditor(containerResp, optionsResp);
 
-    const containerAdd = document.getElementById("jsoneditorAdd")
+    const containerAdd = document.getElementById("jsoneditorAdd");
     const optionsAdd = {
         mode: 'code',
-    }
-    var editorAdd = new JSONEditor(containerAdd, optionsAdd)
+    };
+    var editorAdd = new JSONEditor(containerAdd, optionsAdd);
 
 
-    const containerAddResp = document.getElementById("jsoneditorAddResp")
+    const containerAddResp = document.getElementById("jsoneditorAddResp");
     const optionsAddResp = {
         mode: 'code',
-    }
-    var editorAddResp = new JSONEditor(containerAddResp, optionsAddResp)
+    };
+    var editorAddResp = new JSONEditor(containerAddResp, optionsAddResp);
 
     $(document).on('click', '.dir-open', function() {
         var open = $(this).attr('data-open');
@@ -309,29 +276,28 @@
         tippyInit();
         $('#newSort').click(function(){
             var ulValue = $( '#wrap' ).children();
-            console.log(ulValue)
             for (var i=0; i<ulValue.length; i++) {
-                var liValue = ulValue[i].children
-                console.log(liValue)
+                var liValue = ulValue[i].children;
+                console.log(liValue);
                 for(var j=0; j<liValue.length;j++) {
-                    console.log(liValue[j])
+                    console.log(liValue[j]);
                 }
             }
         });
 
         AjaxGet("/document/dir/list?pid="+projectId, function(data){
             if (data.code === 0 ) {
-                var apiDir = data.data
+                var apiDir = data.data;
                 for(var item in apiDir) {
                     if (apiDir.hasOwnProperty(item)){
                         var dirId = apiDir[item].dir.dirId;
                         var dirname = apiDir[item].dir.name;
                         var doc = apiDir[item].doc;
-                        $("#wrap").append(dirDev(dirId, dirname))
-                        $("#addDocDir").append(addDocDirOption(dirId, dirname))
+                        $("#wrap").append(dirDev(dirId, dirname));
+                        $("#addDocDir").append(addDocDirOption(dirId, dirname));
                         for(var li in doc) {
                             if (doc.hasOwnProperty(li)) {
-                                $("#"+dirId).append(docLi(doc[li].docId, doc[li].method, doc[li].title))
+                                $("#"+dirId).append(docLi(doc[li].docId, doc[li].method, doc[li].title));
                             }
                         }
                     }
@@ -339,24 +305,24 @@
             }
         });
 
-        var viewDocList = viewDocGet(projectId)
+        var viewDocList = viewDocGet(projectId);
 
         var param = {
             "pid": projectId,
             "docList": viewDocList,
-        }
+        };
 
         if(localStorage.getItem(nowViewDoc+projectId) === "undefined" || localStorage.getItem(nowViewDoc+projectId)=== null) {
-            isShow(false)
+            isShow(false);
         }
 
         AjaxPost("/document/doc/list", param, function(data){
             if (data.code === 0 ) {
                 for(var i=0; i<data.data.length; i++) {
                     if(data.data[i].docId === localStorage.getItem(nowViewDoc+projectId)) {
-                        NowDoc(data.data[i].docId)
+                        NowDoc(data.data[i].docId);
                     } else {
-                        showViewDoc(data.data[i].method, data.data[i].name, data.data[i].docId, false)
+                        showViewDoc(data.data[i].method, data.data[i].name, data.data[i].docId, false);
                     }
                 }
             }
@@ -392,10 +358,10 @@
         var openBodyBtnJson = $("#openBodyBtn-json");
         var openBodyBtnFromData = $("#openBodyBtn-from-data");
         var openBodyBtnXWwwFormUrlencoded = $("#openBodyBtn-x-www-form-urlencoded");
-        var openBodyBtnXml = $("#openBodyBtn-xml")
-        var openBodyBtnPlain = $("#openBodyBtn-plain")
-        var openBodyBtnGo = $("#openBodyBtn-go")
-        var openBodyBtnTs = $("#openBodyBtn-ts")
+        var openBodyBtnXml = $("#openBodyBtn-xml");
+        var openBodyBtnPlain = $("#openBodyBtn-plain");
+        var openBodyBtnGo = $("#openBodyBtn-go");
+        var openBodyBtnTs = $("#openBodyBtn-ts");
 
         bodyJson.hide();
         bodyFromData.hide();
@@ -407,97 +373,97 @@
 
         openBodyBtnJson.removeClass('btn-light');
         if (!openBodyBtnJson.hasClass('btn-dark')) {
-            openBodyBtnJson.addClass('btn-dark')
+            openBodyBtnJson.addClass('btn-dark');
         }
 
         openBodyBtnFromData.removeClass('btn-light');
         if (!openBodyBtnFromData.hasClass('btn-dark')) {
-            openBodyBtnFromData.addClass('btn-dark')
+            openBodyBtnFromData.addClass('btn-dark');
         }
 
         openBodyBtnXWwwFormUrlencoded.removeClass('btn-light');
         if (!openBodyBtnXWwwFormUrlencoded.hasClass('btn-dark')) {
-            openBodyBtnXWwwFormUrlencoded.addClass('btn-dark')
+            openBodyBtnXWwwFormUrlencoded.addClass('btn-dark');
         }
 
         openBodyBtnXml.removeClass('btn-light');
         if (!openBodyBtnXml.hasClass('btn-dark')) {
-            openBodyBtnXml.addClass('btn-dark')
+            openBodyBtnXml.addClass('btn-dark');
         }
 
         openBodyBtnPlain.removeClass('btn-light');
         if (!openBodyBtnPlain.hasClass('btn-dark')) {
-            openBodyBtnPlain.addClass('btn-dark')
+            openBodyBtnPlain.addClass('btn-dark');
         }
 
         openBodyBtnGo.removeClass('btn-light');
         if (!openBodyBtnGo.hasClass('btn-dark')) {
-            openBodyBtnGo.addClass('btn-dark')
+            openBodyBtnGo.addClass('btn-dark');
         }
 
         openBodyBtnTs.removeClass('btn-light');
         if (!openBodyBtnTs.hasClass('btn-dark')) {
-            openBodyBtnTs.addClass('btn-dark')
+            openBodyBtnTs.addClass('btn-dark');
         }
 
         switch (type) {
             case 'json':
                 bodyJson.show();
                 openBodyBtnJson.removeClass('btn-dark');
-                openBodyBtnJson.addClass('btn-light')
-                reqType = "json"
+                openBodyBtnJson.addClass('btn-light');
+                reqType = "json";
                 break
             case 'from-data':
                 bodyFromData.show();
                 openBodyBtnFromData.removeClass('btn-dark');
-                openBodyBtnFromData.addClass('btn-light')
-                reqType = "from-data"
+                openBodyBtnFromData.addClass('btn-light');
+                reqType = "from-data";
                 break
             case 'x-www-form-urlencoded':
                 bodyXwwwFrom.show();
                 openBodyBtnXWwwFormUrlencoded.removeClass('btn-dark');
-                openBodyBtnXWwwFormUrlencoded.addClass('btn-light')
-                reqType = "x-www-form-urlencoded"
+                openBodyBtnXWwwFormUrlencoded.addClass('btn-light');
+                reqType = "x-www-form-urlencoded";
                 break
             case 'xml':
                 bodyXml.show();
                 openBodyBtnXml.removeClass('btn-dark');
-                openBodyBtnXml.addClass('btn-light')
-                reqType = "xml"
+                openBodyBtnXml.addClass('btn-light');
+                reqType = "xml";
                 break
             case 'plain':
                 bodyText.show();
                 openBodyBtnPlain.removeClass('btn-dark');
-                openBodyBtnPlain.addClass('btn-light')
-                reqType = "text"
+                openBodyBtnPlain.addClass('btn-light');
+                reqType = "text";
                 break
             case 'go':
                 bodyGo.show();
                 openBodyBtnGo.removeClass('btn-dark');
-                openBodyBtnGo.addClass('btn-light')
-                reqType = "json"
+                openBodyBtnGo.addClass('btn-light');
+                reqType = "json";
                 break
             case 'ts':
                 bodyTs.show();
                 openBodyBtnTs.removeClass('btn-dark');
-                openBodyBtnTs.addClass('btn-light')
-                reqType = "json"
+                openBodyBtnTs.addClass('btn-light');
+                reqType = "json";
                 break
         }
     }
 
     function openRespMain(type) {
-        var respJson = $("#respJson")
-        var respXml = $("#respXml")
-        var respText = $("#respText")
+        var respJson = $("#respJson");
+        var respXml = $("#respXml");
+        var respText = $("#respText");
         var respGo = $("#respGo");
         var respTs = $("#respTs");
 
-        var openRespBtnJson = $("#openRespBtn-json")
-        var openRespBtnXml = $("#openRespBtn-xml")
-        var openRespBtnPlain = $("#openRespBtn-plain")
-        var openRespBtnGo = $("#openRespBtn-go")
-        var openRespBtnTs = $("#openRespBtn-ts")
+        var openRespBtnJson = $("#openRespBtn-json");
+        var openRespBtnXml = $("#openRespBtn-xml");
+        var openRespBtnPlain = $("#openRespBtn-plain");
+        var openRespBtnGo = $("#openRespBtn-go");
+        var openRespBtnTs = $("#openRespBtn-ts");
 
         respJson.hide();
         respXml.hide();
@@ -507,59 +473,59 @@
 
         openRespBtnJson.removeClass('btn-light');
         if (!openRespBtnJson.hasClass('btn-dark')) {
-            openRespBtnJson.addClass('btn-dark')
+            openRespBtnJson.addClass('btn-dark');
         }
 
         openRespBtnXml.removeClass('btn-light');
         if (!openRespBtnXml.hasClass('btn-dark')) {
-            openRespBtnXml.addClass('btn-dark')
+            openRespBtnXml.addClass('btn-dark');
         }
 
         openRespBtnPlain.removeClass('btn-light');
         if (!openRespBtnPlain.hasClass('btn-dark')) {
-            openRespBtnPlain.addClass('btn-dark')
+            openRespBtnPlain.addClass('btn-dark');
         }
 
         openRespBtnGo.removeClass('btn-light');
         if (!openRespBtnGo.hasClass('btn-dark')) {
-            openRespBtnGo.addClass('btn-dark')
+            openRespBtnGo.addClass('btn-dark');
         }
 
         openRespBtnTs.removeClass('btn-light');
         if (!openRespBtnTs.hasClass('btn-dark')) {
-            openRespBtnTs.addClass('btn-dark')
+            openRespBtnTs.addClass('btn-dark');
         }
 
         switch (type) {
             case 'json':
                 respJson.show();
                 openRespBtnJson.removeClass('btn-dark');
-                openRespBtnJson.addClass('btn-light')
-                respType = "json"
+                openRespBtnJson.addClass('btn-light');
+                respType = "json";
                 break
             case 'xml':
                 respXml.show();
                 openRespBtnXml.removeClass('btn-dark');
-                openRespBtnXml.addClass('btn-light')
-                respType = "xml"
+                openRespBtnXml.addClass('btn-light');
+                respType = "xml";
                 break
             case 'plain':
                 respText.show();
                 openRespBtnPlain.removeClass('btn-dark');
-                openRespBtnPlain.addClass('btn-light')
-                respType = "text"
+                openRespBtnPlain.addClass('btn-light');
+                respType = "text";
                 break
             case 'go':
                 respGo.show();
                 openRespBtnGo.removeClass('btn-dark');
-                openRespBtnGo.addClass('btn-light')
-                respType = "json"
+                openRespBtnGo.addClass('btn-light');
+                respType = "json";
                 break
             case 'ts':
                 respTs.show();
                 openRespBtnTs.removeClass('btn-dark');
-                openRespBtnTs.addClass('btn-light')
-                respType = "json"
+                openRespBtnTs.addClass('btn-light');
+                respType = "json";
                 break
         }
     }
@@ -582,9 +548,9 @@
             return
         }
 
-        var reqHeader = []
-        var reqBodyInfo = []
-        var respInfo = []
+        var reqHeader = [];
+        var reqBodyInfo = [];
+        var respInfo = [];
 
         var headerField = $('.addDocHeaderField').map(function() {
             return $(this).val();
@@ -733,81 +699,6 @@
                 }
             });
         }
-    }
-
-    function jsonToBodyInfoItem(jsonObj, parentKey) {
-        var jsonInfo = jsonObj
-        for (var key in jsonInfo) {
-            var reqField = $('.reqField').map(function() {
-                return $(this).val();
-            }).get();
-
-            var reqVarType = $('.reqVarType').map(function() {
-                return $(this).val();
-            }).get();
-
-            var reqExample =  $('.reqExample').map(function() {
-                return $(this).val();
-            }).get();
-
-            var keyType = typeof jsonInfo[key]
-            if (keyType === "object") {
-                keyType = isArrayOrObject(jsonInfo[key])
-            }
-            if (keyType === "string" && jsonInfo[key].length > 188) {
-                jsonInfo[key] = jsonInfo[key].substring(0,188)+"..."
-            }
-            var flag = false
-            for (var has in reqField) {
-                if (reqField[has] === key) {
-                    if (reqVarType[has] !== keyType) {
-                        $('.reqVarType:eq('+has+')').val(keyType);
-                    }
-                    if (reqExample[has] !== jsonInfo[key]) {
-                        $('.reqExample:eq('+has+')').val(jsonInfo[key]);
-                    }
-                    flag = true
-                }
-            }
-            var field = key
-            if (parentKey !== "") {
-                field = parentKey+"."+key
-            }
-            if (!flag && reqField[0] === "") {
-                $(".reqField").first().val(field);
-                $(".reqVarType").first().val(keyType);
-                $(".reqExample").first().val(jsonInfo[key]);
-            } else if (!flag) {
-                $("#setReqTable").append(addReqTpl(field, keyType, jsonInfo[key], "", "1"));
-            }
-
-            if (keyType === "object") {
-                var newParentKey = parentKey
-                if (newParentKey === "") {
-                    newParentKey = key
-                }else {
-                    newParentKey = parentKey+ "."+key
-                }
-                jsonToBodyInfoItem(jsonInfo[key], newParentKey)
-            }
-
-            if (keyType === "array") {
-                if (isArrayOrObject(jsonInfo[key][0]) === "object") {
-                    var newParentKey = parentKey
-                    if (newParentKey === "") {
-                        newParentKey = key
-                    } else {
-                        newParentKey = parentKey+ "."+key
-                    }
-                    jsonToBodyInfoItem(jsonInfo[key][0], newParentKey)
-                }
-            }
-        }
-    }
-
-    function jsonToBodyInfo() {
-        var jsonInfo = editorAdd.get();
-        jsonToBodyInfoItem(jsonInfo, "")
     }
 
     $(document).on('click', '.addReq', function() {
@@ -1027,161 +918,6 @@
                 }, 1000);
             }
         })
-    }
-
-    function loadApiDoc(apiDoc, snapshotList) {
-        var docIdContent = $("#docIdContent")
-        var apiName = $("#api-name")
-        var apiMethod = $("#api-method")
-        var apiUrl = $("#api-url")
-        var apiDescription = $("#api-description")
-        var apiReqHeader = $("#api-reqHeader")
-        var apiReqType = $("#api-reqType")
-        var apiReqBodyInfo = $("#api-reqBodyInfo")
-        var apiRespType = $("#api-respType")
-        var apiRespBodyInfo = $("#api-respBodyInfo")
-
-        docIdContent.empty();
-        apiName.empty();
-        apiMethod.empty();
-        apiUrl.empty();
-        apiDescription.empty();
-        apiReqHeader.empty();
-        apiReqType.empty();
-        apiReqBodyInfo.empty();
-        apiRespType.empty();
-        apiRespBodyInfo.empty();
-
-        docIdContent.append(apiDoc.docId);
-        apiName.append(apiDoc.name);
-
-        var methodStr = ""
-        switch (apiDoc.method) {
-            case "GET":methodStr = GETSpan;break;
-            case "DELETE":methodStr = DELETESpan;break;
-            case "POST":methodStr = POSTSpan;break;
-            case "HEAD":methodStr = HEADSpan;break;
-            case "PUT":methodStr = PUTSpan;break;
-            case "OPTIONS":methodStr = OPTIONSSpan;break;
-        }
-        apiMethod.append(methodStr);
-
-        apiUrl.append(apiDoc.url);
-        apiDescription.html(apiDoc.descriptionHtml);
-
-        if ( apiDoc.reqHeader !== undefined ) {
-            for(var i=0; i<apiDoc.reqHeader.length; i++) {
-                var item = apiDoc.reqHeader[i];
-                apiReqHeader.append(apiReqHeaderTpl(item.field, item.varType, item.isRequired, item.description, item.example))
-            }
-        }
-
-        apiReqType.append(apiDoc.reqType);
-
-        if ( apiDoc.reqBodyInfo !== undefined ) {
-            for (var i = 0; i < apiDoc.reqBodyInfo.length; i++) {
-                var item = apiDoc.reqBodyInfo[i];
-
-                zs["jsonpath:" + item.field.replace(/\./g, ",")] = item.description
-
-                apiReqBodyInfo.append(apiReqBodyInfoTpl(item.field, item.varType, item.isRequired, item.description, item.example, i))
-                if (item.example.length > 20) {
-                    tippy('.reqExampleTxt' + i, {
-                        content: apiDoc.reqBodyInfo[i].example
-                    });
-                }
-
-                if (item.description.length > 20) {
-                    tippy('.reqDescriptionTxt' + i, {
-                        content: item.description
-                    });
-                }
-            }
-        }
-
-        if (apiDoc.reqType === "json") {
-            $("#jsoneditorDiv").show();
-            const initialJson = JSON.parse(apiDoc.reqBodyJson)
-            editor.set(initialJson)
-            editor.expandAll()
-            const updatedJson = editor.get()
-            const paths = getJsonPaths(updatedJson);
-            $("#jsoneditor").find(".jsoneditor-field").each(function() {
-                var id = $(this).prop("id")
-                var regex = new RegExp("0,", "g");
-                id = id.replace(regex, "");
-                if (zs[id]){
-                    $(this).parent().parent().append('<td class="zsReqText zsText"> /* '+zs[id]+' */</td>')
-                }
-            })
-        }
-
-        if (apiDoc.reqType === "xml") {
-            $("#reqXmlDiv").show();
-            $("#reqXmlDiv .card-body").append(apiDoc.reqBodyXml.replace(/\n/g, '<br>'));
-        }
-
-        if (apiDoc.reqType === "text") {
-            $("#reqTxtDiv").show();
-            $("#reqTxtDiv .card-body").append(apiDoc.reqBodyText.replace(/\n/g, '<br>'));
-        }
-
-        if ( apiDoc.resp !== undefined && apiDoc.resp.length > 0 ) {
-            apiRespType.append(apiDoc.resp[0].respType);
-
-            if (apiDoc.resp[0].respBodyInfo != null) {
-                for(var i=0; i<apiDoc.resp[0].respBodyInfo.length; i++) {
-                    var item = apiDoc.resp[0].respBodyInfo[i];
-                    zsresp["jsonpath:"+item.field.replace(/\./g, ",")] = item.description
-                    apiRespBodyInfo.append(apiRespBodyInfoTpl(item.field, item.varType, item.description, item.example, i))
-                    if(item.example.length > 20) {
-                        tippy('.respExampleTxt'+i, { content: item.example });
-                    }
-                    if(item.description.length>20) {
-                        tippy('.respDescriptionTxt'+i, { content: item.description });
-                    }
-                }
-            }
-
-            if (apiDoc.resp[0].respType === "json" && apiDoc.resp[0].respBody !== "") {
-                $("#jsoneditorRespDiv").show();
-                const initialJson = JSON.parse(apiDoc.resp[0].respBody)
-                editorResp.set(initialJson)
-                editorResp.expandAll()
-                const updatedJson = editorResp.get()
-                const paths = getJsonPaths(updatedJson);
-                $("#jsoneditorResp").find(".jsoneditor-field").each(function() {
-                    var id = $(this).prop("id")
-                    var regex = new RegExp("0,", "g");
-                    id = id.replace(regex, "");
-                    if (zsresp[id]){
-                        $(this).parent().parent().append('<td class="zsRespText zsText"> /* '+zsresp[id]+' */</td>')
-                    }
-                })
-            }
-
-            if (apiDoc.resp[0].respType === "text" && apiDoc.resp[0].respBody !== "") {
-                $("#respTxtDiv").show();
-                $("#respTxtDiv .card-body").append(apiDoc.resp[0].respBody.replace(/\n/g, '<br>'));
-            }
-
-            if (apiDoc.resp[0].respType === "xml" && apiDoc.resp[0].respBody !== "") {
-                $("#respXmlDiv").show();
-                $("#respXmlDiv .card-body").append(apiDoc.resp[0].respBody.replace(/\n/g, '<br>'));
-            }
-
-            var snapshot = $("#snapshot");
-            snapshot.empty()
-            if (snapshotList != null) {
-                for (var i=0; i< snapshotList.length; i++) {
-                    var item = snapshotList[i];
-                    snapshot.append('<li class="list-group-item" style="font-size: 12px;">'+ item.userAcc+ ' - ' + item.createTimeStr+
-                        ' - ' + item.operation + ' | 镜像: <a type="button" class="btn btn-link" ' +
-                        'onclick="openSnapshot(\''+apiDoc.docId+'\',\''+item.snapshotId+'\')">' + item.snapshotId +'</a> </li>')
-                }
-            }
-        }
-
     }
 
     function closeReqZsText() {
@@ -1478,10 +1214,10 @@
         AjaxPostNotAsync("/document/snapshot/item", param, function(data){
             if (data.code === 0 ) {
                 $("#docNavSnapshot").empty();
-                $("#docNavSnapshot").append("镜像:"+data.data.snapshotId);
+                $("#docNavSnapshot").append("镜像:"+data.data.item.snapshotId);
                 $("#docNav").show();
-                loadApiDoc(data.data.documentContent, null)
-                $("#docMain").animate({scrollTop:0}, 500)
+                loadApiDoc(data.data.item.documentContent, data.data.snapshotList);
+                $("#docMain").animate({scrollTop:0}, 500);
             }
         })
     }
@@ -1842,4 +1578,5 @@
     }
 
 </script>
+<script type="text/javascript" src="/js/doc.js?v={{ .TimeStamp }}"></script>
 {{ template "end" . }}

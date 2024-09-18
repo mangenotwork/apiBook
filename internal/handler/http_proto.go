@@ -166,3 +166,8 @@ type DocumentSnapshotItemReq struct {
 	DocId      string `json:"docId"`
 	SnapshotId string `json:"snapshotId"`
 }
+
+type DocumentSnapshotItemResp struct {
+	Item         *entity.DocumentSnapshot `json:"item"`
+	SnapshotList []*SnapshotItem          `json:"snapshotList"`
+}

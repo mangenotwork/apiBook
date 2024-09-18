@@ -125,6 +125,7 @@ func FuncMap() {
 		"ToastTemplate":   ToastTemplate,
 		"DocMainPoint":    DocMainPoint,
 		"DocMainBaseInfo": DocMainBaseInfo,
+		"ApiBookText":     ApiBookText,
 	})
 }
 
