@@ -5,6 +5,7 @@ import (
 	"apiBook/common/log"
 	"apiBook/common/utils"
 	"apiBook/internal/dao"
+	"apiBook/internal/define"
 	"apiBook/internal/entity"
 	"fmt"
 	"github.com/gin-gonic/gin"
@@ -318,6 +319,30 @@ func DocumentItem(c *gin.Context) {
 		return resp.SnapshotList[i].CreateTime > resp.SnapshotList[j].CreateTime
 	})
 
+	dataRaw := ""
+	switch resp.Content.ReqType {
+	case define.ReqTypeText:
+		dataRaw = resp.Content.ReqBodyText
+	//	ReqTypeFormData           = "form-data"
+	//	ReqTypeXWWWFormUrlEncoded = "x-www-form-urlencoded"
+	case define.ReqTypeJson:
+		dataRaw = resp.Content.ReqBodyJson
+	case define.ReqTypeXml:
+		dataRaw = resp.Content.ReqBodyXml
+	case define.ReqTypeRaw:
+		dataRaw = resp.Content.ReqBodyRaw
+		//	ReqTypeBinary = "binary"
+		//	ReqTypeGraphQL = "GraphQL"
+	}
+
+	resp.ReqCode = GetAllReqCode(&ReqCodeArg{
+		Method:      MethodType(resp.Content.Method),
+		Url:         resp.Content.Url,
+		ContentType: string(resp.Content.ReqType),
+		Header:      resp.Content.GetReqHeaderMap(),
+		DataRaw:     dataRaw,
+	})
+
 	ctx.APIOutPut(resp, "")
 	return
 }
@@ -471,6 +496,30 @@ func DocumentSnapshotItem(c *gin.Context) {
 
 	sort.Slice(resp.SnapshotList, func(i, j int) bool {
 		return resp.SnapshotList[i].CreateTime > resp.SnapshotList[j].CreateTime
+	})
+
+	dataRaw := ""
+	switch resp.Item.DocumentContent.ReqType {
+	case define.ReqTypeText:
+		dataRaw = resp.Item.DocumentContent.ReqBodyText
+	//	ReqTypeFormData           = "form-data"
+	//	ReqTypeXWWWFormUrlEncoded = "x-www-form-urlencoded"
+	case define.ReqTypeJson:
+		dataRaw = resp.Item.DocumentContent.ReqBodyJson
+	case define.ReqTypeXml:
+		dataRaw = resp.Item.DocumentContent.ReqBodyXml
+	case define.ReqTypeRaw:
+		dataRaw = resp.Item.DocumentContent.ReqBodyRaw
+		//	ReqTypeBinary = "binary"
+		//	ReqTypeGraphQL = "GraphQL"
+	}
+
+	resp.ReqCode = GetAllReqCode(&ReqCodeArg{
+		Method:      MethodType(resp.Item.DocumentContent.Method),
+		Url:         resp.Item.DocumentContent.Url,
+		ContentType: string(resp.Item.DocumentContent.ReqType),
+		Header:      resp.Item.DocumentContent.GetReqHeaderMap(),
+		DataRaw:     dataRaw,
 	})
 
 	ctx.APIOutPut(resp, "")

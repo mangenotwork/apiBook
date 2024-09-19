@@ -94,6 +94,7 @@ type DocumentItemResp struct {
 	Content      *entity.DocumentContent `json:"content"`
 	SnapshotList []*SnapshotItem         `json:"snapshotList"`
 	BaseInfo     *entity.Document        `json:"baseInfo"`
+	ReqCode      map[string]string       `json:"reqCode"`
 }
 
 type SnapshotItem struct {
@@ -170,4 +171,5 @@ type DocumentSnapshotItemReq struct {
 type DocumentSnapshotItemResp struct {
 	Item         *entity.DocumentSnapshot `json:"item"`
 	SnapshotList []*SnapshotItem          `json:"snapshotList"`
+	ReqCode      map[string]string        `json:"reqCode"`
 }

@@ -139,3 +139,180 @@ func ApiBookText() template.HTML {
 		<p>` + define.Version + `</p>`
 	return template.HTML(htmlTemplate)
 }
+
+func RequestCode() template.HTML {
+	htmlTemplate := `<ul class="nav nav-pills mb-3" id="pills-tab" role="tablist" style="margin-top: 36px;">
+                                <li class="nav-item" role="presentation">
+                                    <button class="nav-link codeBtn active" id="code-jsFetch-tab" data-bs-toggle="pill" data-bs-target="#code-jsFetch" type="button" role="tab" aria-controls="code-jsFetch" aria-selected="false">
+                                        js-fetch</button>
+                                </li>
+                                <li class="nav-item" role="presentation">
+                                    <button class="nav-link codeBtn" id="code-jsAxios-tab" data-bs-toggle="pill" data-bs-target="#code-jsAxios" type="button" role="tab" aria-controls="code-jsAxios" aria-selected="false">
+                                        js-axios</button>
+                                </li>
+                                <li class="nav-item" role="presentation">
+                                    <button class="nav-link codeBtn" id="code-jsJquery-tab" data-bs-toggle="pill" data-bs-target="#code-jsJquery" type="button" role="tab" aria-controls="code-jsJquery" aria-selected="false">
+                                        js-jquery</button>
+                                </li>
+                                <li class="nav-item" role="presentation">
+                                    <button class="nav-link codeBtn" id="code-jsXhr-tab" data-bs-toggle="pill" data-bs-target="#code-jsXhr" type="button" role="tab" aria-controls="code-jsXhr" aria-selected="false">
+                                        js-xhr</button>
+                                </li>
+                                <li class="nav-item" role="presentation">
+                                    <button class="nav-link codeBtn" id="code-swift-tab" data-bs-toggle="pill" data-bs-target="#code-swift" type="button" role="tab" aria-controls="code-swift" aria-selected="false">
+                                        swift</button>
+                                </li>
+                                <li class="nav-item" role="presentation">
+                                    <button class="nav-link codeBtn" id="code-objectiveC-tab" data-bs-toggle="pill" data-bs-target="#code-objectiveC" type="button" role="tab" aria-controls="code-objectiveC" aria-selected="false">
+                                        objective-c</button>
+                                </li>
+                                <li class="nav-item" role="presentation">
+                                    <button class="nav-link codeBtn" id="code-dart-tab" data-bs-toggle="pill" data-bs-target="#code-dart" type="button" role="tab" aria-controls="code-dart" aria-selected="false">
+                                        dart</button>
+                                </li>
+                                <li class="nav-item" role="presentation">
+                                    <button class="nav-link codeBtn" id="code-javaUnirest-tab" data-bs-toggle="pill" data-bs-target="#code-javaUnirest" type="button" role="tab" aria-controls="code-javaUnirest" aria-selected="false">
+                                        java-unirest</button>
+                                </li>
+                                <li class="nav-item" role="presentation">
+                                    <button class="nav-link codeBtn" id="code-javaOkHttpClient-tab" data-bs-toggle="pill" data-bs-target="#code-javaOkHttpClient" type="button" role="tab" aria-controls="code-javaOkHttpClient" aria-selected="false">
+                                        java-okHttpClient</button>
+                                </li>
+                                <li class="nav-item" role="presentation">
+                                    <button class="nav-link codeBtn" id="code-curl-tab" data-bs-toggle="pill" data-bs-target="#code-curl" type="button" role="tab" aria-controls="code-curl" aria-selected="true">
+                                        curl</button>
+                                </li>
+                                <li class="nav-item" role="presentation">
+                                    <button class="nav-link codeBtn" id="code-wget-tab" data-bs-toggle="pill" data-bs-target="#code-wget" type="button" role="tab" aria-controls="code-wget" aria-selected="false">
+                                        wget</button>
+                                </li>
+                                <li class="nav-item" role="presentation">
+                                    <button class="nav-link codeBtn" id="code-powerShell-tab" data-bs-toggle="pill" data-bs-target="#code-powerShell" type="button" role="tab" aria-controls="code-powerShell" aria-selected="false">
+                                        powerShell</button>
+                                </li>
+                                <li class="nav-item" role="presentation">
+                                    <button class="nav-link codeBtn" id="code-phpRequest2-tab" data-bs-toggle="pill" data-bs-target="#code-phpRequest2" type="button" role="tab" aria-controls="code-phpRequest2" aria-selected="false">
+                                        php-request2</button>
+                                </li>
+                                <li class="nav-item" role="presentation">
+                                    <button class="nav-link codeBtn" id="code-phpHttpClient-tab" data-bs-toggle="pill" data-bs-target="#code-phpHttpClient" type="button" role="tab" aria-controls="code-phpHttpClient" aria-selected="false">
+                                        php-httpClient</button>
+                                </li>
+                                <li class="nav-item" role="presentation">
+                                    <button class="nav-link codeBtn" id="code-phpClient-tab" data-bs-toggle="pill" data-bs-target="#code-phpClient" type="button" role="tab" aria-controls="code-phpClient" aria-selected="false">
+                                        php-client</button>
+                                </li>
+                                <li class="nav-item" role="presentation">
+                                    <button class="nav-link codeBtn" id="code-pythonClient-tab" data-bs-toggle="pill" data-bs-target="#code-pythonClient" type="button" role="tab" aria-controls="code-pythonClient" aria-selected="false">
+                                        python-client</button>
+                                </li>
+                                <li class="nav-item" role="presentation">
+                                    <button class="nav-link codeBtn" id="code-pythonRequests-tab" data-bs-toggle="pill" data-bs-target="#code-pythonRequests" type="button" role="tab" aria-controls="code-pythonRequests" aria-selected="false">
+                                        python-requests</button>
+                                </li>
+                                <li class="nav-item" role="presentation">
+                                    <button class="nav-link codeBtn" id="code-c-tab" data-bs-toggle="pill" data-bs-target="#code-c" type="button" role="tab" aria-controls="code-c" aria-selected="false">
+                                        c</button>
+                                </li>
+                                <li class="nav-item" role="presentation">
+                                    <button class="nav-link codeBtn" id="code-CSharp-tab" data-bs-toggle="pill" data-bs-target="#code-CSharp" type="button" role="tab" aria-controls="code-CSharp" aria-selected="false">
+                                        c#</button>
+                                </li>
+
+                                <li class="nav-item" role="presentation">
+                                    <button class="nav-link codeBtn" id="code-ruby-tab" data-bs-toggle="pill" data-bs-target="#code-ruby" type="button" role="tab" aria-controls="code-ruby" aria-selected="false">
+                                        ruby</button>
+                                </li>
+                                <li class="nav-item" role="presentation">
+                                    <button class="nav-link codeBtn" id="code-go-tab" data-bs-toggle="pill" data-bs-target="#code-go" type="button" role="tab" aria-controls="code-go" aria-selected="false">
+                                        go</button>
+                                </li>
+                            </ul>
+                            <div class="tab-content" id="pills-tabContent">
+                                <div class="tab-pane fade show active" id="code-jsFetch" role="tabpanel" aria-labelledby="code-jsFetch-tab" tabindex="0">
+                                    <pre data-language="javascript"><code></code></pre>
+                                    <button type="button" class="btn btn-dark toolBtn" onclick='copyReqCodeJson("code-jsFetch")'>复制</button>
+                                </div>
+                                <div class="tab-pane fade" id="code-jsAxios" role="tabpanel" aria-labelledby="code-jsAxios-tab" tabindex="0">
+                                    <pre data-language="javascript"><code></code></pre>
+                                    <button type="button" class="btn btn-dark toolBtn" onclick='copyReqCodeJson("code-jsAxios")'>复制</button>
+                                </div>
+                                <div class="tab-pane fade" id="code-jsJquery" role="tabpanel" aria-labelledby="code-jsJquery-tab" tabindex="0">
+                                    <pre data-language="javascript"><code></code></pre>
+                                    <button type="button" class="btn btn-dark toolBtn" onclick='copyReqCodeJson("code-jsJquery")'>复制</button>
+                                </div>
+                                <div class="tab-pane fade" id="code-jsXhr" role="tabpanel" aria-labelledby="code-jsXhr-tab" tabindex="0">
+                                    <pre data-language="javascript"><code></code></pre>
+                                    <button type="button" class="btn btn-dark toolBtn" onclick='copyReqCodeJson("code-jsXhr")'>复制</button>
+                                </div>
+                                <div class="tab-pane fade" id="code-swift" role="tabpanel" aria-labelledby="code-swift-tab" tabindex="0">
+                                    <pre data-language="c"><code></code></pre>
+                                    <button type="button" class="btn btn-dark toolBtn" onclick='copyReqCodeJson("code-swift")'>复制</button>
+                                </div>
+                                <div class="tab-pane fade" id="code-objectiveC" role="tabpanel" aria-labelledby="code-objectiveC-tab" tabindex="0">
+                                    <pre data-language="c"><code></code></pre>
+                                    <button type="button" class="btn btn-dark toolBtn" onclick='copyReqCodeJson("code-objectiveC")'>复制</button>
+                                </div>
+                                <div class="tab-pane fade" id="code-dart" role="tabpanel" aria-labelledby="code-dart-tab" tabindex="0">
+                                    <pre data-language="javascript"><code></code></pre>
+                                    <button type="button" class="btn btn-dark toolBtn" onclick='copyReqCodeJson("code-dart")'>复制</button>
+                                </div>
+                                <div class="tab-pane fade" id="code-javaUnirest" role="tabpanel" aria-labelledby="code-javaUnirest-tab" tabindex="0">
+                                    <pre data-language="javascript"><code></code></pre>
+                                    <button type="button" class="btn btn-dark toolBtn" onclick='copyReqCodeJson("code-javaUnirest")'>复制</button>
+                                </div>
+                                <div class="tab-pane fade" id="code-javaOkHttpClient" role="tabpanel" aria-labelledby="code-javaOkHttpClient-tab" tabindex="0">
+                                    <pre data-language="javascript"><code></code></pre>
+                                    <button type="button" class="btn btn-dark toolBtn" onclick='copyReqCodeJson("code-javaOkHttpClient")'>复制</button>
+                                </div>
+                                <div class="tab-pane fade" id="code-curl" role="tabpanel" aria-labelledby="code-curl-tab" tabindex="0">
+                                    <pre data-language="shell"><code></code></pre>
+                                    <button type="button" class="btn btn-dark toolBtn" onclick='copyReqCodeJson("code-curl")'>复制</button>
+                                </div>
+                                <div class="tab-pane fade" id="code-wget" role="tabpanel" aria-labelledby="code-wget-tab" tabindex="0">
+                                    <pre data-language="shell"><code></code></pre>
+                                    <button type="button" class="btn btn-dark toolBtn" onclick='copyReqCodeJson("code-wget")'>复制</button>
+                                </div>
+                                <div class="tab-pane fade" id="code-powerShell" role="tabpanel" aria-labelledby="code-powerShell-tab" tabindex="0">
+                                    <pre data-language="shell"><code></code></pre>
+                                    <button type="button" class="btn btn-dark toolBtn" onclick='copyReqCodeJson("code-powerShell")'>复制</button>
+                                </div>
+                                <div class="tab-pane fade" id="code-phpRequest2" role="tabpanel" aria-labelledby="code-phpRequest2-tab" tabindex="0">
+                                    <pre data-language="php"><code></code></pre>
+                                    <button type="button" class="btn btn-dark toolBtn" onclick='copyReqCodeJson("code-phpRequest2")'>复制</button>
+                                </div>
+                                <div class="tab-pane fade" id="code-phpHttpClient" role="tabpanel" aria-labelledby="code-phpHttpClient-tab" tabindex="0">
+                                    <pre data-language="php"><code></code></pre>
+                                    <button type="button" class="btn btn-dark toolBtn" onclick='copyReqCodeJson("code-phpHttpClient")'>复制</button>
+                                </div>
+                                <div class="tab-pane fade" id="code-phpClient" role="tabpanel" aria-labelledby="code-phpClient-tab" tabindex="0">
+                                    <pre data-language="php"><code></code></pre>
+                                    <button type="button" class="btn btn-dark toolBtn" onclick='copyReqCodeJson("code-phpClient")'>复制</button>
+                                </div>
+                                <div class="tab-pane fade" id="code-pythonClient" role="tabpanel" aria-labelledby="code-pythonClient-tab" tabindex="0">
+                                    <pre><code data-language="python"></code></pre>
+                                    <button type="button" class="btn btn-dark toolBtn" onclick='copyReqCodeJson("code-pythonClient")'>复制</button>
+                                </div>
+                                <div class="tab-pane fade" id="code-pythonRequests" role="tabpanel" aria-labelledby="code-pythonRequests-tab" tabindex="0">
+                                    <pre><code data-language="python"></code></pre>
+                                    <button type="button" class="btn btn-dark toolBtn" onclick='copyReqCodeJson("code-pythonRequests")'>复制</button>
+                                </div>
+                                <div class="tab-pane fade" id="code-c" role="tabpanel" aria-labelledby="code-c-tab" tabindex="0">
+                                    <pre data-language="c"><code></code></pre>
+                                    <button type="button" class="btn btn-dark toolBtn" onclick='copyReqCodeJson("code-c")'>复制</button>
+                                </div>
+                                <div class="tab-pane fade" id="code-CSharp" role="tabpanel" aria-labelledby="code-CSharp-tab" tabindex="0">
+                                    <pre data-language="c"><code></code></pre>
+                                    <button type="button" class="btn btn-dark toolBtn" onclick='copyReqCodeJson("code-CSharp")'>复制</button>
+                                </div>
+                                <div class="tab-pane fade" id="code-ruby" role="tabpanel" aria-labelledby="code-ruby-tab" tabindex="0">
+                                    <pre data-language="c"><code></code></pre>
+                                    <button type="button" class="btn btn-dark toolBtn" onclick='copyReqCodeJson("code-ruby")'>复制</button>
+                                </div>
+                                <div class="tab-pane fade" id="code-go" role="tabpanel" aria-labelledby="code-go-tab" tabindex="0">
+                                    <pre data-language="c"><code></code></pre>
+                                    <button type="button" class="btn btn-dark toolBtn" onclick='copyReqCodeJson("code-go")'>复制</button>
+                                </div>
+                            </div>`
+	return template.HTML(htmlTemplate)
+}

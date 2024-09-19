@@ -6,6 +6,7 @@ import (
 	"apiBook/common/utils"
 	"fmt"
 	"github.com/gin-gonic/gin"
+	"net/url"
 	"regexp"
 	"strings"
 )
@@ -104,481 +105,972 @@ func ToolGoStructToField(c *gin.Context) {
 	return
 }
 
-// 代码生成模板
+func ToolReqCode(c *gin.Context) {
+	ctx := ginHelper.NewGinCtx(c)
+	param := &ReqCodeArg{}
+	err := ctx.GetPostArgs(&param)
+	if err != nil {
+		ctx.APIOutPutError(fmt.Errorf("参数错误"), "参数错误")
+		return
+	}
 
-// curl
-// curl --location --request POST 'https://api.ecosmos.vip/shop/pingxx' \    // 可变的
-//--header 'sign: /<B70o;7W@3W,]dG<20q' \
-//--header 'source: 2' \
-//--header 'User-Agent: apiBook/0.0.1 (https://github.com/mangenotwork/apiBook)' \   // 可变的
-//--header 'Content-Type: application/json' \    // 可变的
-//--header 'Accept: */*' \
-//--header 'Host: api.ecosmos.vip' \
-//--header 'Connection: keep-alive' \
-//--data-raw '{
-//  "activity_id":2
-//}'
+	codeType := ctx.Param("codeType")
+	obj := NewReqCode(codeType)
+	resp := obj.ReqCodeTemplate(param)
+	ctx.APIOutPut(resp, "")
+	return
+}
 
-// wget
-//wget --no-check-certificate --quiet \
-//   --method POST \
-//   --timeout=0 \
-//   --header 'sign: /<B70o;7W@3W,]dG<20q' \
-//   --header 'source: 2' \
-//   --header 'User-Agent: Apifox/1.0.0 (https://apifox.com)' \
-//   --header 'Content-Type: application/json' \
-//   --header 'Accept: */*' \
-//   --header 'Host: api.ecosmos.vip' \
-//   --header 'Connection: keep-alive' \
-//   --body-data '{
-//  "activity_id":2
-//}' \
-//    'https://api.ecosmos.vip/shop/pingxx'
+func GetAllReqCode(param *ReqCodeArg) map[string]string {
+	resp := make(map[string]string)
+	for _, v := range []string{ReqCodeTypeCurl, ReqCodeTypeWget, ReqCodeTypePowerShell, ReqCodeTypeJSFetch, ReqCodeTypeJSAxios,
+		ReqCodeTypeJSJquery, ReqCodeTypeJSXhr, ReqCodeTypeJavaUnirest, ReqCodeTypeJavaOkHttpClient, ReqCodeTypeSwift, ReqCodeTypeGo,
+		ReqCodeTypePhpRequest2, ReqCodeTypePhpHttpClient, ReqCodeTypePhpClient, ReqCodeTypePythonClient, ReqCodeTypePythonRequests,
+		ReqCodeTypeC, ReqCodeTypeCSharp, ReqCodeTypeObjectiveC, ReqCodeTypeRuby, ReqCodeTypeDart} {
+		obj := NewReqCode(v)
+		resp[v] = obj.ReqCodeTemplate(param)
+	}
+	return resp
+}
 
-// PowerShell
-//$headers = New-Object "System.Collections.Generic.Dictionary[[String],[String]]"
-//$headers.Add("sign", "/<B70o;7W@3W,]dG<20q")
-//$headers.Add("source", "2")
-//$headers.Add("User-Agent", "Apifox/1.0.0 (https://apifox.com)")
-//$headers.Add("Content-Type", "application/json")
-//$headers.Add("Accept", "*/*")
-//$headers.Add("Host", "api.ecosmos.vip")
-//$headers.Add("Connection", "keep-alive")
-//
-//$body = "{
-//`n  `"activity_id`":2
-//`n}"
-//
-//$response = Invoke-RestMethod 'https://api.ecosmos.vip/shop/pingxx' -Method 'POST' -Headers $headers -Body $body
-//$response | ConvertTo-Json
+const (
+	ReqCodeTypeCurl             = "curl"
+	ReqCodeTypeWget             = "wget"
+	ReqCodeTypePowerShell       = "powerShell"
+	ReqCodeTypeJSFetch          = "jsFetch"
+	ReqCodeTypeJSAxios          = "jsAxios"
+	ReqCodeTypeJSJquery         = "jsJquery"
+	ReqCodeTypeJSXhr            = "jsXhr"
+	ReqCodeTypeJavaUnirest      = "javaUnirest"
+	ReqCodeTypeJavaOkHttpClient = "javaOkHttpClient"
+	ReqCodeTypeSwift            = "swift"
+	ReqCodeTypeGo               = "go"
+	ReqCodeTypePhpRequest2      = "phpRequest2"
+	ReqCodeTypePhpHttpClient    = "phpHttpClient"
+	ReqCodeTypePhpClient        = "phpClient"
+	ReqCodeTypePythonClient     = "pythonClient"
+	ReqCodeTypePythonRequests   = "pythonRequests"
+	ReqCodeTypeC                = "c"
+	ReqCodeTypeCSharp           = "c#"
+	ReqCodeTypeObjectiveC       = "objectiveC"
+	ReqCodeTypeRuby             = "ruby"
+	ReqCodeTypeDart             = "dart"
+)
 
-// js - fetch
-//var myHeaders = new Headers();
-//myHeaders.append("sign", "/<B70o;7W@3W,]dG<20q");
-//myHeaders.append("source", "2");
-//myHeaders.append("User-Agent", "Apifox/1.0.0 (https://apifox.com)");
-//myHeaders.append("Content-Type", "application/json");
-//myHeaders.append("Accept", "*/*");
-//myHeaders.append("Host", "api.ecosmos.vip");
-//myHeaders.append("Connection", "keep-alive");
-//
-//var raw = JSON.stringify({
-//   "activity_id": 2
-//});
-//
-//var requestOptions = {
-//   method: 'POST',
-//   headers: myHeaders,
-//   body: raw,
-//   redirect: 'follow'
-//};
-//
-//fetch("https://api.ecosmos.vip/shop/pingxx", requestOptions)
-//   .then(response => response.text())
-//   .then(result => console.log(result))
-//   .catch(error => console.log('error', error));
+type MethodType string
 
-// js - axios
-//var axios = require('axios');
-//var data = JSON.stringify({
-//   "activity_id": 2
-//});
-//
-//var config = {
-//   method: 'post',
-//   url: 'https://api.ecosmos.vip/shop/pingxx',
-//   headers: {
-//      'sign': '/<B70o;7W@3W,]dG<20q',
-//      'source': '2',
-//      'User-Agent': 'Apifox/1.0.0 (https://apifox.com)',
-//      'Content-Type': 'application/json',
-//      'Accept': '*/*',
-//      'Host': 'api.ecosmos.vip',
-//      'Connection': 'keep-alive'
-//   },
-//   data : data
-//};
-//
-//axios(config)
-//.then(function (response) {
-//   console.log(JSON.stringify(response.data));
-//})
-//.catch(function (error) {
-//   console.log(error);
-//});
+const (
+	POST    MethodType = "POST"
+	GET     MethodType = "GET"
+	HEAD    MethodType = "HEAD"
+	PUT     MethodType = "PUT"
+	DELETE  MethodType = "DELETE"
+	PATCH   MethodType = "PATCH"
+	OPTIONS MethodType = "OPTIONS"
+	ANY     MethodType = ""
+)
 
-// js - jquery
-//var settings = {
-//   "url": "https://api.ecosmos.vip/shop/pingxx",
-//   "method": "POST",
-//   "timeout": 0,
-//   "headers": {
-//      "sign": "/<B70o;7W@3W,]dG<20q",
-//      "source": "2",
-//      "User-Agent": "Apifox/1.0.0 (https://apifox.com)",
-//      "Content-Type": "application/json",
-//      "Accept": "*/*",
-//      "Host": "api.ecosmos.vip",
-//      "Connection": "keep-alive"
-//   },
-//   "data": JSON.stringify({
-//      "activity_id": 2
-//   }),
-//};
-//
-//$.ajax(settings).done(function (response) {
-//   console.log(response);
-//});
+var DefaultHeader = map[string]string{
+	"Accept":     "*/*",
+	"Connection": "keep-alive",
+}
 
-// js - xhr
-//// WARNING: For POST requests, body is set to null by browsers.
-//var data = JSON.stringify({
-//   "activity_id": 2
-//});
-//
-//var xhr = new XMLHttpRequest();
-//xhr.withCredentials = true;
-//
-//xhr.addEventListener("readystatechange", function() {
-//   if(this.readyState === 4) {
-//      console.log(this.responseText);
-//   }
-//});
-//
-//xhr.open("POST", "https://api.ecosmos.vip/shop/pingxx");
-//xhr.setRequestHeader("sign", "/<B70o;7W@3W,]dG<20q");
-//xhr.setRequestHeader("source", "2");
-//xhr.setRequestHeader("User-Agent", "Apifox/1.0.0 (https://apifox.com)");
-//xhr.setRequestHeader("Content-Type", "application/json");
-//xhr.setRequestHeader("Accept", "*/*");
-//xhr.setRequestHeader("Host", "api.ecosmos.vip");
-//xhr.setRequestHeader("Connection", "keep-alive");
-//
-//xhr.send(data);
+var ContentTypeMap = map[string]string{
+	"json":      "application/json",
+	"form":      "application/x-www-form-urlencoded",
+	"text":      "text/plain",
+	"form-data": "multipart/form-data",
+	"xml":       "application/xml",
+	"stream":    "application/octet-stream",
+}
 
-// java - Unirest
-//Unirest.setTimeouts(0, 0);
-//HttpResponse<String> response = Unirest.post("https://api.ecosmos.vip/shop/pingxx")
-//   .header("sign", "/<B70o;7W@3W,]dG<20q")
-//   .header("source", "2")
-//   .header("User-Agent", "Apifox/1.0.0 (https://apifox.com)")
-//   .header("Content-Type", "application/json")
-//   .header("Accept", "*/*")
-//   .header("Host", "api.ecosmos.vip")
-//   .header("Connection", "keep-alive")
-//   .body("{\r\n  \"activity_id\":2\r\n}")
-//   .asString();
+type ReqCodeTemplateEr interface {
+	ReqCodeTemplate(req *ReqCodeArg) string
+}
 
-// java - OkHttpClient
-//OkHttpClient client = new OkHttpClient().newBuilder()
-//   .build();
-//MediaType mediaType = MediaType.parse("application/json");
-//RequestBody body = RequestBody.create(mediaType, "{\r\n  \"activity_id\":2\r\n}");
-//Request request = new Request.Builder()
-//   .url("https://api.ecosmos.vip/shop/pingxx")
-//   .method("POST", body)
-//   .addHeader("sign", "/<B70o;7W@3W,]dG<20q")
-//   .addHeader("source", "2")
-//   .addHeader("User-Agent", "Apifox/1.0.0 (https://apifox.com)")
-//   .addHeader("Content-Type", "application/json")
-//   .addHeader("Accept", "*/*")
-//   .addHeader("Host", "api.ecosmos.vip")
-//   .addHeader("Connection", "keep-alive")
-//   .build();
-//Response response = client.newCall(request).execute();
+type ReqCodeArg struct {
+	Method      MethodType        `json:"method"`
+	Url         string            `json:"url"`
+	ContentType string            `json:"contentType"`
+	Header      map[string]string `json:"header"`
+	DataRaw     string            `json:"dataRaw"`
+}
 
-// swift
-//import Foundation
-//#if canImport(FoundationNetworking)
-//import FoundationNetworking
-//#endif
-//
-//var semaphore = DispatchSemaphore (value: 0)
-//
-//let parameters = "{\r\n  \"activity_id\":2\r\n}"
-//let postData = parameters.data(using: .utf8)
-//
-//var request = URLRequest(url: URL(string: "https://api.ecosmos.vip/shop/pingxx")!,timeoutInterval: Double.infinity)
-//request.addValue("/<B70o;7W@3W,]dG<20q", forHTTPHeaderField: "sign")
-//request.addValue("2", forHTTPHeaderField: "source")
-//request.addValue("Apifox/1.0.0 (https://apifox.com)", forHTTPHeaderField: "User-Agent")
-//request.addValue("application/json", forHTTPHeaderField: "Content-Type")
-//request.addValue("*/*", forHTTPHeaderField: "Accept")
-//request.addValue("api.ecosmos.vip", forHTTPHeaderField: "Host")
-//request.addValue("keep-alive", forHTTPHeaderField: "Connection")
-//
-//request.httpMethod = "POST"
-//request.httpBody = postData
-//
-//let task = URLSession.shared.dataTask(with: request) { data, response, error in
-//   guard let data = data else {
-//      print(String(describing: error))
-//      semaphore.signal()
-//      return
-//   }
-//   print(String(data: data, encoding: .utf8)!)
-//   semaphore.signal()
-//}
-//
-//task.resume()
-//semaphore.wait()
+func NewReqCode(reqCodeType string) ReqCodeTemplateEr {
+	switch reqCodeType {
+	case ReqCodeTypeCurl:
+		return &ReqCodeCurl{}
+	case ReqCodeTypeWget:
+		return &ReqCodeWget{}
+	case ReqCodeTypePowerShell:
+		return &ReqCodePowerShell{}
+	case ReqCodeTypeJSFetch:
+		return &ReqCodeJSFetch{}
+	case ReqCodeTypeJSAxios:
+		return &ReqCodeJSAxios{}
+	case ReqCodeTypeJSJquery:
+		return &ReqCodeJSJquery{}
+	case ReqCodeTypeJSXhr:
+		return &ReqCodeJSXhr{}
+	case ReqCodeTypeJavaUnirest:
+		return &ReqCodeJavaUnirest{}
+	case ReqCodeTypeJavaOkHttpClient:
+		return &ReqCodeJavaOkHttpClient{}
+	case ReqCodeTypeSwift:
+		return &ReqCodeSwift{}
+	case ReqCodeTypeGo:
+		return &ReqCodeGo{}
+	case ReqCodeTypePhpRequest2:
+		return &ReqCodePhpRequest2{}
+	case ReqCodeTypePhpHttpClient:
+		return &ReqCodePhpHttpClient{}
+	case ReqCodeTypePhpClient:
+		return &ReqCodePhpClient{}
+	case ReqCodeTypePythonClient:
+		return &ReqCodePythonClient{}
+	case ReqCodeTypePythonRequests:
+		return &ReqCodePythonRequests{}
+	case ReqCodeTypeC:
+		return &ReqCodeC{}
+	case ReqCodeTypeCSharp:
+		return &ReqCodeCSharp{}
+	case ReqCodeTypeObjectiveC:
+		return &ReqCodeObjectiveC{}
+	case ReqCodeTypeRuby:
+		return &ReqCodeRuby{}
+	case ReqCodeTypeDart:
+		return &ReqCodeDart{}
+	}
+	return nil
+}
 
-// go
-//package main
-//
-//import (
-//   "fmt"
-//   "strings"
-//   "net/http"
-//   "io/ioutil"
-//)
-//
-//func main() {
-//
-//   url := "https://api.ecosmos.vip/shop/pingxx"
-//   method := "POST"
-//
-//   payload := strings.NewReader(`{
-//  	"activity_id":2"
-//}`)
-//
-//   client := &http.Client {
-//   }
-//   req, err := http.NewRequest(method, url, payload)
-//
-//   if err != nil {
-//      fmt.Println(err)
-//      return
-//   }
-//   req.Header.Add("sign", "/<B70o;7W@3W,]dG<20q")
-//   req.Header.Add("source", "2")
-//   req.Header.Add("User-Agent", "Apifox/1.0.0 (https://apifox.com)")
-//   req.Header.Add("Content-Type", "application/json")
-//   req.Header.Add("Accept", "*/*")
-//   req.Header.Add("Host", "api.ecosmos.vip")
-//   req.Header.Add("Connection", "keep-alive")
-//
-//   res, err := client.Do(req)
-//   if err != nil {
-//      fmt.Println(err)
-//      return
-//   }
-//   defer res.Body.Close()
-//
-//   body, err := ioutil.ReadAll(res.Body)
-//   if err != nil {
-//      fmt.Println(err)
-//      return
-//   }
-//   fmt.Println(string(body))
-//}
+type ReqCodeCurl struct {
+}
 
-// php - Request2
-//<?php
-//require_once 'HTTP/Request2.php';
-//$request = new HTTP_Request2();
-//$request->setUrl('https://api.ecosmos.vip/shop/pingxx');
-//$request->setMethod(HTTP_Request2::METHOD_POST);
-//$request->setConfig(array(
-//   'follow_redirects' => TRUE
-//));
-//$request->setHeader(array(
-//   'sign' => '/<B70o;7W@3W,]dG<20q',
-//   'source' => '2',
-//   'User-Agent' => 'Apifox/1.0.0 (https://apifox.com)',
-//   'Content-Type' => 'application/json',
-//   'Accept' => '*/*',
-//   'Host' => 'api.ecosmos.vip',
-//   'Connection' => 'keep-alive'
-//));
-//$request->setBody('{
-//\n  "activity_id":2
-//\n}');
-//try {
-//   $response = $request->send();
-//   if ($response->getStatus() == 200) {
-//      echo $response->getBody();
-//   }
-//   else {
-//      echo 'Unexpected HTTP status: ' . $response->getStatus() . ' ' .
-//      $response->getReasonPhrase();
-//   }
-//}
-//catch(HTTP_Request2_Exception $e) {
-//   echo 'Error: ' . $e->getMessage();
-//}
+func (*ReqCodeCurl) ReqCodeTemplate(req *ReqCodeArg) string {
 
-// php - http Client
-//<?php
-//$client = new http\Client;
-//$request = new http\Client\Request;
-//$request->setRequestUrl('https://api.ecosmos.vip/shop/pingxx');
-//$request->setRequestMethod('POST');
-//$body = new http\Message\Body;
-//$body->append('{
-//  "activity_id":2
-//}');
-//$request->setBody($body);
-//$request->setOptions(array());
-//$request->setHeaders(array(
-//   'sign' => '/<B70o;7W@3W,]dG<20q',
-//   'source' => '2',
-//   'User-Agent' => 'Apifox/1.0.0 (https://apifox.com)',
-//   'Content-Type' => 'application/json',
-//   'Accept' => '*/*',
-//   'Host' => 'api.ecosmos.vip',
-//   'Connection' => 'keep-alive'
-//));
-//$client->enqueue($request)->send();
-//$response = $client->getResponse();
-//echo $response->getBody();
+	header := fmt.Sprintf("--header 'User-Agent:%s' \\\n", utils.RandAgent())
 
-// php - Client
-//<?php
-//$client = new Client();
-//$headers = [
-//   'sign' => '/<B70o;7W@3W,]dG<20q',
-//   'source' => '2',
-//   'User-Agent' => 'Apifox/1.0.0 (https://apifox.com)',
-//   'Content-Type' => 'application/json',
-//   'Accept' => '*/*',
-//   'Host' => 'api.ecosmos.vip',
-//   'Connection' => 'keep-alive'
-//];
-//$body = '{
-//   "activity_id": 2
-//}';
-//$request = new Request('POST', 'https://api.ecosmos.vip/shop/pingxx', $headers, $body);
-//$res = $client->sendAsync($request)->wait();
-//echo $res->getBody();
+	if req.ContentType == "json" {
+		header += fmt.Sprintf("--header 'Content-Type:%s' \\\n", "application/json")
+	}
+	for k, v := range DefaultHeader {
+		header += fmt.Sprintf("--header '%s:%s' \\\n", k, v)
+	}
+	for k, v := range req.Header {
+		header += fmt.Sprintf("--header '%s:%s' \\\n", k, v)
+	}
 
-// python - client
-//import http.client
-//import json
-//
-//conn = http.client.HTTPSConnection("api.ecosmos.vip")
-//payload = json.dumps({
-//   "activity_id": 2
-//})
-//headers = {
-//   'sign': '/<B70o;7W@3W,]dG<20q',
-//   'source': '2',
-//   'User-Agent': 'Apifox/1.0.0 (https://apifox.com)',
-//   'Content-Type': 'application/json',
-//   'Accept': '*/*',
-//   'Host': 'api.ecosmos.vip',
-//   'Connection': 'keep-alive'
-//}
-//conn.request("POST", "/shop/pingxx", payload, headers)
-//res = conn.getresponse()
-//data = res.read()
-//print(data.decode("utf-8"))
+	tpl := fmt.Sprintf(`curl --location --request %s '%s' \
+	%s --data-raw '%s'`,
+		req.Method,  // %s 请求模式 GET or POST
+		req.Url,     // %s 请求Url
+		header,      // %s header join   //--header 'sign: /<B70o;7W@3W,]dG<20q' \
+		req.DataRaw, // %s 请求参数  data-raw  json需要序列化
+	)
 
-// python - requests
-//import requests
-//import json
-//
-//url = "https://api.ecosmos.vip/shop/pingxx"
-//
-//payload = json.dumps({
-//   "activity_id": 2
-//})
-//headers = {
-//   'sign': '/<B70o;7W@3W,]dG<20q',
-//   'source': '2',
-//   'User-Agent': 'Apifox/1.0.0 (https://apifox.com)',
-//   'Content-Type': 'application/json',
-//   'Accept': '*/*',
-//   'Host': 'api.ecosmos.vip',
-//   'Connection': 'keep-alive'
-//}
-//
-//response = requests.request("POST", url, headers=headers, data=payload)
-//
-//print(response.text)
+	return tpl
+}
 
-// c#
-//var client = new RestClient("https://api.ecosmos.vip/shop/pingxx");
-//client.Timeout = -1;
-//var request = new RestRequest(Method.POST);
-//request.AddHeader("sign", "/<B70o;7W@3W,]dG<20q");
-//request.AddHeader("source", "2");
-//client.UserAgent = "Apifox/1.0.0 (https://apifox.com)";
-//request.AddHeader("Content-Type", "application/json");
-//request.AddHeader("Accept", "*/*");
-//request.AddHeader("Host", "api.ecosmos.vip");
-//request.AddHeader("Connection", "keep-alive");
-//var body = @"{
-//" + "\n" +
-//@"  ""activity_id"":2
-//" + "\n" +
-//@"}";
-//request.AddParameter("application/json", body,  ParameterType.RequestBody);
-//IRestResponse response = client.Execute(request);
-//Console.WriteLine(response.Content);
+type ReqCodeWget struct {
+}
 
-// Objective-C
-//#import <Foundation/Foundation.h>
-//
-//dispatch_semaphore_t sema = dispatch_semaphore_create(0);
-//
-//NSMutableURLRequest *request = [NSMutableURLRequest requestWithURL:[NSURL URLWithString:@"https://api.ecosmos.vip/shop/pingxx"]
-//   cachePolicy:NSURLRequestUseProtocolCachePolicy
-//   timeoutInterval:10.0];
-//NSDictionary *headers = @{
-//   @"sign": @"/<B70o;7W@3W,]dG<20q",
-//   @"source": @"2",
-//   @"User-Agent": @"Apifox/1.0.0 (https://apifox.com)",
-//   @"Content-Type": @"application/json",
-//   @"Accept": @"*/*",
-//   @"Host": @"api.ecosmos.vip",
-//   @"Connection": @"keep-alive"
-//};
-//
-//[request setAllHTTPHeaderFields:headers];
-//NSData *postData = [[NSData alloc] initWithData:[@"{\r\n  \"activity_id\":2\r\n}" dataUsingEncoding:NSUTF8StringEncoding]];
-//[request setHTTPBody:postData];
-//
-//[request setHTTPMethod:@"POST"];
-//
-//NSURLSession *session = [NSURLSession sharedSession];
-//NSURLSessionDataTask *dataTask = [session dataTaskWithRequest:request
-//completionHandler:^(NSData *data, NSURLResponse *response, NSError *error) {
-//   if (error) {
-//      NSLog(@"%@", error);
-//      dispatch_semaphore_signal(sema);
-//   } else {
-//      NSHTTPURLResponse *httpResponse = (NSHTTPURLResponse *) response;
-//      NSError *parseError = nil;
-//      NSDictionary *responseDictionary = [NSJSONSerialization JSONObjectWithData:data options:0 error:&parseError];
-//      NSLog(@"%@",responseDictionary);
-//      dispatch_semaphore_signal(sema);
-//   }
-//}];
-//[dataTask resume];
-//dispatch_semaphore_wait(sema, DISPATCH_TIME_FOREVER);
+func (*ReqCodeWget) ReqCodeTemplate(req *ReqCodeArg) string {
+	header := fmt.Sprintf("--header 'User-Agent:%s' \\\n", utils.RandAgent())
 
-// Dart
-//var headers = {
-//   'sign': '/<B70o;7W@3W,]dG<20q',
-//   'source': '2',
-//   'User-Agent': 'Apifox/1.0.0 (https://apifox.com)',
-//   'Content-Type': 'application/json',
-//   'Accept': '*/*',
-//   'Host': 'api.ecosmos.vip',
-//   'Connection': 'keep-alive'
-//};
-//var request = http.Request('POST', Uri.parse('https://api.ecosmos.vip/shop/pingxx'));
-//request.body = json.encode({
-//   "activity_id": 2
-//});
-//request.headers.addAll(headers);
-//
-//http.StreamedResponse response = await request.send();
-//
-//if (response.statusCode == 200) {
-//   print(await response.stream.bytesToString());
-//}
-//else {
-//   print(response.reasonPhrase);
-//}
+	if req.ContentType == "json" {
+		header += fmt.Sprintf("--header 'Content-Type:%s' \\\n", "application/json")
+	}
+	for k, v := range DefaultHeader {
+		header += fmt.Sprintf("--header '%s:%s' \\\n", k, v)
+	}
+	for k, v := range req.Header {
+		header += fmt.Sprintf("--header '%s:%s' \\\n", k, v)
+	}
+
+	tpl := fmt.Sprintf(`wget --no-check-certificate --quiet \
+	--method %s \
+	%s --body-data '%s' \
+    '%s'`,
+		req.Method,
+		header,
+		req.DataRaw,
+		req.Url,
+	)
+	return tpl
+}
+
+type ReqCodePowerShell struct {
+}
+
+func (*ReqCodePowerShell) ReqCodeTemplate(req *ReqCodeArg) string {
+	header := `$headers = New-Object "System.Collections.Generic.Dictionary[[String],[String]]"
+`
+	header += fmt.Sprintf(`$headers.Add("User-Agent", "%s")
+		`, utils.RandAgent())
+	if req.ContentType == "json" {
+		header += fmt.Sprintf(`$headers.Add("Content-Type", "%s")
+		`, "application/json")
+	}
+	for k, v := range DefaultHeader {
+		header += fmt.Sprintf(`$headers.Add("%s", "%s")
+		`, k, v)
+	}
+	for k, v := range req.Header {
+		header += fmt.Sprintf(`$headers.Add("%s", "%s")
+		`, k, v)
+	}
+	tpl := fmt.Sprintf(`%s $body = "%s"
+		$response = Invoke-RestMethod '%s' -Method '%s' -Headers $headers -Body $body
+		$response | ConvertTo-Json
+	`,
+		header,
+		req.DataRaw,
+		req.Url,
+		req.Method,
+	)
+	return tpl
+}
+
+type ReqCodeJSFetch struct {
+}
+
+func (*ReqCodeJSFetch) ReqCodeTemplate(req *ReqCodeArg) string {
+	header := "var headers = new Headers();\n"
+	header += fmt.Sprintf(`headers.append("User-Agent", "%s");
+		`, utils.RandAgent())
+	if req.ContentType == "json" {
+		header += fmt.Sprintf(`headers.append("Content-Type", "%s")
+		`, "application/json")
+	}
+	for k, v := range DefaultHeader {
+		header += fmt.Sprintf(`headers.append("%s", "%s")
+		`, k, v)
+	}
+	for k, v := range req.Header {
+		header += fmt.Sprintf(`headers.append("%s", "%s")
+		`, k, v)
+	}
+	tpl := fmt.Sprintf(`
+var requestOptions = {
+    method: '%s', 
+    headers: headers,
+    body: JSON.stringify(%s),
+    redirect: 'follow'
+};
+fetch("%s", requestOptions)
+   .then(response => response.text())
+   .then(result => console.log(result))
+   .catch(error => console.log('error', error));
+`,
+		req.Method,
+		req.DataRaw,
+		req.Url,
+	)
+	return tpl
+}
+
+type ReqCodeJSAxios struct {
+}
+
+func (*ReqCodeJSAxios) ReqCodeTemplate(req *ReqCodeArg) string {
+	header := fmt.Sprintf("\t'User-Agent':'%s',\n", utils.RandAgent())
+	if req.ContentType == "json" {
+		header += fmt.Sprintf("\t'Content-Type':'%s',\n", "application/json")
+	}
+	for k, v := range DefaultHeader {
+		header += fmt.Sprintf("\t'%s':'%s',\n", k, v)
+	}
+	for k, v := range req.Header {
+		header += fmt.Sprintf("\t'%s':'%s',\n", k, v)
+	}
+
+	tpl := fmt.Sprintf(`var axios = require('axios');
+var config = {
+   method: '%s',
+   url: '%s',
+   headers: {
+%s
+},
+   data : JSON.stringify(%s)
+};
+
+axios(config)
+.then(function (response) {
+   console.log(JSON.stringify(response.data));
+})
+.catch(function (error) {
+   console.log(error);
+});
+`,
+		req.Method,
+		req.Url,
+		header,
+		req.DataRaw,
+	)
+	return tpl
+}
+
+type ReqCodeJSJquery struct {
+}
+
+func (*ReqCodeJSJquery) ReqCodeTemplate(req *ReqCodeArg) string {
+	header := fmt.Sprintf("\t'User-Agent':'%s',\n", utils.RandAgent())
+	if req.ContentType == "json" {
+		header += fmt.Sprintf("\t'Content-Type':'%s',\n", "application/json")
+	}
+	for k, v := range DefaultHeader {
+		header += fmt.Sprintf("\t'%s':'%s',\n", k, v)
+	}
+	for k, v := range req.Header {
+		header += fmt.Sprintf("\t'%s':'%s',\n", k, v)
+	}
+
+	tpl := fmt.Sprintf(`var settings = {
+   "url": "%s",
+   "method": "%s",
+   "headers": {
+%s
+   },
+   "data": JSON.stringify(%s),
+};
+$.ajax(settings).done(function (response) {
+   console.log(response);
+});`,
+		req.Url,
+		req.Method,
+		header,
+		req.DataRaw,
+	)
+	return tpl
+}
+
+type ReqCodeJSXhr struct {
+}
+
+func (*ReqCodeJSXhr) ReqCodeTemplate(req *ReqCodeArg) string {
+	header := fmt.Sprintf(`xhr.setRequestHeader("User-Agent", "%s");
+`, utils.RandAgent())
+	if req.ContentType == "json" {
+		header += fmt.Sprintf(`xhr.setRequestHeader("Content-Type", "%s");
+`, "application/json")
+	}
+	for k, v := range DefaultHeader {
+		header += fmt.Sprintf(`xhr.setRequestHeader("%s", "%s");
+`, k, v)
+	}
+	for k, v := range req.Header {
+		header += fmt.Sprintf(`xhr.setRequestHeader("%s", "%s");
+`, k, v)
+	}
+	tpl := fmt.Sprintf(`var xhr = new XMLHttpRequest();
+xhr.withCredentials = true;
+
+xhr.addEventListener("readystatechange", function() {
+   if(this.readyState === 4) {
+      console.log(this.responseText);
+   }
+});
+
+xhr.open("%s", "%s");
+%s
+xhr.send(JSON.stringify(%s))`,
+		req.Method,
+		req.Url,
+		header,
+		req.DataRaw)
+	return tpl
+}
+
+type ReqCodeJavaUnirest struct {
+}
+
+func (*ReqCodeJavaUnirest) ReqCodeTemplate(req *ReqCodeArg) string {
+	header := fmt.Sprintf(`.header("User-Agent", "%s")
+`, utils.RandAgent())
+	if req.ContentType == "json" {
+		header += fmt.Sprintf(`.header("Content-Type", "%s")
+`, "application/json")
+	}
+	for k, v := range DefaultHeader {
+		header += fmt.Sprintf(`.header("%s", "%s");
+`, k, v)
+	}
+	for k, v := range req.Header {
+		header += fmt.Sprintf(`.header("%s", "%s");
+`, k, v)
+	}
+
+	method := strings.ToLower(string(req.Method))
+
+	data := strings.ReplaceAll(req.DataRaw, "\"", "\\\"")
+
+	tpl := fmt.Sprintf(`Unirest.setTimeouts(0, 0);
+HttpResponse<String> response = Unirest.%s("%s")
+%s.body("%s")
+   .asString();`,
+		method,
+		req.Url,
+		header,
+		data,
+	)
+	return tpl
+}
+
+type ReqCodeJavaOkHttpClient struct {
+}
+
+func (*ReqCodeJavaOkHttpClient) ReqCodeTemplate(req *ReqCodeArg) string {
+	header := fmt.Sprintf(`.addHeader("User-Agent", "%s")
+`, utils.RandAgent())
+	if req.ContentType == "json" {
+		header += fmt.Sprintf(`.addHeader("Content-Type", "%s")
+`, "application/json")
+	}
+	for k, v := range DefaultHeader {
+		header += fmt.Sprintf(`.addHeader("%s", "%s");
+`, k, v)
+	}
+	for k, v := range req.Header {
+		header += fmt.Sprintf(`.addHeader("%s", "%s");
+`, k, v)
+	}
+
+	data := strings.ReplaceAll(req.DataRaw, "\"", "\\\"")
+
+	tpl := fmt.Sprintf(`OkHttpClient client = new OkHttpClient().newBuilder().build();
+MediaType mediaType = MediaType.parse("application/json");
+RequestBody body = RequestBody.create(mediaType, "%s");
+Request request = new Request.Builder()
+   .url("%s")
+   .method("%s", body)
+%s.build();
+Response response = client.newCall(request).execute();`,
+		data,
+		req.Url,
+		req.Method,
+		header,
+	)
+	return tpl
+}
+
+type ReqCodeSwift struct {
+}
+
+func (*ReqCodeSwift) ReqCodeTemplate(req *ReqCodeArg) string {
+	header := fmt.Sprintf(`request.addValue("%s", forHTTPHeaderField: "User-Agent");
+`, utils.RandAgent())
+	if req.ContentType == "json" {
+		header += fmt.Sprintf(`request.addValue("%s", forHTTPHeaderField: "Content-Type");
+`, "application/json")
+	}
+	for k, v := range DefaultHeader {
+		header += fmt.Sprintf(`request.addValue("%s", forHTTPHeaderField: "%s");
+`, v, k)
+	}
+	for k, v := range req.Header {
+		header += fmt.Sprintf(`request.addValue("%s", forHTTPHeaderField: "%s");
+`, v, k)
+	}
+
+	data := strings.ReplaceAll(req.DataRaw, "\"", "\\\"")
+
+	tpl := fmt.Sprintf(`import Foundation
+#if canImport(FoundationNetworking)
+import FoundationNetworking
+#endif
+
+var semaphore = DispatchSemaphore (value: 0)
+
+let parameters = "%s"
+let postData = parameters.data(using: .utf8)
+
+var request = URLRequest(url: URL(string: "%s")!,timeoutInterval: Double.infinity)
+%s
+request.httpMethod = "%s"
+request.httpBody = postData
+
+let task = URLSession.shared.dataTask(with: request) { data, response, error in
+   guard let data = data else {
+      print(String(describing: error))
+      semaphore.signal()
+      return
+   }
+   print(String(data: data, encoding: .utf8)!)
+   semaphore.signal()
+}
+
+task.resume()
+semaphore.wait()`,
+		data,
+		req.Url,
+		header,
+		req.Method)
+	return tpl
+}
+
+type ReqCodeGo struct {
+}
+
+func (*ReqCodeGo) ReqCodeTemplate(req *ReqCodeArg) string {
+	header := fmt.Sprintf(`req.Header.Add("User-Agent", "%s")
+`, utils.RandAgent())
+	if req.ContentType == "json" {
+		header += fmt.Sprintf(`req.Header.Add("Content-Type", "%s")
+`, "application/json")
+	}
+	for k, v := range DefaultHeader {
+		header += fmt.Sprintf(`req.Header.Add("%s", "%s")
+`, k, v)
+	}
+	for k, v := range req.Header {
+		header += fmt.Sprintf(`req.Header.Add("%s", "%s")
+`, k, v)
+	}
+
+	data := strings.ReplaceAll(req.DataRaw, "\"", "\\\"")
+
+	tpl := fmt.Sprintf(`package main
+
+import (
+   "fmt"
+   "strings"
+   "net/http"
+   "io/ioutil"
+)
+
+func main() {
+   url := "%s"
+   method := "%s"
+   payload := strings.NewReader("%s")
+   client := &http.Client {}
+   req, err := http.NewRequest(method, url, payload)
+   if err != nil {
+      fmt.Println(err)
+      return
+   }
+   %s
+   res, err := client.Do(req)
+   if err != nil {
+      fmt.Println(err)
+      return
+   }
+   defer res.Body.Close()
+   body, err := ioutil.ReadAll(res.Body)
+   if err != nil {
+      fmt.Println(err)
+      return
+   }
+   fmt.Println(string(body))
+}`,
+		req.Url,
+		req.Method,
+		data,
+		header)
+	return tpl
+}
+
+type ReqCodePhpRequest2 struct {
+}
+
+func (*ReqCodePhpRequest2) ReqCodeTemplate(req *ReqCodeArg) string {
+	header := fmt.Sprintf("\t'User-Agent' => '%s',\n", utils.RandAgent())
+	if req.ContentType == "json" {
+		header += fmt.Sprintf("\t'Content-Type' => '%s',\n", "application/json")
+	}
+	for k, v := range DefaultHeader {
+		header += fmt.Sprintf("\t'%s' => '%s',\n", k, v)
+	}
+	for k, v := range req.Header {
+		header += fmt.Sprintf("\t'%s' => '%s',\n", k, v)
+	}
+
+	tpl := fmt.Sprintf(`<?php
+require_once 'HTTP/Request2.php';
+$request = new HTTP_Request2();
+$request->setUrl('%s');
+$request->setMethod(HTTP_Request2::METHOD_%s);
+$request->setConfig(array(
+   'follow_redirects' => TRUE
+));
+$request->setHeader(array(
+%s));
+$request->setBody('%s');
+try {
+   $response = $request->send();
+   if ($response->getStatus() == 200) {
+      echo $response->getBody();
+   }
+   else {
+      echo 'Unexpected HTTP status: ' . $response->getStatus() . ' ' .
+      $response->getReasonPhrase();
+   }
+}
+catch(HTTP_Request2_Exception $e) {
+   echo 'Error: ' . $e->getMessage();
+}`,
+		req.Url,
+		req.Method,
+		header,
+		req.DataRaw)
+	return tpl
+}
+
+type ReqCodePhpHttpClient struct {
+}
+
+func (*ReqCodePhpHttpClient) ReqCodeTemplate(req *ReqCodeArg) string {
+	header := fmt.Sprintf("\t'User-Agent' => '%s',\n", utils.RandAgent())
+	if req.ContentType == "json" {
+		header += fmt.Sprintf("\t'Content-Type' => '%s',\n", "application/json")
+	}
+	for k, v := range DefaultHeader {
+		header += fmt.Sprintf("\t'%s' => '%s',\n", k, v)
+	}
+	for k, v := range req.Header {
+		header += fmt.Sprintf("\t'%s' => '%s',\n", k, v)
+	}
+
+	tpl := fmt.Sprintf(`<?php
+$client = new http\Client;
+$request = new http\Client\Request;
+$request->setRequestUrl('%s');
+$request->setRequestMethod('%s');
+$body = new http\Message\Body;
+$body->append('%s');
+$request->setBody($body);
+$request->setOptions(array());
+$request->setHeaders(array(
+%s));
+$client->enqueue($request)->send();
+$response = $client->getResponse();
+echo $response->getBody();`,
+		req.Url,
+		req.Method,
+		req.DataRaw,
+		header)
+	return tpl
+}
+
+type ReqCodePhpClient struct {
+}
+
+func (*ReqCodePhpClient) ReqCodeTemplate(req *ReqCodeArg) string {
+	header := fmt.Sprintf("\t'User-Agent' => '%s',\n", utils.RandAgent())
+	if req.ContentType == "json" {
+		header += fmt.Sprintf("\t'Content-Type' => '%s',\n", "application/json")
+	}
+	for k, v := range DefaultHeader {
+		header += fmt.Sprintf("\t'%s' => '%s',\n", k, v)
+	}
+	for k, v := range req.Header {
+		header += fmt.Sprintf("\t'%s' => '%s',\n", k, v)
+	}
+
+	tpl := fmt.Sprintf(`<?php
+$client = new Client();
+$headers = [
+%s
+];
+$body = '%s';
+$request = new Request('%s', '%s', $headers, $body);
+$res = $client->sendAsync($request)->wait();
+echo $res->getBody();`,
+		header,
+		req.DataRaw,
+		req.Method,
+		req.Url)
+	return tpl
+}
+
+type ReqCodePythonClient struct {
+}
+
+func (*ReqCodePythonClient) ReqCodeTemplate(req *ReqCodeArg) string {
+	header := fmt.Sprintf("\t'User-Agent': '%s',\n", utils.RandAgent())
+	if req.ContentType == "json" {
+		header += fmt.Sprintf("\t'Content-Type': '%s',\n", "application/json")
+	}
+	for k, v := range DefaultHeader {
+		header += fmt.Sprintf("\t'%s': '%s',\n", k, v)
+	}
+	for k, v := range req.Header {
+		header += fmt.Sprintf("\t'%s': '%s',\n", k, v)
+	}
+
+	host := ""
+	path := ""
+	if obj, err := url.Parse(req.Url); err == nil {
+		host = obj.Host
+		path = obj.Path
+	}
+
+	tpl := fmt.Sprintf(`import http.client
+import json
+
+conn = http.client.HTTPSConnection("%s")
+payload = json.dumps(%s)
+headers = {
+%s}
+conn.request("%s", "%s", payload, headers)
+res = conn.getresponse()
+data = res.read()
+print(data.decode("utf-8"))`,
+		host,
+		req.DataRaw,
+		header,
+		req.Method,
+		path)
+	return tpl
+}
+
+type ReqCodePythonRequests struct {
+}
+
+func (*ReqCodePythonRequests) ReqCodeTemplate(req *ReqCodeArg) string {
+	header := fmt.Sprintf("\t'User-Agent': '%s',\n", utils.RandAgent())
+	if req.ContentType == "json" {
+		header += fmt.Sprintf("\t'Content-Type': '%s',\n", "application/json")
+	}
+	for k, v := range DefaultHeader {
+		header += fmt.Sprintf("\t'%s': '%s',\n", k, v)
+	}
+	for k, v := range req.Header {
+		header += fmt.Sprintf("\t'%s': '%s',\n", k, v)
+	}
+
+	tpl := fmt.Sprintf(`import requests
+import json
+
+url = "%s"
+payload = json.dumps(%s)
+headers = {
+%s}
+response = requests.request("%s", url, headers=headers, data=payload)
+print(response.text)`,
+		req.Url,
+		req.DataRaw,
+		header,
+		req.Method)
+	return tpl
+}
+
+type ReqCodeCSharp struct {
+}
+
+func (*ReqCodeCSharp) ReqCodeTemplate(req *ReqCodeArg) string {
+	header := fmt.Sprintf(`request.AddHeader("User-Agent", "%s");
+`, utils.RandAgent())
+	if req.ContentType == "json" {
+		header += fmt.Sprintf(`request.AddHeader("Content-Type", "%s");
+`, "application/json")
+	}
+	for k, v := range DefaultHeader {
+		header += fmt.Sprintf(`request.AddHeader("%s", "%s");
+`, k, v)
+	}
+	for k, v := range req.Header {
+		header += fmt.Sprintf(`request.AddHeader("%s", "%s");
+`, k, v)
+	}
+
+	tpl := fmt.Sprintf(`var client = new RestClient("%s");
+client.Timeout = -1;
+var request = new RestRequest(Method.%s);
+%svar body = @"%s";
+request.AddParameter("application/json", body,  ParameterType.RequestBody);
+IRestResponse response = client.Execute(request);
+Console.WriteLine(response.Content);`,
+		req.Url,
+		req.Method,
+		header,
+		req.DataRaw)
+	return tpl
+}
+
+type ReqCodeC struct {
+}
+
+func (*ReqCodeC) ReqCodeTemplate(req *ReqCodeArg) string {
+	header := fmt.Sprintf(`   headers = curl_slist_append(headers, "User-Agent: %s");
+`, utils.RandAgent())
+	if req.ContentType == "json" {
+		header += fmt.Sprintf(`   headers = curl_slist_append(headers, "Content-Type: %s");
+`, "application/json")
+	}
+	for k, v := range DefaultHeader {
+		header += fmt.Sprintf(`   headers = curl_slist_append(headers, "%s: %s");
+`, k, v)
+	}
+	for k, v := range req.Header {
+		header += fmt.Sprintf(`   headers = curl_slist_append(headers, "%s: %s");
+`, k, v)
+	}
+
+	data := strings.ReplaceAll(req.DataRaw, "\"", "\\\"")
+
+	scheme := ""
+	if obj, err := url.Parse(req.Url); err == nil {
+		scheme = obj.Scheme
+	}
+
+	tpl := fmt.Sprintf(`CURL *curl;
+CURLcode res;
+curl = curl_easy_init();
+if(curl) {
+   curl_easy_setopt(curl, CURLOPT_CUSTOMREQUEST, "%s");
+   curl_easy_setopt(curl, CURLOPT_URL, "%s");
+   curl_easy_setopt(curl, CURLOPT_FOLLOWLOCATION, 1L);
+   curl_easy_setopt(curl, CURLOPT_DEFAULT_PROTOCOL, "%s");
+   struct curl_slist *headers = NULL;
+%s   curl_easy_setopt(curl, CURLOPT_HTTPHEADER, headers);
+   const char *data = "%s";
+   curl_easy_setopt(curl, CURLOPT_POSTFIELDS, data);
+   res = curl_easy_perform(curl);
+}
+curl_easy_cleanup(curl);`,
+		req.Method,
+		req.Url,
+		scheme,
+		header,
+		data)
+	return tpl
+}
+
+type ReqCodeObjectiveC struct {
+}
+
+func (*ReqCodeObjectiveC) ReqCodeTemplate(req *ReqCodeArg) string {
+	header := fmt.Sprintf(`@"User-Agent": @"%s",
+`, utils.RandAgent())
+	if req.ContentType == "json" {
+		header += fmt.Sprintf(`@"Content-Type": @"%s",
+`, "application/json")
+	}
+	for k, v := range DefaultHeader {
+		header += fmt.Sprintf(`@"%s": @"%s",
+`, k, v)
+	}
+	for k, v := range req.Header {
+		header += fmt.Sprintf(`@"%s": @"%s",
+`, k, v)
+	}
+
+	data := strings.ReplaceAll(req.DataRaw, "\"", "\\\"")
+
+	tpl := fmt.Sprintf(`#import <Foundation/Foundation.h>
+
+dispatch_semaphore_t sema = dispatch_semaphore_create(0);
+
+NSMutableURLRequest *request = [NSMutableURLRequest requestWithURL:[NSURL URLWithString:@"%s"]
+   cachePolicy:NSURLRequestUseProtocolCachePolicy
+   timeoutInterval:10.0];
+NSDictionary *headers = @{
+%s};
+
+[request setAllHTTPHeaderFields:headers];
+NSData *postData = [[NSData alloc] initWithData:[@"%s" dataUsingEncoding:NSUTF8StringEncoding]];
+[request setHTTPBody:postData];
+
+[request setHTTPMethod:@"%s"];
+
+NSURLSession *session = [NSURLSession sharedSession];
+NSURLSessionDataTask *dataTask = [session dataTaskWithRequest:request
+completionHandler:^(NSData *data, NSURLResponse *response, NSError *error) {
+   if (error) {
+      NSLog(@"%%@", error);
+      dispatch_semaphore_signal(sema);
+   } else {
+      NSHTTPURLResponse *httpResponse = (NSHTTPURLResponse *) response;
+      NSError *parseError = nil;
+      NSDictionary *responseDictionary = [NSJSONSerialization JSONObjectWithData:data options:0 error:&parseError];
+      NSLog(@"%%@",responseDictionary);
+      dispatch_semaphore_signal(sema);
+   }
+}];
+[dataTask resume];
+dispatch_semaphore_wait(sema, DISPATCH_TIME_FOREVER);`,
+		req.Url,
+		header,
+		data,
+		req.Method)
+	return tpl
+}
+
+type ReqCodeRuby struct {
+}
+
+func (*ReqCodeRuby) ReqCodeTemplate(req *ReqCodeArg) string {
+	header := fmt.Sprintf(`request["User-Agent"] = "%s"
+`, utils.RandAgent())
+	if req.ContentType == "json" {
+		header += fmt.Sprintf(`request["Content-Type"] = "%s"
+`, "application/json")
+	}
+	for k, v := range DefaultHeader {
+		header += fmt.Sprintf(`request["%s"] = "%s"
+`, k, v)
+	}
+	for k, v := range req.Header {
+		header += fmt.Sprintf(`request["%s"] = "%s"
+`, k, v)
+	}
+
+	tpl := fmt.Sprintf(`require "uri"
+require "json"
+require "net/http"
+
+url = URI("%s")
+
+https = Net::HTTP.new(url.host, url.port)
+https.use_ssl = true
+
+request = Net::HTTP::%s.new(url)
+%s
+request.body = JSON.dump(%s)
+
+response = https.request(request)
+puts response.read_body`,
+		req.Url,
+		strings.ToTitle(string(req.Method)),
+		header,
+		req.DataRaw)
+	return tpl
+}
+
+type ReqCodeDart struct {
+}
+
+func (*ReqCodeDart) ReqCodeTemplate(req *ReqCodeArg) string {
+	header := fmt.Sprintf("\t'User-Agent': '%s',\n", utils.RandAgent())
+	if req.ContentType == "json" {
+		header += fmt.Sprintf("\t'Content-Type': '%s',\n", "application/json")
+	}
+	for k, v := range DefaultHeader {
+		header += fmt.Sprintf("\t'%s': '%s',\n", k, v)
+	}
+	for k, v := range req.Header {
+		header += fmt.Sprintf("\t'%s': '%s',\n", k, v)
+	}
+
+	tpl := fmt.Sprintf(`var headers = {
+%s};
+var request = http.Request('%s', Uri.parse('%s'));
+request.body = json.encode(%s);
+request.headers.addAll(headers);
+
+http.StreamedResponse response = await request.send();
+
+if (response.statusCode == 200) {
+   print(await response.stream.bytesToString());
+}
+else {
+   print(response.reasonPhrase);
+}`,
+		header,
+		req.Method,
+		req.Url,
+		req.DataRaw,
+	)
+	return tpl
+}

@@ -178,20 +178,47 @@ function loadApiDoc(apiDoc, snapshotList) {
         }
     }
 
+
+}
+
+function loadReqCode(reqCodeMap) {
+    console.log(reqCodeMap)
+
+    $("#code-jsFetch code").text(reqCodeMap["jsFetch"]);
+    $("#code-jsAxios code").text(reqCodeMap["jsAxios"]);
+    $("#code-jsJquery code").text(reqCodeMap["jsJquery"]);
+    $("#code-jsXhr code").text(reqCodeMap["jsXhr"]);
+    $("#code-swift code").text(reqCodeMap["swift"]);
+    $("#code-objectiveC code").text(reqCodeMap["objectiveC"]);
+    $("#code-dart code").text(reqCodeMap["dart"]);
+    $("#code-javaUnirest code").text(reqCodeMap["javaUnirest"]);
+    $("#code-javaOkHttpClient code").text(reqCodeMap["javaOkHttpClient"]);
+    $("#code-curl code").text(reqCodeMap["curl"]);
+    $("#code-wget code").text(reqCodeMap["wget"]);
+    $("#code-powerShell code").text(reqCodeMap["powerShell"]);
+    $("#code-phpRequest2 code").text(reqCodeMap["phpRequest2"]);
+    $("#code-phpHttpClient code").text(reqCodeMap["phpHttpClient"]);
+    $("#code-phpClient code").text(reqCodeMap["phpClient"]);
+    $("#code-pythonClient code").text(reqCodeMap["pythonClient"]);
+    $("#code-pythonRequests code").text(reqCodeMap["pythonRequests"]);
+    $("#code-c code").text(reqCodeMap["c"]);
+    $("#code-CSharp code").text(reqCodeMap["c#"]);
+    $("#code-ruby code").text(reqCodeMap["ruby"]);
+    $("#code-go code").text(reqCodeMap["go"]);
 }
 
 function jsonToBodyInfoItem(jsonObj, parentKey) {
     var jsonInfo = jsonObj
     for (var key in jsonInfo) {
-        var reqField = $('.reqField').map(function() {
+        var reqField = $('.reqField').map(function () {
             return $(this).val();
         }).get();
 
-        var reqVarType = $('.reqVarType').map(function() {
+        var reqVarType = $('.reqVarType').map(function () {
             return $(this).val();
         }).get();
 
-        var reqExample =  $('.reqExample').map(function() {
+        var reqExample = $('.reqExample').map(function () {
             return $(this).val();
         }).get();
 
@@ -200,23 +227,23 @@ function jsonToBodyInfoItem(jsonObj, parentKey) {
             keyType = isArrayOrObject(jsonInfo[key])
         }
         if (keyType === "string" && jsonInfo[key].length > 188) {
-            jsonInfo[key] = jsonInfo[key].substring(0,188)+"..."
+            jsonInfo[key] = jsonInfo[key].substring(0, 188) + "..."
         }
         var flag = false
         for (var has in reqField) {
             if (reqField[has] === key) {
                 if (reqVarType[has] !== keyType) {
-                    $('.reqVarType:eq('+has+')').val(keyType);
+                    $('.reqVarType:eq(' + has + ')').val(keyType);
                 }
                 if (reqExample[has] !== jsonInfo[key]) {
-                    $('.reqExample:eq('+has+')').val(jsonInfo[key]);
+                    $('.reqExample:eq(' + has + ')').val(jsonInfo[key]);
                 }
                 flag = true
             }
         }
         var field = key
         if (parentKey !== "") {
-            field = parentKey+"."+key
+            field = parentKey + "." + key
         }
         if (!flag && reqField[0] === "") {
             $(".reqField").first().val(field);
@@ -230,8 +257,8 @@ function jsonToBodyInfoItem(jsonObj, parentKey) {
             var newParentKey = parentKey
             if (newParentKey === "") {
                 newParentKey = key
-            }else {
-                newParentKey = parentKey+ "."+key
+            } else {
+                newParentKey = parentKey + "." + key
             }
             jsonToBodyInfoItem(jsonInfo[key], newParentKey)
         }
@@ -242,7 +269,7 @@ function jsonToBodyInfoItem(jsonObj, parentKey) {
                 if (newParentKey === "") {
                     newParentKey = key
                 } else {
-                    newParentKey = parentKey+ "."+key
+                    newParentKey = parentKey + "." + key
                 }
                 jsonToBodyInfoItem(jsonInfo[key][0], newParentKey)
             }
@@ -253,4 +280,10 @@ function jsonToBodyInfoItem(jsonObj, parentKey) {
 function jsonToBodyInfo() {
     var jsonInfo = editorAdd.get();
     jsonToBodyInfoItem(jsonInfo, "")
+}
+
+function copyReqCodeJson(reqCode) {
+    var txt = $("#"+reqCode+" code").text();
+    console.log(txt);
+    copyContent(txt);
 }

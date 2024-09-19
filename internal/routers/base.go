@@ -126,6 +126,7 @@ func FuncMap() {
 		"DocMainPoint":    DocMainPoint,
 		"DocMainBaseInfo": DocMainBaseInfo,
 		"ApiBookText":     ApiBookText,
+		"RequestCode":     RequestCode,
 	})
 }
 
@@ -233,6 +234,7 @@ func Mock() {
 func Tool() {
 	caseFunc := Router.Group("/tool")
 	caseFunc.POST("/goStructToField", handler.ToolGoStructToField)
+	caseFunc.POST("/reqCode/:codeType", handler.ToolReqCode)
 }
 
 func CaseFunc() {

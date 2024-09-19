@@ -162,7 +162,7 @@
 
                                 <div style="margin-bottom: 52px;">
                                     <h4 class="with-vertical-bar" id="simple-list-item-7">请求代码</h4>
-                                    todo....
+                                    {{ RequestCode }}
                                 </div>
 
                                 <div style="margin-bottom: 52px;">
@@ -697,6 +697,7 @@
                 localStorage.setItem(nowViewDoc+projectId, docId)
                 showViewDoc(data.data.content.method, data.data.content.name, docId, true)
                 loadApiDoc(data.data.content, data.data.snapshotList)
+                loadReqCode(data.data.reqCode)
             }
         })
     }
@@ -889,6 +890,7 @@
                 $("#docNavSnapshot").append("镜像:"+data.data.item.snapshotId);
                 $("#docNav").show();
                 loadApiDoc(data.data.item.documentContent, data.data.snapshotList);
+                loadReqCode(data.data.reqCode)
                 $("#docMain").animate({scrollTop:0}, 500);
             }
         })

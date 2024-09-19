@@ -46,6 +46,14 @@ type DocumentContent struct {
 	UserAcc                   string                    `json:"userAcc"`                   // 创建者
 }
 
+func (data *DocumentContent) GetReqHeaderMap() map[string]string {
+	result := make(map[string]string)
+	for _, v := range data.ReqHeader {
+		result[v.Field] = v.Example
+	}
+	return result
+}
+
 type ReqHeaderItem struct {
 	Field       string `json:"field"`       // 字段
 	VarType     string `json:"varType"`     // 类型
