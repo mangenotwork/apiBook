@@ -132,24 +132,28 @@ func (dao *DocDao) Modify(content *entity.DocumentContent, userAcc string) error
 	return nil
 }
 
-func (dao *DocDao) Delete(pid, dirId, docId string) error {
+func (dao *DocDao) Delete(pid, docId string) error {
 	oldDoc, err := dao.GetDocument(pid, docId)
 	if err != nil {
 		return err
 	}
 
-	oldDoc.DirId = db.GetDocumentDirItemTable(define.GetDirRecycleBinKey(pid))
-	err = db.DB.Set(db.GetDocumentTable(pid), docId, oldDoc)
+	err = db.DB.Delete(db.GetDocumentTable(pid), docId)
 	if err != nil {
 		return err
 	}
 
-	err = db.DB.Set(db.GetDocumentDirTable(define.GetDirRecycleBinKey(pid)), dirId, 1)
+	err = db.DB.Delete(db.GetDocumentDirItemTable(oldDoc.DirId), docId)
 	if err != nil {
 		return err
 	}
 
-	err = db.DB.Delete(db.GetDocumentDirTable(pid), dirId)
+	err = db.DB.Delete(db.GetDocumentTable(pid), docId)
+	if err != nil {
+		return err
+	}
+
+	err = db.DB.Delete(db.GetDocumentContentTable(pid), docId)
 	if err != nil {
 		return err
 	}

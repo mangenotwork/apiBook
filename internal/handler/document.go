@@ -401,7 +401,7 @@ func DocumentDelete(c *gin.Context) {
 		return
 	}
 
-	err = dao.NewDocDao().Delete(param.PId, param.DirId, param.DocId)
+	err = dao.NewDocDao().Delete(param.PId, param.DocId)
 	if err != nil {
 		ctx.APIOutPutError(err, "删除文档失败")
 		return
