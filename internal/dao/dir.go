@@ -28,7 +28,6 @@ func (dao *DirDao) GetAll(pid string) ([]*entity.DocumentDir, error) {
 	err := db.DB.GetAll(db.GetDocumentDirTable(pid), func(k, v []byte) {
 		data := &entity.DocumentDir{}
 		err := json.Unmarshal(v, &data)
-
 		if err != nil {
 			log.Error(err)
 		} else {
@@ -37,7 +36,8 @@ func (dao *DirDao) GetAll(pid string) ([]*entity.DocumentDir, error) {
 	})
 
 	if err != nil {
-		return list, err
+		log.Error(err)
+		//return list, err
 	}
 
 	return list, nil
@@ -170,6 +170,8 @@ func (dao *DirDao) GetDocList(dirId string) ([]*entity.DocumentDirItem, error) {
 	err := db.DB.GetAll(db.GetDocumentDirItemTable(dirId), func(k, v []byte) {
 		item := &entity.DocumentDirItem{}
 		err := json.Unmarshal(v, &item)
+
+		log.Info("item ==> ", item)
 
 		if err != nil {
 			log.Error(err)

@@ -28,8 +28,8 @@
         tippy('.sortDirButton', {
             content: "目录排序",
         })
-        tippy('.sortDocButton', {
-            content: "文档排序",
+        tippy('.moveDocButton', {
+            content: "移动至其他目录",
         })
         tippy('.editDocButton', {
             content: "编辑文档",
@@ -91,7 +91,7 @@
         return '<li class="hover-area docli" id="'+id+'">\n' +
             '                <p>'+methodtxt+name+'</p>\n' +
             '                <div class="btn-group btn-group-sm action-btn docliop" role="group" aria-label="Small button group">\n' +
-            '                    <button type="button" class="btn btn-outline-dark sortDocButton">{{ SVG "arrows-move" 16 16 }}</button>\n' +
+            '                    <button type="button" class="btn btn-outline-dark moveDocButton moveDoc" data-docId="'+id+'">{{ SVG "arrows-move" 16 16 }}</button>\n' +
             '                    <button type="button" class="btn btn-outline-dark editDocButton">{{ SVG "pencil-square" 16 16 }}</button>\n' +
             '                    <button type="button" class="btn btn-outline-dark shareButton docShare" data-docId="'+id+'">{{ SVG "share-fill" 16 16 }}</button>\n' +
             '                </div>\n' +

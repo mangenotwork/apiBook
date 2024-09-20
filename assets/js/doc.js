@@ -182,8 +182,6 @@ function loadApiDoc(apiDoc, snapshotList) {
 }
 
 function loadReqCode(reqCodeMap) {
-    console.log(reqCodeMap)
-
     $("#code-jsFetch code").text(reqCodeMap["jsFetch"]);
     $("#code-jsAxios code").text(reqCodeMap["jsAxios"]);
     $("#code-jsJquery code").text(reqCodeMap["jsJquery"]);

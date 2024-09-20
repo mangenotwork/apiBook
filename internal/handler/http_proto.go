@@ -113,7 +113,6 @@ type DocumentDeleteReq struct {
 
 type DocumentChangeDirReq struct {
 	PId      string `json:"pid"`
-	DirId    string `json:"dirId"`
 	DirIdNew string `json:"dirIdNew"`
 	DocId    string `json:"docId"`
 }

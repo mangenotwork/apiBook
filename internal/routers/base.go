@@ -188,6 +188,7 @@ func Document() {
 	document.POST("/sort", handler.DocumentSort)                  // 排序文档
 	document.POST("/doc/list", handler.DocumentDocList)           // 获取指定多个文档的基础信息
 	document.POST("/snapshot/item", handler.DocumentSnapshotItem) // 获取文档镜像
+	document.POST("/dir/all", handler.DocumentGetDirAll)          // 获取所有目录
 }
 
 func Share() {

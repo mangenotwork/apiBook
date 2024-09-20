@@ -47,6 +47,7 @@ func DocumentDirList(c *gin.Context) {
 			},
 			Doc: make([]*DocRespItem, 0),
 		}
+		log.Error("v.DirId = ", v.DirId)
 		dirDocList, err := dao.NewDirDao().GetDocList(v.DirId)
 		if err == nil {
 			docList := dao.NewDocDao().GetDocList(pid, dirDocList)
@@ -431,7 +432,7 @@ func DocumentChangeDir(c *gin.Context) {
 		return
 	}
 
-	err = dao.NewDocDao().ChangeDir(param.PId, param.DirId, param.DirIdNew, param.DocId)
+	err = dao.NewDocDao().ChangeDir(param.PId, param.DirIdNew, param.DocId)
 	if err != nil {
 		ctx.APIOutPutError(err, "更改文档目录失败")
 		return
@@ -525,4 +526,18 @@ func DocumentSnapshotItem(c *gin.Context) {
 	ctx.APIOutPut(resp, "")
 	return
 
+}
+
+func DocumentGetDirAll(c *gin.Context) {
+	ctx := ginHelper.NewGinCtx(c)
+	pid := ctx.Query("pid")
+
+	data, err := dao.NewDirDao().GetAll(pid)
+	if err != nil {
+		ctx.APIOutPutError(err, err.Error())
+		return
+	}
+
+	ctx.APIOutPut(data, "")
+	return
 }

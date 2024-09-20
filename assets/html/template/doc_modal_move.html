@@ -1,0 +1,21 @@
+{{ define "DocMoveDirModal" }}
+<div class="modal fade" id="docMoveDirModal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="docMoveDirModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-xl">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h1 class="modal-title fs-5" id="docMoveDirModalLabel">将文档移动至其他目录</h1>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body" style="padding: 56px;">
+                <div style="text-align: center;">
+                    <select id="dirList" class="form-select" size="20" aria-label="size 20 select" style="text-align: center;">
+                    </select>
+                    <button type="button" class="btn btn-dark" style="width: 312px;margin-bottom: 24px;margin-top: 24px;" onclick="moveDoc()">移动</button>
+                </div>
+                <input type="text" id="moveDocId" style="display: none">
+            </div>
+            <div class="modal-footer"></div>
+        </div>
+    </div>
+</div>
+{{ end }}

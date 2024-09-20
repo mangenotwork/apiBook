@@ -23,10 +23,11 @@
                                     <span id="docIdContent" style="display: none;"></span>
                                     <ul style="padding: 0;">
                                         {{ DocMainBaseInfo }}
-                                        <li><span class="txt7">操作： </span><div class="btn-group" role="group" aria-label="Basic outlined example" style="margin-left: 16px;">
-                                            <button type="button" class="btn btn-outline-dark" onclick="modifyDocContent()">编辑</button>
+                                        <li><span class="txt7">操作： </span><div class="btn-group btn-group-sm" role="group" aria-label="Basic outlined example" style="margin-left: 16px;">
+                                            <button type="button" class="btn btn-outline-dark editDocButton" onclick="modifyDocContent()">{{ SVG "pencil-square" 16 16 }}</button>
+                                            <button type="button" class="btn btn-outline-dark moveDocButton" onclick="moveDocIndex()">{{ SVG "arrows-move" 16 16 }}</button>
+                                            <button type="button" class="btn btn-outline-dark shareButton" onclick="openDocShare()">{{ SVG "share-fill" 16 16 }}</button>
                                             <button type="button" class="btn btn-outline-dark">请求</button>
-                                            <button type="button" class="btn btn-outline-dark" onclick="openDocShare()">分享</button>
                                             <button type="button" class="btn btn-outline-dark">Mock</button>
                                             <a type="button" class="btn btn-outline-dark" href="https://www.zhaozhongtian.top" target="_blank">在线工具</a>
                                           </div></li>
@@ -153,6 +154,7 @@
         {{ template "GlobalCodeModal" . }}
         {{ template "GlobalHeaderModal" . }}
         {{ template "ShareModal" . }}
+        {{ template "DocMoveDirModal" . }}
 
     </main>
 
@@ -1373,6 +1375,49 @@
         var docId = $(this).data("docid");
         openShare(2, docId)
     });
+
+    function moveDocIndex() {
+        var docId = localStorage.getItem(nowViewDoc+projectId) ;
+        $("#moveDocId").val(docId);
+        AjaxPost("/document/dir/all?pid="+projectId, "",function (data){
+            $("#dirList").empty();
+            for(var i=0; i<data.data.length; i++) {
+                $("#dirList").append('<option value="'+data.data[i].dirId+'">'+data.data[i].dirName+'</option>');
+            }
+            $("#docMoveDirModal").modal('show');
+        });
+    }
+
+    $(document).on('click', '.moveDoc', function (event){
+        event.stopPropagation();
+        var docId = $(this).data("docid");
+        $("#moveDocId").val(docId);
+        AjaxPost("/document/dir/all?pid="+projectId, "",function (data){
+            $("#dirList").empty();
+            for(var i=0; i<data.data.length; i++) {
+                $("#dirList").append('<option value="'+data.data[i].dirId+'">'+data.data[i].dirName+'</option>');
+            }
+            $("#docMoveDirModal").modal('show');
+        });
+    });
+
+    function moveDoc() {
+        var docId = $("#moveDocId").val();
+        var newDir = $("#dirList").val();
+        var param = {
+            "pid": projectId,
+            "dirIdNew": newDir,
+            "docId": docId,
+        }
+        AjaxPost("/document/changeDir", param,function (data){
+            ToastShow(data.msg);
+            localStorage.setItem(dirOpenKey+newDir,1)
+            if (data.code === 0 ) {
+                $('#docMoveDirModal').modal('hide');
+                location.reload();
+            }
+        });
+    }
 
     function openDocShare() {
         console.log("openDocShare")

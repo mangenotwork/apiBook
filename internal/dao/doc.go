@@ -157,11 +157,16 @@ func (dao *DocDao) Delete(pid, dirId, docId string) error {
 	return nil
 }
 
-func (dao *DocDao) ChangeDir(pid, dirId, dirIdNew, docId string) error {
+func (dao *DocDao) ChangeDir(pid, dirIdNew, docId string) error {
 	oldDoc, err := dao.GetDocument(pid, docId)
 	if err != nil {
 		return err
 	}
+
+	oldDir := oldDoc.DirId
+
+	log.Info("oldDir = ", oldDir)
+	log.Info("dirIdNew = ", dirIdNew)
 
 	oldDoc.DirId = dirIdNew
 	err = db.DB.Set(db.GetDocumentTable(pid), docId, oldDoc)
@@ -169,12 +174,15 @@ func (dao *DocDao) ChangeDir(pid, dirId, dirIdNew, docId string) error {
 		return err
 	}
 
-	err = db.DB.Set(db.GetDocumentDirTable(pid), dirIdNew, 1)
+	err = db.DB.Set(db.GetDocumentDirItemTable(dirIdNew), docId, &entity.DocumentDirItem{
+		DocId: docId,
+		Sort:  0,
+	})
 	if err != nil {
 		return err
 	}
 
-	err = db.DB.Delete(db.GetDocumentDirTable(pid), dirId)
+	err = db.DB.Delete(db.GetDocumentDirItemTable(oldDir), docId)
 	if err != nil {
 		return err
 	}
