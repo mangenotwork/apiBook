@@ -172,3 +172,8 @@ type DocumentSnapshotItemResp struct {
 	SnapshotList []*SnapshotItem          `json:"snapshotList"`
 	ReqCode      map[string]string        `json:"reqCode"`
 }
+
+type MoveToRecycleBinReq struct {
+	PId   string `json:"pid"`
+	DocId string `json:"docId"`
+}

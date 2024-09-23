@@ -10,6 +10,7 @@ import (
 	"fmt"
 	"github.com/gin-gonic/gin"
 	"sort"
+	"strings"
 	"time"
 )
 
@@ -540,4 +541,53 @@ func DocumentGetDirAll(c *gin.Context) {
 
 	ctx.APIOutPut(data, "")
 	return
+}
+
+func MoveToRecycleBin(c *gin.Context) {
+	ctx := ginHelper.NewGinCtx(c)
+	param := &MoveToRecycleBinReq{}
+	err := ctx.GetPostArgs(&param)
+	if err != nil {
+		ctx.APIOutPutError(fmt.Errorf("参数错误"), "参数错误")
+		return
+	}
+
+	userAcc := ctx.GetString("userAcc")
+	if userAcc == "" {
+		ctx.AuthErrorOut()
+		return
+	}
+
+	_, err = dao.NewProjectDao().Get(param.PId, userAcc, false)
+	if err != nil {
+		ctx.APIOutPutError(err, err.Error())
+		return
+	}
+
+	allDir, err := dao.NewDirDao().GetDirList(param.PId)
+	if err != nil {
+		log.Error(err)
+		ctx.APIOutPutError(err, err.Error())
+		return
+	}
+
+	recycleBinDir := ""
+
+	for _, v := range allDir {
+		if strings.Contains(v, "recycleBin_") {
+			recycleBinDir = v
+		}
+	}
+
+	log.Info("recycleBinDir = ", recycleBinDir)
+
+	err = dao.NewDocDao().ChangeDir(param.PId, recycleBinDir, param.DocId)
+	if err != nil {
+		ctx.APIOutPutError(err, "更改文档目录失败")
+		return
+	}
+
+	ctx.APIOutPut(recycleBinDir, "更改成功")
+	return
+
 }

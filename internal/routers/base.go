@@ -27,6 +27,8 @@ func Routers() *gin.Engine {
 	Router.StaticFS("/images", http.Dir("./assets/images"))
 	Router.StaticFS("/fonts", http.Dir("./assets/fonts"))
 
+	Router.StaticFile("/favicon.ico", "./assets/images/book.svg")
+
 	Router.Delims("{{", "}}")
 	FuncMap()
 	Router.LoadHTMLGlob("assets/html/**/*")
@@ -189,6 +191,7 @@ func Document() {
 	document.POST("/doc/list", handler.DocumentDocList)           // 获取指定多个文档的基础信息
 	document.POST("/snapshot/item", handler.DocumentSnapshotItem) // 获取文档镜像
 	document.POST("/dir/all", handler.DocumentGetDirAll)          // 获取所有目录
+	document.POST("/move/toRecycleBin", handler.MoveToRecycleBin) // 将文档移动至回收站
 }
 
 func Share() {

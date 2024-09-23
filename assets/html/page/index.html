@@ -27,10 +27,13 @@
                                             <button type="button" class="btn btn-outline-dark editDocButton" onclick="modifyDocContent()">{{ SVG "pencil-square" 16 16 }}</button>
                                             <button type="button" class="btn btn-outline-dark moveDocButton" onclick="moveDocIndex()">{{ SVG "arrows-move" 16 16 }}</button>
                                             <button type="button" class="btn btn-outline-dark shareButton" onclick="openDocShare()">{{ SVG "share-fill" 16 16 }}</button>
+                                            <button type="button" class="btn btn-outline-dark recycleBinButton" onclick="moveToRecycleBin()">{{ SVG "file-earmark-minus" 16 16 }}</button>
+                                            <button type="button" class="btn btn-outline-dark deleteButton" onclick="deleteDoc()">{{ SVG "file-x" 16 16 }}</button>
                                             <button type="button" class="btn btn-outline-dark">请求</button>
                                             <button type="button" class="btn btn-outline-dark">Mock</button>
                                             <a type="button" class="btn btn-outline-dark" href="https://www.zhaozhongtian.top" target="_blank">在线工具</a>
-                                          </div></li>
+                                          </div>
+                                        </li>
                                     </ul>
                                 </div>
                             </div>
@@ -239,12 +242,12 @@
     $(document).on('mouseenter', '.hover-area', function() {
         $(this).find('.action-btn').show();
         $(this).css({
-            'height':'72px',
+            'height':'42px',
         })
     }).on('mouseleave', '.hover-area', function() {
         $(this).find('.action-btn').hide();
         $(this).css({
-            'height':'38px',
+            'height':'42px',
         })
     });
 
@@ -1385,6 +1388,42 @@
                 $("#dirList").append('<option value="'+data.data[i].dirId+'">'+data.data[i].dirName+'</option>');
             }
             $("#docMoveDirModal").modal('show');
+        });
+    }
+
+    function moveToRecycleBin() {
+        var docId = localStorage.getItem(nowViewDoc+projectId) ;
+        var param = {
+            "pid": projectId,
+            "docId": docId,
+        }
+        AjaxPost("/document/move/toRecycleBin", param,function (data){
+            ToastShow(data.msg);
+            localStorage.setItem(data.data,1)
+            if (data.code === 0 ) {
+                location.reload();
+            }
+        });
+    }
+
+    function deleteDoc() {
+        var docId = localStorage.getItem(nowViewDoc+projectId) ;
+        var param = {
+            "pid": projectId,
+            "docId": docId,
+        }
+        AjaxPost("/document/delete", param,function (data){
+            ToastShow(data.msg);
+            if (data.code === 0 ) {
+
+                $('#docViewTable li:eq(0)').find("a").addClass("active")
+                var docId = $('#docViewTable li:eq(0)').find("a").attr("data-docid")
+                localStorage.setItem(nowViewDoc+projectId, docId)
+                NowDoc(docId)
+
+                location.reload();
+
+            }
         });
     }
 
