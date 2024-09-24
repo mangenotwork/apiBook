@@ -1663,6 +1663,29 @@
         ToastShow("已复制到剪切板");
     }
 
+    function delDir(dirId) {
+        var param = {
+            "pid": projectId,
+            "dirId": dirId,
+        }
+
+        AjaxPost("/document/dir/delete", param, function (data) {
+            ToastShow(data.msg);
+            if (data.code === 0) {
+                location.reload();
+            }
+        })
+
+    }
+
+    function sortDir(dirId) {
+        console.log(dirId)
+    }
+
+    function sortDoc(dirId) {
+        console.log(dirId)
+    }
+
 </script>
 <script type="text/javascript" src="/js/doc.js?v={{ .TimeStamp }}"></script>
 {{ template "end" . }}

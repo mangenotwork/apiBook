@@ -107,6 +107,11 @@ func DocumentDirCreate(c *gin.Context) {
 func DocumentDirDelete(c *gin.Context) {
 	ctx := ginHelper.NewGinCtx(c)
 	param := &DocumentDirDeleteReq{}
+	err := ctx.GetPostArgs(&param)
+	if err != nil {
+		ctx.APIOutPutError(fmt.Errorf("参数错误"), "参数错误")
+		return
+	}
 
 	userAcc := ctx.GetString("userAcc")
 	if userAcc == "" {
@@ -114,9 +119,10 @@ func DocumentDirDelete(c *gin.Context) {
 		return
 	}
 
-	_, err := dao.NewProjectDao().Get(param.PId, userAcc, false)
+	_, err = dao.NewProjectDao().Get(param.PId, userAcc, false)
 	if err != nil {
-		ctx.APIOutPutError(err, err.Error())
+		log.Error(err)
+		ctx.APIOutPutError(err, "你不是项目创建无删除权限")
 		return
 	}
 

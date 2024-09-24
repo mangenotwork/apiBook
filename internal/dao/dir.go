@@ -118,16 +118,25 @@ func (dao *DirDao) Create(pid string, data *entity.DocumentDir) error {
 func (dao *DirDao) Delete(pid, dirId string) error {
 	docIdList, err := db.DB.AllKey(db.GetDocumentDirItemTable(dirId))
 	if err != nil {
+		log.Error(err)
 		return err
 	}
 
 	err = db.DB.Delete(db.GetDocumentDirTable(pid), dirId)
 	if err != nil {
+		log.Error(err)
 		return err
 	}
 
-	for _, v := range docIdList {
-		_ = db.DB.Set(db.GetDocumentDirItemTable(define.GetDirDefault(pid)), v, 1)
+	for i, v := range docIdList {
+		i += 1
+		item := &entity.DocumentDirItem{
+			DocId: v,
+			Sort:  i,
+		}
+
+		_ = db.DB.Set(db.GetDocumentDirItemTable(define.GetDirRecycleBinKey(pid)), v, item)
+		_ = db.DB.Delete(db.GetDocumentDirItemTable(dirId), v)
 	}
 
 	return nil

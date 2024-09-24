@@ -55,7 +55,7 @@ func GetDocumentDirTable(pid string) string {
 	return fmt.Sprintf(DocumentDirTable, pid)
 }
 
-// GetDocumentDirItemTable 文档目录列表, %s是目录id(DirId)， key是文档id(DocId)  值是 int64
+// GetDocumentDirItemTable 文档目录列表, %s是目录id(DirId)， key是文档id(DocId)  值是 entity.DocumentDirItem
 func GetDocumentDirItemTable(dirId string) string {
 	return fmt.Sprintf(DocumentDirItemTable, dirId)
 }

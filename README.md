@@ -10,7 +10,6 @@
 - v0.0.3 搜索功能
 
 ### todo list
-- 删除目录
 - 目录排序
 - 文档排序
 - 这个版本功能测试+冒烟测试
@@ -44,7 +43,8 @@
 - 推广使用
 - v1.0.2 <发布tag>
 - 接口测试流程（需要分化）
-
+- v1.0.3 <发布tag>
+- 支持 swagger 并对接 swagger
 
 ## bug
 - [功能测试][文档页面] 请求数据类型需要显示为 Content-Type:application/json; charset=utf-8 这种
