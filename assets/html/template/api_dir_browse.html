@@ -1,20 +1,20 @@
 {{ define "api_dir_browse" }}
-<div class="col-md-1 col-lg-2" style="height: 100vh;background-color: #424242;padding-top: 22px;">
+<div class="col-md-1 col-lg-2" style="height: 100vh;background-color: #424242;padding-top: 8px;">
     <div style="height: 42px;color: #ffffff;padding: 8px;padding-bottom:12px;">
-        <span style="font-size: 18px;">{{ .projectName }}</span>
+        <span style="font-size: 18px;">{{ .projectName }} - 接口文档</span>
     </div>
 
-    <div class="btn-group btn-group-sm" role="group" aria-label="Basic outlined example" style="margin-top: 8px;margin-bottom: 8px;background-color: #7c7b7b;width: 100%; ">
-        <button type="button" class="btn btn-dark shareButton">{{ SVG "share-fill" 16 16 }}</button>
+    <div class="btn-group btn-group-sm" role="group" aria-label="Basic outlined example" style="margin-top: 8px;margin-bottom: 0px;background-color: #7c7b7b;width: 100%; ">
+<!--        <button type="button" class="btn btn-dark shareButton">{{ SVG "share-fill" 16 16 }}</button>-->
         <!--        <button type="button" class="btn btn-dark changeButton">{{ SVG "arrow-left-right" 16 16 }}</button>-->
 <!--        <button type="button" class="btn btn-dark addDirButton" onclick="openAddDocDir()">{{ SVG "folder-plust" 16 16 }}</button>-->
 <!--        <button type="button" class="btn btn-dark addDocButton" onclick="newAPIDoc('')">{{ SVG "plus-lg" 16 16 }}</button>-->
         <!--        <button type="button" class="btn btn-dark pConfButton" onclick="openPConf('{{ .projectId }}')">{{ SVG "gear-fill" 16 16 }}</button>-->
-        <button type="button" class="btn btn-dark globalCodeButton" onclick="openGlobalCodeModal()" style="font-size: 11px;">code</button>
-        <button type="button" class="btn btn-dark globalHeaderButton" onclick="openGlobalHeaderModal()" style="font-size: 11px;">header</button>
+<!--        <button type="button" class="btn btn-dark globalCodeButton" onclick="openGlobalCodeModal()" style="font-size: 11px;">全局code</button>-->
+<!--        <button type="button" class="btn btn-dark globalHeaderButton" onclick="openGlobalHeaderModal()" style="font-size: 11px;">全局header</button>-->
     </div>
 
-    <div style="height: 56px;padding-top: 8px;margin-bottom: 16px;">
+    <div style="height: 56px;padding-top: 0px;margin-bottom: 16px;">
         <div class="input-group">
             <input type="text" class="form-control" placeholder="api名称或url" aria-label="api名称或url" aria-describedby="button-addon2">
             <button class="btn btn-dark" type="button" id="button-addon2" data-bs-toggle="modal" data-bs-target="#apiDocModal">搜索</button>
@@ -23,7 +23,7 @@
 
     <div id="wrap" style="border-radius: 4px;background-color: #dddddd">
     </div>
-    <div style="padding: 8px;">
+    <div style="padding: 8px;margin-top: 8px;">
         <a href="https://github.com/mangenotwork/apiBook" target="_blank" style="color: #dddddd; text-decoration: none;">apiBook v0.0.1</a>
     </div>
 </div>
