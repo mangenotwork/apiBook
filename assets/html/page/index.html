@@ -1674,6 +1674,7 @@
         AjaxPost("/document/dir/delete", param, function (data) {
             ToastShow(data.msg);
             if (data.code === 0) {
+                localStorage.setItem(dirOpenKey+data.data, 1)
                 location.reload();
             }
         })

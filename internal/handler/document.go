@@ -136,15 +136,13 @@ func DocumentDirDelete(c *gin.Context) {
 		return
 	}
 
-	err = dao.NewDirDao().Delete(param.PId, param.DirId)
+	dirRecycleBin, err := dao.NewDirDao().Delete(param.PId, param.DirId)
 	if err != nil {
 		ctx.APIOutPutError(err, err.Error())
 		return
 	}
 
-	// 目录重新排序
-
-	ctx.APIOutPut("删除目录成功", "删除目录成功")
+	ctx.APIOutPut(dirRecycleBin, "删除目录成功")
 	return
 }
 

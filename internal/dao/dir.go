@@ -119,17 +119,17 @@ func (dao *DirDao) Create(pid string, data *entity.DocumentDir) error {
 	return define.DirNameExistErr
 }
 
-func (dao *DirDao) Delete(pid, dirId string) error {
+func (dao *DirDao) Delete(pid, dirId string) (string, error) {
 	docIdList, err := db.DB.AllKey(db.GetDocumentDirItemTable(dirId))
 	if err != nil {
 		log.Error(err)
-		return err
+		return define.GetDirRecycleBinKey(pid), err
 	}
 
 	err = db.DB.Delete(db.GetDocumentDirTable(pid), dirId)
 	if err != nil {
 		log.Error(err)
-		return err
+		return define.GetDirRecycleBinKey(pid), err
 	}
 
 	for i, v := range docIdList {
@@ -143,7 +143,7 @@ func (dao *DirDao) Delete(pid, dirId string) error {
 		_ = db.DB.Delete(db.GetDocumentDirItemTable(dirId), v)
 	}
 
-	return nil
+	return define.GetDirRecycleBinKey(pid), nil
 }
 
 func (dao *DirDao) Modify(pid, dirId, dirName string) error {
