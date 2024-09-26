@@ -1,0 +1,24 @@
+{{ define "DirSortModal" }}
+<div class="modal fade" id="dirSortModal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="dirSortModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-xl">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h1 class="modal-title fs-5" id="dirSortModalLabel">目录排序</h1>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body" style="padding: 56px;">
+
+                <div class="list-group" id="dirSortWrap">
+                    <ul></ul>
+                </div>
+
+            </div>
+
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">取消</button>
+                <button type="button" class="btn btn-primary" onclick="dirSortSubmit()">提交</button>
+            </div>
+        </div>
+    </div>
+</div>
+{{ end }}

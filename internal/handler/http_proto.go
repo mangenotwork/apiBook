@@ -85,6 +85,17 @@ type DocumentListReq struct {
 	DirId string `json:"dirId"`
 }
 
+type DocumentDirSortReq struct {
+	PId     string   `json:"pid"`
+	DirList []string `json:"dirList"`
+}
+
+type DocumentSortReq struct {
+	PId     string   `json:"pid"`
+	DirId   string   `json:"dirId"`
+	DocList []string `json:"docList"`
+}
+
 type DocumentItemParam struct {
 	PId   string `json:"pid"`
 	DocId string `json:"docId"`
@@ -176,4 +187,9 @@ type DocumentSnapshotItemResp struct {
 type MoveToRecycleBinReq struct {
 	PId   string `json:"pid"`
 	DocId string `json:"docId"`
+}
+
+type DocumentGetDocAllReq struct {
+	PId   string `json:"pid"`
+	DirId string `json:"dirId"`
 }

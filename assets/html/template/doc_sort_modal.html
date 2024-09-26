@@ -1,0 +1,24 @@
+{{ define "DocSortModal" }}
+<div class="modal fade" id="docSortModal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="docSortModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-xl">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h1 class="modal-title fs-5" id="docSortModalLabel">文档排序</h1>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body" style="padding: 56px;">
+
+                <div class="list-group" id="docSortWrap">
+                    <ul></ul>
+                </div>
+                <input type="text" id="docSortDirId" style="display: none">
+            </div>
+
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">取消</button>
+                <button type="button" class="btn btn-primary" onclick="docSortSubmit()">提交</button>
+            </div>
+        </div>
+    </div>
+</div>
+{{ end }}

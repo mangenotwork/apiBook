@@ -22,6 +22,10 @@ func (dao *DirDao) Get(pid, dirId string) (*entity.DocumentDir, error) {
 	return result, err
 }
 
+func (dao *DirDao) Update(pid, dirId string, data *entity.DocumentDir) error {
+	return db.DB.Set(db.GetDocumentDirTable(pid), dirId, data)
+}
+
 func (dao *DirDao) GetAll(pid string) ([]*entity.DocumentDir, error) {
 	list := make([]*entity.DocumentDir, 0)
 
@@ -173,14 +177,16 @@ func (dao *DirDao) GetDoc(dirId, docId string) (*entity.DocumentDirItem, error) 
 	return result, err
 }
 
+func (dao *DirDao) UpdateDoc(dirId, docId string, data *entity.DocumentDirItem) error {
+	return db.DB.Set(db.GetDocumentDirItemTable(dirId), docId, data)
+}
+
 func (dao *DirDao) GetDocList(dirId string) ([]*entity.DocumentDirItem, error) {
 	result := make([]*entity.DocumentDirItem, 0)
 
 	err := db.DB.GetAll(db.GetDocumentDirItemTable(dirId), func(k, v []byte) {
 		item := &entity.DocumentDirItem{}
 		err := json.Unmarshal(v, &item)
-
-		log.Info("item ==> ", item)
 
 		if err != nil {
 			log.Error(err)

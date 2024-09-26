@@ -41,6 +41,10 @@ func (dao *DocDao) GetDocument(pid, docId string) (*entity.Document, error) {
 	return result, err
 }
 
+func (dao *DirDao) UpdateDocument(pid, docId string, data *entity.Document) error {
+	return db.DB.Set(db.GetDocumentTable(pid), docId, data)
+}
+
 func (dao *DocDao) GetDocumentContent(pid, docId string) (*entity.DocumentContent, error) {
 	result := &entity.DocumentContent{}
 	err := db.DB.Get(db.GetDocumentContentTable(pid), docId, &result)

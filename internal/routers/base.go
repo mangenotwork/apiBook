@@ -191,6 +191,7 @@ func Document() {
 	document.POST("/doc/list", handler.DocumentDocList)           // 获取指定多个文档的基础信息
 	document.POST("/snapshot/item", handler.DocumentSnapshotItem) // 获取文档镜像
 	document.POST("/dir/all", handler.DocumentGetDirAll)          // 获取所有目录
+	document.POST("/doc/all", handler.DocumentGetDocAll)          // 获取所有文档
 	document.POST("/move/toRecycleBin", handler.MoveToRecycleBin) // 将文档移动至回收站
 }
 

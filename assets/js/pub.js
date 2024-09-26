@@ -93,7 +93,7 @@ async function copyContent (content) {
                 floatStyle: {
                     //用固定定位可以防止定位父级不是Body的情况的兼容处理，表示不兼容IE6，无妨
                     'position': 'fixed',
-                    'box-shadow': '10px 10px 20px 0 #eee',
+                    //'box-shadow': '10px 10px 20px 0 #eee',
                     // 'webkitTransform': 'rotate(4deg)',
                     // 'mozTransform': 'rotate(4deg)',
                     // 'msTransform': 'rotate(4deg)',

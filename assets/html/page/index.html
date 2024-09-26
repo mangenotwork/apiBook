@@ -158,6 +158,8 @@
         {{ template "GlobalHeaderModal" . }}
         {{ template "ShareModal" . }}
         {{ template "DocMoveDirModal" . }}
+        {{ template "DirSortModal" . }}
+        {{ template "DocSortModal" . }}
 
     </main>
 
@@ -1678,12 +1680,93 @@
 
     }
 
-    function sortDir(dirId) {
-        console.log(dirId)
+    $( '#dirSortWrap' ).DDSort({
+        target: 'li',
+        floatStyle: {}
+    });
+
+    function sortDir() {
+        AjaxPost("/document/dir/all?pid="+projectId, "",function (data){
+            $("#dirSortWrap ul").empty();
+            for(var i=0; i<data.data.length; i++) {
+                $("#dirSortWrap ul").append('<li class="list-group-item list-group-item-action" data-id="'+data.data[i].dirId+'">{{ SVG "folder" 21 21 }} '+data.data[i].dirName+'</li>');
+            }
+            $('#dirSortModal').modal('show');
+        });
     }
 
+    function dirSortSubmit() {
+        var dirList = $('#dirSortWrap li').map(function() {
+            return $(this).attr("data-id");
+        }).get();
+
+        var param = {
+            "pid": projectId,
+            "dirList": dirList,
+        }
+
+        AjaxPost("/document/dir/sort", param, function (data) {
+            ToastShow(data.msg);
+            if (data.code === 0) {
+                location.reload();
+            }
+        })
+    }
+
+    $( '#docSortWrap' ).DDSort({
+        target: 'li',
+        floatStyle: {}
+    });
+
     function sortDoc(dirId) {
+
+        var param = {
+            "pid": projectId,
+            "dirId": dirId,
+        }
+
+        AjaxPost("/document/doc/all", param,function (data){
+            console.log(data)
+            $("#docSortDirId").val(dirId);
+            $("#docSortWrap ul").empty();
+            for(var i=0; i<data.data.length; i++) {
+                var methodtxt = ""
+                switch (data.data[i].method) {
+                    case "GET":methodtxt = GETSpan;break;
+                    case "DELETE":methodtxt = DELETESpan;break;
+                    case "POST":methodtxt = POSTSpan;break;
+                    case "HEAD":methodtxt = HEADSpan;break;
+                    case "PUT":methodtxt = PUTSpan;break;
+                    case "OPTIONS":methodtxt = OPTIONSSpan;break;
+                }
+                $("#docSortWrap ul").append('<li class="list-group-item list-group-item-action" data-id="'+data.data[i].docId+'">'+methodtxt+ " "+data.data[i].title+'</li>');
+            }
+
+            $('#docSortModal').modal('show');
+
+        });
+    }
+
+    function docSortSubmit() {
+        var dirId = $("#docSortDirId").val();
+        var docList = $('#docSortWrap li').map(function() {
+            return $(this).attr("data-id");
+        }).get();
         console.log(dirId)
+        console.log(docList)
+
+        var param = {
+            "pid": projectId,
+            "dirId": dirId,
+            "docList": docList,
+        }
+
+        AjaxPost("/document/sort", param, function (data) {
+            ToastShow(data.msg);
+            if (data.code === 0) {
+                location.reload();
+            }
+        })
     }
 
 </script>

@@ -41,6 +41,7 @@ func DocumentDirList(c *gin.Context) {
 	})
 
 	for _, v := range data {
+
 		item := &DocumentDirListItem{
 			Dir: &DirRespItem{
 				DirId: v.DirId,
@@ -48,9 +49,17 @@ func DocumentDirList(c *gin.Context) {
 			},
 			Doc: make([]*DocRespItem, 0),
 		}
-		log.Error("v.DirId = ", v.DirId)
+
 		dirDocList, err := dao.NewDirDao().GetDocList(v.DirId)
 		if err == nil {
+
+			sort.Slice(dirDocList, func(i, j int) bool {
+				if dirDocList[i].Sort < dirDocList[j].Sort {
+					return true
+				}
+				return false
+			})
+
 			docList := dao.NewDocDao().GetDocList(pid, dirDocList)
 			for _, docItem := range docList {
 				item.Doc = append(item.Doc, &DocRespItem{
@@ -59,6 +68,7 @@ func DocumentDirList(c *gin.Context) {
 					Title:  docItem.Name,
 				})
 			}
+
 		}
 		resp = append(resp, item)
 	}
@@ -170,7 +180,30 @@ func DocumentDirModify(c *gin.Context) {
 }
 
 func DocumentDirSort(c *gin.Context) {
-	// todo 方案未定
+	ctx := ginHelper.NewGinCtx(c)
+	param := &DocumentDirSortReq{}
+	err := ctx.GetPostArgs(&param)
+	if err != nil {
+		ctx.APIOutPutError(fmt.Errorf("参数错误"), "参数错误")
+		return
+	}
+
+	for i, v := range param.DirList {
+		data, err := dao.NewDirDao().Get(param.PId, v)
+		if err != nil {
+			log.Error(err)
+			continue
+		}
+		data.Sort = i
+		err = dao.NewDirDao().Update(param.PId, v, data)
+		if err != nil {
+			log.Error(err)
+			continue
+		}
+	}
+
+	ctx.APIOutPut("完成", "完成")
+	return
 }
 
 func DocumentList(c *gin.Context) {
@@ -450,7 +483,31 @@ func DocumentChangeDir(c *gin.Context) {
 }
 
 func DocumentSort(c *gin.Context) {
-	// todo...
+	ctx := ginHelper.NewGinCtx(c)
+	param := &DocumentSortReq{}
+	err := ctx.GetPostArgs(&param)
+	if err != nil {
+		ctx.APIOutPutError(fmt.Errorf("参数错误"), "参数错误")
+		return
+	}
+
+	for i, v := range param.DocList {
+		data, err := dao.NewDirDao().GetDoc(param.DirId, v)
+		if err != nil {
+			log.Error(err)
+			continue
+		}
+
+		data.Sort = i
+		err = dao.NewDirDao().UpdateDoc(param.DirId, v, data)
+		if err != nil {
+			log.Error(err)
+			continue
+		}
+	}
+
+	ctx.APIOutPut("完成", "完成")
+	return
 }
 
 func DocumentDocList(c *gin.Context) {
@@ -545,7 +602,50 @@ func DocumentGetDirAll(c *gin.Context) {
 		return
 	}
 
+	sort.Slice(data, func(i, j int) bool {
+		if data[i].Sort < data[j].Sort {
+			return true
+		}
+		return false
+	})
+
 	ctx.APIOutPut(data, "")
+	return
+}
+
+func DocumentGetDocAll(c *gin.Context) {
+	ctx := ginHelper.NewGinCtx(c)
+	param := &DocumentGetDocAllReq{}
+	err := ctx.GetPostArgs(&param)
+	if err != nil {
+		ctx.APIOutPutError(fmt.Errorf("参数错误"), "参数错误")
+		return
+	}
+
+	list := make([]*DocRespItem, 0)
+
+	dirDocList, err := dao.NewDirDao().GetDocList(param.DirId)
+	if err == nil {
+
+		sort.Slice(dirDocList, func(i, j int) bool {
+			if dirDocList[i].Sort < dirDocList[j].Sort {
+				return true
+			}
+			return false
+		})
+
+		docList := dao.NewDocDao().GetDocList(param.PId, dirDocList)
+		for _, docItem := range docList {
+			list = append(list, &DocRespItem{
+				DocId:  docItem.DocId,
+				Method: docItem.Method,
+				Title:  docItem.Name,
+			})
+		}
+	}
+
+	ctx.APIOutPut(list, "")
+
 	return
 }
 
