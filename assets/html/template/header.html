@@ -50,41 +50,42 @@
                                 </a>
                             </li>
                             <li>
-                                <a class="dropdown-item" href="#">
+                                <a class="dropdown-item" onclick="openShare(1, '')">
                                     <span style="margin-right: 4px;position: relative;top: -2px;">{{ SVG "share-fill" 18 18 }}</span>
                                     <span>分享项目</span>
                                 </a>
                             </li>
                             <li>
-                                <a class="dropdown-item" href="#">
+                                <a class="dropdown-item" onclick="openAddDocDir()">
                                     <span style="margin-right: 4px;position: relative;top: -2px;">{{ SVG "folder-plust" 18 18 }}</span>
                                     <span>创建目录</span>
                                 </a>
                             </li>
                             <li>
-                                <a class="dropdown-item" href="#">
+                                <a class="dropdown-item" onclick="newAPIDoc('')">
                                     <span style="margin-right: 4px;position: relative;top: -2px;">{{ SVG "plus-lg" 18 18 }}</span>
                                     <span>创建文档</span>
                                 </a>
                             </li>
                             <li>
-                                <a class="dropdown-item" href="#">
+                                <a class="dropdown-item" onclick="sortDir()">
                                     <span style="margin-right: 4px;position: relative;top: -2px;">{{ SVG "arrow-down-up" 18 18 }}</span>
                                     <span>目录排序</span>
                                 </a>
                             </li>
                             <li>
-                                <a class="dropdown-item" href="#">
-                                    <span style="margin-right: 4px;position: relative;top: -2px;">{{ SVG "file-text" 18 18 }}</span>
-                                    <span>全局header</span>
-                                </a>
-                            </li>
-                            <li>
-                                <a class="dropdown-item" href="#">
+                                <a class="dropdown-item" onclick="openGlobalCodeModal()">
                                     <span style="margin-right: 4px;position: relative;top: -2px;">{{ SVG "file-text" 18 18 }}</span>
                                     <span>全局code</span>
                                 </a>
                             </li>
+                            <li>
+                                <a class="dropdown-item" onclick="openGlobalHeaderModal()">
+                                    <span style="margin-right: 4px;position: relative;top: -2px;">{{ SVG "file-text" 18 18 }}</span>
+                                    <span>全局header</span>
+                                </a>
+                            </li>
+
                         </ul>
                     </li>
                     {{ end }}

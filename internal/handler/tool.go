@@ -338,20 +338,20 @@ type ReqCodeJSFetch struct {
 func (*ReqCodeJSFetch) ReqCodeTemplate(req *ReqCodeArg) string {
 	header := "var headers = new Headers();\n"
 	header += fmt.Sprintf(`headers.append("User-Agent", "%s");
-		`, utils.RandAgent())
+`, utils.RandAgent())
 	if req.ContentType == "json" {
-		header += fmt.Sprintf(`headers.append("Content-Type", "%s")
-		`, "application/json")
+		header += fmt.Sprintf(`headers.append("Content-Type", "%s");
+`, "application/json")
 	}
 	for k, v := range DefaultHeader {
-		header += fmt.Sprintf(`headers.append("%s", "%s")
-		`, k, v)
+		header += fmt.Sprintf(`headers.append("%s", "%s");
+`, k, v)
 	}
 	for k, v := range req.Header {
-		header += fmt.Sprintf(`headers.append("%s", "%s")
-		`, k, v)
+		header += fmt.Sprintf(`headers.append("%s", "%s");
+`, k, v)
 	}
-	tpl := fmt.Sprintf(`
+	tpl := fmt.Sprintf(`%s
 var requestOptions = {
     method: '%s', 
     headers: headers,
@@ -363,6 +363,7 @@ fetch("%s", requestOptions)
    .then(result => console.log(result))
    .catch(error => console.log('error', error));
 `,
+		header,
 		req.Method,
 		req.DataRaw,
 		req.Url,
@@ -390,8 +391,7 @@ var config = {
    method: '%s',
    url: '%s',
    headers: {
-%s
-},
+%s},
    data : JSON.stringify(%s)
 };
 
@@ -430,8 +430,7 @@ func (*ReqCodeJSJquery) ReqCodeTemplate(req *ReqCodeArg) string {
    "url": "%s",
    "method": "%s",
    "headers": {
-%s
-   },
+%s},
    "data": JSON.stringify(%s),
 };
 $.ajax(settings).done(function (response) {
@@ -614,18 +613,18 @@ type ReqCodeGo struct {
 
 func (*ReqCodeGo) ReqCodeTemplate(req *ReqCodeArg) string {
 	header := fmt.Sprintf(`req.Header.Add("User-Agent", "%s")
-`, utils.RandAgent())
+	`, utils.RandAgent())
 	if req.ContentType == "json" {
 		header += fmt.Sprintf(`req.Header.Add("Content-Type", "%s")
-`, "application/json")
+	`, "application/json")
 	}
 	for k, v := range DefaultHeader {
 		header += fmt.Sprintf(`req.Header.Add("%s", "%s")
-`, k, v)
+	`, k, v)
 	}
 	for k, v := range req.Header {
 		header += fmt.Sprintf(`req.Header.Add("%s", "%s")
-`, k, v)
+	`, k, v)
 	}
 
 	data := strings.ReplaceAll(req.DataRaw, "\"", "\\\"")
@@ -941,19 +940,19 @@ type ReqCodeObjectiveC struct {
 }
 
 func (*ReqCodeObjectiveC) ReqCodeTemplate(req *ReqCodeArg) string {
-	header := fmt.Sprintf(`@"User-Agent": @"%s",
-`, utils.RandAgent())
+	header := fmt.Sprintf(`		@"User-Agent": @"%s",
+		`, utils.RandAgent())
 	if req.ContentType == "json" {
 		header += fmt.Sprintf(`@"Content-Type": @"%s",
-`, "application/json")
+		`, "application/json")
 	}
 	for k, v := range DefaultHeader {
 		header += fmt.Sprintf(`@"%s": @"%s",
-`, k, v)
+		`, k, v)
 	}
 	for k, v := range req.Header {
 		header += fmt.Sprintf(`@"%s": @"%s",
-`, k, v)
+		`, k, v)
 	}
 
 	data := strings.ReplaceAll(req.DataRaw, "\"", "\\\"")
