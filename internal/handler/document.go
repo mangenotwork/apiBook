@@ -334,6 +334,11 @@ func DocumentItem(c *gin.Context) {
 		return
 	}
 
+	data.ReqType = define.ReqTypeCode(data.ReqType.GetName())
+	if len(data.Resp) > 0 {
+		data.Resp[0].RespType = define.ReqTypeCode(data.Resp[0].RespType.GetName())
+	}
+
 	resp := &DocumentItemResp{
 		Content:      data,
 		SnapshotList: make([]*SnapshotItem, 0),

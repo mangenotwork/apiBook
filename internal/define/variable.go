@@ -43,6 +43,24 @@ const (
 	ReqTypeGraphQL            = "GraphQL"
 )
 
+var ReqTypeCodeNameMap = map[ReqTypeCode]string{
+	ReqTypeText:               "text/plain",
+	ReqTypeFormData:           "multipart/form-data",
+	ReqTypeXWWWFormUrlEncoded: "application/x-www-form-urlencoded",
+	ReqTypeJson:               "application/json",
+	ReqTypeXml:                "application/xml",
+	ReqTypeRaw:                "text/plain",
+	ReqTypeBinary:             "application/octet-stream",
+	ReqTypeGraphQL:            "application/json",
+}
+
+func (c ReqTypeCode) GetName() string {
+	if value, ok := ReqTypeCodeNameMap[c]; ok {
+		return value
+	}
+	return ""
+}
+
 const (
 	DirDefault       = "default_%s"    // 默认目录Key
 	DirRecycleBinKey = "recycleBin_%s" // 回收站目录Key

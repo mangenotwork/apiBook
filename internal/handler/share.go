@@ -206,6 +206,11 @@ func ShareDocumentItem(c *gin.Context) {
 		return
 	}
 
+	data.ReqType = define.ReqTypeCode(data.ReqType.GetName())
+	if len(data.Resp) > 0 {
+		data.Resp[0].RespType = define.ReqTypeCode(data.Resp[0].RespType.GetName())
+	}
+
 	baseInfo, err := dao.NewDocDao().GetDocument(param.PId, param.DocId)
 	if err != nil {
 		log.Error(err)
