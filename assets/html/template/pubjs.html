@@ -106,13 +106,29 @@
             case "PUT":methodtxt = PUTSpan;break;
             case "OPTIONS":methodtxt = OPTIONSSpan;break;
         }
-        return '<li class="hover-area docli" id="'+id+'">\n' +
+        return '<li class="hover-area docli" style="height: 52px;" id="'+id+'">\n' +
             '                <p>'+methodtxt+name+'</p>\n' +
             // '                <div class="btn-group btn-group-sm action-btn docliop" role="group" aria-label="Small button group">\n' +
             // '                    <button type="button" class="btn btn-outline-dark moveDocButton moveDoc" data-docId="'+id+'">{{ SVG "arrows-move" 16 16 }}</button>\n' +
             // '                    <button type="button" class="btn btn-outline-dark editDocButton">{{ SVG "pencil-square" 16 16 }}</button>\n' +
             // '                    <button type="button" class="btn btn-outline-dark shareButton docShare" data-docId="'+id+'">{{ SVG "share-fill" 16 16 }}</button>\n' +
             // '                </div>\n' +
+            '            </li>'
+    }
+
+    const docLiSearch = function (id, method, name, modType, word) {
+        var methodtxt = ""
+        switch (method) {
+            case "GET":methodtxt = GETSpan;break;
+            case "DELETE":methodtxt = DELETESpan;break;
+            case "POST":methodtxt = POSTSpan;break;
+            case "HEAD":methodtxt = HEADSpan;break;
+            case "PUT":methodtxt = PUTSpan;break;
+            case "OPTIONS":methodtxt = OPTIONSSpan;break;
+        }
+        return '<li class="hover-area docli " style="border-bottom: 1px solid rgba(0,0,0,0.32);height: 52px;margin-bottom: 8px;" id="'+id+'">\n' +
+            '                <p style="margin: 0px;">'+methodtxt+name+'</p>\n' +
+            '<span style="font-size: 12px;margin-top: -4px;">在'+modType+'匹配到关键词: '+word+'</span>'+
             '            </li>'
     }
 

@@ -19,6 +19,8 @@ const (
 	ShareProjectTable       = "sp:%s"       // 项目的分享信息, %s是项目id(ProjectId), Key是分享Key  值是 int64
 	ShareDocumentTable      = "sd:%s"       // 文档分享信息, %是文档id(DocId), Key是分享Key  值是 int64
 	ShareDataTable          = "share"       // 分享数据, Key是分享Key  值是 entity.Share
+	InvertIndexTable        = "ii:%s"       // 倒排索引数据, %s是项目id(ProjectId), Key是词 值是 []*entity.InvertIndex
+	DocInvertIndexListTable = "docii:%s"    // 文档有哪些倒排词, %s是文档id(DocId),  Key是倒排词  值是 int64
 )
 
 var Tables = []string{
@@ -103,4 +105,14 @@ func GetShareDocumentTable(docId string) string {
 // GetShareDataTable 分享数据, Key是分享Key  值是 entity.Share
 func GetShareDataTable() string {
 	return ShareDataTable
+}
+
+// GetInvertIndexTable 倒排索引数据, %s是项目id(ProjectId), Key是词 值是 []*entity.InvertIndex
+func GetInvertIndexTable(pid string) string {
+	return fmt.Sprintf(InvertIndexTable, pid)
+}
+
+// GetDocInvertIndexListTable  文档有哪些倒排词, %s是文档id(DocId),  Key是倒排词  值是 int64
+func GetDocInvertIndexListTable(docId string) string {
+	return fmt.Sprintf(DocInvertIndexListTable, docId)
 }

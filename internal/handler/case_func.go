@@ -5,6 +5,8 @@ import (
 	"apiBook/common/ginHelper"
 	"apiBook/common/log"
 	"apiBook/common/utils"
+	"apiBook/internal/dao"
+	"apiBook/internal/entity"
 	"github.com/gin-gonic/gin"
 	"io"
 	"regexp"
@@ -123,4 +125,34 @@ func CaseFenCi(c *gin.Context) {
 	data := fenci.TermExtract(str)
 
 	ctx.APIOutPut(data, "ok")
+}
+
+func CaseSearch(c *gin.Context) {
+	ctx := ginHelper.NewGinCtx(c)
+
+	str := ctx.Query("str")
+	pid := ctx.Query("pid")
+
+	log.Info("str = ", str)
+	log.Info("pid = ", pid)
+
+	list := make([]*entity.InvertIndex, 0)
+
+	strList := fenci.TermExtract(str)
+	for _, v := range strList {
+
+		log.Info("v.Text = ", v.Text)
+
+		item, err := dao.NewInvertIndexDao().Get(pid, v.Text)
+		if err != nil {
+			log.Error(err)
+			continue
+		}
+
+		log.Info("item = ", item)
+
+		list = append(list, item...)
+	}
+
+	ctx.APIOutPut(list, "ok")
 }

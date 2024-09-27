@@ -193,6 +193,7 @@ func Document() {
 	document.POST("/dir/all", handler.DocumentGetDirAll)          // 获取所有目录
 	document.POST("/doc/all", handler.DocumentGetDocAll)          // 获取所有文档
 	document.POST("/move/toRecycleBin", handler.MoveToRecycleBin) // 将文档移动至回收站
+	document.POST("/search", handler.DocumentSearch)              // 文档搜索
 }
 
 func Share() {
@@ -246,4 +247,5 @@ func CaseFunc() {
 	caseFunc := Router.Group("/case")
 	caseFunc.POST("/go", handler.CaseFuncGo)
 	caseFunc.GET("/fenci", handler.CaseFenCi)
+	caseFunc.GET("/search", handler.CaseSearch)
 }

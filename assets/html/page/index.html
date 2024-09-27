@@ -244,27 +244,27 @@
     $(document).on('mouseenter', '.hover-area', function() {
         $(this).find('.action-btn').show();
         $(this).css({
-            'height':'42px',
+            'height':'52px',
         })
     }).on('mouseleave', '.hover-area', function() {
         $(this).find('.action-btn').hide();
         $(this).css({
-            'height':'42px',
+            'height':'52px',
         })
     });
 
-    $(document).on('mouseenter', '.dir', function() {
-        tippyInit();
-        $(this).find('.dirop').show();
-        $(this).css({
-            'height':'72px',
-        })
-    }).on('mouseleave', '.dir', function() {
-        $(this).find('.dirop').hide();
-        $(this).css({
-            'height':'42px',
-        })
-    });
+    // $(document).on('mouseenter', '.dir', function() {
+    //     tippyInit();
+    //     $(this).find('.dirop').show();
+    //     $(this).css({
+    //         'height':'72px',
+    //     })
+    // }).on('mouseleave', '.dir', function() {
+    //     $(this).find('.dirop').hide();
+    //     $(this).css({
+    //         'height':'42px',
+    //     })
+    // });
 
     function isShow(is) {
         var docMain=$("#docMain"), docMainML=$("#docMainML"), notDocMain=$("#notDocMain");
@@ -309,6 +309,7 @@
                         }
                     }
                 }
+                tippyInit();
             }
         });
 
@@ -1768,6 +1769,40 @@
                 location.reload();
             }
         })
+    }
+
+    function searchDoc() {
+        var word = $("#searchWord").val();
+
+        var param = {
+            "pid": projectId,
+            "word": word,
+        }
+
+        AjaxPost("/document/search", param, function (data) {
+
+            if (data.code === 0) {
+                $("#wrap").hide();
+
+                $("#searchWrap ul").empty();
+                $("#searchCount").empty();
+
+                $("#searchCount").append("搜索到"+data.data.count+"条结果")
+                for (var i=0; i<data.data.list.length; i++) {
+                    console.log(data.data.list[i])
+                    $("#searchWrap ul").append(docLiSearch(data.data.list[i].docId, data.data.list[i].method,
+                        data.data.list[i].title, data.data.list[i].modType, data.data.list[i].word))
+                }
+
+                $("#searchWrap").show();
+
+            }
+        })
+    }
+
+    function returnDirList() {
+        $("#wrap").show();
+        $("#searchWrap").hide();
     }
 
 </script>

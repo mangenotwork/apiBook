@@ -1,6 +1,7 @@
 package handler
 
 import (
+	"apiBook/common/fenci"
 	"apiBook/common/ginHelper"
 	"apiBook/common/log"
 	"apiBook/common/utils"
@@ -694,4 +695,88 @@ func MoveToRecycleBin(c *gin.Context) {
 	ctx.APIOutPut(recycleBinDir, "更改成功")
 	return
 
+}
+
+func DocumentSearch(c *gin.Context) {
+	ctx := ginHelper.NewGinCtx(c)
+	param := &DocumentSearchReq{}
+	err := ctx.GetPostArgs(&param)
+	if err != nil {
+		ctx.APIOutPutError(fmt.Errorf("参数错误"), "参数错误")
+		return
+	}
+
+	userAcc := ctx.GetString("userAcc")
+	if userAcc == "" {
+		ctx.AuthErrorOut()
+		return
+	}
+
+	_, err = dao.NewProjectDao().Get(param.PId, userAcc, false)
+	if err != nil {
+		ctx.APIOutPutError(err, err.Error())
+		return
+	}
+
+	list := make([]*entity.InvertIndex, 0)
+
+	strList := fenci.TermExtract(param.Word)
+	for _, v := range strList {
+
+		item, err := dao.NewInvertIndexDao().Get(param.PId, v.Text)
+		if err != nil {
+			log.Error(err)
+			continue
+		}
+
+		list = append(list, item...)
+	}
+
+	docMap := make(map[string]*entity.InvertIndex)
+	for _, v := range list {
+		if docData, ok := docMap[v.DocId]; !ok {
+			v.Score = 1
+			docMap[v.DocId] = v
+		} else {
+			docData.Score += 1
+		}
+	}
+
+	dirDocList := make([]*entity.DocumentDirItem, 0)
+	i := 0
+	for k, _ := range docMap {
+		dirDocList = append(dirDocList, &entity.DocumentDirItem{
+			DocId: k,
+			Sort:  i,
+		})
+		i++
+	}
+
+	resp := &DocumentSearchResp{
+		Count: len(docMap),
+		List:  make([]*DocumentSearchRespItem, 0),
+	}
+
+	docList := dao.NewDocDao().GetDocList(param.PId, dirDocList)
+	for _, docItem := range docList {
+		item := &DocumentSearchRespItem{
+			DocId:   docItem.DocId,
+			Method:  docItem.Method,
+			Title:   docItem.Name,
+			Word:    docMap[docItem.DocId].Word,
+			ModType: docMap[docItem.DocId].ModType,
+			Score:   docMap[docItem.DocId].Score,
+		}
+		resp.List = append(resp.List, item)
+	}
+
+	sort.Slice(resp.List, func(i, j int) bool {
+		if resp.List[i].Score > resp.List[j].Score {
+			return true
+		}
+		return false
+	})
+
+	ctx.APIOutPut(resp, "更改成功")
+	return
 }

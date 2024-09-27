@@ -32,6 +32,10 @@ func (dao *DocDao) Create(data *entity.Document, content *entity.DocumentContent
 		return err
 	}
 
+	go func() {
+		NewInvertIndexDao().DocInvertIndex(content)
+	}()
+
 	return nil
 }
 
@@ -132,6 +136,17 @@ func (dao *DocDao) Modify(content *entity.DocumentContent, userAcc string) error
 	if err != nil {
 		return err
 	}
+
+	go func() {
+
+		err = NewInvertIndexDao().DocDelAllWord(content.ProjectId, content.DocId)
+		if err != nil {
+			log.Error(err)
+		}
+
+		NewInvertIndexDao().DocInvertIndex(content)
+
+	}()
 
 	return nil
 }

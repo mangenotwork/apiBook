@@ -193,3 +193,22 @@ type DocumentGetDocAllReq struct {
 	PId   string `json:"pid"`
 	DirId string `json:"dirId"`
 }
+
+type DocumentSearchReq struct {
+	PId  string `json:"pid"`
+	Word string `json:"word"`
+}
+
+type DocumentSearchResp struct {
+	Count int                       `json:"count"`
+	List  []*DocumentSearchRespItem `json:"list"`
+}
+
+type DocumentSearchRespItem struct {
+	DocId   string `json:"docId"`
+	Method  string `json:"method"`
+	Title   string `json:"title"`
+	Word    string `json:"word"`
+	ModType string `json:"modType"`
+	Score   int    `json:"score"`
+}
