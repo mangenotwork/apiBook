@@ -210,6 +210,7 @@ func Share() {
 	share.GET("/project/header/list", handler.ShareProjectHeaderGet)         // 获取全局header
 	share.POST("/document/snapshot/item", handler.ShareDocumentSnapshotItem) // 获取文档镜像
 	share.POST("/verify/:hashKey", handler.ShareVerify)                      // 分享验证
+	share.POST("/document/search", handler.ShareDocumentSearch)              // 文档搜索
 }
 
 func User() {

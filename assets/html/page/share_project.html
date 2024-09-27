@@ -243,15 +243,14 @@
     $(document).on('mouseenter', '.hover-area', function() {
         $(this).find('.action-btn').show();
         $(this).css({
-            'height':'42px',
+            'height':'52px',
         })
     }).on('mouseleave', '.hover-area', function() {
         $(this).find('.action-btn').hide();
         $(this).css({
-            'height':'42px',
+            'height':'52px',
         })
     });
-
 
     $(document).on('mouseenter', '.dir', function() {
         tippyInit();
@@ -288,7 +287,7 @@
             open = 1
         }
 
-        return '<div class="dir">\n' +
+        return '<div class="dir" style="height: 42px;">\n' +
             '            <p class="dir-open" data-open="'+open+'" data-dirid="'+dirid+'"><span style="margin-right: 8px;">'+dirIcon+'</span>'+name+'</p>\n' +
             '        </div>' +
             '<ul id="'+dirid+'" '+isOpen+'>' +
@@ -305,7 +304,7 @@
             case "PUT":methodtxt = PUTSpan;break;
             case "OPTIONS":methodtxt = OPTIONSSpan;break;
         }
-        return '<li class="hover-area docli" id="'+id+'" style="height: 42px;">\n' +
+        return '<li class="hover-area docli" id="'+id+'" style="height: 52px;">\n' +
             '                <p>'+methodtxt+name+'</p>\n' +
             '            </li>'
     }
@@ -1080,6 +1079,40 @@
 
     }
 
+
+    function searchDoc() {
+        var word = $("#searchWord").val();
+
+        var param = {
+            "pid": projectId,
+            "word": word,
+        }
+
+        AjaxPost("/share/document/search?hashKey="+hashKey, param, function (data) {
+
+            if (data.code === 0) {
+                $("#wrap").hide();
+
+                $("#searchWrap ul").empty();
+                $("#searchCount").empty();
+
+                $("#searchCount").append("搜索到"+data.data.count+"条结果")
+                for (var i=0; i<data.data.list.length; i++) {
+                    console.log(data.data.list[i])
+                    $("#searchWrap ul").append(docLiSearch(data.data.list[i].docId, data.data.list[i].method,
+                        data.data.list[i].title, data.data.list[i].modType, data.data.list[i].word))
+                }
+
+                $("#searchWrap").show();
+
+            }
+        })
+    }
+
+    function returnDirList() {
+        $("#wrap").show();
+        $("#searchWrap").hide();
+    }
 
 </script>
 <script type="text/javascript" src="/js/doc.js?v={{ .TimeStamp }}"></script>
