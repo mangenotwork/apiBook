@@ -605,7 +605,8 @@
     function docViewItemTpl(isActiveStr, docId, apiMethod, apiName) {
         return '<li class="nav-item" >\n' +
         '<a class="nav-link docViewItem ' + isActiveStr + '" data-docid="' + docId +
-            '" aria-current="page" href="#">[' + apiMethod + '] ' + apiName + ' <span class="docViewClose">{{ SVG "x-square-fill" 16 16 }}</span></a>\n' +
+            '" aria-current="page" style="height: 36px;" href="#"><p style="width: 150px;float: left;white-space: nowrap;overflow: hidden;text-overflow: ellipsis;">[' + apiMethod +
+            ']' + apiName + '</p> <span class="docViewClose" style="float: left;">{{ SVG "x-square-fill" 16 16 }}</span></a>\n' +
         '</li>'
     }
 
