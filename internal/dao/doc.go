@@ -132,7 +132,7 @@ func (dao *DocDao) Modify(content *entity.DocumentContent, userAcc string) error
 	}
 
 	content.UserAcc = userAcc
-	err = dao.AddDocumentSnapshot(content, userAcc, define.OperationLogCreateDoc)
+	err = dao.AddDocumentSnapshot(content, userAcc, define.OperationLogModifyDoc)
 	if err != nil {
 		return err
 	}

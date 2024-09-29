@@ -63,8 +63,11 @@
 
                                 <div style="margin-bottom: 52px;">
                                     <h4 class="with-vertical-bar" id="simple-list-item-4" style="margin-bottom: 36px;">请求参数</h4>
-                                    <p>请求数据类型: <span id="api-reqType">json</span></p>
-                                    <p>示例:</p>
+                                    <p>
+                                        <span class="txt7">请求数据类型: </span>
+                                        <span id="api-reqType">json</span>
+                                    </p>
+                                    <p class="txt7">示例:</p>
                                     <div id="jsoneditorDiv" style="display: none;">
                                         <button type="button" class="btn btn-dark closeReqZsText"
                                                 style="--bs-btn-padding-y: .25rem; --bs-btn-padding-x: .5rem; --bs-btn-font-size: .75rem;margin-top: 2px;" onclick="closeReqZsText()">
@@ -95,7 +98,7 @@
                                         </div>
                                     </div>
 
-                                    <p>参数说明:</p>
+                                    <p class="txt7">参数说明:</p>
                                     <table class="table table-bordered table-hover table-striped" style="table-layout:fixed;display:table;">
                                         <thead>
                                         <tr>
@@ -113,8 +116,11 @@
 
                                 <div style="margin-bottom: 52px;">
                                     <h4 class="with-vertical-bar" id="simple-list-item-5"  style="margin-bottom: 36px;">响应</h4>
-                                    <p>请求数据类型: <span id="api-respType">json</span></p>
-                                    <p>示例:</p>
+                                    <p>
+                                        <span class="txt7">响应数据类型: </span>
+                                        <span id="api-respType">json</span>
+                                    </p>
+                                    <p class="txt7">示例:</p>
                                     <div id="jsoneditorRespDiv" style="display: none;">
                                         <button type="button" class="btn btn-dark closeRespZsText"
                                                 style="--bs-btn-padding-y: .25rem; --bs-btn-padding-x: .5rem; --bs-btn-font-size: .75rem;margin-top: 2px;" onclick="closeRespZsText()">
@@ -145,7 +151,7 @@
                                         </div>
                                     </div>
 
-                                    <p>参数说明:</p>
+                                    <p class="txt7">参数说明:</p>
                                     <table class="table table-bordered table-hover table-striped" style="table-layout:fixed;display:table;">
                                         <thead>
                                         <tr>
@@ -220,53 +226,6 @@
     }
     var editorResp = new JSONEditor(containerResp, optionsResp)
 
-    $(document).on('click', '.dir-open', function() {
-        var open = $(this).attr('data-open');
-        var dirid = $(this).attr('data-dirid');
-        $(this).find('span').empty();
-        if (open === "0") {
-            $(this).find('span').append('{{ SVG "folder2-open" 21 21 }}');
-            $(this).attr('data-open', '1');
-            $('#'+dirid).show();
-            localStorage.setItem(dirOpenKey+dirid,1)
-        } else {
-            $(this).find('span').append('{{ SVG "folder" 21 21 }}');
-            $(this).attr('data-open', '0');
-            $('#'+dirid).hide();
-            localStorage.setItem(dirOpenKey+dirid,0)
-        }
-    });
-
-    $(document).on('hover', '.docli', function() {
-        $(this).css('background-color', '#f6f6f6');
-    });
-
-    $(document).on('mouseenter', '.hover-area', function() {
-        $(this).find('.action-btn').show();
-        $(this).css({
-            'height':'42px',
-        })
-    }).on('mouseleave', '.hover-area', function() {
-        $(this).find('.action-btn').hide();
-        $(this).css({
-            'height':'42px',
-        })
-    });
-
-
-    $(document).on('mouseenter', '.dir', function() {
-        tippyInit();
-        $(this).find('.dirop').show();
-        $(this).css({
-            'height':'42px',
-        })
-    }).on('mouseleave', '.dir', function() {
-        $(this).find('.dirop').hide();
-        $(this).css({
-            'height':'42px',
-        })
-    });
-
     function isShow(is) {
         if (is) {
             $("#docMain").show();
@@ -277,38 +236,6 @@
             $("#docMainML").hide();
             $("#notDocMain").show();
         }
-    }
-
-    const dir2Dev = function (dirid, name) {
-        var isOpen = 'style="display: none;"'
-        var dirIcon = '{{ SVG "folder" 21 21 }}'
-        var open = 0
-        if (localStorage.getItem(dirOpenKey+dirid) === "1") {
-            isOpen = 'style="display: inline;"'
-            dirIcon = '{{ SVG "folder2-open" 21 21 }}'
-            open = 1
-        }
-
-        return '<div class="dir">\n' +
-            '            <p class="dir-open" data-open="'+open+'" data-dirid="'+dirid+'"><span style="margin-right: 8px;">'+dirIcon+'</span>'+name+'</p>\n' +
-            '        </div>' +
-            '<ul id="'+dirid+'" '+isOpen+'>' +
-            '</ul>'
-    }
-
-    const doc2Li = function (id, method, name) {
-        var methodtxt = ""
-        switch (method) {
-            case "GET":methodtxt = GETSpan;break;
-            case "DELETE":methodtxt = DELETESpan;break;
-            case "POST":methodtxt = POSTSpan;break;
-            case "HEAD":methodtxt = HEADSpan;break;
-            case "PUT":methodtxt = PUTSpan;break;
-            case "OPTIONS":methodtxt = OPTIONSSpan;break;
-        }
-        return '<li class="hover-area docli" id="'+id+'" style="height: 42px;">\n' +
-            '                <p>'+methodtxt+name+'</p>\n' +
-            '            </li>'
     }
 
     $(document).ready(function(){
@@ -325,31 +252,11 @@
             }
         });
 
-
-        var viewDocList = viewDocGet(projectId)
-
-        var param = {
-            "pid": projectId,
-            "docList": viewDocList,
-        }
-
         if(localStorage.getItem(nowViewDoc+projectId) === "undefined" || localStorage.getItem(nowViewDoc+projectId)=== null) {
             isShow(false)
         }
 
         NowDoc('{{ .docId }}')
-
-        // AjaxPost("/share/document/doc/list?hashKey="+hashKey, param, function(data){
-        //     if (data.code === 0 ) {
-        //         for(var i=0; i<data.data.length; i++) {
-        //             if(data.data[i].docId === localStorage.getItem(nowViewDoc+projectId)) {
-        //                 NowDoc(data.data[i].docId)
-        //             } else {
-        //                 showViewDoc(data.data[i].method, data.data[i].name, data.data[i].docId, false)
-        //             }
-        //         }
-        //     }
-        // })
 
     });
 
@@ -743,26 +650,6 @@
             isShow(false)
         }
     })
-
-    function openAddDocDir() {
-        $('#docAddDirModal').modal('show');
-    }
-
-    function addDocDir() {
-        const url = "/document/dir/create"
-        var param = {
-            "pid": projectId,
-            "dirName": $("#docAddDirName").val()
-        }
-        AjaxPost(url, param, function (data){
-            ToastShow(data.msg);
-            if (data.code === 0) {
-                setTimeout(function() {
-                    location.reload();
-                }, 1000);
-            }
-        })
-    }
 
     function closeReqZsText() {
         $(".zsReqText").remove();

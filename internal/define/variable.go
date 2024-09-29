@@ -81,6 +81,7 @@ const (
 
 const (
 	OperationLogCreateDoc = "创建接口文档"
+	OperationLogModifyDoc = "修改了接口文档"
 )
 
 func GetSnapshotId() string {

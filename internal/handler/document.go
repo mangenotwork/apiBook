@@ -307,6 +307,11 @@ func DocumentItem(c *gin.Context) {
 		return
 	}
 
+	if param.DocId == "" {
+		ctx.APIOutPutError(fmt.Errorf("文档id不能为空"), "文档id不能为空")
+		return
+	}
+
 	userAcc := ctx.GetString("userAcc")
 	if userAcc == "" {
 		ctx.AuthErrorOut()
@@ -522,6 +527,8 @@ func DocumentDocList(c *gin.Context) {
 		ctx.APIOutPutError(fmt.Errorf("参数错误"), "参数错误")
 		return
 	}
+
+	param.DocList = utils.SliceDeduplicate[string](param.DocList)
 
 	resp := dao.NewDocDao().GetDocListByIds(param.PId, param.DocList)
 	ctx.APIOutPut(resp, "")

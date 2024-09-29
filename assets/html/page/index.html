@@ -658,7 +658,7 @@
 
         var docId = "";
         if(submitType === 2) {
-            docId = $("#operateDocId").val()
+            docId = localStorage.getItem(nowViewDoc+projectId)
         }
 
         var param = {
@@ -1043,7 +1043,6 @@
             $("#saveModify").hide();
         }
 
-        $("#operateDocId").val("")
         var addDocName = $("#addDocName");
         var addDocUrl = $("#addDocUrl");
         var addDocMethod = $("#addDocMethod");
@@ -1093,7 +1092,6 @@
     }
 
     function modifyDoc(docId) {
-        $("#addDocDir").val(docId)
 
         var param = {
             "pid": projectId,
@@ -1103,7 +1101,6 @@
             if (data.code === 0 ) {
                 clearDocEditor(2)
 
-                $("#operateDocId").val(data.data.content.docId)
                 var addDocName = $("#addDocName");
                 var addDocUrl = $("#addDocUrl");
                 var addDocMethod = $("#addDocMethod");
@@ -1206,6 +1203,7 @@
 
     function modifyDocContent() {
         var docId = $("#docIdContent").text();
+        console.log(docId)
         modifyDoc(docId)
     }
 

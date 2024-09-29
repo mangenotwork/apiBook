@@ -765,26 +765,6 @@
         }
     })
 
-    function openAddDocDir() {
-        $('#docAddDirModal').modal('show');
-    }
-
-    function addDocDir() {
-        const url = "/document/dir/create"
-        var param = {
-            "pid": projectId,
-            "dirName": $("#docAddDirName").val()
-        }
-        AjaxPost(url, param, function (data){
-            ToastShow(data.msg);
-            if (data.code === 0) {
-                setTimeout(function() {
-                    location.reload();
-                }, 1000);
-            }
-        })
-    }
-
     function closeReqZsText() {
         $(".zsReqText").remove();
         $(".closeReqZsText").hide();
@@ -856,20 +836,15 @@
                     $("#setRespTable").append(addRespTpl(data.data[i].field, data.data[i].varType, "", data.data[i].description));
                 }
             }
-
         })
-
     }
 
     function goToReqInfo() {
-        const url = "/tool/goStructToField"
         var param = {
             "text": $("#bodyGo textarea").val(),
         }
-        AjaxPost(url, param, function (data){
-
+        AjaxPost("/tool/goStructToField", param, function (data){
             delReqTpl();
-
             for(var i=0; i<data.data.length; i++) {
 
                 var reqField = $('.reqField').map(function() {
