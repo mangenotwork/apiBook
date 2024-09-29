@@ -339,13 +339,32 @@ func DocumentItem(c *gin.Context) {
 		return
 	}
 
-	data.ReqType = define.ReqTypeCode(data.ReqType.GetName())
-	if len(data.Resp) > 0 {
-		data.Resp[0].RespType = define.ReqTypeCode(data.Resp[0].RespType.GetName())
-	}
+	data.Resp[0].RespTypeName = data.Resp[0].RespType.GetName()
 
 	resp := &DocumentItemResp{
-		Content:      data,
+		Content: &DocumentContent{
+			DocId:                     data.DocId,
+			ProjectId:                 data.ProjectId,
+			Name:                      data.Name,
+			Url:                       data.Url,
+			Method:                    data.Method,
+			DescriptionHtml:           data.DescriptionHtml,
+			ReqHeader:                 data.ReqHeader,
+			ReqType:                   data.ReqType,
+			ReqTypeName:               data.ReqType.GetName(),
+			ReqBodyJson:               data.ReqBodyJson,
+			ReqBodyText:               data.ReqBodyText,
+			ReqBodyFormData:           data.ReqBodyFormData,
+			ReqBodyXWWWFormUrlEncoded: data.ReqBodyXWWWFormUrlEncoded,
+			ReqBodyXml:                data.ReqBodyXml,
+			ReqBodyRaw:                data.ReqBodyRaw,
+			ReqBodyBinary:             data.ReqBodyBinary,
+			ReqBodyGraphQL:            data.ReqBodyGraphQL,
+			ReqBodyInfo:               data.ReqBodyInfo,
+			Resp:                      data.Resp,
+			UserAcc:                   data.UserAcc,
+			Date:                      utils.Timestamp2Date(data.CreateTime),
+		},
 		SnapshotList: make([]*SnapshotItem, 0),
 		BaseInfo:     baseInfo,
 	}
@@ -386,10 +405,10 @@ func DocumentItem(c *gin.Context) {
 	}
 
 	resp.ReqCode = GetAllReqCode(&ReqCodeArg{
-		Method:      MethodType(resp.Content.Method),
+		Method:      MethodType(data.Method),
 		Url:         resp.Content.Url,
 		ContentType: string(resp.Content.ReqType),
-		Header:      resp.Content.GetReqHeaderMap(),
+		Header:      data.GetReqHeaderMap(),
 		DataRaw:     dataRaw,
 	})
 

@@ -87,6 +87,7 @@ type BodyInfoItem struct {
 type RespItem struct {
 	Tag          string             `json:"tag"`          // 默认 成功
 	RespType     define.ReqTypeCode `json:"respType"`     // 响应类型
+	RespTypeName string             `json:"respTypeName"` // 响应类型名称
 	RespBody     string             `json:"respBody"`     // 响应参数
 	RespBodyInfo []*BodyInfoItem    `json:"respBodyInfo"` // 响应参数说明
 }

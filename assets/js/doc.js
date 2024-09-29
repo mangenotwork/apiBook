@@ -7,8 +7,10 @@ function loadApiDoc(apiDoc, snapshotList) {
     var apiDescription = $("#api-description")
     var apiReqHeader = $("#api-reqHeader")
     var apiReqType = $("#api-reqType")
+    var apiReqTypeStr = $("#api-reqTypeStr")
     var apiReqBodyInfo = $("#api-reqBodyInfo")
     var apiRespType = $("#api-respType")
+    var apiRespTypeStr = $("#api-respTypeStr")
     var apiRespBodyInfo = $("#api-respBodyInfo")
 
     docIdContent.empty();
@@ -17,9 +19,9 @@ function loadApiDoc(apiDoc, snapshotList) {
     apiUrl.empty();
     apiDescription.empty();
     apiReqHeader.empty();
-    apiReqType.empty();
+    apiReqTypeStr.empty();
     apiReqBodyInfo.empty();
-    apiRespType.empty();
+    apiRespTypeStr.empty();
     apiRespBodyInfo.empty();
 
     docIdContent.append(apiDoc.docId);
@@ -46,7 +48,7 @@ function loadApiDoc(apiDoc, snapshotList) {
         }
     }
 
-    apiReqType.append(apiDoc.reqType);
+    apiReqTypeStr.append(apiDoc.reqTypeName);
 
     if ( apiDoc.reqBodyInfo !== undefined ) {
         for (var i = 0; i < apiDoc.reqBodyInfo.length; i++) {
@@ -83,6 +85,7 @@ function loadApiDoc(apiDoc, snapshotList) {
     reqTxtDivBody.empty();
 
     if (apiDoc.reqType === "json") {
+        console.log("json----")
         jsoneditorDiv.show();
         const initialJson = JSON.parse(apiDoc.reqBodyJson)
         editor.set(initialJson)
@@ -110,7 +113,7 @@ function loadApiDoc(apiDoc, snapshotList) {
     }
 
     if ( apiDoc.resp !== undefined && apiDoc.resp.length > 0 ) {
-        apiRespType.append(apiDoc.resp[0].respType);
+        apiRespTypeStr.append(apiDoc.resp[0].respTypeName);
 
         if (apiDoc.resp[0].respBodyInfo != null) {
             for(var i=0; i<apiDoc.resp[0].respBodyInfo.length; i++) {

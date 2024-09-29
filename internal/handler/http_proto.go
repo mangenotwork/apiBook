@@ -102,10 +102,34 @@ type DocumentItemParam struct {
 }
 
 type DocumentItemResp struct {
-	Content      *entity.DocumentContent `json:"content"`
-	SnapshotList []*SnapshotItem         `json:"snapshotList"`
-	BaseInfo     *entity.Document        `json:"baseInfo"`
-	ReqCode      map[string]string       `json:"reqCode"`
+	Content      *DocumentContent  `json:"content"`
+	SnapshotList []*SnapshotItem   `json:"snapshotList"`
+	BaseInfo     *entity.Document  `json:"baseInfo"`
+	ReqCode      map[string]string `json:"reqCode"`
+}
+
+type DocumentContent struct {
+	DocId                     string                           `json:"docId"`                     // 文档id
+	ProjectId                 string                           `json:"projectId"`                 // 项目id
+	Method                    string                           `json:"method"`                    // http 请求类型
+	Name                      string                           `json:"name"`                      // 接口名
+	Url                       string                           `json:"url"`                       // 接口url
+	DescriptionHtml           string                           `json:"descriptionHtml"`           // 接口说明  html
+	ReqHeader                 []*entity.ReqHeaderItem          `json:"reqHeader"`                 // 请求头
+	ReqType                   define.ReqTypeCode               `json:"reqType"`                   // 请求类型
+	ReqTypeName               string                           `json:"reqTypeName"`               // 请求类型名称
+	ReqBodyJson               string                           `json:"reqBodyJson"`               // 请求参数 - json
+	ReqBodyText               string                           `json:"reqBodyText"`               // 请求参数 - text
+	ReqBodyFormData           []*entity.FormDataItem           `json:"reqBodyFormData"`           // 请求参数 - form-data
+	ReqBodyXWWWFormUrlEncoded []*entity.XWWWFormUrlEncodedItem `json:"reqBodyXWWWFormUrlEncoded"` // 请求参数 - x-www-form-urlencoded"
+	ReqBodyXml                string                           `json:"reqBodyXml"`                // 请求参数 - xml
+	ReqBodyRaw                string                           `json:"reqBodyRaw"`                // 请求参数 - raw
+	ReqBodyBinary             string                           `json:"reqBodyBinary"`             // 请求参数 - binary
+	ReqBodyGraphQL            string                           `json:"reqBodyGraphQL"`            // 请求参数 - GraphQL
+	ReqBodyInfo               []*entity.BodyInfoItem           `json:"reqBodyInfo"`               // 请求参数说明
+	Resp                      []*entity.RespItem               `json:"resp"`                      // 请求响应
+	UserAcc                   string                           `json:"userAcc"`                   // 创建者
+	Date                      string                           `json:"date"`                      // 最后一次编辑(创建)时间
 }
 
 type SnapshotItem struct {

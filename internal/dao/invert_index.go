@@ -19,9 +19,6 @@ func NewInvertIndexDao() *InvertIndexDao {
 
 func (dao *InvertIndexDao) Add(pid, word string, item *entity.InvertIndex) error {
 
-	log.Info("写入分词 = ", pid, word)
-	log.InfoF("%v", item)
-
 	err := db.DB.Set(db.GetDocInvertIndexListTable(item.DocId), item.Word, 1)
 	if err != nil {
 		log.Error(err)
@@ -33,7 +30,6 @@ func (dao *InvertIndexDao) Add(pid, word string, item *entity.InvertIndex) error
 	if err != nil {
 		if errors.Is(err, db.ISNULL) || errors.Is(err, db.TableNotFound) {
 			list = append(list, item)
-			log.InfoF("list = %v", list)
 			return db.DB.Set(db.GetInvertIndexTable(pid), word, list)
 		} else {
 			log.Error(err)
@@ -42,7 +38,7 @@ func (dao *InvertIndexDao) Add(pid, word string, item *entity.InvertIndex) error
 	}
 
 	has := false
-	log.InfoF("list = %v", list)
+
 	for _, v := range list {
 		if v.DocId == item.DocId {
 			has = true
@@ -52,7 +48,6 @@ func (dao *InvertIndexDao) Add(pid, word string, item *entity.InvertIndex) error
 
 	if !has {
 		list = append(list, item)
-		log.InfoF("list = %v", list)
 		return db.DB.Set(db.GetInvertIndexTable(pid), word, list)
 	}
 
@@ -118,7 +113,6 @@ func (dao *InvertIndexDao) DocFenCi(pid, docId, content, modType string) {
 	now := time.Now().Unix()
 	for _, v := range fcList {
 
-		log.Info("分词 = ", v.Text)
 		item := &entity.InvertIndex{
 			DocId:      docId,
 			Word:       v.Text,
