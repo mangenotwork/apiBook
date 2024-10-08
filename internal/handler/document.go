@@ -28,6 +28,13 @@ func DocumentDirList(c *gin.Context) {
 
 	resp := make([]*DocumentDirListItem, 0)
 
+	resp = getDirCache(pid)
+	if len(resp) > 0 {
+		log.Info("读取的缓存")
+		ctx.APIOutPut(resp, "")
+		return
+	}
+
 	data, err := dao.NewDirDao().GetAll(pid)
 	if err != nil {
 		ctx.APIOutPutError(err, err.Error())
@@ -74,6 +81,8 @@ func DocumentDirList(c *gin.Context) {
 		resp = append(resp, item)
 	}
 
+	setDirCache(pid, resp)
+
 	ctx.APIOutPut(resp, "")
 	return
 }
@@ -111,6 +120,8 @@ func DocumentDirCreate(c *gin.Context) {
 		return
 	}
 
+	delDirCache(param.PId)
+
 	ctx.APIOutPut("创建目录成功", "创建目录成功")
 	return
 }
@@ -143,6 +154,8 @@ func DocumentDirDelete(c *gin.Context) {
 		return
 	}
 
+	delDirCache(param.PId)
+
 	ctx.APIOutPut(dirRecycleBin, "删除目录成功")
 	return
 }
@@ -174,6 +187,8 @@ func DocumentDirModify(c *gin.Context) {
 		return
 	}
 
+	delDirCache(param.PId)
+
 	ctx.APIOutPut("修改目录成功", "修改目录成功")
 	return
 }
@@ -200,6 +215,8 @@ func DocumentDirSort(c *gin.Context) {
 			continue
 		}
 	}
+
+	delDirCache(param.PId)
 
 	ctx.APIOutPut("完成", "完成")
 	return
@@ -294,6 +311,8 @@ func DocumentCreate(c *gin.Context) {
 		return
 	}
 
+	delDirCache(param.ProjectId)
+
 	ctx.APIOutPut("创建文档成功", "创建文档成功")
 	return
 }
@@ -325,6 +344,12 @@ func DocumentItem(c *gin.Context) {
 		return
 	}
 
+	resp, has := getDocCache(param.PId, param.DocId)
+	if has {
+		ctx.APIOutPut(resp, "")
+		return
+	}
+
 	data, err := dao.NewDocDao().GetDocumentContent(param.PId, param.DocId)
 	if err != nil {
 		log.Error(err)
@@ -341,7 +366,7 @@ func DocumentItem(c *gin.Context) {
 
 	data.Resp[0].RespTypeName = data.Resp[0].RespType.GetName()
 
-	resp := &DocumentItemResp{
+	resp = &DocumentItemResp{
 		Content: &DocumentContent{
 			DocId:                     data.DocId,
 			ProjectId:                 data.ProjectId,
@@ -412,6 +437,8 @@ func DocumentItem(c *gin.Context) {
 		DataRaw:     dataRaw,
 	})
 
+	setDocCache(param.PId, param.DocId, resp)
+
 	ctx.APIOutPut(resp, "")
 	return
 }
@@ -444,6 +471,9 @@ func DocumentModify(c *gin.Context) {
 		return
 	}
 
+	delDirCache(param.ProjectId)
+	delDocCache(param.ProjectId, param.Content.DocId)
+
 	ctx.APIOutPut("修改文档成功", "修改文档成功")
 	return
 }
@@ -474,6 +504,9 @@ func DocumentDelete(c *gin.Context) {
 		ctx.APIOutPutError(err, "删除文档失败")
 		return
 	}
+
+	delDirCache(param.PId)
+	delDocCache(param.PId, param.DocId)
 
 	ctx.APIOutPut("删除文档成功", "删除文档成功")
 	return
@@ -506,6 +539,8 @@ func DocumentChangeDir(c *gin.Context) {
 		return
 	}
 
+	delDirCache(param.PId)
+
 	ctx.APIOutPut("更改成功", "更改成功")
 	return
 }
@@ -534,6 +569,8 @@ func DocumentSort(c *gin.Context) {
 		}
 	}
 
+	delDirCache(param.PId)
+
 	ctx.APIOutPut("完成", "完成")
 	return
 }
@@ -548,6 +585,12 @@ func DocumentDocList(c *gin.Context) {
 	}
 
 	param.DocList = utils.SliceDeduplicate[string](param.DocList)
+
+	for i, v := range param.DocList {
+		if v == "" {
+			utils.SliceDel[string](param.DocList, i)
+		}
+	}
 
 	resp := dao.NewDocDao().GetDocListByIds(param.PId, param.DocList)
 	ctx.APIOutPut(resp, "")

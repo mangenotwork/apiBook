@@ -75,13 +75,18 @@ func (dao *UserDao) ResetPassword(account, password string) error {
 func (dao *UserDao) GetAllUser() []*entity.User {
 	list := make([]*entity.User, 0)
 
-	err := db.DB.GetAll(db.UserTable, func(k, v []byte) {
+	table := db.GetUserTable()
+
+	err := db.DB.GetAll(table, func(k, v []byte) {
 
 		item := &entity.User{}
 		err := json.Unmarshal(v, item)
 		if err != nil {
 			return
 		}
+
+		db.DB.GetAllSetCache(table, k, item)
+
 		list = append(list, item)
 	})
 
@@ -133,13 +138,18 @@ func (dao *UserDao) HasUserAccount(acc string) bool {
 
 func (dao *UserDao) HasUserName(name string) (bool, error) {
 	has := false
-	err := db.DB.GetAll(db.UserTable, func(k, v []byte) {
+
+	table := db.GetUserTable()
+
+	err := db.DB.GetAll(table, func(k, v []byte) {
 
 		item := &entity.User{}
 		err := json.Unmarshal(v, item)
 		if err != nil {
 			return
 		}
+
+		db.DB.GetAllSetCache(table, k, item)
 
 		if name == item.Name {
 			has = true

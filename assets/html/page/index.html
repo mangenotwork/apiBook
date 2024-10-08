@@ -254,19 +254,6 @@
         })
     });
 
-    // $(document).on('mouseenter', '.dir', function() {
-    //     tippyInit();
-    //     $(this).find('.dirop').show();
-    //     $(this).css({
-    //         'height':'72px',
-    //     })
-    // }).on('mouseleave', '.dir', function() {
-    //     $(this).find('.dirop').hide();
-    //     $(this).css({
-    //         'height':'42px',
-    //     })
-    // });
-
     function isShow(is) {
         var docMain=$("#docMain"), docMainML=$("#docMainML"), notDocMain=$("#notDocMain");
         if (is) {
@@ -327,13 +314,16 @@
 
         AjaxPost("/document/doc/list", param, function(data){
             if (data.code === 0 ) {
+                var viewDocList = []
                 for(var i=0; i<data.data.length; i++) {
+                    viewDocList.push(data.data[i].docId)
                     if(data.data[i].docId === localStorage.getItem(nowViewDoc+projectId)) {
                         NowDoc(data.data[i].docId);
                     } else {
                         showViewDoc(data.data[i].method, data.data[i].name, data.data[i].docId, false);
                     }
                 }
+                viewDocRefresh(projectId, viewDocList)
             }
         })
 
@@ -846,6 +836,7 @@
             "pid": projectId,
             "docId": docId,
         }
+
         AjaxPostNotAsync("/document/item", param, function(data){
             if (data.code === 0 ) {
                 localStorage.setItem(nowViewDoc+projectId, docId)

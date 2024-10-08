@@ -232,12 +232,17 @@ func (dao *DocDao) GetDocumentSnapshotList(docId string) ([]*entity.DocumentSnap
 
 	result := make([]*entity.DocumentSnapshot, 0)
 
-	err := db.DB.GetAll(db.GetDocumentSnapshotTable(docId), func(k, v []byte) {
+	table := db.GetDocumentSnapshotTable(docId)
+
+	err := db.DB.GetAll(table, func(k, v []byte) {
 		item := &entity.DocumentSnapshot{}
 		err := json.Unmarshal(v, &item)
 		if err != nil {
 			log.Error(err)
 		} else {
+
+			db.DB.GetAllSetCache(table, k, item)
+
 			result = append(result, item)
 		}
 	})

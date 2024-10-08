@@ -29,12 +29,16 @@ func (dao *DirDao) Update(pid, dirId string, data *entity.DocumentDir) error {
 func (dao *DirDao) GetAll(pid string) ([]*entity.DocumentDir, error) {
 	list := make([]*entity.DocumentDir, 0)
 
-	err := db.DB.GetAll(db.GetDocumentDirTable(pid), func(k, v []byte) {
+	table := db.GetDocumentDirTable(pid)
+	err := db.DB.GetAll(table, func(k, v []byte) {
 		data := &entity.DocumentDir{}
 		err := json.Unmarshal(v, &data)
 		if err != nil {
 			log.Error(err)
 		} else {
+
+			db.DB.GetAllSetCache(table, k, data)
+
 			list = append(list, data)
 		}
 	})
@@ -184,13 +188,18 @@ func (dao *DirDao) UpdateDoc(dirId, docId string, data *entity.DocumentDirItem) 
 func (dao *DirDao) GetDocList(dirId string) ([]*entity.DocumentDirItem, error) {
 	result := make([]*entity.DocumentDirItem, 0)
 
-	err := db.DB.GetAll(db.GetDocumentDirItemTable(dirId), func(k, v []byte) {
+	table := db.GetDocumentDirItemTable(dirId)
+
+	err := db.DB.GetAll(table, func(k, v []byte) {
 		item := &entity.DocumentDirItem{}
 		err := json.Unmarshal(v, &item)
 
 		if err != nil {
 			log.Error(err)
 		} else {
+
+			db.DB.GetAllSetCache(table, k, item)
+
 			result = append(result, item)
 		}
 

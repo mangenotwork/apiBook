@@ -28,6 +28,10 @@ function viewDocAdd(pid, docId) {
     }
 }
 
+function viewDocRefresh(pid, list) {
+    localStorage.setItem(viewDocKey(pid), list.join(","))
+}
+
 function viewDocGet(pid)  {
     var listStr = localStorage.getItem(viewDocKey(pid))
     var list = [];

@@ -363,13 +363,16 @@
 
         AjaxPost("/share/document/doc/list?hashKey="+hashKey, param, function(data){
             if (data.code === 0 ) {
+                var viewDocList = []
                 for(var i=0; i<data.data.length; i++) {
+                    viewDocList.push(data.data[i].docId)
                     if(data.data[i].docId === localStorage.getItem(nowViewDoc+projectId)) {
                         NowDoc(data.data[i].docId)
                     } else {
                         showViewDoc(data.data[i].method, data.data[i].name, data.data[i].docId, false)
                     }
                 }
+                viewDocRefresh(projectId, viewDocList)
             }
         })
 

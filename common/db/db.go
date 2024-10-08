@@ -1,6 +1,7 @@
 package db
 
 import (
+	"apiBook/common/cache"
 	"apiBook/common/conf"
 	"apiBook/common/log"
 	"apiBook/common/utils"
@@ -29,6 +30,13 @@ func NewLocalDB(tables []string) *LocalDB {
 	return &LocalDB{
 		Path:   path,
 		Tables: tables,
+	}
+}
+
+func SetLocalDB(path string) {
+	DB = &LocalDB{
+		Path:   path,
+		Tables: []string{},
 	}
 }
 
@@ -76,40 +84,72 @@ func (ldb *LocalDB) Close() {
 }
 
 func (ldb *LocalDB) Get(table, key string, data interface{}) error {
+
+	cacheKey := fmt.Sprintf("%s-%s", table, key)
+	cacheVal, has := cache.GetCache().Get(cacheKey)
+
+	if v, ok := cacheVal.([]byte); has && ok {
+		err := json.Unmarshal(v, data)
+		if err != nil {
+			return err
+		}
+		return nil
+	}
+
 	ldb.Open()
 	defer func() {
 		_ = ldb.Conn.Close()
 	}()
+
 	return ldb.Conn.View(func(tx *bolt.Tx) error {
+
 		b := tx.Bucket([]byte(table))
 		if b == nil {
 			return TableNotFound
 		}
+
 		bt := b.Get([]byte(key))
 		if len(bt) < 1 {
 			return ISNULL
 		}
+
 		err := json.Unmarshal(bt, data)
 		if err != nil {
 			return err
 		}
+
+		value, err := utils.AnyToJsonB(data)
+		if err != nil {
+			return err
+		}
+
+		_ = cache.GetCache().Set(cacheKey, value)
+
 		return nil
 	})
 }
 
 func (ldb *LocalDB) Set(table, key string, data interface{}) error {
-	ldb.Open()
-
-	defer func() {
-		_ = ldb.Conn.Close()
-	}()
 
 	value, err := utils.AnyToJsonB(data)
 	if err != nil {
 		return err
 	}
 
+	ldb.Open()
+
+	defer func() {
+
+		_ = ldb.Conn.Close()
+
+		cacheKey := fmt.Sprintf("%s-%s", table, key)
+		cache.GetCache().Delete(cacheKey)
+		_ = cache.GetCache().Set(cacheKey, value)
+
+	}()
+
 	return ldb.Conn.Update(func(tx *bolt.Tx) error {
+
 	R:
 		b := tx.Bucket([]byte(table))
 		if b == nil {
@@ -117,21 +157,31 @@ func (ldb *LocalDB) Set(table, key string, data interface{}) error {
 			if err != nil {
 				return err
 			}
+
 			goto R
 		}
+
 		err = b.Put([]byte(key), value)
 		if err != nil {
 			return err
 		}
+
 		return nil
 	})
 }
 
 func (ldb *LocalDB) Delete(table, key string) error {
 	ldb.Open()
+
 	defer func() {
+
 		_ = ldb.Conn.Close()
+
+		cacheKey := fmt.Sprintf("%s-%s", table, key)
+		cache.GetCache().Delete(cacheKey)
+
 	}()
+
 	return ldb.Conn.Update(func(tx *bolt.Tx) error {
 		b := tx.Bucket([]byte(table))
 		if b == nil {
@@ -200,6 +250,7 @@ func (ldb *LocalDB) AllKey(table string) ([]string, error) {
 		for k, _ := c.First(); k != nil; k, _ = c.Next() {
 			keys = append(keys, string(k))
 		}
+
 		return nil
 	})
 	return keys, err
@@ -219,10 +270,27 @@ func (ldb *LocalDB) GetAll(table string, f func(k, v []byte)) error {
 		}
 
 		return b.ForEach(func(k, v []byte) error {
+
+			cacheKey := fmt.Sprintf("%s-%s", table, k)
+			cacheVal, has := cache.GetCache().Get(cacheKey)
+			if val, ok := cacheVal.([]byte); has && ok {
+				f(k, val)
+				return nil
+			}
+
 			f(k, v)
+
 			return nil
 		})
 
 	})
 	return err
+}
+
+func (ldb *LocalDB) GetAllSetCache(table string, k []byte, data interface{}) {
+	cacheKey := fmt.Sprintf("%s-%s", table, k)
+	value, err := utils.AnyToJsonB(data)
+	if err == nil {
+		_ = cache.GetCache().Set(cacheKey, value)
+	}
 }

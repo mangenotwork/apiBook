@@ -99,6 +99,13 @@ func ShareDocumentDirList(c *gin.Context) {
 
 	resp := make([]*DocumentDirListItem, 0)
 
+	resp = getDirCache(pid)
+	if len(resp) > 0 {
+		log.Info("读取的缓存")
+		ctx.APIOutPut(resp, "")
+		return
+	}
+
 	data, err := dao.NewDirDao().GetAll(pid)
 	if err != nil {
 		ctx.APIOutPutError(err, err.Error())
@@ -138,6 +145,8 @@ func ShareDocumentDirList(c *gin.Context) {
 		resp = append(resp, item)
 	}
 
+	setDirCache(pid, resp)
+
 	ctx.APIOutPut(resp, "")
 	return
 }
@@ -167,6 +176,16 @@ func ShareDocumentDocList(c *gin.Context) {
 		ctx.APIOutPutError(fmt.Errorf("参数错误"), "参数错误")
 		return
 	}
+
+	param.DocList = utils.SliceDeduplicate[string](param.DocList)
+
+	for i, v := range param.DocList {
+		if v == "" {
+			param.DocList = append(param.DocList[:i], param.DocList[i+1:]...)
+		}
+	}
+
+	log.Info("param.DocList  = ", param.DocList)
 
 	resp := dao.NewDocDao().GetDocListByIds(param.PId, param.DocList)
 	ctx.APIOutPut(resp, "")
@@ -199,6 +218,12 @@ func ShareDocumentItem(c *gin.Context) {
 		return
 	}
 
+	resp, has := getDocCache(param.PId, param.DocId)
+	if has {
+		ctx.APIOutPut(resp, "")
+		return
+	}
+
 	data, err := dao.NewDocDao().GetDocumentContent(param.PId, param.DocId)
 	if err != nil {
 		log.Error(err)
@@ -215,7 +240,7 @@ func ShareDocumentItem(c *gin.Context) {
 
 	data.Resp[0].RespTypeName = data.Resp[0].RespType.GetName()
 
-	resp := &DocumentItemResp{
+	resp = &DocumentItemResp{
 		Content: &DocumentContent{
 			DocId:                     data.DocId,
 			ProjectId:                 data.ProjectId,
@@ -285,6 +310,8 @@ func ShareDocumentItem(c *gin.Context) {
 		Header:      data.GetReqHeaderMap(),
 		DataRaw:     dataRaw,
 	})
+
+	setDocCache(param.PId, param.DocId, resp)
 
 	ctx.APIOutPut(resp, "")
 	return

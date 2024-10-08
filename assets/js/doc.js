@@ -85,7 +85,6 @@ function loadApiDoc(apiDoc, snapshotList) {
     reqTxtDivBody.empty();
 
     if (apiDoc.reqType === "json") {
-        console.log("json----")
         jsoneditorDiv.show();
         const initialJson = JSON.parse(apiDoc.reqBodyJson)
         editor.set(initialJson)

@@ -1,17 +1,15 @@
 package handler
 
 import (
+	"apiBook/common/conf"
 	"apiBook/common/log"
+	"apiBook/common/utils"
+	"apiBook/internal/dao"
+	"apiBook/internal/define"
 	"apiBook/internal/entity"
 	"fmt"
 	"html/template"
 	"net/http"
-	"time"
-
-	"apiBook/common/conf"
-	"apiBook/common/utils"
-	"apiBook/internal/dao"
-	"apiBook/internal/define"
 
 	"github.com/gin-gonic/gin"
 	"github.com/gorilla/csrf"
@@ -19,7 +17,7 @@ import (
 
 func ginH(h gin.H) gin.H {
 	h["Title"] = conf.Conf.Default.App.Name
-	h["TimeStamp"] = time.Now().Unix() // define.TimeStamp
+	h["TimeStamp"] = define.TimeStamp
 	return h
 }
 
