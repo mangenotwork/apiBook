@@ -29,6 +29,7 @@
                                             <button type="button" class="btn btn-outline-dark shareButton" onclick="openDocShare()">{{ SVG "share-fill" 16 16 }}</button>
                                             <button type="button" class="btn btn-outline-dark recycleBinButton" onclick="moveToRecycleBin()">{{ SVG "file-earmark-minus" 16 16 }}</button>
                                             <button type="button" class="btn btn-outline-dark deleteButton" onclick="deleteDoc()">{{ SVG "file-x" 16 16 }}</button>
+                                            <button type="button" class="btn btn-outline-dark copyUrlButton" onclick="copyUrl()">copy</button>
                                             <button type="button" class="btn btn-outline-dark">请求</button>
                                             <button type="button" class="btn btn-outline-dark">Mock</button>
                                             <a type="button" class="btn btn-outline-dark" href="https://www.zhaozhongtian.top" target="_blank">在线工具</a>
@@ -1752,8 +1753,6 @@
         var docList = $('#docSortWrap li').map(function() {
             return $(this).attr("data-id");
         }).get();
-        console.log(dirId)
-        console.log(docList)
 
         var param = {
             "pid": projectId,
@@ -1802,6 +1801,8 @@
         $("#wrap").show();
         $("#searchWrap").hide();
     }
+
+
 
 </script>
 <script type="text/javascript" src="/js/doc.js?v={{ .TimeStamp }}"></script>

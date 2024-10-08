@@ -288,3 +288,9 @@ function copyReqCodeJson(reqCode) {
     console.log(txt);
     copyContent(txt);
 }
+
+function copyUrl() {
+    var url = $('#api-url').text();
+    copyContent(url)
+    ToastShow("已复制到剪切板");
+}
