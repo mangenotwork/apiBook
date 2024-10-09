@@ -22,37 +22,31 @@ type Configs struct {
 }
 
 type DefaultConf struct {
-	App              *App              `yaml:"app"`
-	HttpServer       *HttpServer       `yaml:"httpServer"`
-	GrpcServer       *GrpcServer       `yaml:"grpcServer"`
-	GrpcClient       *GrpcClient       `yaml:"grpcClient"`
-	TcpServer        *TcpServer        `yaml:"tcpServer"`
-	TcpClient        *TcpClient        `yaml:"tcpClient"`
-	UdpServer        *UdpServer        `yaml:"udpServer"`
-	UdpClient        *UdpClient        `yaml:"udpClient"`
-	Redis            []*Redis          `yaml:"redis"`
-	Mysql            []*Mysql          `yaml:"mysql"`
-	MqType           string            `yaml:"mqType"`
-	Nsq              *Nsq              `yaml:"nsq"`
-	Rabbit           *Rabbit           `yaml:"rabbit"`
-	Kafka            *Kafka            `yaml:"kafka"`
-	Mongo            []*Mongo          `yaml:"mongo"`
-	TTF              string            `yaml:"ttf"`
-	Cluster          *Cluster          `yaml:"cluster"`
-	Jwt              *Jwt              `yaml:"jwt"`
-	Minio            *Minio            `yaml:"minio"`
-	Mq               string            `yaml:"mq"`
-	Etcd             *Etcd             `yaml:"etcd"`
-	TencentCos       *TencentCos       `yaml:"tencent_cloud_os"`
-	TencentSdkCommon *TencentSdkCommon `yaml:"tencent_sdk_common"`
-	ShortLinkUrl     string            `yaml:"shortLinkUrl"`
-	ElecnestConf     *ElecnestConf     `yaml:"elecnest"`
-	TencentCloud     *TencentCloudConf `yaml:"tencentCloud"`
-	AdminSign        string            `yaml:"adminSign"`
-	CenterServer     *CenterServer     `yaml:"centerServer"`
-	Domain           string            `yaml:"domain"`
-	ShopDomain       string            `yaml:"shopDomain"`
-	SignalPost       *SignalPost       `yaml:"signal_post"`
+	App          *App        `yaml:"app"`
+	HttpServer   *HttpServer `yaml:"httpServer"`
+	GrpcServer   *GrpcServer `yaml:"grpcServer"`
+	GrpcClient   *GrpcClient `yaml:"grpcClient"`
+	TcpServer    *TcpServer  `yaml:"tcpServer"`
+	TcpClient    *TcpClient  `yaml:"tcpClient"`
+	UdpServer    *UdpServer  `yaml:"udpServer"`
+	UdpClient    *UdpClient  `yaml:"udpClient"`
+	Redis        []*Redis    `yaml:"redis"`
+	Mysql        []*Mysql    `yaml:"mysql"`
+	MqType       string      `yaml:"mqType"`
+	Nsq          *Nsq        `yaml:"nsq"`
+	Rabbit       *Rabbit     `yaml:"rabbit"`
+	Kafka        *Kafka      `yaml:"kafka"`
+	Mongo        []*Mongo    `yaml:"mongo"`
+	TTF          string      `yaml:"ttf"`
+	Cluster      *Cluster    `yaml:"cluster"`
+	Jwt          *Jwt        `yaml:"jwt"`
+	Minio        *Minio      `yaml:"minio"`
+	Mq           string      `yaml:"mq"`
+	Etcd         *Etcd       `yaml:"etcd"`
+	ShortLinkUrl string      `yaml:"shortLinkUrl"`
+	AdminSign    string      `yaml:"adminSign"`
+	Domain       string      `yaml:"domain"`
+	ShopDomain   string      `yaml:"shopDomain"`
 }
 
 // App app相关基础信息
@@ -177,40 +171,6 @@ type Minio struct {
 // Etcd  etcd
 type Etcd struct {
 	Addr []string `yaml:"addr"`
-}
-
-// TencentOs
-type TencentCos struct {
-	BucketURL  string `yaml:"bucketURL"`
-	ServiceURL string `yaml:"serviceURL"`
-	BatchURL   string `yaml:"batchURL"`
-	CIURL      string `yaml:"CIURL"`
-}
-
-type TencentSdkCommon struct {
-	SecretId  string `yaml:"secretId"`
-	SecretKey string `yaml:"secretKey"`
-}
-
-type ElecnestConf struct {
-	Scheme string `yaml:"scheme"`
-	Host   string `yaml:"host"`
-}
-
-type TencentCloudConf struct {
-	SecretID  string `yaml:"secretID"`
-	SecretKey string `yaml:"secretKey"`
-}
-
-type CenterServer struct {
-	Scheme string `yaml:"scheme"`
-	Host   string `yaml:"host"`
-}
-
-type SignalPost struct {
-	WechatSDK *WechatSDK `yaml:"wechat_sdk"`
-	Sms       *Sms       `yaml:"sms"`
-	Smtp      *Smtp      `yaml:"smtp"`
 }
 
 type WechatSDK struct {

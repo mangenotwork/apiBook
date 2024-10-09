@@ -19,18 +19,18 @@ func NewInvertIndexDao() *InvertIndexDao {
 
 func (dao *InvertIndexDao) Add(pid, word string, item *entity.InvertIndex) error {
 
-	err := db.DB.Set(db.GetDocInvertIndexListTable(item.DocId), item.Word, 1)
+	err := db.InvertIndexDB.Set(db.GetDocInvertIndexListTable(item.DocId), item.Word, 1)
 	if err != nil {
 		log.Error(err)
 		return err
 	}
 
 	list := make([]*entity.InvertIndex, 0)
-	err = db.DB.Get(db.GetInvertIndexTable(pid), word, &list)
+	err = db.InvertIndexDB.Get(db.GetInvertIndexTable(pid), word, &list)
 	if err != nil {
 		if errors.Is(err, db.ISNULL) || errors.Is(err, db.TableNotFound) {
 			list = append(list, item)
-			return db.DB.Set(db.GetInvertIndexTable(pid), word, list)
+			return db.InvertIndexDB.Set(db.GetInvertIndexTable(pid), word, list)
 		} else {
 			log.Error(err)
 			return err
@@ -48,7 +48,7 @@ func (dao *InvertIndexDao) Add(pid, word string, item *entity.InvertIndex) error
 
 	if !has {
 		list = append(list, item)
-		return db.DB.Set(db.GetInvertIndexTable(pid), word, list)
+		return db.InvertIndexDB.Set(db.GetInvertIndexTable(pid), word, list)
 	}
 
 	return nil
@@ -56,7 +56,7 @@ func (dao *InvertIndexDao) Add(pid, word string, item *entity.InvertIndex) error
 
 func (dao *InvertIndexDao) Get(pid, word string) ([]*entity.InvertIndex, error) {
 	list := make([]*entity.InvertIndex, 0)
-	err := db.DB.Get(db.GetInvertIndexTable(pid), word, &list)
+	err := db.InvertIndexDB.Get(db.GetInvertIndexTable(pid), word, &list)
 	if err != nil {
 		return list, err
 	}
@@ -80,14 +80,14 @@ func (dao *InvertIndexDao) Del(pid, docId, word string) error {
 	}
 
 	if has {
-		return db.DB.Set(db.GetInvertIndexTable(pid), word, list)
+		return db.InvertIndexDB.Set(db.GetInvertIndexTable(pid), word, list)
 	}
 
 	return nil
 }
 
 func (dao *InvertIndexDao) DocDelAllWord(pid, docId string) error {
-	wordKey, err := db.DB.AllKey(db.GetDocInvertIndexListTable(docId))
+	wordKey, err := db.InvertIndexDB.AllKey(db.GetDocInvertIndexListTable(docId))
 	if err != nil {
 		log.Error(err)
 		return err
@@ -99,7 +99,7 @@ func (dao *InvertIndexDao) DocDelAllWord(pid, docId string) error {
 			log.Error(err)
 		}
 
-		err = db.DB.Delete(db.GetDocInvertIndexListTable(docId), v)
+		err = db.InvertIndexDB.Delete(db.GetDocInvertIndexListTable(docId), v)
 	}
 
 	return err

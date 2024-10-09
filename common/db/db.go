@@ -8,10 +8,13 @@ import (
 	"encoding/json"
 	"fmt"
 	"github.com/boltdb/bolt"
+	"os"
+	"strings"
 )
 
 var (
 	DB            *LocalDB
+	InvertIndexDB *LocalDB
 	ISNULL        = fmt.Errorf("ISNULL")
 	TableNotFound = fmt.Errorf("table notfound")
 )
@@ -22,11 +25,7 @@ type LocalDB struct {
 	Conn   *bolt.DB
 }
 
-func NewLocalDB(tables []string) *LocalDB {
-	path := ""
-	if dbPath, ok := conf.Conf.YamlData["dbPath"]; ok {
-		path = utils.AnyToString(dbPath)
-	}
+func NewLocalDB(tables []string, path string) *LocalDB {
 	return &LocalDB{
 		Path:   path,
 		Tables: tables,
@@ -46,32 +45,92 @@ func GetDBConn() *bolt.DB {
 }
 
 func Init() {
-	DB = NewLocalDB(Tables)
+	dbPath := ""
+	if dbPathValue, ok := conf.Conf.YamlData["dbPath"]; ok {
+		dbPath = utils.AnyToString(dbPathValue)
+	} else {
+		log.Panic("dbPath 为空")
+	}
+
+	DB = NewLocalDB(Tables, dbPath)
 	DB.Init()
+
+	invertIndexDBPath := ""
+	if invertIndexDBPathValue, ok := conf.Conf.YamlData["invertIndexDBPath"]; ok {
+		invertIndexDBPath = utils.AnyToString(invertIndexDBPathValue)
+	} else {
+		log.Panic("invertIndexDBPath 为空")
+	}
+
+	InvertIndexDB = NewLocalDB([]string{}, invertIndexDBPath)
+	InvertIndexDB.Init()
+}
+
+func checkDBFile(dbFilePath string) {
+
+	if _, err := os.Stat(dbFilePath); os.IsNotExist(err) {
+
+		dir := getDirName(dbFilePath)
+
+		if dir != "" {
+			if err = os.MkdirAll(dir, 0755); err != nil {
+				log.Panic(err)
+			}
+		}
+
+		f, fErr := os.Create(dbFilePath)
+		if fErr != nil {
+			log.Panic(fErr)
+		}
+
+		defer func() {
+			_ = f.Close()
+		}()
+
+	}
+
+}
+
+func getDirName(filePath string) string {
+	return filePath[0:getLastIndex(filePath, `/`)]
+}
+
+func getLastIndex(str, ch string) int {
+	return len(str) - len(strings.TrimRight(str, ch))
 }
 
 func (ldb *LocalDB) Init() {
+
+	checkDBFile(ldb.Path)
+
 	db, err := bolt.Open(ldb.Path, 0600, nil)
 	if err != nil {
 		log.Panic(err)
 	}
+
 	defer func() {
 		_ = db.Close()
 	}()
+
 	for _, table := range ldb.Tables {
+
 		err = db.Update(func(tx *bolt.Tx) error {
 			b := tx.Bucket([]byte(table))
+
 			if b == nil {
 				_, err = tx.CreateBucket([]byte(table))
 				if err != nil {
 					log.Panic(err)
 				}
 			}
+
 			return nil
 		})
+
 		if err != nil {
 			log.Panic(err)
 		}
+
 	}
 }
 
