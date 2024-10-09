@@ -51,6 +51,10 @@ func NowDateLayout(layout string) string {
 	return time.Now().Format(layout)
 }
 
+func NowDateYMDStr() string {
+	return time.Now().Format("20060102")
+}
+
 // EndDayUnix 获取当天 24点
 func EndDayUnix() int64 {
 	timeStr := time.Now().Format("2006-01-02")

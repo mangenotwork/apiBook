@@ -115,6 +115,7 @@ type DocumentContent struct {
 	Name                      string                           `json:"name"`                      // 接口名
 	Url                       string                           `json:"url"`                       // 接口url
 	DescriptionHtml           string                           `json:"descriptionHtml"`           // 接口说明  html
+	Description               string                           `json:"description"`               // 接口说明 md
 	ReqHeader                 []*entity.ReqHeaderItem          `json:"reqHeader"`                 // 请求头
 	ReqType                   define.ReqTypeCode               `json:"reqType"`                   // 请求类型
 	ReqTypeName               string                           `json:"reqTypeName"`               // 请求类型名称

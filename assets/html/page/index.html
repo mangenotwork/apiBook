@@ -186,7 +186,7 @@
         htmlDecode : "style,script,iframe|on*",
         imageUpload : true,
         imageFormats : ["jpg", "jpeg", "gif", "png", "bmp"],
-        imageUploadURL : "url",
+        imageUploadURL : "/document/upload",
         saveHTMLToTextarea : true,
     });
 
@@ -1117,6 +1117,8 @@
                 addDocMethod.val(data.data.content.method);
                 addDocDir.val(data.data.baseInfo.dirId);
 
+
+                console.log(data.data.content.description);
                 editormdObj.appendMarkdown(data.data.content.description);
 
                 var reqHeader = data.data.content.reqHeader;

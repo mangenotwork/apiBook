@@ -1,6 +1,7 @@
 package handler
 
 import (
+	"apiBook/common/conf"
 	"apiBook/common/fenci"
 	"apiBook/common/ginHelper"
 	"apiBook/common/log"
@@ -374,6 +375,7 @@ func DocumentItem(c *gin.Context) {
 			Url:                       data.Url,
 			Method:                    data.Method,
 			DescriptionHtml:           data.DescriptionHtml,
+			Description:               data.Description,
 			ReqHeader:                 data.ReqHeader,
 			ReqType:                   data.ReqType,
 			ReqTypeName:               data.ReqType.GetName(),
@@ -853,4 +855,39 @@ func DocumentSearch(c *gin.Context) {
 
 	ctx.APIOutPut(resp, "更改成功")
 	return
+}
+
+func DocumentUpload(c *gin.Context) {
+	file, err := c.FormFile("editormd-image-file")
+	if err != nil {
+		c.JSON(400, gin.H{"error": err.Error()})
+		return
+	}
+
+	fileUrl := fmt.Sprintf("/document/img/%s/%s", utils.NowDateYMDStr(), file.Filename)
+
+	mediaPath, _ := conf.Conf.YamlData["mediaPath"]
+	filePath := fmt.Sprintf("%s%s/%s", utils.AnyToString(mediaPath), utils.NowDateYMDStr(), file.Filename)
+
+	err = c.SaveUploadedFile(file, filePath)
+	if err != nil {
+		c.JSON(400, gin.H{
+			"error": err.Error(),
+		})
+		return
+	}
+
+	c.JSON(200, gin.H{
+		"success": 1,
+		"message": "上传成功",
+		"url":     fileUrl,
+	})
+	return
+}
+
+func DocumentImg(c *gin.Context) {
+	path := c.Param("path")
+	mediaPath, _ := conf.Conf.YamlData["mediaPath"]
+	filePath := fmt.Sprintf("%s%s", utils.AnyToString(mediaPath), path)
+	c.File(filePath)
 }

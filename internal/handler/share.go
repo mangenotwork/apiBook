@@ -155,7 +155,6 @@ func ShareDocumentDocList(c *gin.Context) {
 	ctx := ginHelper.NewGinCtx(c)
 
 	hashKey := ctx.Query("hashKey")
-	log.Info(hashKey)
 
 	shareInfo, err := dao.NewShareDao().GetInfo(hashKey)
 	if err != nil {
@@ -184,8 +183,6 @@ func ShareDocumentDocList(c *gin.Context) {
 			param.DocList = append(param.DocList[:i], param.DocList[i+1:]...)
 		}
 	}
-
-	log.Info("param.DocList  = ", param.DocList)
 
 	resp := dao.NewDocDao().GetDocListByIds(param.PId, param.DocList)
 	ctx.APIOutPut(resp, "")

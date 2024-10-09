@@ -33,6 +33,8 @@ func Routers() *gin.Engine {
 	FuncMap()
 	Router.LoadHTMLGlob("assets/html/**/*")
 
+	Router.POST("/index/url", handler.DocumentUpload)
+
 	Login()    // 登录
 	Page()     // 页面
 	Project()  // 项目
@@ -175,6 +177,8 @@ func Project() {
 
 func Document() {
 	document := Router.Group("/document")
+	document.POST("/upload", handler.DocumentUpload) // 上传图片
+	document.GET("/img/*path", handler.DocumentImg)  // 读取图片
 	document.Use(AuthAPI())
 	document.GET("/dir/list", handler.DocumentDirList)            // 文档目录列表
 	document.POST("/dir/create", handler.DocumentDirCreate)       // 创建文档目录
@@ -194,6 +198,7 @@ func Document() {
 	document.POST("/doc/all", handler.DocumentGetDocAll)          // 获取所有文档
 	document.POST("/move/toRecycleBin", handler.MoveToRecycleBin) // 将文档移动至回收站
 	document.POST("/search", handler.DocumentSearch)              // 文档搜索
+
 }
 
 func Share() {
