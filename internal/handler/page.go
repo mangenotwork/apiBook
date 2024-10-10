@@ -18,6 +18,7 @@ import (
 func ginH(h gin.H) gin.H {
 	h["Title"] = conf.Conf.Default.App.Name
 	h["TimeStamp"] = define.TimeStamp
+	h["Version"] = define.Version
 	return h
 }
 
