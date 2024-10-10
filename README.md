@@ -124,10 +124,10 @@ apiBook是接口文档管理工具，私有化部署，本地数据存储，部�
 
 ## bug
 - [文档页面] 页面刷新请求代码未显示，切换页签才显示
-- [文档页面] 从目录选择创建文档 目录需要一样
+- [文档页面] 创建了文档成功后应该默认打开
 
 ## 优化
-- [文档页面] 创建了文档成功后应该默认打开
+
 
 ## 预留
 支持导入 OpenAPI (Swagger)、Postman、HAR、RAP2、JMeter、YApi、Eolinker、NEI、RAML、DOClever 、Apizza 、DOCWAY、ShowDoc、apiDoc、I/O Docs、WADL、Google Discovery 等数据格式。

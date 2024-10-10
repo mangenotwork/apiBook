@@ -314,7 +314,7 @@ func DocumentCreate(c *gin.Context) {
 
 	delDirCache(param.ProjectId)
 
-	ctx.APIOutPut("创建文档成功", "创建文档成功")
+	ctx.APIOutPut(param.Content.DocId, "创建文档成功")
 	return
 }
 

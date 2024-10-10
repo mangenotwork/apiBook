@@ -691,6 +691,12 @@
             AjaxPost("/document/create", param, function (data){
                 ToastShow(data.msg);
                 if (data.code === 0) {
+
+                    console.log(data)
+
+                    viewDocAdd(projectId, data.data)
+                    localStorage.setItem(nowViewDoc+projectId, data.data)
+
                     setTimeout(function() {
                         location.reload();
                     }, 1000);
