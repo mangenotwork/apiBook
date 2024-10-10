@@ -345,11 +345,11 @@ function ToastShow(msg) {
 }
 
 function newAPIDoc(id) {
+    clearDocEditor(0)
     if (id !== "") {
         dirId = id
         $('#addDocDir').val(dirId);
     }
-    clearDocEditor(0)
     $('#apiDocAddModal').modal('show');
 }
 

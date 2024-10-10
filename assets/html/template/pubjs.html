@@ -87,8 +87,8 @@
 
         var op = '';
         if (!dirid.includes("recycleBin_")) {
-            op = '                <button type="button" class="btn btn-outline-dark sortDocButton" onclick="sortDoc(\''+dirid+'\')">{{ SVG "list-ol" 16 16 }}</button>\n' +
-                '                <button type="button" class="btn btn-outline-dark addDocButton" onclick="newAPIDoc(\''+dirid+'\')">{{ SVG "plus-lg" 16 16 }}</button>\n'
+            op = '<button type="button" class="btn btn-outline-dark sortDocButton" onclick="sortDoc(\''+dirid+'\')">{{ SVG "list-ol" 16 16 }}</button>\n' +
+                '<button type="button" class="btn btn-outline-dark addDocButton" onclick="newAPIDoc(\''+dirid+'\')">{{ SVG "plus-lg" 16 16 }}</button>\n'
         }
 
         return '<div class="dir">\n' +
