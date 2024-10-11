@@ -43,6 +43,9 @@ const (
 	ReqTypeGraphQL            = "GraphQL"
 )
 
+var ReqTypeArray = []string{ReqTypeNone, ReqTypeText, ReqTypeFormData, ReqTypeXWWWFormUrlEncoded, ReqTypeJson,
+	ReqTypeXml, ReqTypeRaw, ReqTypeBinary, ReqTypeGraphQL}
+
 var ReqTypeCodeNameMap = map[ReqTypeCode]string{
 	ReqTypeText:               "text/plain",
 	ReqTypeFormData:           "multipart/form-data",
@@ -87,3 +90,9 @@ const (
 func GetSnapshotId() string {
 	return fmt.Sprintf("%d%s", time.Now().Unix(), utils.NewShortCode())
 }
+
+type SourceCode string
+
+const (
+	SourceOpenApi301 SourceCode = "openApi301"
+)

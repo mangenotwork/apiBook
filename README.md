@@ -45,11 +45,13 @@ apiBook是接口文档管理工具，私有化部署，本地数据存储，部�
 - v0.1.1 第一个可用版本含核心基础功能
 
 ### todo list
-
-- 导入实现,这个版本支持json基础的,如yapi，OpenAPI 3.1, OpenAPI 3.0, Swagger 2.0
+- 导入实现,Apizza json
+- 导入实现 OpenAPI 3.1 json
+- 导入实现 Swagger 2.0 json
+- 导入实现 Swagger 2.0 yapi
 - 导入界面设计
+- 对接导入
 - 导出界面设计
-- 导入实现,Apizza
 - 导出实现,这个版本支持json基础的导出: OpenAPI 3.1, OpenAPI 3.0, Swagger 2.0
 - 在开始新增关于入口
 - v0.0.5 <发布tag>
