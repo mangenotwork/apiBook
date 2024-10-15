@@ -26,7 +26,7 @@ https://spec.openapis.org/oas/v3.0.0
 	- 未使用 components
 */
 
-type OpenApi301 struct {
+type OpenApi301Import struct {
 	Openapi    string                 `json:"openapi"`
 	Info       map[string]interface{} `json:"info"`
 	Tags       []interface{}          `json:"tags"`
@@ -35,11 +35,11 @@ type OpenApi301 struct {
 	Servers    []interface{}          `json:"servers"`
 }
 
-func NewOpenApi301() *OpenApi301 {
-	return &OpenApi301{}
+func NewOpenApi301Import() *OpenApi301Import {
+	return &OpenApi301Import{}
 }
 
-func (obj *OpenApi301) Whole(text, userAcc string, private define.ProjectPrivateCode) error {
+func (obj *OpenApi301Import) Whole(text, userAcc string, private define.ProjectPrivateCode) error {
 	err := obj.analysis(text)
 	if err != nil {
 		return err
@@ -98,7 +98,7 @@ func (obj *OpenApi301) Whole(text, userAcc string, private define.ProjectPrivate
 	return nil
 }
 
-func (obj *OpenApi301) Increment(text, pid, userAcc, dirId string) error {
+func (obj *OpenApi301Import) Increment(text, pid, userAcc, dirId string) error {
 	project, err := dao.NewProjectDao().Get(pid, userAcc, false)
 	if err != nil {
 		log.Error("获取项目失败, err = ", err)
@@ -112,8 +112,6 @@ func (obj *OpenApi301) Increment(text, pid, userAcc, dirId string) error {
 
 	obj.analysisDoc(project, userAcc,
 		func(doc *entity.DocumentContent) {
-
-			log.Error(dirId)
 
 			documentData := &entity.Document{
 				DocId:     doc.DocId,
@@ -147,7 +145,7 @@ func (obj *OpenApi301) Increment(text, pid, userAcc, dirId string) error {
 	return nil
 }
 
-func (obj *OpenApi301) analysis(text string) error {
+func (obj *OpenApi301Import) analysis(text string) error {
 	err := json.Unmarshal([]byte(text), &obj)
 	if err != nil {
 		log.Error(err)
@@ -161,7 +159,7 @@ func (obj *OpenApi301) analysis(text string) error {
 	return nil
 }
 
-func (obj *OpenApi301) analysisDoc(project *entity.Project, userAcc string, f func(doc *entity.DocumentContent)) {
+func (obj *OpenApi301Import) analysisDoc(project *entity.Project, userAcc string, f func(doc *entity.DocumentContent)) {
 
 	now := time.Now().Unix()
 
@@ -443,7 +441,7 @@ func analysisProperties(pKey string, properties map[string]interface{}, reqBodyI
 	}
 }
 
-func (obj *OpenApi301) getProject(userAcc string, private define.ProjectPrivateCode) *entity.Project {
+func (obj *OpenApi301Import) getProject(userAcc string, private define.ProjectPrivateCode) *entity.Project {
 	return &entity.Project{
 		ProjectId:     utils.IDMd5(),
 		Name:          utils.AnyToString(obj.Info["title"]),

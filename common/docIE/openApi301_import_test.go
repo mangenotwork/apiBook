@@ -747,7 +747,7 @@ var yb = `{
 }`
 
 func Test_OpenApi301(t *testing.T) {
-	obj := NewOpenApi301()
+	obj := NewOpenApi301Import()
 
 	err := obj.analysis(yb)
 	if err != nil {

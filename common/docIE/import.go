@@ -14,7 +14,7 @@ type DocImportEr interface {
 func NewDocImport(source define.SourceCode) (DocImportEr, error) {
 	switch source {
 	case define.SourceOpenApi301:
-		return NewOpenApi301(), nil
+		return NewOpenApi301Import(), nil
 	}
 	return nil, fmt.Errorf("未知导入平台")
 }
