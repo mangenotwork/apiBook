@@ -45,13 +45,15 @@ apiBook是接口文档管理工具，私有化部署，本地数据存储，部�
 - v0.1.1 第一个可用版本含核心基础功能
 
 ### todo list
-- 导入实现 OpenAPI 3.1 json
-- 导入实现 Swagger 2.0 json
-- 导入实现 Swagger 2.0 yapi
+- 导入实现 yapi 
+- 导出实现 OpenAPI 3.0.1 json
+- 导出实现 OpenAPI 3.1 json
+- 导出实现 Swagger 2.0 json
+- 导出实现 ApiBook 1.0 json
+- 导入实现 ApiBook 1.0 json
 - 导入界面设计
 - 对接导入
 - 导出界面设计
-- 导出实现,这个版本支持json基础的导出: OpenAPI 3.1, OpenAPI 3.0, Swagger 2.0
 - 在开始新增关于入口
 - v0.0.5 <发布tag>
 - 
@@ -67,10 +69,22 @@ apiBook是接口文档管理工具，私有化部署，本地数据存储，部�
 - 导出实现, 这个版本支持  yaml, markdown
 - v0.0.8 <发布tag>
 - 
-- 导入实现, Postman、HAR、RAP2、JMeter、YApi、Eolinker、NEI、RAML、DOClever
+- 导入实现 Postman
+- 导入实现 HAR
+- 导入实现 RAP2
+- 导入实现 JMeter
+- 导入实现 Eolinker
+- 导入实现 NEI
+- 导入实现 RAML
+- 导入实现 DOClever
 - v0.0.9 <发布tag>
 - 
-- 导入实现,DOCWAY、ShowDoc、apiDoc、I/O Docs、WADL、Google Discovery
+- 导入实现 DOCWAY
+- 导入实现 ShowDoc
+- 导入实现 apiDoc
+- 导入实现 I/O Docs
+- 导入实现 WADL
+- 导入实现 Google Discovery
 - v0.0.10 <发布tag>
 -
 - 代码(go, java, c++, php...)的结构体转字段

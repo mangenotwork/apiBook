@@ -12,9 +12,19 @@ type DocImportEr interface {
 }
 
 func NewDocImport(source define.SourceCode) (DocImportEr, error) {
+
 	switch source {
-	case define.SourceOpenApi301:
+
+	case define.SourceOpenApi301, define.SourceOpenApi310:
 		return NewOpenApi301Import(), nil
+
+	case define.SourceSwagger:
+		return NewSwaggerImport(), nil
+
+	case define.SourceApiZZA:
+		return NewApiZZAImport(), nil
+
 	}
+
 	return nil, fmt.Errorf("未知导入平台")
 }

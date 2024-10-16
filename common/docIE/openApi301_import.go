@@ -152,9 +152,9 @@ func (obj *OpenApi301Import) analysis(text string) error {
 		return err
 	}
 
-	if obj.Openapi != "3.0.1" {
-		return fmt.Errorf("openapi is not 3.0.1")
-	}
+	//if obj.Openapi != "3.0.1" {
+	//	return fmt.Errorf("openapi is not 3.0.1")
+	//}
 
 	return nil
 }

@@ -95,4 +95,7 @@ type SourceCode string
 
 const (
 	SourceOpenApi301 SourceCode = "openApi301"
+	SourceOpenApi310 SourceCode = "openApi310"
+	SourceSwagger    SourceCode = "swagger"
+	SourceApiZZA     SourceCode = "apizza"
 )
