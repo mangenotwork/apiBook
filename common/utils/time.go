@@ -124,7 +124,7 @@ func ResolveTimeStr(seconds int) string {
 	return str
 }
 
-// 当前时间戳在今天是否结束
+// Deadline 当前时间戳在今天是否结束
 func Deadline(timestamp int64) string {
 	deadline := timestamp - time.Now().Unix()
 	if deadline < 0 {
