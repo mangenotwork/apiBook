@@ -55,6 +55,10 @@ func (dao *DocDao) GetDocumentContent(pid, docId string) (*entity.DocumentConten
 	return result, err
 }
 
+func (dao *DocDao) GetProjectAllDocId(pid string) ([]string, error) {
+	return db.DB.AllKey(db.GetDocumentContentTable(pid))
+}
+
 func (dao *DocDao) GetDocList(pid string, list []*entity.DocumentDirItem) []*entity.Document {
 	result := make([]*entity.Document, 0)
 

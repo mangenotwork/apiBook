@@ -24,6 +24,11 @@ func NewDocImport(source define.SourceCode) (DocImportEr, error) {
 	case define.SourceApiZZA:
 		return NewApiZZAImport(), nil
 
+	case define.SourceYApi:
+		return NewYApiImport(), nil
+
+	case define.SourceApiBook:
+
 	}
 
 	return nil, fmt.Errorf("未知导入平台")

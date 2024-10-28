@@ -131,6 +131,12 @@ func (dao *ProjectDao) Get(pid, userAcc string, isShare bool) (*entity.Project, 
 	return projectData, nil
 }
 
+func (dao *ProjectDao) GetByProjectId(pid string) (*entity.Project, error) {
+	projectData := &entity.Project{}
+	err := db.DB.Get(db.ProjectTable, pid, &projectData)
+	return projectData, err
+}
+
 func (dao *ProjectDao) Modify(newData *entity.Project, userAcc string) error {
 	if dao.HasName(newData.Name) {
 		return define.ProjectExistErr

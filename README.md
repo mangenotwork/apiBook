@@ -48,7 +48,6 @@ apiBook是接口文档管理工具，私有化部署，本地数据存储，部�
 - 导出实现 OpenAPI 3.0.1 json
 - 导出实现 OpenAPI 3.1 json
 - 导出实现 Swagger 2.0 json
-- 导出实现 ApiBook 1.0 json
 - 导入实现 ApiBook 1.0 json
 - 导入界面设计
 - 对接导入

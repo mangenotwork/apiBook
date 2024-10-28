@@ -1,14 +1,17 @@
 package handler
 
 import (
+	"apiBook/common/docIE"
 	"apiBook/common/fenci"
 	"apiBook/common/ginHelper"
 	"apiBook/common/log"
 	"apiBook/common/utils"
 	"apiBook/internal/dao"
+	"apiBook/internal/define"
 	"apiBook/internal/entity"
 	"github.com/gin-gonic/gin"
 	"io"
+	"net/http"
 	"regexp"
 	"strings"
 )
@@ -155,4 +158,24 @@ func CaseSearch(c *gin.Context) {
 	}
 
 	ctx.APIOutPut(list, "ok")
+}
+
+func CaseExportApiBook(c *gin.Context) {
+	ctx := ginHelper.NewGinCtx(c)
+	pid := ctx.Query("pid")
+
+	obj, err := docIE.NewDocExport(define.SourceApiBook)
+	if err != nil {
+		log.Error(err)
+		ctx.APIOutPutError(err, err.Error())
+		return
+	}
+
+	resp := obj.Export(pid)
+
+	//ctx.APIOutPut(resp, "ok")
+
+	ctx.IndentedJSON(http.StatusOK, resp)
+
+	return
 }

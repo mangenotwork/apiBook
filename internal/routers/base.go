@@ -254,4 +254,5 @@ func CaseFunc() {
 	caseFunc.POST("/go", handler.CaseFuncGo)
 	caseFunc.GET("/fenci", handler.CaseFenCi)
 	caseFunc.GET("/search", handler.CaseSearch)
+	caseFunc.GET("/export/apiBook", handler.CaseExportApiBook)
 }
