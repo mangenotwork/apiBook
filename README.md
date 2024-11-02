@@ -45,8 +45,6 @@ apiBook是接口文档管理工具，私有化部署，本地数据存储，部�
 - v0.1.1 第一个可用版本含核心基础功能
 
 ### todo list
-- 导出实现 OpenAPI 3.0.1 json
-- 导出实现 OpenAPI 3.1 json
 - 导出实现 Swagger 2.0 json
 - 导入实现 ApiBook 1.0 json
 - 导入界面设计
