@@ -164,7 +164,7 @@ func CaseExportApiBook(c *gin.Context) {
 	ctx := ginHelper.NewGinCtx(c)
 	pid := ctx.Query("pid")
 
-	obj, err := docIE.NewDocExport(define.SourceOpenApi310)
+	obj, err := docIE.NewDocExport(define.SourceApiBook)
 	if err != nil {
 		log.Error(err)
 		ctx.APIOutPutError(err, err.Error())

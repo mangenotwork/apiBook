@@ -28,6 +28,7 @@ func NewDocImport(source define.SourceCode) (DocImportEr, error) {
 		return NewYApiImport(), nil
 
 	case define.SourceApiBook:
+		return NewApiBookImport(), nil
 
 	}
 
