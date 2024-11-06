@@ -15,10 +15,14 @@ func NewDocExport(source define.SourceCode) (DocExportEr, error) {
 
 	switch source {
 
-	case define.SourceOpenApi301, define.SourceOpenApi310:
-		return NewOpenApiExport(), nil
 	case define.SourceApiBook:
 		return NewApiBookExport(), nil
+
+	case define.SourceOpenApi301, define.SourceOpenApi310:
+		return NewOpenApiExport(), nil
+
+	case define.SourceSwagger:
+		return NewSwaggerExport(), nil
 
 	}
 
