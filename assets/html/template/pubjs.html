@@ -773,6 +773,64 @@
     }
 
 
+    function openImport() {
+        $('#importModal').modal('show');
+    }
+
+    // 选择导入方式-选择项目显示项目列表
+    const radioButtons = document.getElementsByName('manner');
+    for (const radioButton of radioButtons) {
+        radioButton.addEventListener('change', function () {
+            var importSelectProject = $("#importSelectProject");
+            var importSelectProjectVal = $("#importSelectProjectVal");
+
+            if (this.value === "oldProject") {
+                AjaxGetNotAsync("/project/list", function (data) {
+                    if (data.code === 0) {
+                        importSelectProjectVal.empty();
+                        for (var i=0; i<data.data.length; i++){
+                            var item = data.data[i];
+                            importSelectProjectVal.append('<option value="'+item.projectId+'">'+item.name+' （简介:'+item.description+'） '+'</option>');
+                        }
+                    } else {
+                        ToastShow(data.msg);
+                    }
+                })
+                importSelectProject.show();
+            }else {
+                importSelectProject.hide();
+            }
+        });
+    }
+
+    function submitImport() {
+        var importType = $('input[name="importType"]:checked').val();
+        var sourcePlatform = $('input[name="sourcePlatform"]:checked').val();
+        var manner = $('input[name="manner"]:checked').val();
+        var project = $("#importSelectProjectVal").val();
+        var fileInput = $('#importFile')[0];
+        var files = fileInput.files;
+
+        if (manner === "newProject") {
+            project = ""
+        }
+
+        var param = {
+            "importType": importType,
+            "sourcePlatform": sourcePlatform,
+            "manner": manner,
+            "project": project,
+            "files": files
+        }
+
+        console.log(param)
+
+    }
+
+    function openExport() {
+        $('#exportModal').modal('show');
+    }
+
 </script>
 <script type="text/javascript" src="/js/pub.js?v={{ .TimeStamp }}"></script>
 {{ end }}

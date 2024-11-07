@@ -103,6 +103,11 @@ func (dao *ProjectDao) GetList(userAcc string) []*entity.Project {
 
 		projectData := &entity.Project{}
 		_ = db.DB.Get(db.ProjectTable, v, &projectData)
+
+		if projectData.ProjectId == "" {
+			continue
+		}
+
 		resp = append(resp, projectData)
 	}
 

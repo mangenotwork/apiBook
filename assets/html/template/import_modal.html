@@ -1,0 +1,116 @@
+{{ define "ImportModal" }}
+<div class="modal fade" id="importModal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="importModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-xl">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h1 class="modal-title fs-5" id="importModalLabel">导入</h1>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body" style="padding: 56px;">
+
+                <div class="mb-3">
+                    <label class="form-label">选择导入文件类型</label>
+                    <div class="row">
+                        <div class="col">
+                            <div class="form-check">
+                                <input class="form-check-input" type="radio" name="importType" value="json" checked>
+                                <label class="form-check-label">Json文件</label>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <hr>
+
+                <div class="mb-3">
+                    <label class="form-label">选择来源平台</label>
+                    <div class="row">
+                        <div class="col">
+                            <div class="form-check">
+                                <input class="form-check-input" type="radio" name="sourcePlatform" value="apiBook">
+                                <label class="form-check-label">ApiBook</label>
+                            </div>
+                        </div>
+                        <div class="col">
+                            <div class="form-check">
+                                <input class="form-check-input" type="radio" name="sourcePlatform" value="openApi301">
+                                <label class="form-check-label">Open Api 3.0.1</label>
+                            </div>
+                        </div>
+                        <div class="col">
+                            <div class="form-check">
+                                <input class="form-check-input" type="radio" name="sourcePlatform" value="openApi310">
+                                <label class="form-check-label">Open Api 3.1.0</label>
+                            </div>
+                        </div>
+                        <div class="col">
+                            <div class="form-check">
+                                <input class="form-check-input" type="radio" name="sourcePlatform" value="swagger">
+                                <label class="form-check-label">Swagger</label>
+                            </div>
+                        </div>
+                        <div class="col">
+                            <div class="form-check">
+                                <input class="form-check-input" type="radio" name="sourcePlatform" value="apizza">
+                                <label class="form-check-label">Apizza</label>
+                            </div>
+                        </div>
+                        <div class="col">
+                            <div class="form-check">
+                                <input class="form-check-input" type="radio" name="sourcePlatform" value="yapi">
+                                <label class="form-check-label">Yapi</label>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <hr>
+
+                <div class="mb-3">
+                    <label class="form-label">选择导入方式</label>
+                    <div class="row">
+                        <div class="col">
+                            <div class="form-check">
+                                <input class="form-check-input" type="radio" name="manner" value="newProject" >
+                                <label class="form-check-label">
+                                    导入到新项目
+                                </label>
+                            </div>
+                        </div>
+                        <div class="col">
+                            <div class="form-check">
+                                <input class="form-check-input" type="radio" name="manner" value="oldProject"  >
+                                <label class="form-check-label">
+                                    导入到已有项目
+                                </label>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row" id="importSelectProject" style="display: none;">
+                        <select class="form-select" size="10" aria-label="size 10 select example" id="importSelectProjectVal" style="width: 60%;margin-left: 1%; margin-top: 36px;margin-bottom: 36px;">
+                        </select>
+                    </div>
+
+                </div>
+                <hr>
+
+                <div class="mb-3">
+                    <label class="form-label">上传文件</label>
+                    <div class="row">
+                        <div class="col">
+                            <input class="form-control form-control-lg" id="importFile" type="file">
+                        </div>
+                    </div>
+                </div>
+
+
+
+            </div>
+
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">取消</button>
+                <button type="button" class="btn btn-primary" onclick="submitImport()">提交</button>
+            </div>
+        </div>
+    </div>
+</div>
+{{ end }}
