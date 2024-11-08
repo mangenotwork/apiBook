@@ -828,7 +828,55 @@
     }
 
     function openExport() {
+
+        var exportSelectProjectVal = $("#exportSelectProjectVal");
+
+        AjaxGetNotAsync("/project/list", function (data) {
+            if (data.code === 0) {
+                exportSelectProjectVal.empty();
+                for (var i=0; i<data.data.length; i++){
+                    var item = data.data[i];
+                    exportSelectProjectVal.append('<option value="'+item.projectId+'">'+item.name+' （简介:'+item.description+'） '+'</option>');
+                }
+            } else {
+                ToastShow(data.msg);
+            }
+        })
+
+
         $('#exportModal').modal('show');
+
+    }
+
+
+    const exportTypeButtons = document.getElementsByName('exportType');
+    for (const radioButton of exportTypeButtons) {
+        radioButton.addEventListener('change', function () {
+            var exportJsonType = $("#exportJsonType");
+            if (this.value === "json") {
+                exportJsonType.show();
+            }else {
+                exportJsonType.hide();
+            }
+        });
+    }
+
+    function submitExport() {
+        var project = $("#exportSelectProjectVal").val();
+        var exportType = $('input[name="exportType"]:checked').val();
+        var sourcePlatform = $('input[name="sourcePlatform"]:checked').val();
+        if (exportType !== "json") {
+            sourcePlatform = ""
+        }
+
+        var param = {
+            "project": project,
+            "exportType": exportType,
+            "sourcePlatform": sourcePlatform
+        }
+
+        console.log(param)
+
     }
 
 </script>

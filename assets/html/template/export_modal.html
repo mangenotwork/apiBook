@@ -7,12 +7,71 @@
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body" style="padding: 56px;">
-                导出
+
+                <div class="mb-3">
+                    <label class="form-label">选择需要导出的项目</label>
+                    <div class="row">
+                        <select class="form-select" size="10" aria-label="size 10 select example" id="exportSelectProjectVal" style="width: 60%;margin-left: 1%; margin-bottom: 36px;">
+                        </select>
+                    </div>
+                </div>
+                <hr>
+
+                <div class="mb-3">
+                    <label class="form-label">选择导出文件类型</label>
+                    <div class="row">
+                        <div class="col">
+                            <div class="form-check">
+                                <input class="form-check-input" type="radio" name="exportType" value="json" checked>
+                                <label class="form-check-label">Json文件</label>
+                            </div>
+                        </div>
+                        <div class="col">
+                            <div class="form-check">
+                                <input class="form-check-input" type="radio" name="exportType" value="pdf" checked>
+                                <label class="form-check-label">PDF文件</label>
+                            </div>
+                        </div>
+                        <div class="col">
+                            <div class="form-check">
+                                <input class="form-check-input" type="radio" name="exportType" value="word" checked>
+                                <label class="form-check-label">word文件</label>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div id="exportJsonType" style="display: none;">
+                        <br>
+                        <label class="form-label">平台类型</label>
+                        <div class="row" >
+                            <div class="col">
+                                <div class="form-check">
+                                    <input class="form-check-input" type="radio" name="sourcePlatform" value="apiBook">
+                                    <label class="form-check-label">ApiBook</label>
+                                </div>
+                            </div>
+                            <div class="col">
+                                <div class="form-check">
+                                    <input class="form-check-input" type="radio" name="sourcePlatform" value="openApi301">
+                                    <label class="form-check-label">Open Api</label>
+                                </div>
+                            </div>
+                            <div class="col">
+                                <div class="form-check">
+                                    <input class="form-check-input" type="radio" name="sourcePlatform" value="swagger">
+                                    <label class="form-check-label">Swagger</label>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+
             </div>
 
             <div class="modal-footer">
                 <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">取消</button>
-                <button type="button" class="btn btn-primary" onclick="addDocDir()">提交</button>
+                <button type="button" class="btn btn-primary" onclick="submitExport()">提交</button>
             </div>
         </div>
     </div>
