@@ -13,6 +13,8 @@ const (
 
 	TimeMilliTemplate = "2006-01-02 15:04:05.000"
 
+	TimeTemplateNotLine = "20060102150405"
+
 	// 定义每分钟的秒数
 	SecondsPerMinute = 60
 
@@ -33,6 +35,10 @@ func BeginDayUnix() int64 {
 	timeStr := time.Now().Format("2006-01-02")
 	t, _ := time.ParseInLocation("2006-01-02", timeStr, time.Local)
 	return t.Unix()
+}
+
+func NowDateNotLine() string {
+	return time.Now().Format(TimeTemplateNotLine)
 }
 
 func NowDate() string {

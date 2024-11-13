@@ -1,11 +1,15 @@
 package handler
 
 import (
+	"apiBook/common/docIE"
 	"apiBook/common/ginHelper"
 	"apiBook/common/log"
 	"apiBook/common/utils"
+	"apiBook/internal/dao"
+	"apiBook/internal/define"
 	"fmt"
 	"github.com/gin-gonic/gin"
+	"io"
 	"net/url"
 	"regexp"
 	"strings"
@@ -1072,4 +1076,88 @@ else {
 		req.DataRaw,
 	)
 	return tpl
+}
+
+func ToolImport(c *gin.Context) {
+
+}
+
+func ToolExport(c *gin.Context) {
+
+	ctx := ginHelper.NewGinCtx(c)
+
+	param := &ToolExportReq{}
+	err := ctx.GetPostArgs(&param)
+	if err != nil {
+		ctx.APIOutPutError(fmt.Errorf("参数错误"), "参数错误")
+		return
+	}
+
+	if param.Project == "" {
+		ctx.APIOutPutError(fmt.Errorf("项目id为空"), "参数错误")
+		return
+	}
+
+	userAcc := ctx.GetString("userAcc")
+	if userAcc == "" {
+		ctx.AuthErrorOut()
+		return
+	}
+
+	projectInfo, err := dao.NewProjectDao().Get(param.Project, userAcc, false)
+	if err != nil {
+		ctx.AuthErrorOut()
+		return
+	}
+
+	switch param.ExportType {
+
+	case "json":
+		data, err := docIE.NewDocExport(define.SourceCode(param.SourcePlatform))
+		if err != nil {
+			log.Error(err)
+			ctx.APIOutPutError(err, "")
+			return
+		}
+
+		log.Info(param)
+
+		jsonData := data.ExportJson(param.Project)
+		reader := strings.NewReader(jsonData)
+
+		fileName := fmt.Sprintf("%s-%s.json", stringToUnicode(projectInfo.Name), utils.NowDateNotLine())
+		log.Info("fileName = ", fileName)
+
+		c.Header("Content-Disposition", fileName)
+		c.Header("Content-Type", "application/json")
+
+		_, err = io.Copy(c.Writer, reader)
+		if err != nil {
+			ctx.APIOutPutError(err, "")
+		}
+
+		return
+
+	case "pdf":
+		// todo ...
+		ctx.APIOutPutError(fmt.Errorf("todo..."), "")
+		return
+
+	case "word":
+		// todo ...
+		ctx.APIOutPutError(fmt.Errorf("todo..."), "")
+		return
+
+	}
+
+	ctx.APIOutPutError(fmt.Errorf("未知导出类型"), "")
+	return
+}
+
+func stringToUnicode(s string) string {
+	var result string
+	for _, char := range s {
+		result += fmt.Sprintf("\\u%04x", char)
+	}
+	return result
 }

@@ -237,3 +237,12 @@ type DocumentSearchRespItem struct {
 	ModType string `json:"modType"`
 	Score   int    `json:"score"`
 }
+
+type ToolImportReq struct {
+}
+
+type ToolExportReq struct {
+	Project        string `json:"project"`
+	ExportType     string `json:"exportType"`
+	SourcePlatform string `json:"sourcePlatform"`
+}

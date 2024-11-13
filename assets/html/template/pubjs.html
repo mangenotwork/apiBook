@@ -875,8 +875,50 @@
             "sourcePlatform": sourcePlatform
         }
 
-        console.log(param)
+        var xhr = new XMLHttpRequest()
+        xhr.open('POST', "/tool/export", true)
+        xhr.setRequestHeader("Content-Type", "application/json")
+        xhr.responseType = 'blob'
+        xhr.send(JSON.stringify(param))
+        xhr.onload = function () {
+            if (this.status===200) {
+                var type = xhr.getResponseHeader('Content-Type')
+                var fileName = unicodeToChinese(xhr.getResponseHeader('content-disposition'))
+                console.log(fileName)
 
+                var blob = new Blob([this.response], { type: type })
+                if (typeof window.navigator.msSaveBlob !== 'undefined') {
+                    window.navigator.msSaveBlob(blob, fileName)
+                } else {
+                    var URL = window.URL || window.webkitURL
+                    var objectUrl = URL.createObjectURL(blob)
+                    if (fileName) {
+                        var a = document.createElement('a')
+                        if (typeof a.download === 'undefined') {
+                            window.location = objectUrl
+                        } else {
+                            a.href = objectUrl
+                            a.download = fileName
+                            document.body.appendChild(a)
+                            a.click()
+                            a.remove()
+                        }
+                    } else {
+                        window.location = objectUrl
+                    }
+                    window.URL.revokeObjectURL(objectUrl);
+                }
+            }
+        }
+    }
+
+    function unicodeToChinese(unicodeStr) {
+        let result = '';
+        let unicodeRegex = /\\u([\dA-Fa-f]{4})/g;
+        result = unicodeStr.replace(unicodeRegex, function(match, grp) {
+            return String.fromCharCode(parseInt(grp, 16));
+        });
+        return result;
     }
 
 </script>
