@@ -45,8 +45,7 @@ apiBook是接口文档管理工具，私有化部署，本地数据存储，部�
 - v0.1.1 第一个可用版本含核心基础功能
 
 ### todo list
-- 导入导出接口并对接
-- 在开始新增导入入口
+- 测试+改bug
 - v0.0.5 <发布tag>
 - 
 - 本地数据库视图操作页(可查看与删除操作 - 管理员可见)
@@ -133,6 +132,22 @@ apiBook是接口文档管理工具，私有化部署，本地数据存储，部�
 ## bug
 - [文档页面] 页面刷新请求代码未显示，切换页签才显示
 - [搜索] 接口名为:fffff; f进行搜索不到
+- [导入] 导入apizza未创建目录导致程序失败 
+```azure
+net/http.(*conn).serve.func1()
+        D:/go1.22.2/src/net/http/server.go:1898 +0xbe
+panic({0x152f940?, 0xc006675998?})
+        D:/go1.22.2/src/runtime/panic.go:770 +0x132
+apiBook/internal/handler.DocumentItem(0xc015faa098?)
+        D:/go/src/github.com/mangenotwork/apiBook/internal/handler/document.go:368 +0xeb0
+github.com/gin-gonic/gin.(*Context).Next(0xc015faa000)
+        D:/go/pkg/mod/github.com/gin-gonic/gin@v1.10.0/context.go:185 +0x2b
+apiBook/internal/routers.Document.AuthAPI.func1(0xc015faa000)
+        D:/go/src/github.com/mangenotwork/apiBook/internal/routers/auth.go:53 +0xd4
+```
+
+-
+
 
 ## 优化
 

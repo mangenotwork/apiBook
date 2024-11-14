@@ -38,6 +38,10 @@ func (obj *YApiImport) Whole(text, userAcc string, private define.ProjectPrivate
 
 	project := obj.analysisProject(userAcc, private)
 
+	if dao.NewProjectDao().HasName(project.Name) {
+		project.Name += utils.NowDateNotLine()
+	}
+
 	err = dao.NewProjectDao().Create(project, userAcc)
 	if err != nil {
 		log.Error("创建项目失败")

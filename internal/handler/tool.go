@@ -1080,6 +1080,58 @@ else {
 
 func ToolImport(c *gin.Context) {
 
+	ctx := ginHelper.NewGinCtx(c)
+
+	form, err := ctx.MultipartForm()
+	if err != nil {
+		ctx.APIOutPutError(fmt.Errorf("参数错误"), "参数错误")
+		return
+	}
+
+	log.Info(form)
+
+	userAcc := ctx.GetString("userAcc")
+	if userAcc == "" {
+		ctx.AuthErrorOut()
+		return
+	}
+
+	sourcePlatform := define.SourceCode(form.Value["sourcePlatform"][0])
+
+	obj, err := docIE.NewDocImport(sourcePlatform)
+	if err != nil {
+		ctx.APIOutPutError(fmt.Errorf("参数错误"), "参数错误")
+		return
+	}
+
+	files := form.File["files"][0]
+
+	src, err := files.Open()
+	if err != nil {
+		ctx.APIOutPutError(fmt.Errorf("参数错误"), "参数错误")
+		return
+	}
+	defer src.Close()
+
+	buffer := make([]byte, files.Size)
+	_, err = src.Read(buffer)
+	if err != nil {
+		ctx.APIOutPutError(fmt.Errorf("参数错误"), "参数错误")
+		return
+	}
+
+	fileContent := string(buffer)
+
+	log.Info(fileContent)
+
+	err = obj.Whole(fileContent, userAcc, define.ProjectPublic)
+	if err != nil {
+		ctx.APIOutPutError(err, "导入失败")
+		return
+	}
+
+	ctx.APIOutPut("导入成功", "导入成功")
+	return
 }
 
 func ToolExport(c *gin.Context) {

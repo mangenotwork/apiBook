@@ -40,7 +40,9 @@ func (obj *SwaggerImport) Whole(text, userAcc string, private define.ProjectPriv
 
 	project := obj.analysisProject(userAcc, private)
 
-	log.Info(project)
+	if dao.NewProjectDao().HasName(project.Name) {
+		project.Name += utils.NowDateNotLine()
+	}
 
 	err = dao.NewProjectDao().Create(project, userAcc)
 	if err != nil {

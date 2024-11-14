@@ -815,15 +815,51 @@
             project = ""
         }
 
-        var param = {
-            "importType": importType,
-            "sourcePlatform": sourcePlatform,
-            "manner": manner,
-            "project": project,
-            "files": files
+        // var param = {
+        //     "importType": importType,
+        //     "sourcePlatform": sourcePlatform,
+        //     "manner": manner,
+        //     "project": project,
+        //     "files": files
+        // }
+        //
+        // console.log(param)
+
+        var formData = new FormData();
+        formData.append("importType", importType)
+        formData.append("sourcePlatform", sourcePlatform)
+        formData.append("manner", manner)
+        formData.append("project", project)
+        formData.append("files", files)
+
+        if (!files[0]) {
+            ToastShow("请上传导入文件");
+            return
         }
 
-        console.log(param)
+        formData.append('files', files[0])
+
+        $.ajax({
+            type:'POST',
+            url:"/tool/import",
+            data:formData,
+            processData: false,//不操作数据
+            cache:false,//不存缓存
+            contentType: false,//格式默认
+            mimeType:"multipart/form-data",
+            success:function (data) {
+                console.log(data)
+                ToastShow(data.msg);
+
+                setTimeout(function() {
+                    window.location.href = "/home";
+                }, 1000);
+
+            },
+            error: function(xhr,textStatus) {
+                console.log(xhr, textStatus);
+            }
+        });
 
     }
 

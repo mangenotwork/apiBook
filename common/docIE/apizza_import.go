@@ -39,6 +39,10 @@ func (obj *ApiZZAImport) Whole(text, userAcc string, private define.ProjectPriva
 
 	project := obj.analysisProject(userAcc, private)
 
+	if dao.NewProjectDao().HasName(project.Name) {
+		project.Name += utils.NowDateNotLine()
+	}
+
 	err = dao.NewProjectDao().Create(project, userAcc)
 	if err != nil {
 		log.Error("创建项目失败")
