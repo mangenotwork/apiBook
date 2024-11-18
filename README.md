@@ -37,7 +37,7 @@ apiBook是接口文档管理工具，私有化部署，本地数据存储，部�
 - v0.0.4 交互优化，查看项目成员，增加缓存，优化存储，md编辑器上传图片。
 
 ### 里程碑 todo
-- v0.0.5 导出导入实现，支持json ( OpenAPI 3.1, OpenAPI 3.0, Swagger 2.0 )
+- v0.0.5 导出导入实现（全量），支持json ( OpenAPI 3.1, OpenAPI 3.0, Swagger 2.0 )
 - v0.0.6 本地数据库操作工具,系统信息
 - v0.0.7 生成pdf,生成word文档
 - v0.0.8 导出实现, 这个版本支持 yaml(OpenAPI 3.1, OpenAPI 3.0, Swagger 2.0), markdown
@@ -50,6 +50,7 @@ apiBook是接口文档管理工具，私有化部署，本地数据存储，部�
 - 
 - 本地数据库视图操作页(可查看与删除操作 - 管理员可见)
 - 系统信息:db文件大小,图片存储大小及数量
+- 导入到已有项目
 - 这个版本功能测试+冒烟测试
 - v0.0.6 <发布tag>
 - 
@@ -60,22 +61,12 @@ apiBook是接口文档管理工具，私有化部署，本地数据存储，部�
 - 导出实现, 这个版本支持  yaml, markdown
 - v0.0.8 <发布tag>
 - 
-- 导入实现 Postman
-- 导入实现 HAR
-- 导入实现 RAP2
-- 导入实现 JMeter
-- 导入实现 Eolinker
-- 导入实现 NEI
-- 导入实现 RAML
-- 导入实现 DOClever
+- 项目页面新增统计信息，接口数量
+- 目录旁边新增统计信息，接口数量
+- 在项目下拉菜单新增一个切换项目的选项
 - v0.0.9 <发布tag>
 - 
-- 导入实现 DOCWAY
-- 导入实现 ShowDoc
-- 导入实现 apiDoc
-- 导入实现 I/O Docs
-- 导入实现 WADL
-- 导入实现 Google Discovery
+
 - v0.0.10 <发布tag>
 -
 - 代码(go, java, c++, php...)的结构体转字段
@@ -129,6 +120,23 @@ apiBook是接口文档管理工具，私有化部署，本地数据存储，部�
 - 推广使用
 - v1.0.2 <发布tag>
 
+
+## 需求池
+- 导入实现 Postman
+- 导入实现 HAR
+- 导入实现 RAP2
+- 导入实现 JMeter
+- 导入实现 Eolinker
+- 导入实现 NEI
+- 导入实现 RAML
+- 导入实现 DOClever
+- 导入实现 DOCWAY
+- 导入实现 ShowDoc
+- 导入实现 apiDoc
+- 导入实现 I/O Docs
+- 导入实现 WADL
+- 导入实现 Google Discovery
+
 ## bug
 - [文档页面] 页面刷新请求代码未显示，切换页签才显示
 - [搜索] 接口名为:fffff; f进行搜索不到
@@ -145,8 +153,11 @@ github.com/gin-gonic/gin.(*Context).Next(0xc015faa000)
 apiBook/internal/routers.Document.AuthAPI.func1(0xc015faa000)
         D:/go/src/github.com/mangenotwork/apiBook/internal/routers/auth.go:53 +0xd4
 ```
-
--
+- [导出] 导出的文档需要带上平台信息
+- [导入] 把未开发完成的增量导入加上todo
+- [导入] openapi导入的项目接口没有显示  method 主要是由于小写导致
+- [导入] 需要增加loading
+- [导入] 导入的文档内容，md的文档没用显示图片
 
 
 ## 优化
