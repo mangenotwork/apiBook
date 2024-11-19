@@ -84,8 +84,11 @@ function loadApiDoc(apiDoc, snapshotList) {
     reqXmlDivBody.empty();
     reqTxtDivBody.empty();
 
-    if (apiDoc.reqType === "json") {
+    if (apiDoc.reqType === "json" && apiDoc.reqBodyJson !== "" ) {
         jsoneditorDiv.show();
+
+        console.log(apiDoc.reqBodyJson)
+
         const initialJson = JSON.parse(apiDoc.reqBodyJson)
         editor.set(initialJson)
         editor.expandAll()
@@ -184,27 +187,33 @@ function loadApiDoc(apiDoc, snapshotList) {
 }
 
 function loadReqCode(reqCodeMap) {
-    $("#code-jsFetch code").text(reqCodeMap["jsFetch"]);
-    $("#code-jsAxios code").text(reqCodeMap["jsAxios"]);
-    $("#code-jsJquery code").text(reqCodeMap["jsJquery"]);
-    $("#code-jsXhr code").text(reqCodeMap["jsXhr"]);
-    $("#code-swift code").text(reqCodeMap["swift"]);
-    $("#code-objectiveC code").text(reqCodeMap["objectiveC"]);
-    $("#code-dart code").text(reqCodeMap["dart"]);
-    $("#code-javaUnirest code").text(reqCodeMap["javaUnirest"]);
-    $("#code-javaOkHttpClient code").text(reqCodeMap["javaOkHttpClient"]);
-    $("#code-curl code").text(reqCodeMap["curl"]);
-    $("#code-wget code").text(reqCodeMap["wget"]);
-    $("#code-powerShell code").text(reqCodeMap["powerShell"]);
-    $("#code-phpRequest2 code").text(reqCodeMap["phpRequest2"]);
-    $("#code-phpHttpClient code").text(reqCodeMap["phpHttpClient"]);
-    $("#code-phpClient code").text(reqCodeMap["phpClient"]);
-    $("#code-pythonClient code").text(reqCodeMap["pythonClient"]);
-    $("#code-pythonRequests code").text(reqCodeMap["pythonRequests"]);
-    $("#code-c code").text(reqCodeMap["c"]);
-    $("#code-CSharp code").text(reqCodeMap["c#"]);
-    $("#code-ruby code").text(reqCodeMap["ruby"]);
-    $("#code-go code").text(reqCodeMap["go"]);
+
+    console.log("loadReqCode ....")
+
+    $("#code-jsFetch code").html(reqCodeMap["jsFetch"]);
+    $("#code-jsAxios code").html(reqCodeMap["jsAxios"]);
+    $("#code-jsJquery code").html(reqCodeMap["jsJquery"]);
+    $("#code-jsXhr code").html(reqCodeMap["jsXhr"]);
+    $("#code-swift code").html(reqCodeMap["swift"]);
+    $("#code-objectiveC code").html(reqCodeMap["objectiveC"]);
+    $("#code-dart code").html(reqCodeMap["dart"]);
+    $("#code-javaUnirest code").html(reqCodeMap["javaUnirest"]);
+    $("#code-javaOkHttpClient code").html(reqCodeMap["javaOkHttpClient"]);
+    $("#code-curl code").html(reqCodeMap["curl"]);
+    $("#code-wget code").html(reqCodeMap["wget"]);
+    $("#code-powerShell code").html(reqCodeMap["powerShell"]);
+    $("#code-phpRequest2 code").html(reqCodeMap["phpRequest2"]);
+    $("#code-phpHttpClient code").html(reqCodeMap["phpHttpClient"]);
+    $("#code-phpClient code").html(reqCodeMap["phpClient"]);
+    $("#code-pythonClient code").html(reqCodeMap["pythonClient"]);
+    $("#code-pythonRequests code").html(reqCodeMap["pythonRequests"]);
+    $("#code-c code").html(reqCodeMap["c"]);
+    $("#code-CSharp code").html(reqCodeMap["c#"]);
+    $("#code-ruby code").html(reqCodeMap["ruby"]);
+    $("#code-go code").html(reqCodeMap["go"]);
+
+    $('#pills-tab a:first').tab('show');
+
 }
 
 function jsonToBodyInfoItem(jsonObj, parentKey) {

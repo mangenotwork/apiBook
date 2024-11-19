@@ -839,6 +839,10 @@
 
         formData.append('files', files[0])
 
+
+        var submitImportLoading = $("#submitImportLoading")
+        submitImportLoading.show();
+
         $.ajax({
             type:'POST',
             url:"/tool/import",
@@ -849,15 +853,22 @@
             mimeType:"multipart/form-data",
             success:function (data) {
                 console.log(data)
-                ToastShow(data.msg);
+
+                var dataObj = JSON.parse(data);
+
+                ToastShow(dataObj.msg);
+
+                submitImportLoading.hide();
 
                 setTimeout(function() {
                     window.location.href = "/home";
-                }, 1000);
+                }, 3000);
 
             },
             error: function(xhr,textStatus) {
                 console.log(xhr, textStatus);
+                submitImportLoading.hide();
+                ToastShow(xhr, textStatus);
             }
         });
 
@@ -909,6 +920,11 @@
             "project": project,
             "exportType": exportType,
             "sourcePlatform": sourcePlatform
+        }
+
+        if (project === null || project === undefined || project.length < 1 ) {
+            ToastShow("请选择需要导出的项目");
+            return
         }
 
         var xhr = new XMLHttpRequest()

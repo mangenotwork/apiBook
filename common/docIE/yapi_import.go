@@ -7,6 +7,7 @@ import (
 	"apiBook/internal/define"
 	"apiBook/internal/entity"
 	"encoding/json"
+	"fmt"
 	"time"
 )
 
@@ -39,7 +40,7 @@ func (obj *YApiImport) Whole(text, userAcc string, private define.ProjectPrivate
 	project := obj.analysisProject(userAcc, private)
 
 	if dao.NewProjectDao().HasName(project.Name) {
-		project.Name += utils.NowDateNotLine()
+		project.Name = fmt.Sprintf("%s-%s", project.Name, utils.NowDateNotLine())
 	}
 
 	err = dao.NewProjectDao().Create(project, userAcc)
@@ -199,8 +200,8 @@ func (obj *YApiImport) analysisDoc(project *entity.Project, userAcc, dirId strin
 			reqHeaders := utils.AnyToArr(itemMap["req_headers"])
 			reqBodyType := utils.AnyToString(itemMap["req_body_type"])
 			resBodyType := utils.AnyToString(itemMap["res_body_type"])
-			reqBodyOther := utils.AnyToString(itemMap["req_body_other"])
-			resBody := utils.AnyToString(itemMap["res_body"])
+			//reqBodyOther := utils.AnyToString(itemMap["req_body_other"])
+			//resBody := utils.AnyToString(itemMap["res_body"])
 
 			//log.Info("path : ", path)
 			//log.Info("method : ", method)
@@ -292,12 +293,12 @@ func (obj *YApiImport) analysisDoc(project *entity.Project, userAcc, dirId strin
 			switch reqBodyType {
 			case "json":
 				doc.ReqType = define.ReqTypeJson
-				doc.ReqBodyJson = reqBodyOther
+				//doc.ReqBodyJson = reqBodyOther
 			case "form":
 				doc.ReqType = define.ReqTypeFormData
 			case "raw":
 				doc.ReqType = define.ReqTypeRaw
-				doc.ReqBodyRaw = reqBodyOther
+				//doc.ReqBodyRaw = reqBodyOther
 			}
 
 			respData := &entity.RespItem{}
@@ -311,7 +312,7 @@ func (obj *YApiImport) analysisDoc(project *entity.Project, userAcc, dirId strin
 				respData.RespType = define.ReqTypeRaw
 			}
 
-			respData.RespBody = resBody
+			//respData.RespBody = resBody
 
 			doc.Resp = append(doc.Resp, respData)
 

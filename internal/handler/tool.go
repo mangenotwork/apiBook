@@ -1177,7 +1177,7 @@ func ToolExport(c *gin.Context) {
 		jsonData := data.ExportJson(param.Project)
 		reader := strings.NewReader(jsonData)
 
-		fileName := fmt.Sprintf("%s-%s.json", stringToUnicode(projectInfo.Name), utils.NowDateNotLine())
+		fileName := fmt.Sprintf("%s-%s-%s.json", stringToUnicode(projectInfo.Name), param.SourcePlatform, utils.NowDateNotLine())
 		log.Info("fileName = ", fileName)
 
 		c.Header("Content-Disposition", fileName)

@@ -48,7 +48,7 @@ func (obj *OpenApi301Import) Whole(text, userAcc string, private define.ProjectP
 	project := obj.getProject(userAcc, private)
 
 	if dao.NewProjectDao().HasName(project.Name) {
-		project.Name += utils.NowDateNotLine()
+		project.Name = fmt.Sprintf("%s-%s", project.Name, utils.NowDateNotLine())
 	}
 
 	err = dao.NewProjectDao().Create(project, userAcc)

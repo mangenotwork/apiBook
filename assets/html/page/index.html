@@ -1100,6 +1100,10 @@
             if (data.code === 0 ) {
                 clearDocEditor(2)
 
+                console.log(data)
+                console.log(data.data)
+                console.log(data.data.content)
+
                 var addDocName = $("#addDocName");
                 var addDocUrl = $("#addDocUrl");
                 var addDocMethod = $("#addDocMethod");
@@ -1124,9 +1128,9 @@
                 addDocMethod.val(data.data.content.method);
                 addDocDir.val(data.data.baseInfo.dirId);
 
-
-                console.log(data.data.content.description);
-                editormdObj.appendMarkdown(data.data.content.description);
+                if (data.data.content.description !== "") {
+                    editormdObj.appendMarkdown(data.data.content.description);
+                }
 
                 var reqHeader = data.data.content.reqHeader;
                 for( var i=0; i<reqHeader.length; i++ ){
@@ -1144,7 +1148,9 @@
 
                 switch (data.data.content.reqType) {
                     case "json":
-                        editorAdd.set(JSON.parse(data.data.content.reqBodyJson))
+                        if (data.data.content.reqBodyJson !== "") {
+                            editorAdd.set(JSON.parse(data.data.content.reqBodyJson))
+                        }
                         break
                     case "xml":
                         $("#bodyXml textarea").val(data.data.content.reqBodyXml)

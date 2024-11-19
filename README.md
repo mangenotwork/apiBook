@@ -121,6 +121,16 @@ apiBook是接口文档管理工具，私有化部署，本地数据存储，部�
 - v1.0.2 <发布tag>
 
 
+## bug
+
+
+## 优化
+- 页面刷新请求代码单独请求接口
+- 对文档的标题和url的所有词进行倒排
+- 导入需要对md格式转html，引入md库
+- 搜索支持检索式（and  or  not  ..... ） <需要调研>
+
+
 ## 需求池
 - 导入实现 Postman
 - 导入实现 HAR
@@ -137,32 +147,7 @@ apiBook是接口文档管理工具，私有化部署，本地数据存储，部�
 - 导入实现 WADL
 - 导入实现 Google Discovery
 
-## bug
-- [文档页面] 页面刷新请求代码未显示，切换页签才显示
-- [搜索] 接口名为:fffff; f进行搜索不到
-- [导入] 导入apizza未创建目录导致程序失败 
-```azure
-net/http.(*conn).serve.func1()
-        D:/go1.22.2/src/net/http/server.go:1898 +0xbe
-panic({0x152f940?, 0xc006675998?})
-        D:/go1.22.2/src/runtime/panic.go:770 +0x132
-apiBook/internal/handler.DocumentItem(0xc015faa098?)
-        D:/go/src/github.com/mangenotwork/apiBook/internal/handler/document.go:368 +0xeb0
-github.com/gin-gonic/gin.(*Context).Next(0xc015faa000)
-        D:/go/pkg/mod/github.com/gin-gonic/gin@v1.10.0/context.go:185 +0x2b
-apiBook/internal/routers.Document.AuthAPI.func1(0xc015faa000)
-        D:/go/src/github.com/mangenotwork/apiBook/internal/routers/auth.go:53 +0xd4
-```
-- [导出] 导出的文档需要带上平台信息
-- [导入] 把未开发完成的增量导入加上todo
-- [导入] openapi导入的项目接口没有显示  method 主要是由于小写导致
-- [导入] 需要增加loading
-- [导入] 导入的文档内容，md的文档没用显示图片
-
-
-## 优化
-
 
 ## 预留
-支持导入 OpenAPI (Swagger)、Postman、HAR、RAP2、JMeter、YApi、Eolinker、NEI、RAML、DOClever 、Apizza 、DOCWAY、ShowDoc、apiDoc、I/O Docs、WADL、Google Discovery 等数据格式。
+
 

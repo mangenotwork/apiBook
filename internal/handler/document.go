@@ -73,7 +73,7 @@ func DocumentDirList(c *gin.Context) {
 			for _, docItem := range docList {
 				item.Doc = append(item.Doc, &DocRespItem{
 					DocId:  docItem.DocId,
-					Method: docItem.Method,
+					Method: strings.ToUpper(docItem.Method),
 					Title:  docItem.Name,
 				})
 			}
@@ -365,7 +365,9 @@ func DocumentItem(c *gin.Context) {
 		return
 	}
 
-	data.Resp[0].RespTypeName = data.Resp[0].RespType.GetName()
+	if len(data.Resp) > 0 {
+		data.Resp[0].RespTypeName = data.Resp[0].RespType.GetName()
+	}
 
 	resp = &DocumentItemResp{
 		Content: &DocumentContent{
@@ -373,7 +375,7 @@ func DocumentItem(c *gin.Context) {
 			ProjectId:                 data.ProjectId,
 			Name:                      data.Name,
 			Url:                       data.Url,
-			Method:                    data.Method,
+			Method:                    strings.ToUpper(data.Method),
 			DescriptionHtml:           data.DescriptionHtml,
 			Description:               data.Description,
 			ReqHeader:                 data.ReqHeader,

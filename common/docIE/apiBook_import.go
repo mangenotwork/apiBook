@@ -7,6 +7,7 @@ import (
 	"apiBook/internal/define"
 	"apiBook/internal/entity"
 	"encoding/json"
+	"fmt"
 	"time"
 )
 
@@ -31,7 +32,7 @@ func (obj *ApiBookImport) Whole(text, userAcc string, private define.ProjectPriv
 	project := obj.analysisProject(userAcc, private)
 
 	if dao.NewProjectDao().HasName(project.Name) {
-		project.Name += utils.NowDateNotLine()
+		project.Name = fmt.Sprintf("%s-%s", project.Name, utils.NowDateNotLine())
 	}
 
 	err = dao.NewProjectDao().Create(project, userAcc)

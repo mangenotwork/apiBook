@@ -13,6 +13,7 @@ import (
 	"github.com/gin-gonic/gin"
 	"net/http"
 	"sort"
+	"strings"
 )
 
 func ShareCreate(c *gin.Context) {
@@ -135,7 +136,7 @@ func ShareDocumentDirList(c *gin.Context) {
 			for _, docItem := range docList {
 				item.Doc = append(item.Doc, &DocRespItem{
 					DocId:  docItem.DocId,
-					Method: docItem.Method,
+					Method: strings.ToUpper(docItem.Method),
 					Title:  docItem.Name,
 				})
 			}
@@ -243,7 +244,7 @@ func ShareDocumentItem(c *gin.Context) {
 			ProjectId:                 data.ProjectId,
 			Name:                      data.Name,
 			Url:                       data.Url,
-			Method:                    data.Method,
+			Method:                    strings.ToUpper(data.Method),
 			DescriptionHtml:           data.DescriptionHtml,
 			ReqHeader:                 data.ReqHeader,
 			ReqType:                   data.ReqType,

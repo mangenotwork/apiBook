@@ -143,89 +143,89 @@ func ApiBookText() template.HTML {
 func RequestCode() template.HTML {
 	htmlTemplate := `<ul class="nav nav-pills mb-3" id="pills-tab" role="tablist" style="margin-top: 36px;">
                                 <li class="nav-item" role="presentation">
-                                    <button class="nav-link codeBtn active" id="code-jsFetch-tab" data-bs-toggle="pill" data-bs-target="#code-jsFetch" type="button" role="tab" aria-controls="code-jsFetch" aria-selected="false">
-                                        js-fetch</button>
+                                    <a class="nav-link codeBtn active" id="code-jsFetch-tab" data-bs-toggle="pill" data-bs-target="#code-jsFetch" type="button" role="tab" aria-controls="code-jsFetch" aria-selected="false">
+                                        js-fetch</a>
                                 </li>
                                 <li class="nav-item" role="presentation">
-                                    <button class="nav-link codeBtn" id="code-jsAxios-tab" data-bs-toggle="pill" data-bs-target="#code-jsAxios" type="button" role="tab" aria-controls="code-jsAxios" aria-selected="false">
-                                        js-axios</button>
+                                    <a class="nav-link codeBtn" id="code-jsAxios-tab" data-bs-toggle="pill" data-bs-target="#code-jsAxios" type="button" role="tab" aria-controls="code-jsAxios" aria-selected="false">
+                                        js-axios</a>
                                 </li>
                                 <li class="nav-item" role="presentation">
-                                    <button class="nav-link codeBtn" id="code-jsJquery-tab" data-bs-toggle="pill" data-bs-target="#code-jsJquery" type="button" role="tab" aria-controls="code-jsJquery" aria-selected="false">
-                                        js-jquery</button>
+                                    <a class="nav-link codeBtn" id="code-jsJquery-tab" data-bs-toggle="pill" data-bs-target="#code-jsJquery" type="button" role="tab" aria-controls="code-jsJquery" aria-selected="false">
+                                        js-jquery</a>
                                 </li>
                                 <li class="nav-item" role="presentation">
-                                    <button class="nav-link codeBtn" id="code-jsXhr-tab" data-bs-toggle="pill" data-bs-target="#code-jsXhr" type="button" role="tab" aria-controls="code-jsXhr" aria-selected="false">
-                                        js-xhr</button>
+                                    <a class="nav-link codeBtn" id="code-jsXhr-tab" data-bs-toggle="pill" data-bs-target="#code-jsXhr" type="button" role="tab" aria-controls="code-jsXhr" aria-selected="false">
+                                        js-xhr</a>
                                 </li>
                                 <li class="nav-item" role="presentation">
-                                    <button class="nav-link codeBtn" id="code-swift-tab" data-bs-toggle="pill" data-bs-target="#code-swift" type="button" role="tab" aria-controls="code-swift" aria-selected="false">
-                                        swift</button>
+                                    <a class="nav-link codeBtn" id="code-swift-tab" data-bs-toggle="pill" data-bs-target="#code-swift" type="button" role="tab" aria-controls="code-swift" aria-selected="false">
+                                        swift</a>
                                 </li>
                                 <li class="nav-item" role="presentation">
-                                    <button class="nav-link codeBtn" id="code-objectiveC-tab" data-bs-toggle="pill" data-bs-target="#code-objectiveC" type="button" role="tab" aria-controls="code-objectiveC" aria-selected="false">
-                                        objective-c</button>
+                                    <a class="nav-link codeBtn" id="code-objectiveC-tab" data-bs-toggle="pill" data-bs-target="#code-objectiveC" type="button" role="tab" aria-controls="code-objectiveC" aria-selected="false">
+                                        objective-c</a>
                                 </li>
                                 <li class="nav-item" role="presentation">
-                                    <button class="nav-link codeBtn" id="code-dart-tab" data-bs-toggle="pill" data-bs-target="#code-dart" type="button" role="tab" aria-controls="code-dart" aria-selected="false">
-                                        dart</button>
+                                    <a class="nav-link codeBtn" id="code-dart-tab" data-bs-toggle="pill" data-bs-target="#code-dart" type="button" role="tab" aria-controls="code-dart" aria-selected="false">
+                                        dart</a>
                                 </li>
                                 <li class="nav-item" role="presentation">
-                                    <button class="nav-link codeBtn" id="code-javaUnirest-tab" data-bs-toggle="pill" data-bs-target="#code-javaUnirest" type="button" role="tab" aria-controls="code-javaUnirest" aria-selected="false">
-                                        java-unirest</button>
+                                    <a class="nav-link codeBtn" id="code-javaUnirest-tab" data-bs-toggle="pill" data-bs-target="#code-javaUnirest" type="button" role="tab" aria-controls="code-javaUnirest" aria-selected="false">
+                                        java-unirest</a>
                                 </li>
                                 <li class="nav-item" role="presentation">
-                                    <button class="nav-link codeBtn" id="code-javaOkHttpClient-tab" data-bs-toggle="pill" data-bs-target="#code-javaOkHttpClient" type="button" role="tab" aria-controls="code-javaOkHttpClient" aria-selected="false">
-                                        java-okHttpClient</button>
+                                    <a class="nav-link codeBtn" id="code-javaOkHttpClient-tab" data-bs-toggle="pill" data-bs-target="#code-javaOkHttpClient" type="button" role="tab" aria-controls="code-javaOkHttpClient" aria-selected="false">
+                                        java-okHttpClient</a>
                                 </li>
                                 <li class="nav-item" role="presentation">
-                                    <button class="nav-link codeBtn" id="code-curl-tab" data-bs-toggle="pill" data-bs-target="#code-curl" type="button" role="tab" aria-controls="code-curl" aria-selected="true">
-                                        curl</button>
+                                    <a class="nav-link codeBtn" id="code-curl-tab" data-bs-toggle="pill" data-bs-target="#code-curl" type="button" role="tab" aria-controls="code-curl" aria-selected="true">
+                                        curl</a>
                                 </li>
                                 <li class="nav-item" role="presentation">
-                                    <button class="nav-link codeBtn" id="code-wget-tab" data-bs-toggle="pill" data-bs-target="#code-wget" type="button" role="tab" aria-controls="code-wget" aria-selected="false">
-                                        wget</button>
+                                    <a class="nav-link codeBtn" id="code-wget-tab" data-bs-toggle="pill" data-bs-target="#code-wget" type="button" role="tab" aria-controls="code-wget" aria-selected="false">
+                                        wget</a>
                                 </li>
                                 <li class="nav-item" role="presentation">
-                                    <button class="nav-link codeBtn" id="code-powerShell-tab" data-bs-toggle="pill" data-bs-target="#code-powerShell" type="button" role="tab" aria-controls="code-powerShell" aria-selected="false">
-                                        powerShell</button>
+                                    <a class="nav-link codeBtn" id="code-powerShell-tab" data-bs-toggle="pill" data-bs-target="#code-powerShell" type="button" role="tab" aria-controls="code-powerShell" aria-selected="false">
+                                        powerShell</a>
                                 </li>
                                 <li class="nav-item" role="presentation">
-                                    <button class="nav-link codeBtn" id="code-phpRequest2-tab" data-bs-toggle="pill" data-bs-target="#code-phpRequest2" type="button" role="tab" aria-controls="code-phpRequest2" aria-selected="false">
-                                        php-request2</button>
+                                    <a class="nav-link codeBtn" id="code-phpRequest2-tab" data-bs-toggle="pill" data-bs-target="#code-phpRequest2" type="button" role="tab" aria-controls="code-phpRequest2" aria-selected="false">
+                                        php-request2</a>
                                 </li>
                                 <li class="nav-item" role="presentation">
-                                    <button class="nav-link codeBtn" id="code-phpHttpClient-tab" data-bs-toggle="pill" data-bs-target="#code-phpHttpClient" type="button" role="tab" aria-controls="code-phpHttpClient" aria-selected="false">
-                                        php-httpClient</button>
+                                    <a class="nav-link codeBtn" id="code-phpHttpClient-tab" data-bs-toggle="pill" data-bs-target="#code-phpHttpClient" type="button" role="tab" aria-controls="code-phpHttpClient" aria-selected="false">
+                                        php-httpClient</a>
                                 </li>
                                 <li class="nav-item" role="presentation">
-                                    <button class="nav-link codeBtn" id="code-phpClient-tab" data-bs-toggle="pill" data-bs-target="#code-phpClient" type="button" role="tab" aria-controls="code-phpClient" aria-selected="false">
-                                        php-client</button>
+                                    <a class="nav-link codeBtn" id="code-phpClient-tab" data-bs-toggle="pill" data-bs-target="#code-phpClient" type="button" role="tab" aria-controls="code-phpClient" aria-selected="false">
+                                        php-client</a>
                                 </li>
                                 <li class="nav-item" role="presentation">
-                                    <button class="nav-link codeBtn" id="code-pythonClient-tab" data-bs-toggle="pill" data-bs-target="#code-pythonClient" type="button" role="tab" aria-controls="code-pythonClient" aria-selected="false">
-                                        python-client</button>
+                                    <a class="nav-link codeBtn" id="code-pythonClient-tab" data-bs-toggle="pill" data-bs-target="#code-pythonClient" type="button" role="tab" aria-controls="code-pythonClient" aria-selected="false">
+                                        python-client</a>
                                 </li>
                                 <li class="nav-item" role="presentation">
-                                    <button class="nav-link codeBtn" id="code-pythonRequests-tab" data-bs-toggle="pill" data-bs-target="#code-pythonRequests" type="button" role="tab" aria-controls="code-pythonRequests" aria-selected="false">
-                                        python-requests</button>
+                                    <a class="nav-link codeBtn" id="code-pythonRequests-tab" data-bs-toggle="pill" data-bs-target="#code-pythonRequests" type="button" role="tab" aria-controls="code-pythonRequests" aria-selected="false">
+                                        python-requests</a>
                                 </li>
                                 <li class="nav-item" role="presentation">
-                                    <button class="nav-link codeBtn" id="code-c-tab" data-bs-toggle="pill" data-bs-target="#code-c" type="button" role="tab" aria-controls="code-c" aria-selected="false">
-                                        c</button>
+                                    <a class="nav-link codeBtn" id="code-c-tab" data-bs-toggle="pill" data-bs-target="#code-c" type="button" role="tab" aria-controls="code-c" aria-selected="false">
+                                        c</a>
                                 </li>
                                 <li class="nav-item" role="presentation">
-                                    <button class="nav-link codeBtn" id="code-CSharp-tab" data-bs-toggle="pill" data-bs-target="#code-CSharp" type="button" role="tab" aria-controls="code-CSharp" aria-selected="false">
-                                        c#</button>
+                                    <a class="nav-link codeBtn" id="code-CSharp-tab" data-bs-toggle="pill" data-bs-target="#code-CSharp" type="button" role="tab" aria-controls="code-CSharp" aria-selected="false">
+                                        c#</a>
                                 </li>
 
                                 <li class="nav-item" role="presentation">
-                                    <button class="nav-link codeBtn" id="code-ruby-tab" data-bs-toggle="pill" data-bs-target="#code-ruby" type="button" role="tab" aria-controls="code-ruby" aria-selected="false">
-                                        ruby</button>
+                                    <a class="nav-link codeBtn" id="code-ruby-tab" data-bs-toggle="pill" data-bs-target="#code-ruby" type="button" role="tab" aria-controls="code-ruby" aria-selected="false">
+                                        ruby</a>
                                 </li>
                                 <li class="nav-item" role="presentation">
-                                    <button class="nav-link codeBtn" id="code-go-tab" data-bs-toggle="pill" data-bs-target="#code-go" type="button" role="tab" aria-controls="code-go" aria-selected="false">
-                                        go</button>
+                                    <a class="nav-link codeBtn" id="code-go-tab" data-bs-toggle="pill" data-bs-target="#code-go" type="button" role="tab" aria-controls="code-go" aria-selected="false">
+                                        go</a>
                                 </li>
                             </ul>
                             <div class="tab-content" id="pills-tabContent">
