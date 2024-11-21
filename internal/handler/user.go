@@ -112,6 +112,7 @@ func Login(ctx *gin.Context) {
 	}
 
 	if account == user.Account && password == user.Password {
+		log.SendOperationLog(user.Account, "登入了系统")
 		setToken(ctx, user.Account)
 		return
 	}
@@ -125,6 +126,13 @@ func Login(ctx *gin.Context) {
 }
 
 func Out(ctx *gin.Context) {
+
+	token, _ := ctx.Cookie(define.UserToken)
+	j := utils.NewJWT(conf.Conf.Default.Jwt.Secret, conf.Conf.Default.Jwt.Expire)
+	if err := j.ParseToken(token); err == nil {
+		log.SendOperationLog(j.GetString("userAcc"), "登出了系统")
+	}
+
 	ctx.SetCookie("sign", "", 60*60*24*7, "/", "", false, true)
 	ctx.Redirect(http.StatusFound, "/")
 }

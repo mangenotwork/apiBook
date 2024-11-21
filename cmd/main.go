@@ -20,11 +20,14 @@ import (
 )
 
 func main() {
+	// 初始化日志
+	log.InitSysLog()
 
 	// 读取配置文件与初始化本地数据文件
 	var confPath string
 	flag.StringVar(&confPath, "c", "./conf/app.yaml", "配置文件路径")
 	flag.Parse()
+	log.SendSysLog("读取配置文件: " + confPath)
 	conf.InitConf(confPath)
 	db.Init()
 
@@ -55,6 +58,7 @@ func main() {
 
 	go func() {
 		log.InfoF("http服务启动 0.0.0.0:%s", conf.Conf.Default.HttpServer.Prod)
+		log.SendSysLog(fmt.Sprintf("http服务启动 0.0.0.0:%s", conf.Conf.Default.HttpServer.Prod))
 		if err := srv.ListenAndServe(); err != nil && errors.Is(err, http.ErrServerClosed) {
 			log.ErrorF("http服务出现异常:%s\n", err.Error())
 		}
@@ -64,11 +68,14 @@ func main() {
 	signal.Notify(quit, syscall.SIGINT, syscall.SIGTERM)
 	<-quit
 	log.Info("关闭服务 ...")
+	log.SendSysLog("关闭服务 ...")
 
 	ctx, cancel := context.WithTimeout(context.Background(), 3*time.Second)
 	defer cancel()
 	if err := srv.Shutdown(ctx); err != nil {
 		log.Info("关闭服务 Err:", err)
 	}
+	log.SendSysLog("服务已关闭")
 	log.Info("服务已关闭")
+
 }

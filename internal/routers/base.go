@@ -45,6 +45,7 @@ func Routers() *gin.Engine {
 	Share()    // 分享
 	Mock()     // mock
 	CaseFunc() // case function
+	Debug()    // debug
 
 	return Router
 }
@@ -162,41 +163,41 @@ func Project() {
 	project.Use(AuthAPI())
 	project.GET("/list", handler.ProjectList)             // 项目列表
 	project.GET("/item", handler.ProjectItem)             // 项目详情
-	project.POST("/create", handler.ProjectCreate)        // 创建项目
-	project.POST("/modify", handler.ProjectModify)        // 修改项目
-	project.POST("/delete", handler.ProjectDelete)        // 删除项目
+	project.POST("/create", handler.ProjectCreate)        // 创建项目 - todo 日志:创建了项目
+	project.POST("/modify", handler.ProjectModify)        // 修改项目 - todo 日志:修改了项目
+	project.POST("/delete", handler.ProjectDelete)        // 删除项目 - todo 日志:删除了项目
 	project.GET("/users", handler.ProjectUsers)           // 项目协作人员列表
-	project.POST("/adduser", handler.ProjectAddUser)      // 项目添加协助人员
-	project.POST("/deluser", handler.ProjectDelUser)      // 项目移除协作者
+	project.POST("/adduser", handler.ProjectAddUser)      // 项目添加协助人员 - todo 日志:添加协助人员
+	project.POST("/deluser", handler.ProjectDelUser)      // 项目移除协作者 - todo 日志:移除协作者
 	project.GET("/join/list", handler.ProjectJoinList)    // 可加入的用户列表
-	project.POST("/header/add", handler.ProjectHeaderAdd) // 添加全局header
+	project.POST("/header/add", handler.ProjectHeaderAdd) // 添加全局header - todo 日志:添加全局header
 	project.GET("/header/list", handler.ProjectHeaderGet) // 获取全局header
-	project.POST("/code/add", handler.ProjectCodeAdd)     // 添加全局code
+	project.POST("/code/add", handler.ProjectCodeAdd)     // 添加全局code - todo 日志:添加全局code
 	project.GET("/code/list", handler.ProjectCodeGet)     // 获取全局code
 }
 
 func Document() {
 	document := Router.Group("/document")
-	document.POST("/upload", handler.DocumentUpload) // 上传图片
+	document.POST("/upload", handler.DocumentUpload) // 上传图片 - todo 日志:上传图片
 	document.GET("/img/*path", handler.DocumentImg)  // 读取图片
 	document.Use(AuthAPI())
 	document.GET("/dir/list", handler.DocumentDirList)            // 文档目录列表
-	document.POST("/dir/create", handler.DocumentDirCreate)       // 创建文档目录
-	document.POST("/dir/delete", handler.DocumentDirDelete)       // 删除文档目录
-	document.POST("/dir/modify", handler.DocumentDirModify)       // 修改文档目录
-	document.POST("/dir/sort", handler.DocumentDirSort)           // 排序文档目录
+	document.POST("/dir/create", handler.DocumentDirCreate)       // 创建文档目录 - todo 日志:创建文档目录
+	document.POST("/dir/delete", handler.DocumentDirDelete)       // 删除文档目录 - todo 日志:删除文档目录
+	document.POST("/dir/modify", handler.DocumentDirModify)       // 修改文档目录 - todo 日志:修改文档目录
+	document.POST("/dir/sort", handler.DocumentDirSort)           // 排序文档目录 - todo 日志:排序文档目录
 	document.POST("/list", handler.DocumentList)                  // 文档列表
-	document.POST("/create", handler.DocumentCreate)              // 创建文档
+	document.POST("/create", handler.DocumentCreate)              // 创建文档 - todo 日志:创建文档
 	document.POST("/item", handler.DocumentItem)                  // 文档详情
-	document.POST("/modify", handler.DocumentModify)              // 修改文档
-	document.POST("/delete", handler.DocumentDelete)              // 删除文档
-	document.POST("/changeDir", handler.DocumentChangeDir)        // 文档切换目录
-	document.POST("/sort", handler.DocumentSort)                  // 排序文档
+	document.POST("/modify", handler.DocumentModify)              // 修改文档 - todo 日志:修改文档
+	document.POST("/delete", handler.DocumentDelete)              // 删除文档 - todo 日志:删除文档
+	document.POST("/changeDir", handler.DocumentChangeDir)        // 文档切换目录 - todo 日志:文档切换目录
+	document.POST("/sort", handler.DocumentSort)                  // 排序文档 - todo 日志:排序文档
 	document.POST("/doc/list", handler.DocumentDocList)           // 获取指定多个文档的基础信息
 	document.POST("/snapshot/item", handler.DocumentSnapshotItem) // 获取文档镜像
 	document.POST("/dir/all", handler.DocumentGetDirAll)          // 获取所有目录
 	document.POST("/doc/all", handler.DocumentGetDocAll)          // 获取所有文档
-	document.POST("/move/toRecycleBin", handler.MoveToRecycleBin) // 将文档移动至回收站
+	document.POST("/move/toRecycleBin", handler.MoveToRecycleBin) // 将文档移动至回收站 - todo 日志:将文档移动至回收站
 	document.POST("/search", handler.DocumentSearch)              // 文档搜索
 
 }
@@ -204,17 +205,17 @@ func Document() {
 func Share() {
 	Router.GET("/browse/:hashKey", handler.Browse) // 分享浏览页面
 	share := Router.Group("/share")
-	share.POST("/create", handler.ShareCreate)                               // 创建分享
+	share.POST("/create", handler.ShareCreate)                               // 创建分享  - todo 日志:创建分享
 	share.GET("/info/project", handler.GetShareInfoProject)                  // 获取项目当前的分享
 	share.GET("/info/document", handler.GetShareInfoDocument)                // 获取文档当前的分享
-	share.GET("/del", handler.DeleteShare)                                   // 删除分享
+	share.GET("/del", handler.DeleteShare)                                   // 删除分享  - todo 日志:删除分享
 	share.GET("/document/dir/list", handler.ShareDocumentDirList)            // 文档目录列表
 	share.POST("/document/doc/list", handler.ShareDocumentDocList)           // 获取指定多个文档的基础信息
 	share.POST("/document/item", handler.ShareDocumentItem)                  // 文档详情
 	share.GET("/project/code/list", handler.ShareProjectCodeGet)             // 获取全局code
 	share.GET("/project/header/list", handler.ShareProjectHeaderGet)         // 获取全局header
 	share.POST("/document/snapshot/item", handler.ShareDocumentSnapshotItem) // 获取文档镜像
-	share.POST("/verify/:hashKey", handler.ShareVerify)                      // 分享验证
+	share.POST("/verify/:hashKey", handler.ShareVerify)                      // 分享验证 - todo 日志:分享验证
 	share.POST("/document/search", handler.ShareDocumentSearch)              // 文档搜索
 }
 
@@ -222,8 +223,8 @@ func User() {
 	user := Router.Group("/user")
 	user.Use(AuthAPI())
 	user.GET("/info", handler.GetUserInfo)                  // 获取用户信息
-	user.POST("/modify", handler.UserModify)                // 修改用户信息
-	user.POST("/reset/password", handler.UserResetPassword) // 重置用户密码
+	user.POST("/modify", handler.UserModify)                // 修改用户信息 - todo 日志:修改用户信息
+	user.POST("/reset/password", handler.UserResetPassword) // 重置用户密码 - todo 日志:重置用户密码
 	user.GET("/list", handler.UserList)                     // 获取所有用户列表
 }
 
@@ -231,9 +232,9 @@ func Admin() {
 	admin := Router.Group("/mange")
 	admin.Use(AuthAPI())
 	admin.GET("/t", handler.AdminT)
-	admin.POST("/create/user", handler.AdminCreateUser)   // 创建用户
-	admin.POST("/delete/user", handler.AdminDeleteUser)   // 删除用户
-	admin.POST("/disable/user", handler.AdminDisableUser) // 禁用用户
+	admin.POST("/create/user", handler.AdminCreateUser)   // 创建用户 - todo 日志:创建用户
+	admin.POST("/delete/user", handler.AdminDeleteUser)   // 删除用户 - todo 日志:删除用户
+	admin.POST("/disable/user", handler.AdminDisableUser) // 禁用用户 - todo 日志:禁用用户
 }
 
 func Mock() {
@@ -250,8 +251,8 @@ func Tool() {
 
 	caseFuncAuth := Router.Group("/tool")
 	caseFuncAuth.Use(AuthAPI())
-	caseFuncAuth.POST("/import", handler.ToolImport) // 导入
-	caseFuncAuth.POST("/export", handler.ToolExport) // 导出
+	caseFuncAuth.POST("/import", handler.ToolImport) // 导入 - todo 日志:导入
+	caseFuncAuth.POST("/export", handler.ToolExport) // 导出 - todo 日志:导出
 }
 
 func CaseFunc() {
@@ -260,4 +261,19 @@ func CaseFunc() {
 	caseFunc.GET("/fenci", handler.CaseFenCi)
 	caseFunc.GET("/search", handler.CaseSearch)
 	caseFunc.GET("/export/apiBook", handler.CaseExportApiBook)
+}
+
+func Debug() {
+	debugRouter := Router.Group("/debug")
+	debugRouter.Use(AuthPG())
+	// todo  查看系统信息-总览  项目总数量，用户总数量，db文件大小,图片存储大小及数量，运行时间
+	// todo  查看系统信息-项目  项目信息，接口数量，用户数量，操作日志
+	// todo  查看系统日志  (登录，操作，报错)
+	// todo  查看db数据
+	// todo  查看配置文件
+	// todo  覆盖指定数据
+	// todo  删除指定数据
+	// todo  删除并清空指定项目
+	// todo  删除并清空指定用户
+	// todo  恢复出厂设置
 }
