@@ -1130,6 +1130,8 @@ func ToolImport(c *gin.Context) {
 		return
 	}
 
+	log.SendOperationLog(userAcc, fmt.Sprintf("导入成功"))
+
 	ctx.APIOutPut("导入成功", "导入成功")
 	return
 }
@@ -1187,6 +1189,8 @@ func ToolExport(c *gin.Context) {
 		if err != nil {
 			ctx.APIOutPutError(err, "")
 		}
+
+		log.SendOperationLog(userAcc, fmt.Sprintf("导出成功"))
 
 		return
 

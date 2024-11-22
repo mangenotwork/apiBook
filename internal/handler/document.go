@@ -103,7 +103,7 @@ func DocumentDirCreate(c *gin.Context) {
 		return
 	}
 
-	_, err = dao.NewProjectDao().Get(param.PId, userAcc, false)
+	project, err := dao.NewProjectDao().Get(param.PId, userAcc, false)
 	if err != nil {
 		ctx.APIOutPutError(err, err.Error())
 		return
@@ -122,6 +122,8 @@ func DocumentDirCreate(c *gin.Context) {
 	}
 
 	delDirCache(param.PId)
+
+	log.SendOperationLog(userAcc, fmt.Sprintf("创建目录成功: %s id:%s, 项目: %s id:%s", param.DirName, dir.DirId, project.Name, project.ProjectId))
 
 	ctx.APIOutPut("创建目录成功", "创建目录成功")
 	return
@@ -142,10 +144,17 @@ func DocumentDirDelete(c *gin.Context) {
 		return
 	}
 
-	_, err = dao.NewProjectDao().Get(param.PId, userAcc, false)
+	project, err := dao.NewProjectDao().Get(param.PId, userAcc, false)
 	if err != nil {
 		log.Error(err)
 		ctx.APIOutPutError(err, "你不是项目创建无删除权限")
+		return
+	}
+
+	dirInfo, err := dao.NewDirDao().Get(param.PId, param.DirId)
+	if err != nil {
+		log.Error(err)
+		ctx.APIOutPutError(err, "无该目录")
 		return
 	}
 
@@ -156,6 +165,8 @@ func DocumentDirDelete(c *gin.Context) {
 	}
 
 	delDirCache(param.PId)
+
+	log.SendOperationLog(userAcc, fmt.Sprintf("删除目录成功: %s id:%s, 项目: %s id:%s", dirInfo.DirName, param.DirId, project.Name, project.ProjectId))
 
 	ctx.APIOutPut(dirRecycleBin, "删除目录成功")
 	return
@@ -176,7 +187,7 @@ func DocumentDirModify(c *gin.Context) {
 		return
 	}
 
-	_, err = dao.NewProjectDao().Get(param.PId, userAcc, false)
+	project, err := dao.NewProjectDao().Get(param.PId, userAcc, false)
 	if err != nil {
 		ctx.APIOutPutError(err, err.Error())
 		return
@@ -190,6 +201,8 @@ func DocumentDirModify(c *gin.Context) {
 
 	delDirCache(param.PId)
 
+	log.SendOperationLog(userAcc, fmt.Sprintf("修改目录成功,新名: %s id:%s, 项目: %s id:%s", param.DirName, param.DirId, project.Name, project.ProjectId))
+
 	ctx.APIOutPut("修改目录成功", "修改目录成功")
 	return
 }
@@ -200,6 +213,12 @@ func DocumentDirSort(c *gin.Context) {
 	err := ctx.GetPostArgs(&param)
 	if err != nil {
 		ctx.APIOutPutError(fmt.Errorf("参数错误"), "参数错误")
+		return
+	}
+
+	userAcc := ctx.GetString("userAcc")
+	if userAcc == "" {
+		ctx.AuthErrorOut()
 		return
 	}
 
@@ -218,6 +237,14 @@ func DocumentDirSort(c *gin.Context) {
 	}
 
 	delDirCache(param.PId)
+
+	project, err := dao.NewProjectDao().Get(param.PId, userAcc, false)
+	if err != nil {
+		ctx.APIOutPutError(err, err.Error())
+		return
+	}
+
+	log.SendOperationLog(userAcc, fmt.Sprintf("排序文档目录, 项目: %s id:%s", project.Name, project.ProjectId))
 
 	ctx.APIOutPut("完成", "完成")
 	return
@@ -272,7 +299,7 @@ func DocumentCreate(c *gin.Context) {
 		return
 	}
 
-	_, err = dao.NewProjectDao().Get(param.ProjectId, userAcc, false)
+	project, err := dao.NewProjectDao().Get(param.ProjectId, userAcc, false)
 	if err != nil {
 		log.Error("获取项目权限失败， err: ", err)
 		ctx.APIOutPutError(err, err.Error())
@@ -313,6 +340,9 @@ func DocumentCreate(c *gin.Context) {
 	}
 
 	delDirCache(param.ProjectId)
+
+	log.SendOperationLog(userAcc, fmt.Sprintf("创建文档成功: %s id:%s dir:%s, 项目: %s id:%s", doc.Name, doc.DocId, doc.DirId,
+		project.Name, project.ProjectId))
 
 	ctx.APIOutPut(param.Content.DocId, "创建文档成功")
 	return
@@ -463,7 +493,7 @@ func DocumentModify(c *gin.Context) {
 		return
 	}
 
-	_, err = dao.NewProjectDao().Get(param.ProjectId, userAcc, false)
+	project, err := dao.NewProjectDao().Get(param.ProjectId, userAcc, false)
 	if err != nil {
 		ctx.APIOutPutError(err, err.Error())
 		return
@@ -477,6 +507,9 @@ func DocumentModify(c *gin.Context) {
 
 	delDirCache(param.ProjectId)
 	delDocCache(param.ProjectId, param.Content.DocId)
+
+	log.SendOperationLog(userAcc, fmt.Sprintf("修改文档成功: %s id:%s, 项目: %s id:%s", param.Content.Name,
+		param.Content.DocId, project.Name, project.ProjectId))
 
 	ctx.APIOutPut("修改文档成功", "修改文档成功")
 	return
@@ -497,9 +530,15 @@ func DocumentDelete(c *gin.Context) {
 		return
 	}
 
-	_, err = dao.NewProjectDao().Get(param.PId, userAcc, false)
+	project, err := dao.NewProjectDao().Get(param.PId, userAcc, false)
 	if err != nil {
 		ctx.APIOutPutError(err, err.Error())
+		return
+	}
+
+	doc, err := dao.NewDocDao().GetDocument(param.PId, param.DocId)
+	if err != nil {
+		ctx.APIOutPutError(err, "获取文档失败")
 		return
 	}
 
@@ -511,6 +550,9 @@ func DocumentDelete(c *gin.Context) {
 
 	delDirCache(param.PId)
 	delDocCache(param.PId, param.DocId)
+
+	log.SendOperationLog(userAcc, fmt.Sprintf("删除文档成功: %s id:%s, 项目: %s id:%s", doc.Name,
+		doc.DocId, project.Name, project.ProjectId))
 
 	ctx.APIOutPut("删除文档成功", "删除文档成功")
 	return
@@ -531,7 +573,13 @@ func DocumentChangeDir(c *gin.Context) {
 		return
 	}
 
-	_, err = dao.NewProjectDao().Get(param.PId, userAcc, false)
+	project, err := dao.NewProjectDao().Get(param.PId, userAcc, false)
+	if err != nil {
+		ctx.APIOutPutError(err, err.Error())
+		return
+	}
+
+	doc, err := dao.NewDocDao().GetDocument(param.PId, param.DocId)
 	if err != nil {
 		ctx.APIOutPutError(err, err.Error())
 		return
@@ -545,6 +593,9 @@ func DocumentChangeDir(c *gin.Context) {
 
 	delDirCache(param.PId)
 
+	log.SendOperationLog(userAcc, fmt.Sprintf("更改文档目录成功: %s id:%s  dir -> %s, 项目: %s id:%s", doc.Name,
+		doc.DocId, param.DirIdNew, project.Name, project.ProjectId))
+
 	ctx.APIOutPut("更改成功", "更改成功")
 	return
 }
@@ -555,6 +606,18 @@ func DocumentSort(c *gin.Context) {
 	err := ctx.GetPostArgs(&param)
 	if err != nil {
 		ctx.APIOutPutError(fmt.Errorf("参数错误"), "参数错误")
+		return
+	}
+
+	userAcc := ctx.GetString("userAcc")
+	if userAcc == "" {
+		ctx.AuthErrorOut()
+		return
+	}
+
+	project, err := dao.NewProjectDao().Get(param.PId, userAcc, false)
+	if err != nil {
+		ctx.APIOutPutError(err, err.Error())
 		return
 	}
 
@@ -574,6 +637,8 @@ func DocumentSort(c *gin.Context) {
 	}
 
 	delDirCache(param.PId)
+
+	log.SendOperationLog(userAcc, fmt.Sprintf("排序文档成功: , 项目: %s id:%s", project.Name, project.ProjectId))
 
 	ctx.APIOutPut("完成", "完成")
 	return
@@ -741,7 +806,7 @@ func MoveToRecycleBin(c *gin.Context) {
 		return
 	}
 
-	_, err = dao.NewProjectDao().Get(param.PId, userAcc, false)
+	project, err := dao.NewProjectDao().Get(param.PId, userAcc, false)
 	if err != nil {
 		ctx.APIOutPutError(err, err.Error())
 		return
@@ -762,13 +827,20 @@ func MoveToRecycleBin(c *gin.Context) {
 		}
 	}
 
-	log.Info("recycleBinDir = ", recycleBinDir)
-
 	err = dao.NewDocDao().ChangeDir(param.PId, recycleBinDir, param.DocId)
 	if err != nil {
 		ctx.APIOutPutError(err, "更改文档目录失败")
 		return
 	}
+
+	doc, err := dao.NewDocDao().GetDocument(param.PId, param.DocId)
+	if err != nil {
+		ctx.APIOutPutError(err, err.Error())
+		return
+	}
+
+	log.SendOperationLog(userAcc, fmt.Sprintf("将文档移动至回收站: %s id:%s, 项目: %s id:%s", doc.Name, doc.DocId,
+		project.Name, project.ProjectId))
 
 	ctx.APIOutPut(recycleBinDir, "更改成功")
 	return
@@ -822,7 +894,7 @@ func DocumentSearch(c *gin.Context) {
 
 	dirDocList := make([]*entity.DocumentDirItem, 0)
 	i := 0
-	for k, _ := range docMap {
+	for k := range docMap {
 		dirDocList = append(dirDocList, &entity.DocumentDirItem{
 			DocId: k,
 			Sort:  i,
@@ -878,6 +950,10 @@ func DocumentUpload(c *gin.Context) {
 		})
 		return
 	}
+
+	ctx := ginHelper.NewGinCtx(c)
+	userAcc := ctx.GetString("userAcc")
+	log.SendOperationLog(userAcc, fmt.Sprintf("上传成功: %s", fileUrl))
 
 	c.JSON(200, gin.H{
 		"success": 1,

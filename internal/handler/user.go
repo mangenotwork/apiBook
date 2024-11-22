@@ -184,6 +184,8 @@ func UserModify(c *gin.Context) {
 		return
 	}
 
+	log.SendOperationLog(userAcc, fmt.Sprintf("修改用户信息成功: %s", utils.AnyToJsonNotErr(param)))
+
 	ctx.APIOutPut("修改用户信息成功", "修改用户信息成功")
 	return
 }
@@ -218,6 +220,8 @@ func UserResetPassword(c *gin.Context) {
 		ctx.APIOutPutError(err, "修改密码失败")
 		return
 	}
+
+	log.SendOperationLog(userAcc, fmt.Sprintf("修改密码成功"))
 
 	ctx.APIOutPut("修改密码成功", "修改密码成功")
 	return

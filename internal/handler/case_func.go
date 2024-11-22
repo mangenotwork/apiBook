@@ -179,3 +179,7 @@ func CaseExportApiBook(c *gin.Context) {
 
 	return
 }
+
+func CasePanic(c *gin.Context) {
+	panic(0)
+}

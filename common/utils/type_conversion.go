@@ -217,6 +217,14 @@ func AnyToJson(data interface{}) (string, error) {
 	return string(jsonStr), err
 }
 
+func AnyToJsonNotErr(data interface{}) string {
+	jsonStr, err := AnyToJson(data)
+	if err != nil {
+		return ""
+	}
+	return jsonStr
+}
+
 // AnyToJsonB interface{} -> json string
 func AnyToJsonB(data interface{}) ([]byte, error) {
 	jsonStr, err := json.Marshal(data)

@@ -66,6 +66,8 @@ func ProjectCreate(c *gin.Context) {
 		return
 	}
 
+	log.SendOperationLog(userAcc, fmt.Sprintf("创建了项目，项目 %s id: %s", param.Name, param.ProjectId))
+
 	ctx.APIOutPut("创建成功", "创建成功")
 	return
 }
@@ -91,6 +93,8 @@ func ProjectModify(c *gin.Context) {
 		return
 	}
 
+	log.SendOperationLog(userAcc, fmt.Sprintf("修改了项目，项目 %s id: %s", param.Name, param.ProjectId))
+
 	ctx.APIOutPut("修改成功", "修改成功")
 	return
 }
@@ -115,6 +119,8 @@ func ProjectDelete(c *gin.Context) {
 		ctx.APIOutPutError(err, "删除失败")
 		return
 	}
+
+	log.SendOperationLog(userAcc, fmt.Sprintf("删除了项目，项目 %s id: %s", param.Name, param.ProjectId))
 
 	ctx.APIOutPut("删除成功", "删除成功")
 	return
@@ -174,10 +180,18 @@ func ProjectAddUser(c *gin.Context) {
 		return
 	}
 
+	project, err := dao.NewProjectDao().Get(param.PId, userAcc, false)
+	if err != nil {
+		ctx.APIOutPutError(err, err.Error())
+		return
+	}
+
 	for _, v := range strings.Split(param.Accounts, ",") {
 		err = dao.NewProjectDao().AddUser(param.PId, userAcc, v)
 		if err != nil {
 			log.Error(err)
+		} else {
+			log.SendOperationLog(userAcc, fmt.Sprintf("添加协作者 %s 成功，项目 %s id: %s , 添加协作者成功", v, project.Name, param.PId))
 		}
 	}
 
@@ -205,6 +219,14 @@ func ProjectDelUser(c *gin.Context) {
 		ctx.APIOutPutError(err, err.Error())
 		return
 	}
+
+	project, err := dao.NewProjectDao().Get(param.PId, userAcc, false)
+	if err != nil {
+		ctx.APIOutPutError(err, err.Error())
+		return
+	}
+
+	log.SendOperationLog(userAcc, fmt.Sprintf("删除协作者 %s 成功，项目 %s id: %s", param.Account, project.Name, project.ProjectId))
 
 	ctx.APIOutPut("删除协作者成功", "删除协作者成功")
 	return
@@ -248,6 +270,13 @@ func ProjectJoinList(c *gin.Context) {
 
 func ProjectHeaderAdd(c *gin.Context) {
 	ctx := ginHelper.NewGinCtx(c)
+
+	userAcc := ctx.GetString("userAcc")
+	if userAcc == "" {
+		ctx.AuthErrorOut()
+		return
+	}
+
 	param := &entity.ProjectGlobalHeader{}
 	err := ctx.GetPostArgs(&param)
 	if err != nil {
@@ -260,6 +289,14 @@ func ProjectHeaderAdd(c *gin.Context) {
 		ctx.APIOutPutError(err, err.Error())
 		return
 	}
+
+	project, err := dao.NewProjectDao().Get(param.ProjectId, userAcc, false)
+	if err != nil {
+		ctx.APIOutPutError(err, err.Error())
+		return
+	}
+
+	log.SendOperationLog(userAcc, fmt.Sprintf("项目 %s id: %s, 添加Header %s", project.Name, project.ProjectId, utils.AnyToJsonNotErr(param)))
 
 	ctx.APIOutPut("保存成功", "保存成功")
 	return
@@ -281,6 +318,13 @@ func ProjectHeaderGet(c *gin.Context) {
 
 func ProjectCodeAdd(c *gin.Context) {
 	ctx := ginHelper.NewGinCtx(c)
+
+	userAcc := ctx.GetString("userAcc")
+	if userAcc == "" {
+		ctx.AuthErrorOut()
+		return
+	}
+
 	param := &entity.ProjectGlobalCode{}
 	err := ctx.GetPostArgs(&param)
 	if err != nil {
@@ -293,6 +337,14 @@ func ProjectCodeAdd(c *gin.Context) {
 		ctx.APIOutPutError(err, err.Error())
 		return
 	}
+
+	project, err := dao.NewProjectDao().Get(param.ProjectId, userAcc, false)
+	if err != nil {
+		ctx.APIOutPutError(err, err.Error())
+		return
+	}
+
+	log.SendOperationLog(userAcc, fmt.Sprintf("项目 %s id: %s, 添加Header %s", project.Name, project.ProjectId, utils.AnyToJsonNotErr(param)))
 
 	ctx.APIOutPut("保存成功", "保存成功")
 	return

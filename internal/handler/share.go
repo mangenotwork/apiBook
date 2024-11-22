@@ -25,6 +25,12 @@ func ShareCreate(c *gin.Context) {
 		return
 	}
 
+	userAcc := ctx.GetString("userAcc")
+	if userAcc == "" {
+		ctx.AuthErrorOut()
+		return
+	}
+
 	param.Key = utils.NewShortCode()
 
 	if param.Expiration == 0 {
@@ -37,6 +43,8 @@ func ShareCreate(c *gin.Context) {
 		ctx.APIOutPutError(fmt.Errorf("创建分享失败"), "创建分享失败")
 		return
 	}
+
+	log.SendOperationLog(userAcc, fmt.Sprintf("创建分享: %s", utils.AnyToJsonNotErr(param)))
 
 	ctx.APIOutPut("创建成功", "创建成功")
 	return
@@ -68,12 +76,20 @@ func DeleteShare(c *gin.Context) {
 	ctx := ginHelper.NewGinCtx(c)
 	key := ctx.Query("key")
 
+	userAcc := ctx.GetString("userAcc")
+	if userAcc == "" {
+		ctx.AuthErrorOut()
+		return
+	}
+
 	info, err := dao.NewShareDao().Del(key)
 	if err != nil {
 		log.Error(err)
 		ctx.APIOutPutError(fmt.Errorf("删除分享失败"), "删除分享失败")
 		return
 	}
+
+	log.SendOperationLog(userAcc, fmt.Sprintf("删除分享: %s", key))
 
 	ctx.APIOutPut(info, "删除成功")
 	return
@@ -466,6 +482,13 @@ func ShareVerify(ctx *gin.Context) {
 
 	browseSign := utils.GetMD5Encode(shareInfo.Key + shareInfo.PasswordCode + browseSignKey)
 	ctx.SetCookie("browseSign_"+shareInfo.Key, browseSign, 60*60*24*30, "/", "", false, true)
+
+	ctxHelper := ginHelper.NewGinCtx(ctx)
+	ip := ""
+	if val, ok := ctxHelper.Get(ginHelper.ReqIP); ok {
+		ip = utils.AnyToString(val)
+	}
+	log.SendOperationLog(ip, fmt.Sprintf("分享验证: %s", hashKey))
 
 	ctx.Redirect(http.StatusFound, "/browse/"+shareInfo.Key)
 	return

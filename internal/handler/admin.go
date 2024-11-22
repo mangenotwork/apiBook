@@ -85,6 +85,8 @@ func AdminCreateUser(c *gin.Context) {
 		return
 	}
 
+	log.SendOperationLog(userAcc, fmt.Sprintf("创建用户成功: %s", user.Account))
+
 	ctx.APIOutPut("创建用户成功", "创建用户成功")
 	return
 }
@@ -116,6 +118,8 @@ func AdminDeleteUser(c *gin.Context) {
 		return
 	}
 
+	log.SendOperationLog(userAcc, fmt.Sprintf("删除用户成功: %s", param.Account))
+
 	ctx.APIOutPut("删除用户成功", "删除用户成功")
 	return
 }
@@ -146,6 +150,8 @@ func AdminDisableUser(c *gin.Context) {
 		ctx.APIOutPutError(nil, "操作失败")
 		return
 	}
+
+	log.SendOperationLog(userAcc, fmt.Sprintf("禁用用户成功: %s", param.Account))
 
 	ctx.APIOutPut("操作成功", "操作成功")
 	return
