@@ -52,13 +52,19 @@ func (obj *ApiZZAImport) Whole(text, userAcc string, private define.ProjectPriva
 
 	err = dao.NewDirDao().CreateInit(project.ProjectId)
 	if err != nil {
-		log.Error("创建项目失败")
+		log.Error("创建项目失败: ", err)
 		return err
 	}
 
 	obj.analysisDoc(project, "user", "",
 		func(project *entity.Project, dirName string) (string, bool) {
-			dir := &entity.DocumentDir{
+
+			dir, err := dao.NewDirDao().GetByName(project.ProjectId, dirName)
+			if err == nil && len(dir.DirId) > 0 {
+				return dir.DirId, true
+			}
+
+			dir = &entity.DocumentDir{
 				DirId:   utils.IDStr(),
 				DirName: dirName,
 				Sort:    dao.NewDirDao().GetDirNum(project.ProjectId) + 1,
@@ -69,6 +75,7 @@ func (obj *ApiZZAImport) Whole(text, userAcc string, private define.ProjectPriva
 				log.Error("创建项目失败")
 				return "", false
 			}
+
 			return dir.DirId, true
 		},
 		func(project *entity.Project, doc *entity.DocumentContent, dirId string) {
@@ -317,6 +324,9 @@ func (obj *ApiZZAImport) analysisApi(project *entity.Project, dirName, userAcc, 
 		doc.ReqType = define.ReqTypeText
 	case "JavaScript":
 		doc.ReqType = define.ReqTypeRaw
+	default:
+		doc.ReqType = define.ReqTypeJson
+		doc.ReqBodyJson = bodyRawExample
 	}
 
 	resp := &entity.RespItem{
@@ -344,6 +354,8 @@ func (obj *ApiZZAImport) analysisApi(project *entity.Project, dirName, userAcc, 
 		})
 
 	}
+
+	doc.Resp = append(doc.Resp, resp)
 
 	if newDirId, ok := createDir(project, dirName); ok {
 		dirId = newDirId

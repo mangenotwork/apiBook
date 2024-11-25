@@ -7,6 +7,7 @@ import (
 	"apiBook/internal/entity"
 	"encoding/json"
 	"errors"
+	"fmt"
 )
 
 type DirDao struct {
@@ -78,6 +79,21 @@ func (dao *DirDao) HasName(pid, name string) (bool, error) {
 	}
 
 	return false, nil
+}
+
+func (dao *DirDao) GetByName(pid, name string) (*entity.DocumentDir, error) {
+	allData, err := dao.GetAll(pid)
+	if err != nil {
+		log.Error(err)
+		return &entity.DocumentDir{}, err
+	}
+
+	for _, v := range allData {
+		if v.DirName == name {
+			return v, nil
+		}
+	}
+	return &entity.DocumentDir{}, fmt.Errorf("not fond dir")
 }
 
 func (dao *DirDao) CreateInit(pid string) error {
