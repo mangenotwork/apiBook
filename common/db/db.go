@@ -353,3 +353,82 @@ func (ldb *LocalDB) GetAllSetCache(table string, k []byte, data interface{}) {
 		_ = cache.GetCache().Set(cacheKey, value)
 	}
 }
+
+func (ldb *LocalDB) GetDBStats() bolt.Stats {
+	ldb.Open()
+
+	defer func() {
+		_ = ldb.Conn.Close()
+	}()
+
+	return ldb.Conn.Stats()
+}
+
+func (ldb *LocalDB) GetAllBucket() ([]string, error) {
+	ldb.Open()
+
+	defer func() {
+		_ = ldb.Conn.Close()
+	}()
+
+	result := make([]string, 0)
+
+	err := ldb.Conn.View(func(tx *bolt.Tx) error {
+		return tx.ForEach(func(name []byte, b *bolt.Bucket) error {
+			result = append(result, string(name))
+			return nil
+		})
+	})
+
+	return result, err
+}
+
+func (ldb *LocalDB) SearchAllBucket(search string) ([]string, error) {
+	ldb.Open()
+
+	defer func() {
+		_ = ldb.Conn.Close()
+	}()
+
+	result := make([]string, 0)
+
+	err := ldb.Conn.View(func(tx *bolt.Tx) error {
+		return tx.ForEach(func(name []byte, b *bolt.Bucket) error {
+			nameStr := string(name)
+			if strings.Contains(nameStr, search) {
+				result = append(result, nameStr)
+			}
+			return nil
+		})
+	})
+
+	return result, err
+}
+
+func (ldb *LocalDB) SearchKey(table, search string) ([]string, error) {
+	keys := make([]string, 0)
+
+	ldb.Open()
+
+	defer func() {
+		_ = ldb.Conn.Close()
+	}()
+
+	err := ldb.Conn.View(func(tx *bolt.Tx) error {
+		b := tx.Bucket([]byte(table))
+		if b == nil {
+			return TableNotFound
+		}
+
+		c := b.Cursor()
+		for k, _ := c.First(); k != nil; k, _ = c.Next() {
+			kStr := string(k)
+			if strings.Contains(kStr, search) {
+				keys = append(keys, kStr)
+			}
+		}
+
+		return nil
+	})
+	return keys, err
+}

@@ -2,6 +2,7 @@ package handler
 
 import (
 	"apiBook/common/conf"
+	"apiBook/common/db"
 	"apiBook/common/ginHelper"
 	"apiBook/common/log"
 	"apiBook/common/utils"
@@ -171,6 +172,14 @@ func SysLog(c *gin.Context) {
 
 func DB(c *gin.Context) {
 
+	//dbStats := db.DB.GetDBStats()
+	//log.Info(dbStats)
+
+	bucketList, err := db.DB.GetAllBucket()
+	if err != nil {
+		log.Error(err)
+	}
+	log.Info(bucketList)
 	return
 }
 
@@ -193,5 +202,126 @@ func Conf(c *gin.Context) {
 	data["conf"] = conf.Conf.YamlData
 
 	ctx.APIOutPut(data, "")
+	return
+}
+
+func DBSearchBucket(c *gin.Context) {
+	ctx := ginHelper.NewGinCtx(c)
+
+	userAcc := ctx.GetString("userAcc")
+	if userAcc == "" {
+		ctx.AuthErrorOut()
+		return
+	}
+
+	if !dao.NewUserDao().IsAdmin(userAcc) {
+		ctx.APIOutPutError(nil, "不是管理员")
+		return
+	}
+
+	dbName := ctx.GetQuery("dbName")
+	search := ctx.GetQuery("search")
+
+	if search == "" {
+		ctx.APIOutPutError(nil, "search为空")
+		return
+	}
+
+	var (
+		list []string
+		err  error
+	)
+
+	switch dbName {
+	case "invertIndexDB":
+		list, err = db.InvertIndexDB.SearchAllBucket(search)
+	default:
+		list, err = db.DB.SearchAllBucket(search)
+	}
+
+	if err != nil {
+		ctx.APIOutPutError(err, err.Error())
+		return
+	}
+
+	ctx.APIOutPut(list, "")
+	return
+}
+
+func DBSelect(c *gin.Context) {
+	ctx := ginHelper.NewGinCtx(c)
+
+	userAcc := ctx.GetString("userAcc")
+	if userAcc == "" {
+		ctx.AuthErrorOut()
+		return
+	}
+
+	if !dao.NewUserDao().IsAdmin(userAcc) {
+		ctx.APIOutPutError(nil, "不是管理员")
+		return
+	}
+
+	dbName := ctx.GetQuery("dbName")
+	bucket := ctx.GetQuery("bucket")
+	selectType := ctx.GetQuery("selectType")
+	key := ctx.GetQuery("key")
+	search := ctx.GetQuery("search")
+
+	// bucket=dir:12653102d4686a68&selectType=allKey
+	// bucket=dir:12653102d4686a68&selectType=searchKey&search=default
+	// bucket=dir:12653102d4686a68&key=default_12653102d4686a68
+
+	var (
+		data = make(map[string]any)
+		list = make([]string, 0)
+		flag = 1 // 1:data  2:list
+		err  error
+	)
+
+	switch selectType {
+	case "allKey": // 获取所有的key
+		flag = 2
+		switch dbName {
+		case "invertIndexDB":
+			list, err = db.InvertIndexDB.AllKey(bucket)
+		default:
+			list, err = db.DB.AllKey(bucket)
+		}
+		break
+
+	case "searchKey": // 搜索key
+		flag = 2
+		switch dbName {
+		case "invertIndexDB":
+			list, err = db.InvertIndexDB.SearchKey(bucket, search)
+		default:
+			list, err = db.DB.SearchKey(bucket, search)
+		}
+		break
+
+	default:
+		flag = 1
+		switch dbName {
+		case "invertIndexDB":
+			err = db.DB.Get(bucket, key, &data)
+		default:
+			err = db.DB.Get(bucket, key, &data)
+		}
+		break
+	}
+
+	if err != nil {
+		ctx.APIOutPutError(err, err.Error())
+		return
+	}
+
+	switch flag {
+	case 1:
+		ctx.APIOutPut(data, "")
+	case 2:
+		ctx.APIOutPut(list, "")
+	}
+
 	return
 }

@@ -73,7 +73,7 @@ func main() {
 		log.InfoF("http服务启动 0.0.0.0:%s", conf.Conf.Default.HttpServer.Prod)
 		log.SendSysLog(fmt.Sprintf("http服务启动 0.0.0.0:%s", conf.Conf.Default.HttpServer.Prod))
 		if srvErr := srv.ListenAndServe(); srvErr != nil && errors.Is(srvErr, http.ErrServerClosed) {
-			log.Panic(fmt.Sprintf("http服务出现异常:%v", srvErr))
+			log.Error(fmt.Sprintf("http服务出现异常:%v", srvErr))
 		}
 	}()
 
