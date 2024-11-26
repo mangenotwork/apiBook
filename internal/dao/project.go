@@ -118,6 +118,33 @@ func (dao *ProjectDao) GetList(userAcc string) []*entity.Project {
 	return resp
 }
 
+func (dao *ProjectDao) GetAllProjectNum() int {
+	num := 0
+	all, err := db.DB.AllKey(db.ProjectTable)
+
+	if err != nil {
+		log.Error(err)
+		return num
+	}
+
+	num = len(all)
+	return num
+}
+
+func (dao *ProjectDao) GetAllProjectIdList() []string {
+	var (
+		list = make([]string, 0)
+		err  error
+	)
+
+	list, err = db.DB.AllKey(db.ProjectTable)
+	if err != nil {
+		log.Error(err)
+	}
+
+	return list
+}
+
 func (dao *ProjectDao) Get(pid, userAcc string, isShare bool) (*entity.Project, error) {
 	projectData := &entity.Project{}
 	err := db.DB.Get(db.ProjectTable, pid, &projectData)

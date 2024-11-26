@@ -104,6 +104,20 @@ func (dao *UserDao) GetAllUser() []*entity.User {
 	return list
 }
 
+func (dao *UserDao) GetAllUserNum() int {
+	var (
+		list = make([]string, 0)
+		err  error
+	)
+
+	list, err = db.DB.AllKey(db.GetUserTable())
+	if err != nil {
+		log.Error(err)
+	}
+
+	return len(list)
+}
+
 func (dao *UserDao) IsAdmin(acc string) bool {
 	user, err := dao.Get(acc)
 	if err == nil && user.IsAdmin == 1 {

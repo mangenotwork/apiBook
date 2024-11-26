@@ -3,24 +3,131 @@ package handler
 import (
 	"apiBook/common/conf"
 	"apiBook/common/ginHelper"
+	"apiBook/common/log"
+	"apiBook/common/utils"
 	"apiBook/internal/dao"
+	"apiBook/internal/define"
 	"github.com/gin-gonic/gin"
+	"io/fs"
+	"os"
+	"path/filepath"
+	"runtime"
+	"strings"
+	"time"
 )
 
 func SysInfo(c *gin.Context) {
+	ctx := ginHelper.NewGinCtx(c)
 
+	userAcc := ctx.GetString("userAcc")
+	if userAcc == "" {
+		ctx.AuthErrorOut()
+		return
+	}
+
+	if !dao.NewUserDao().IsAdmin(userAcc) {
+		ctx.APIOutPutError(nil, "不是管理员")
+		return
+	}
+
+	sysInfo := make(map[string]interface{})
+
+	// 服务器信息
+	sysInfo["hostName"] = utils.GetHostName()
+	sysInfo["hostType"] = utils.GetSysType()
+	sysInfo["hostArch"] = utils.GetSysArch()
+	sysInfo["hostCpuCoreNumber"] = utils.GetCpuCoreNumber()
+	sysInfo["hostInterfaceInfo"] = utils.GetInterfaceInfo()
+	sysInfo["hostIP"] = utils.GetIP()
+	sysInfo["webServer"] = utils.GetIP() + ":" + conf.Conf.Default.HttpServer.Prod
+
+	// 配置信息
+	sysInfo["confPath"] = conf.Conf.YamlPath
+	sysInfo["confInfo"] = conf.Conf.YamlData
+
+	// 项目总数量
+	sysInfo["projectNum"] = dao.NewProjectDao().GetAllProjectNum()
+	sysInfo["projectIdList"] = dao.NewProjectDao().GetAllProjectIdList()
+
+	// 用户总数量，
+	sysInfo["userNum"] = dao.NewUserDao().GetAllUserNum()
+
+	// db文件大小,
+	var size int64 = 0
+	if dbPath, ok := conf.GetString("dbPath"); ok {
+
+		file, err := os.Stat(dbPath)
+		if err != nil {
+			log.Error(err)
+		}
+
+		size += file.Size()
+	}
+
+	if invertIndexDBPath, ok := conf.GetString("invertIndexDBPath"); ok {
+
+		file, err := os.Stat(invertIndexDBPath)
+		if err != nil {
+			log.Error(err)
+		}
+
+		size += file.Size()
+	}
+
+	sysInfo["dbSize"] = utils.SizeFormat(size)
+
+	// 图片存储大小及数量，
+	var mediaSize, mediaFileNum int64 = 0, 0
+	if mediaPath, ok := conf.GetString("mediaPath"); ok {
+
+		err := filepath.Walk(mediaPath, func(path string, info fs.FileInfo, err error) error {
+			if err != nil {
+				return err
+			}
+			if !info.IsDir() {
+				mediaFileNum++
+				mediaSize += info.Size()
+			}
+			return nil
+		})
+
+		if err != nil {
+			log.Error(err)
+		}
+	}
+
+	sysInfo["mediaSize"] = utils.SizeFormat(mediaSize)
+	sysInfo["mediaFileNum"] = mediaFileNum
+
+	// 运行时间
+	seconds := time.Now().Unix() - define.TimeStamp
+	sysInfo["runTime"] = utils.ResolveTimeStr(seconds)
+
+	// 日志信息
+	workPath, _ := os.Getwd()
+	logDirName := filepath.Join(workPath, "/logs/")
+	if runtime.GOOS == "windows" {
+		logDirName = strings.Replace(logDirName, "\\", "/", -1)
+	}
+	sysInfo["logPath"] = logDirName
+
+	ctx.APIOutPut(sysInfo, "")
+	return
 }
 
 func ProjectInfo(c *gin.Context) {
 
+	return
 }
 
 func SysLog(c *gin.Context) {
-
+	
+	return
 }
 
 func DB(c *gin.Context) {
 
+	return
 }
 
 func Conf(c *gin.Context) {
@@ -42,4 +149,5 @@ func Conf(c *gin.Context) {
 	data["conf"] = conf.Conf.YamlData
 
 	ctx.APIOutPut(data, "")
+	return
 }

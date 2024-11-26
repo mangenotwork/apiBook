@@ -102,7 +102,7 @@ func DayDiff(beginDay string, endDay string) int {
 }
 
 // ResolveTime 将传入的“秒”解析为3种时间单位
-func ResolveTime(seconds int) (day int, hour int, minute int, sy int) {
+func ResolveTime(seconds int64) (day int64, hour int64, minute int64, sy int64) {
 	day = seconds / SecondsPerDay
 	dayY := seconds % SecondsPerDay
 	hour = dayY / SecondsPerHour
@@ -112,7 +112,7 @@ func ResolveTime(seconds int) (day int, hour int, minute int, sy int) {
 	return
 }
 
-func ResolveTimeStr(seconds int) string {
+func ResolveTimeStr(seconds int64) string {
 	str := ""
 	day, hour, minute, s := ResolveTime(seconds)
 	if day > 0 {
@@ -136,7 +136,7 @@ func Deadline(timestamp int64) string {
 	if deadline < 0 {
 		return "已结束"
 	}
-	return ResolveTimeStr(int(deadline)) + "后结束"
+	return ResolveTimeStr(deadline) + "后结束"
 }
 
 // TickerRun 间隔运行
