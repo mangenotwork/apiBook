@@ -269,11 +269,11 @@ func CaseFunc() {
 func Debug() {
 	debugRouter := Router.Group("/debug")
 	debugRouter.Use(AuthPG())
-	debugRouter.GET("/sysInfo", handler.SysInfo)         // todo  查看系统信息-总览  项目总数量，用户总数量，db文件大小,图片存储大小及数量，运行时间
+	debugRouter.GET("/sysInfo", handler.SysInfo)         // 查看系统信息-总览  项目总数量，用户总数量，db文件大小,图片存储大小及数量，运行时间
 	debugRouter.GET("/projectInfo", handler.ProjectInfo) // todo  查看系统信息-项目  项目信息，接口数量，用户数量，操作日志
-	debugRouter.GET("/sysLog", handler.SysLog)           // todo  查看系统日志  (登录，操作，报错)
+	debugRouter.GET("/sysLog", handler.SysLog)           // 查看系统日志  (登录，操作，报错)
 	debugRouter.GET("/db", handler.DB)                   // todo  查看db数据
-	debugRouter.GET("/conf", handler.Conf)               // todo  查看配置文件
+	debugRouter.GET("/conf", handler.Conf)               // 查看配置文件
 	// todo  覆盖指定数据
 	// todo  删除指定数据
 	// todo  删除并清空指定项目

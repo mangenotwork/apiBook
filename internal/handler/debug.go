@@ -7,11 +7,13 @@ import (
 	"apiBook/common/utils"
 	"apiBook/internal/dao"
 	"apiBook/internal/define"
+	"fmt"
 	"github.com/gin-gonic/gin"
 	"io/fs"
 	"os"
 	"path/filepath"
 	"runtime"
+	"sort"
 	"strings"
 	"time"
 )
@@ -121,7 +123,49 @@ func ProjectInfo(c *gin.Context) {
 }
 
 func SysLog(c *gin.Context) {
-	
+	ctx := ginHelper.NewGinCtx(c)
+
+	userAcc := ctx.GetString("userAcc")
+	if userAcc == "" {
+		ctx.AuthErrorOut()
+		return
+	}
+
+	if !dao.NewUserDao().IsAdmin(userAcc) {
+		ctx.APIOutPutError(nil, "不是管理员")
+		return
+	}
+
+	workPath, _ := os.Getwd()
+	logDir := filepath.Join(workPath, "/logs/")
+
+	fileList, err := utils.MatchSearchFileFromDir(logDir, "access")
+	if err != nil {
+		log.Error(err)
+		ctx.APIOutPutError(err, err.Error())
+		return
+	}
+
+	if len(fileList) == 0 {
+		ctx.APIOutPutError(fmt.Errorf("没找到日志文件"), "没找到日志文件")
+		return
+	}
+
+	sort.Slice(fileList, func(i, j int) bool {
+		if fileList[i] > fileList[j] {
+			return true
+		}
+		return false
+	})
+
+	data, err := utils.ReadLastNLines(fileList[0], 1000)
+	if err != nil {
+		log.Error(err)
+		ctx.APIOutPutError(err, err.Error())
+		return
+	}
+
+	ctx.APIOutPut(data, "")
 	return
 }
 
