@@ -119,8 +119,73 @@ func SysInfo(c *gin.Context) {
 }
 
 func ProjectInfo(c *gin.Context) {
+	ctx := ginHelper.NewGinCtx(c)
 
-	return
+	userAcc := ctx.GetString("userAcc")
+	if userAcc == "" {
+		ctx.AuthErrorOut()
+		return
+	}
+
+	if !dao.NewUserDao().IsAdmin(userAcc) {
+		ctx.APIOutPutError(nil, "不是管理员")
+		return
+	}
+
+	selectType := ctx.GetQuery("type")
+	pid := ctx.GetQuery("pid")
+
+	switch selectType {
+	case "list":
+
+		list, err := db.DB.AllKey(db.GetProjectTable())
+		if err != nil {
+			log.Error(err)
+			ctx.APIOutPutError(err, err.Error())
+			return
+		}
+
+		ctx.APIOutPut(list, "")
+		return
+
+	default:
+
+		if pid == "" {
+			ctx.APIOutPutError(nil, "pid不能为空")
+			return
+		}
+
+		data := make(map[string]interface{})
+		err := db.DB.Get(db.GetProjectTable(), pid, &data)
+		if err != nil {
+			log.Error(err)
+			ctx.APIOutPutError(err, err.Error())
+			return
+		}
+
+		docList, err := db.DB.AllKey(db.GetDocumentTable(pid))
+		if err != nil {
+			log.Error(err)
+			ctx.APIOutPutError(err, err.Error())
+			return
+		}
+
+		data["docList"] = docList
+
+		userList, err := db.DB.AllKey(db.GetProjectPrivateUserTable(pid))
+		if err != nil {
+			log.Error(err)
+			ctx.APIOutPutError(err, err.Error())
+			return
+		}
+
+		data["userList"] = userList
+
+		ctx.APIOutPut(data, "")
+		return
+
+	}
+
 }
 
 func SysLog(c *gin.Context) {
