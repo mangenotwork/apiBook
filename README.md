@@ -36,9 +36,9 @@ apiBook是接口文档管理工具，私有化部署，本地数据存储，部�
 - v0.0.3 倒排实现, 搜索功能。
 - v0.0.4 交互优化，查看项目成员，增加缓存，优化存储，md编辑器上传图片。
 - v0.0.5 导出导入实现（全量），支持json ( OpenAPI 3.1, OpenAPI 3.0, Swagger 2.0 )
-
-### 里程碑 todo
 - v0.0.6 本地数据库操作工具,系统信息
+- 
+### 里程碑 todo
 - v0.0.7 现有功能的一些优化
 - v0.1.0 所有基础模块开发完成
 - v0.1.1 第一个可用版本含核心基础功能
@@ -46,9 +46,6 @@ apiBook是接口文档管理工具，私有化部署，本地数据存储，部�
 - v0.3.-  mock功能
 
 ### todo list
-
-- 这个版本功能测试+冒烟测试
-- v0.0.6 <发布tag>
 -
 - 对文档的标题和url的所有词进行倒排
 - 项目页面新增统计信息，接口数量
@@ -170,5 +167,32 @@ Uncaught TypeError: $(...).tab is not a function
 
 
 ## 预留
+
+
+## debug
+- /debug/sysInfo    查看系统信息-总览  项目总数量，用户总数量，db文件大小,图片存储大小及数量，运行时间
+- /debug/projectInfo   查看系统信息-项目  项目信息，接口数量，用户数量，操作日志   
+```azure
+参数
+type : list（查列表）  ""(查详情)
+pid : 项目id, 查详情不能为空
+```
+- /debug/sysLog    查看系统日志  (登录，操作，报错)
+- /debug/conf    查看配置文件
+- /debug/db/search/bucket    搜索 db 的bucket
+```azure
+参数
+dbName : ""(默认)  invertIndexDB(倒排索引)
+search :  搜索词
+```
+- /debug/db/select    查看 db 对应的key的数据
+```azure
+参数
+dbName: ""(默认)  invertIndexDB(倒排索引)
+bucket: 桶
+selectType： 查询类型   allKey（获取所有的key）  searchKey（搜索key） ""(搜索数据)
+key： 搜索key
+search: 搜索词
+```
 
 
