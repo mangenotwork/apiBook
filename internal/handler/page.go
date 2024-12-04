@@ -129,6 +129,13 @@ func Home(ctx *gin.Context) {
 			continue
 		}
 
+		docNum := 0
+		docList, err := dao.NewDocDao().GetProjectAllDocId(v.ProjectId)
+		if err != nil {
+			log.Error(err)
+		}
+		docNum = len(docList)
+
 		item := &HomeProjectItem{
 			ProjectId:     v.ProjectId,
 			Name:          v.Name,
@@ -136,6 +143,7 @@ func Home(ctx *gin.Context) {
 			CreateUserAcc: v.CreateUserAcc,
 			CreateDate:    v.CreateDate,
 			Private:       v.Private,
+			DocNum:        docNum,
 		}
 
 		if v.CreateUserAcc == userAcc {

@@ -1,6 +1,7 @@
 package routers
 
 import (
+	"apiBook/common/utils"
 	"apiBook/internal/define"
 	"fmt"
 	"html/template"
@@ -30,7 +31,7 @@ func ApiBookInfo() template.HTML {
 	return template.HTML(htmlTemplate)
 }
 
-func ProjectCard(pid, name, description string, isOperation int, private define.ProjectPrivateCode) template.HTML {
+func ProjectCard(pid, name, description string, isOperation int, private define.ProjectPrivateCode, apiNum int) template.HTML {
 	privateSpan := ""
 	edit := ""
 	if isOperation == 1 {
@@ -42,6 +43,8 @@ func ProjectCard(pid, name, description string, isOperation int, private define.
 	} else {
 		privateSpan = `<span class="badge text-bg-info">公有</span>`
 	}
+
+	privateSpan += `<span class="badge text-bg-secondary">接口数量: ` + utils.AnyToString(apiNum) + `</span>`
 
 	htmlTemplate := `<div class="card mb-3 project box">
             <div class="card-body">

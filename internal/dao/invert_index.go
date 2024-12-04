@@ -7,6 +7,7 @@ import (
 	"apiBook/common/utils"
 	"apiBook/internal/entity"
 	"errors"
+	"fmt"
 	"time"
 )
 
@@ -30,6 +31,7 @@ func (dao *InvertIndexDao) Add(pid, word string, item *entity.InvertIndex) error
 	if err != nil {
 		if errors.Is(err, db.ISNULL) || errors.Is(err, db.TableNotFound) {
 			list = append(list, item)
+			log.Info("db.InvertIndexDB.Set ", word, list)
 			return db.InvertIndexDB.Set(db.GetInvertIndexTable(pid), word, list)
 		} else {
 			log.Error(err)
@@ -48,6 +50,7 @@ func (dao *InvertIndexDao) Add(pid, word string, item *entity.InvertIndex) error
 
 	if !has {
 		list = append(list, item)
+		log.Info("db.InvertIndexDB.Set ", word, list)
 		return db.InvertIndexDB.Set(db.GetInvertIndexTable(pid), word, list)
 	}
 
@@ -130,8 +133,50 @@ func (dao *InvertIndexDao) DocFenCi(pid, docId, content, modType string) {
 	}
 }
 
+func (dao *InvertIndexDao) DocWord(pid, docId, word, modType string) {
+
+	now := time.Now().Unix()
+
+	item := &entity.InvertIndex{
+		DocId:      docId,
+		Word:       word,
+		Sentence:   word,
+		ModType:    modType,
+		CreateTime: now,
+		Term:       &fenci.Term{},
+	}
+
+	log.Info("DocWord = ", item)
+
+	err := dao.Add(pid, word, item)
+	if err != nil {
+		log.Error(err)
+	}
+}
+
 func (dao *InvertIndexDao) DocInvertIndex(doc *entity.DocumentContent) {
 	// title:标题  description:文档说明  header:请求header  req:请求参数  resp:响应参数  url:请求url
+
+	dao.DocWord(doc.ProjectId, doc.DocId, doc.Url, "url")
+
+	dao.DocWord(doc.ProjectId, doc.DocId, doc.Name, "title")
+
+	dao.DocWord(doc.ProjectId, doc.DocId, doc.Description, "description")
+
+	for _, v := range doc.Url {
+		char := fmt.Sprintf("%c", v)
+		dao.DocWord(doc.ProjectId, doc.DocId, char, "url")
+	}
+
+	for _, v := range doc.Name {
+		char := fmt.Sprintf("%c", v)
+		dao.DocWord(doc.ProjectId, doc.DocId, char, "title")
+	}
+
+	for _, v := range doc.Description {
+		char := fmt.Sprintf("%c", v)
+		dao.DocWord(doc.ProjectId, doc.DocId, char, "description")
+	}
 
 	dao.DocFenCi(doc.ProjectId, doc.DocId, doc.Url, "url")
 

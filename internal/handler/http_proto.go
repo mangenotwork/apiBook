@@ -161,6 +161,7 @@ type HomeProjectItem struct {
 	CreateDate    string                    `json:"createDate"`  // 创建时间
 	IsOperation   int                       `json:"isOperation"` // 1 可以操作
 	Private       define.ProjectPrivateCode `json:"private"`     // 1:公有(所有人可见)  2:私有
+	DocNum        int                       `json:"docNum"`      // 接口数量
 }
 
 type DocumentDirListItem struct {
