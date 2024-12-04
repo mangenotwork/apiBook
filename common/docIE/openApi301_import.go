@@ -112,6 +112,10 @@ func (obj *OpenApi301Import) Increment(text, pid, userAcc, dirId string) error {
 		return err
 	}
 
+	if dirId == "" {
+		dirId = define.GetDirDefault(pid)
+	}
+
 	obj.analysisDoc(project, userAcc,
 		func(doc *entity.DocumentContent) {
 

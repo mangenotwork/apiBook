@@ -56,7 +56,7 @@ func (obj *ApiZZAImport) Whole(text, userAcc string, private define.ProjectPriva
 		return err
 	}
 
-	obj.analysisDoc(project, "user", "",
+	obj.analysisDoc(project, userAcc, "",
 		func(project *entity.Project, dirName string) (string, bool) {
 
 			dir, err := dao.NewDirDao().GetByName(project.ProjectId, dirName)
@@ -123,7 +123,11 @@ func (obj *ApiZZAImport) Increment(text, pid, userAcc, dirId string) error {
 		return err
 	}
 
-	obj.analysisDoc(project, "user", dirId,
+	if dirId == "" {
+		dirId = define.GetDirDefault(pid)
+	}
+
+	obj.analysisDoc(project, userAcc, dirId,
 		func(project *entity.Project, dirName string) (string, bool) {
 			return "", false
 		},

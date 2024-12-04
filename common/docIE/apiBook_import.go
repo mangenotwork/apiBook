@@ -47,7 +47,7 @@ func (obj *ApiBookImport) Whole(text, userAcc string, private define.ProjectPriv
 		return err
 	}
 
-	obj.analysisDoc(project, "user",
+	obj.analysisDoc(project, userAcc,
 		func(project *entity.Project, dir *entity.DocumentDir) {
 			err = dao.NewDirDao().Create(project.ProjectId, dir)
 			if err != nil {
@@ -102,15 +102,31 @@ func (obj *ApiBookImport) Increment(text, pid, userAcc, dirId string) error {
 		return err
 	}
 
-	obj.analysisDoc(project, "user",
+	obj.analysisDoc(project, userAcc,
 		func(project *entity.Project, dir *entity.DocumentDir) {
 			err = dao.NewDirDao().Create(project.ProjectId, dir)
 			if err != nil {
 				log.Error("创建目录失败")
 			}
-
 		},
 		func(project *entity.Project, doc *entity.DocumentContent, dirId string) {
+
+			hasDir := false
+			dirList, err := dao.NewDirDao().GetDirList(doc.ProjectId)
+			if err != nil {
+				log.Error(err)
+			}
+
+			for _, v := range dirList {
+				if v == dirId {
+					hasDir = true
+				}
+			}
+
+			if !hasDir {
+				dirId = define.GetDirDefault(doc.ProjectId)
+			}
+
 			documentData := &entity.Document{
 				DocId:     doc.DocId,
 				DirId:     dirId,

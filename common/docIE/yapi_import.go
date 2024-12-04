@@ -55,7 +55,7 @@ func (obj *YApiImport) Whole(text, userAcc string, private define.ProjectPrivate
 		return err
 	}
 
-	obj.analysisDoc(project, "user", "",
+	obj.analysisDoc(project, userAcc, "",
 		func(project *entity.Project, dirName string) (string, bool) {
 			dir := &entity.DocumentDir{
 				DirId:   utils.IDStr(),
@@ -118,7 +118,11 @@ func (obj *YApiImport) Increment(text, pid, userAcc, dirId string) error {
 		return err
 	}
 
-	obj.analysisDoc(project, "user", dirId,
+	if dirId == "" {
+		dirId = define.GetDirDefault(pid)
+	}
+
+	obj.analysisDoc(project, userAcc, dirId,
 		func(project *entity.Project, dirName string) (string, bool) {
 			return "", false
 		},

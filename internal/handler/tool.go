@@ -1124,10 +1124,24 @@ func ToolImport(c *gin.Context) {
 
 	log.Info(fileContent)
 
-	err = obj.Whole(fileContent, userAcc, define.ProjectPublic)
-	if err != nil {
-		ctx.APIOutPutError(err, "导入失败")
-		return
+	projectId := form.Value["project"][0]
+	if len(projectId) == 0 {
+		err = obj.Whole(fileContent, userAcc, define.ProjectPublic)
+		if err != nil {
+			ctx.APIOutPutError(err, "导入失败")
+			return
+		}
+	} else {
+		_, err = dao.NewProjectDao().Get(projectId, userAcc, false)
+		if err != nil {
+			ctx.APIOutPutError(err, err.Error())
+			return
+		}
+		err = obj.Increment(fileContent, projectId, userAcc, "")
+		if err != nil {
+			ctx.APIOutPutError(err, "导入失败")
+			return
+		}
 	}
 
 	log.SendOperationLog(userAcc, fmt.Sprintf("导入成功"))
