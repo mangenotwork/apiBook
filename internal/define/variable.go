@@ -7,7 +7,7 @@ import (
 )
 
 var (
-	Version         = "v0.0.4"
+	Version         = "v0.0.6"
 	TimeStamp int64 = time.Now().Unix()
 )
 

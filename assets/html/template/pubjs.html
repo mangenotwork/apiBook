@@ -82,21 +82,21 @@
 
         var isDelBtn = '';
         if (!dirid.includes("default_") && !dirid.includes("recycleBin_")) {
-            isDelBtn = '<button type="button" class="btn btn-outline-dark delDirButton" onclick="delDir(\''+dirid+'\')">{{ SVG "folder-x" 16 16 }}</button>\n'
+            isDelBtn = '<button type="button" class="btn btn-outline-dark delDirButton" onclick="delDir(\''+dirid+'\')">{{ SVG "folder-x" 12 12 }}</button>\n'
         }
 
         var op = '';
         if (!dirid.includes("recycleBin_")) {
-            op = '<button type="button" class="btn btn-outline-dark sortDocButton" onclick="sortDoc(\''+dirid+'\')">{{ SVG "list-ol" 16 16 }}</button>\n' +
-                '<button type="button" class="btn btn-outline-dark addDocButton" onclick="newAPIDoc(\''+dirid+'\')">{{ SVG "plus-lg" 16 16 }}</button>\n'
+            op = '<button type="button" class="btn btn-outline-dark sortDocButton" onclick="sortDoc(\''+dirid+'\')">{{ SVG "list-ol" 12 12 }}</button>\n' +
+                '<button type="button" class="btn btn-outline-dark addDocButton" onclick="newAPIDoc(\''+dirid+'\')">{{ SVG "plus-lg" 12 12 }}</button>\n'
         }
 
         return '<div class="dir">\n' +
-            '            <p class="dir-open" data-open="'+open+'" data-dirid="'+dirid+'"><span style="margin-right: 8px;">'+dirIcon+'</span>'+name+'</p>\n' +
-            '            <div class="btn-group btn-group-sm dirop" role="group" aria-label="Small button group">\n' +
+            '<b><p class="dir-open" data-open="'+open+'" data-dirid="'+dirid+'"><span style="margin-right: 8px;">'+dirIcon+'</span>'+name+'</p></b>' +
+            '<div class="btn-group btn-group-sm dirop" role="group" aria-label="Small button group">\n' +
             isDelBtn + op +
-            '            </div>\n' +
-            '        </div>' +
+            '</div>\n' +
+            '</div>' +
             '<ul id="'+dirid+'" '+isOpen+'>' +
             '</ul>'
     }
