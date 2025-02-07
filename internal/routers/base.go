@@ -201,7 +201,7 @@ func Document() {
 	document.POST("/doc/all", handler.DocumentGetDocAll)          // 获取所有文档
 	document.POST("/move/toRecycleBin", handler.MoveToRecycleBin) // 将文档移动至回收站
 	document.POST("/search", handler.DocumentSearch)              // 文档搜索
-
+	document.POST("/reqCode", handler.DocumentItemReqCode)        // 文档请求代码
 }
 
 func Share() {

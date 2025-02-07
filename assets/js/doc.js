@@ -186,33 +186,45 @@ function loadApiDoc(apiDoc, snapshotList) {
 
 }
 
-function loadReqCode(reqCodeMap) {
+function loadReqCode(param) {
 
     console.log("loadReqCode ....")
 
-    $("#code-jsFetch code").html(reqCodeMap["jsFetch"]);
-    $("#code-jsAxios code").html(reqCodeMap["jsAxios"]);
-    $("#code-jsJquery code").html(reqCodeMap["jsJquery"]);
-    $("#code-jsXhr code").html(reqCodeMap["jsXhr"]);
-    $("#code-swift code").html(reqCodeMap["swift"]);
-    $("#code-objectiveC code").html(reqCodeMap["objectiveC"]);
-    $("#code-dart code").html(reqCodeMap["dart"]);
-    $("#code-javaUnirest code").html(reqCodeMap["javaUnirest"]);
-    $("#code-javaOkHttpClient code").html(reqCodeMap["javaOkHttpClient"]);
-    $("#code-curl code").html(reqCodeMap["curl"]);
-    $("#code-wget code").html(reqCodeMap["wget"]);
-    $("#code-powerShell code").html(reqCodeMap["powerShell"]);
-    $("#code-phpRequest2 code").html(reqCodeMap["phpRequest2"]);
-    $("#code-phpHttpClient code").html(reqCodeMap["phpHttpClient"]);
-    $("#code-phpClient code").html(reqCodeMap["phpClient"]);
-    $("#code-pythonClient code").html(reqCodeMap["pythonClient"]);
-    $("#code-pythonRequests code").html(reqCodeMap["pythonRequests"]);
-    $("#code-c code").html(reqCodeMap["c"]);
-    $("#code-CSharp code").html(reqCodeMap["c#"]);
-    $("#code-ruby code").html(reqCodeMap["ruby"]);
-    $("#code-go code").html(reqCodeMap["go"]);
+    AjaxPostNotAsync("/document/reqCode", param, function(data){
+        console.log(data)
+        var reqCodeMap = data.data
 
-    $('#pills-tab a:first').tab('show');
+        console.log(reqCodeMap["jsFetch"])
+
+        $("#code-jsFetch-code").html(reqCodeMap["jsFetch"]);
+        $("#code-jsAxios pre code").html(reqCodeMap["jsAxios"]);
+        $("#code-jsJquery pre code").html(reqCodeMap["jsJquery"]);
+        $("#code-jsXhr pre code").html(reqCodeMap["jsXhr"]);
+        $("#code-swift pre code").html(reqCodeMap["swift"]);
+        $("#code-objectiveC pre code").html(reqCodeMap["objectiveC"]);
+        $("#code-dart pre code").html(reqCodeMap["dart"]);
+        $("#code-javaUnirest pre code").html(reqCodeMap["javaUnirest"]);
+        $("#code-javaOkHttpClient pre code").html(reqCodeMap["javaOkHttpClient"]);
+        $("#code-curl pre code").html(reqCodeMap["curl"]);
+        $("#code-wget pre code").html(reqCodeMap["wget"]);
+        $("#code-powerShell pre code").html(reqCodeMap["powerShell"]);
+        $("#code-phpRequest2 pre code").html(reqCodeMap["phpRequest2"]);
+        $("#code-phpHttpClient pre code").html(reqCodeMap["phpHttpClient"]);
+        $("#code-phpClient pre code").html(reqCodeMap["phpClient"]);
+        $("#code-pythonClient pre code").html(reqCodeMap["pythonClient"]);
+        $("#code-pythonRequests pre code").html(reqCodeMap["pythonRequests"]);
+        $("#code-c pre code").html(reqCodeMap["c"]);
+        $("#code-CSharp pre code").html(reqCodeMap["c#"]);
+        $("#code-ruby pre code").html(reqCodeMap["ruby"]);
+        $("#code-go pre code").html(reqCodeMap["go"]);
+
+
+        $('#pills-tab a:first').tab('show');
+
+    })
+
+
+
 
 }
 

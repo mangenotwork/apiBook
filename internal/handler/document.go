@@ -969,3 +969,65 @@ func DocumentImg(c *gin.Context) {
 	filePath := fmt.Sprintf("%s%s", utils.AnyToString(mediaPath), path)
 	c.File(filePath)
 }
+
+func DocumentItemReqCode(c *gin.Context) {
+	ctx := ginHelper.NewGinCtx(c)
+	param := &DocumentItemParam{}
+	err := ctx.GetPostArgs(&param)
+	if err != nil {
+		ctx.APIOutPutError(fmt.Errorf("参数错误"), "参数错误")
+		return
+	}
+
+	if param.DocId == "" {
+		ctx.APIOutPutError(fmt.Errorf("文档id不能为空"), "文档id不能为空")
+		return
+	}
+
+	userAcc := ctx.GetString("userAcc")
+	if userAcc == "" {
+		ctx.AuthErrorOut()
+		return
+	}
+
+	_, err = dao.NewProjectDao().Get(param.PId, userAcc, false)
+	if err != nil {
+		log.Error(err)
+		ctx.APIOutPutError(err, err.Error())
+		return
+	}
+
+	data, err := dao.NewDocDao().GetDocumentContent(param.PId, param.DocId)
+	if err != nil {
+		log.Error(err)
+		ctx.APIOutPutError(err, err.Error())
+		return
+	}
+
+	dataRaw := ""
+	switch data.ReqType {
+	case define.ReqTypeText:
+		dataRaw = data.ReqBodyText
+	//	ReqTypeFormData           = "form-data"
+	//	ReqTypeXWWWFormUrlEncoded = "x-www-form-urlencoded"
+	case define.ReqTypeJson:
+		dataRaw = data.ReqBodyJson
+	case define.ReqTypeXml:
+		dataRaw = data.ReqBodyXml
+	case define.ReqTypeRaw:
+		dataRaw = data.ReqBodyRaw
+		//	ReqTypeBinary = "binary"
+		//	ReqTypeGraphQL = "GraphQL"
+	}
+
+	reqCode := GetAllReqCode(&ReqCodeArg{
+		Method:      MethodType(data.Method),
+		Url:         data.Url,
+		ContentType: string(data.ReqType),
+		Header:      data.GetReqHeaderMap(),
+		DataRaw:     dataRaw,
+	})
+
+	ctx.APIOutPut(reqCode, "更改成功")
+	return
+}

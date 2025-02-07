@@ -233,7 +233,7 @@ func RequestCode() template.HTML {
                             </ul>
                             <div class="tab-content" id="pills-tabContent">
                                 <div class="tab-pane fade show active" id="code-jsFetch" role="tabpanel" aria-labelledby="code-jsFetch-tab" tabindex="0">
-                                    <pre data-language="javascript"><code></code></pre>
+                                    <pre data-language="javascript"><code id="code-jsFetch-code"></code></pre>
                                     <button type="button" class="btn btn-dark toolBtn" onclick='copyReqCodeJson("code-jsFetch")'>复制</button>
                                 </div>
                                 <div class="tab-pane fade" id="code-jsAxios" role="tabpanel" aria-labelledby="code-jsAxios-tab" tabindex="0">

@@ -87,7 +87,7 @@
                     <label class="form-label">上传文件</label>
                     <div class="row">
                         <div class="col">
-                            <input class="form-control form-control-lg" id="importFile" type="file">
+                            <input class="form-control form-control-lg" id="importFile" type="file" accept="application/json">
                         </div>
                     </div>
                 </div>
@@ -98,7 +98,7 @@
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">取消</button>
-                <button type="button" class="btn btn-primary" onclick="submitImport()">提交</button>
+                <button type="button" id="importSubmitBtn" class="btn btn-primary" onclick="submitImport()" >提交</button>
             </div>
         </div>
     </div>

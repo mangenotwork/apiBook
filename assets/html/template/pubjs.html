@@ -804,6 +804,9 @@
     }
 
     function submitImport() {
+
+        $("#importSubmitBtn").prop('disabled', true);
+
         var importType = $('input[name="importType"]:checked').val();
         var sourcePlatform = $('input[name="sourcePlatform"]:checked').val();
         var manner = $('input[name="manner"]:checked').val();
@@ -814,16 +817,6 @@
         if (manner === "newProject") {
             project = ""
         }
-
-        // var param = {
-        //     "importType": importType,
-        //     "sourcePlatform": sourcePlatform,
-        //     "manner": manner,
-        //     "project": project,
-        //     "files": files
-        // }
-        //
-        // console.log(param)
 
         var formData = new FormData();
         formData.append("importType", importType)
@@ -860,15 +853,20 @@
 
                 submitImportLoading.hide();
 
-                setTimeout(function() {
-                    window.location.href = "/home";
-                }, 3000);
+                // setTimeout(function() {
+                //     window.location.href = "/home";
+                // }, 3000);
+
+                $("#importSubmitBtn").prop('disabled', false);
 
             },
             error: function(xhr,textStatus) {
                 console.log(xhr, textStatus);
                 submitImportLoading.hide();
                 ToastShow(xhr, textStatus);
+
+                $("#importSubmitBtn").prop('disabled', false);
+
             }
         });
 

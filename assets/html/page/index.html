@@ -849,7 +849,7 @@
                 localStorage.setItem(nowViewDoc+projectId, docId)
                 showViewDoc(data.data.content.method, data.data.content.name, docId, true)
                 loadApiDoc(data.data.content, data.data.snapshotList)
-                loadReqCode(data.data.reqCode)
+                loadReqCode(param)
             }
         })
     }
