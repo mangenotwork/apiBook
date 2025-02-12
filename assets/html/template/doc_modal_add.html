@@ -14,10 +14,11 @@
 
                       <div data-bs-spy="scroll" data-bs-target="#add-list-example" data-bs-offset="0" data-bs-smooth-scroll="true" class="scrollspy-add" tabindex="0" >
 
-                          <div style="width: 80%;margin-left: 20%;">
+                          <div style="width: 77%;margin-left: 20%;">
 
                               <!-- 基础信息 -->
-                              <div style="margin-bottom: 48px;padding-top: 16px;">
+                              <h5 class="with-vertical-bar mb36" id="add-list-item-0">基本信息</h5>
+                              <div style="margin-bottom: 16px;">
 
                                   <div class="mb-3">
                                       <input type="text" class="form-control" id="addDocName" placeholder="接口文档名">
@@ -26,32 +27,30 @@
                                   <div class="input-group mb-3">
                                       {{ MethodSelect "addDocMethod"}}
                                       <input type="text" class="form-control" id="addDocUrl" aria-label="Text input with dropdown button"  style="width: 80%;">
-                                  </div>
-                              </div>
-                              <div style="margin-bottom: 36px;margin-top: 36px;">
-                                  <div class="mb-3">
-                                      <div class="input-group">
-                                          <span class="input-group-text" id="basic-addon3">设置文档归属的目录</span>
-                                          <select class="form-select" id="addDocDir">
-                                          </select>
-                                      </div>
-                                      <div class="form-text">在设定上，只有一级目录，不支持多级目录。</div>
+                                      <button class="btn btn-outline-dark" type="button" onclick="onlineReq()" >在线请求</button>
                                   </div>
                               </div>
 
-                              <!-- 接口说明文档 -->
-                              <hr>
-                              <div style="margin-bottom: 36px;">
-                                  <h5 id="add-list-item-1">接口说明文档</h5>
-                                  <div id="test-editor" >
-                                      <textarea style="display:none;"></textarea>
+                              <div style="margin-bottom: 36px;margin-top: 16px;">
+                                  <div class="row">
+                                      <div class="col-4">
+                                          <div class="input-group">
+                                              <span class="input-group-text" id="basic-addon3">所属目录</span>
+                                              <select class="form-select" id="addDocDir">
+                                              </select>
+                                          </div>
+                                          <div class="form-text" style="font-size: 12px;">在设定上，只有一级目录，不支持多级目录。</div>
+                                      </div>
+                                      <div class="col-4">
+                                      </div>
                                   </div>
                               </div>
+
+
 
                               <!-- header -->
-                              <hr>
                               <div style="margin-bottom: 36px;">
-                                  <h5 id="add-list-item-2">header</h5>
+                                  <h5 class="with-vertical-bar mb36" id="add-list-item-2">header</h5>
                                   <table class="table table-hover table-bordered" id="setHeaderTable">
                                       <tr>
                                           <td style="width: 10%;">
@@ -94,7 +93,7 @@
                               <!-- 请求示例 -->
 
                               <div style="margin-bottom: 36px;">
-                                  <h5 id="add-list-item-3">请求示例</h5>
+                                  <h5 class="with-vertical-bar mb36" id="add-list-item-3">请求示例</h5>
                                   <div id="setBodyTable">
                                       <div style="width: 100%; margin-top: 4px; margin-bottom: 8px;">
                                           <button type="button" class="btn btn-sm btn-light openBRBtn" id="openBodyBtn-json" onclick="openBodyMain('json')">application/json</button>
@@ -136,7 +135,7 @@
 
                               <!-- 请求参数说明 -->
                               <div style="margin-bottom: 66px;">
-                                  <h5 id="add-list-item-4">请求参数说明</h5>
+                                  <h5 class="with-vertical-bar mb36" id="add-list-item-4">请求参数说明</h5>
                                   <table class="table table-hover table-bordered" id="setReqTable">
                                       <tr>
                                           <td style="width: 20%;">
@@ -177,7 +176,7 @@
                               <!-- 响应示例 -->
                               <hr>
                               <div style="margin-bottom: 36px;">
-                                  <h5 id="add-list-item-5">响应示例</h5>
+                                  <h5 class="with-vertical-bar mb36" id="add-list-item-5">响应示例</h5>
                                   <div id="respBodyTable">
                                       <div style="width: 100%; margin-top: 4px; margin-bottom: 8px;">
                                           <button type="button" class="btn btn-sm btn-light openBRBtn" id="openRespBtn-json" onclick="openRespMain('json')">application/json</button>
@@ -213,7 +212,7 @@
 
                               <!-- 响应参数说明 -->
                               <div style="margin-bottom: 36px;">
-                                  <h5 id="add-list-item-6">响应参数说明</h5>
+                                  <h5 class="with-vertical-bar mb36" id="add-list-item-6">响应参数说明</h5>
                                   <table class="table table-hover table-bordered" id="setRespTable">
                                       <tr>
                                           <td style="width: 20%;">
@@ -244,6 +243,18 @@
                                       </tr>
                                   </table>
                               </div>
+
+
+                              <!-- 接口说明文档 -->
+                              <hr>
+                              <div style="margin-bottom: 36px;">
+                                  <h5 class="with-vertical-bar mb36" id="add-list-item-1">接口说明文档</h5>
+                                  <div id="test-editor" >
+                                      <textarea style="display:none;"></textarea>
+                                  </div>
+                              </div>
+
+
                           </div>
 
                       </div>
@@ -252,12 +263,13 @@
 
                     <div class="col-2">
                         <div id="add-list-example" class="d-flex flex-column gap-2 simple-list-example-scrollspy text-center">
-                            <a class="p-1 rounded" style="color: #1a1d20;" href="#add-list-item-1">接口说明文档</a>
+                            <a class="p-1 rounded" style="color: #1a1d20;" href="#add-list-item-0">基本信息</a>
                             <a class="p-1 rounded" style="color: #1a1d20;" href="#add-list-item-2">Header</a>
                             <a class="p-1 rounded" style="color: #1a1d20;" href="#add-list-item-3">请求示例</a>
                             <a class="p-1 rounded" style="color: #1a1d20;" href="#add-list-item-4">请求参数说明</a>
                             <a class="p-1 rounded" style="color: #1a1d20;" href="#add-list-item-5">响应示例</a>
                             <a class="p-1 rounded" style="color: #1a1d20;" href="#add-list-item-6">响应参数说明</a>
+                            <a class="p-1 rounded" style="color: #1a1d20;" href="#add-list-item-1">接口说明文档</a>
                         </div>
                     </div>
                 </div>

@@ -1808,6 +1808,111 @@
         $("#searchWrap").hide();
     }
 
+    function onlineReq() {
+        console.log("在线请求")
+
+
+
+        var reqUrl = $("#addDocUrl").val();
+        var reqMethod = $("#addDocMethod").val();
+
+        if(reqUrl === "") {
+            ToastShow("接口Url不能为空!");
+            return
+        }
+
+        var reqHeader = {};
+        var reqBodyInfo = [];
+
+        var headerField = $('.addDocHeaderField').map(function() {
+            return $(this).val();
+        }).get();
+        var headerIsRequired = $('.addDocHeaderIsRequired').map(function() {
+            return $(this).val();
+        }).get();
+        var headerVarType = $('.addDocHeaderVarType').map(function() {
+            return $(this).val();
+        }).get();
+        var headerDescription = $('.addDocHeaderDescription').map(function() {
+            return $(this).val();
+        }).get();
+        var headerExample = $('.addDocHeaderExample').map(function() {
+            return $(this).val();
+        }).get();
+        for (var i=0; i<headerField.length; i++) {
+            reqHeader[headerField[i]] = headerExample[i]
+        }
+
+        var reqField = $('.reqField').map(function() {
+            return $(this).val();
+        }).get();
+
+        var reqDescription = $('.reqDescription').map(function() {
+            return $(this).val();
+        }).get();
+
+        var reqVarType = $('.reqVarType').map(function() {
+            return $(this).val();
+        }).get();
+
+        var reqExample = $('.reqExample').map(function() {
+            return $(this).val();
+        }).get();
+
+        var reqIsRequired = $('.reqIsRequired').map(function() {
+            return $(this).val();
+        }).get();
+
+        for (var i=0; i<reqField.length; i++) {
+            reqBodyInfo.push({
+                "field": reqField[i],
+                "varType":  reqVarType[i],    // 类型
+                "description": reqDescription[i], // 描述
+                "example":  reqExample[i],   // 示例
+                "isRequired":  Number(reqIsRequired[i]), // 是否必填 1:必填
+                "sort": i,        // 排序
+            })
+        }
+
+        console.log("reqUrl -> "+reqUrl);
+        console.log("reqMethod -> "+reqMethod);
+        console.log("reqHeader -> "+reqHeader);
+        console.log("reqBodyInfo -> "+reqBodyInfo);
+        console.log("reqType -> "+reqType);
+
+
+        window.location.hash = "add-list-item-5";
+
+        var param = {
+            "method": reqMethod,
+            "url": reqUrl,
+            "header": reqHeader,
+            "body": "{}",
+            "fromData": {},
+            "contentType": reqType
+        }
+
+        AjaxPost("/case/req", param, function (data){
+            console.log(data)
+
+            //openRespMain('plain')
+            //$("#respText textarea").val(atob(data.data.respBody))
+
+            openRespMain('json')
+            editorAddResp.set(JSON.parse(base64ToChinese(data.data.respBody)))
+        });
+
+    }
+
+
+    function base64ToChinese(base64Str) {
+        // 先使用 atob 进行 Base64 解码
+        const decodedData = atob(base64Str);
+        // 使用 escape 函数对解码后的数据进行处理
+        const escapedData = escape(decodedData);
+        // 使用 decodeURIComponent 解码得到正确的中文字符串
+        return decodeURIComponent(escapedData);
+    }
 
 
 </script>

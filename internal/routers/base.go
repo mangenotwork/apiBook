@@ -264,6 +264,7 @@ func CaseFunc() {
 	caseFunc.GET("/search", handler.CaseSearch)
 	caseFunc.GET("/export/apiBook", handler.CaseExportApiBook)
 	caseFunc.GET("/panic", handler.CasePanic)
+	caseFunc.POST("/req", handler.RequesterExecute)
 }
 
 func Debug() {
